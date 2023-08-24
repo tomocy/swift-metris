@@ -11,17 +11,24 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("AppDelegate: Finished launching");
         
-        window = NSWindow(
-                   contentRect: NSRect(x: 0, y: 0, width: 480, height: 270),
-                   styleMask: [.titled, .miniaturizable, .closable],
-                   backing: .buffered,
-                   defer: false
-        )
-        window!.title = "swift metris"
+        window = Window(contentRect: NSRect(x: 0, y: 0, width: 480, height: 270))
         
         window!.orderFrontRegardless();
         window!.center();
     }
     
     private var window: NSWindow?;
+}
+
+class Window : NSWindow {
+    init(contentRect: NSRect) {
+        super.init(
+            contentRect: contentRect,
+            styleMask: [.titled, .miniaturizable, .closable],
+            backing: .buffered,
+            defer: false
+        );
+        
+        title = "swift metris"
+    }
 }
