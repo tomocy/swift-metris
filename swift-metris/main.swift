@@ -51,7 +51,6 @@ class View : MTKView, MTKViewDelegate {
 
         commandQueue = device!.makeCommandQueue()!
         pipeline = makePipeline()
-        vertexBuffer = makeVertexBuffer()
     }
 
     required init(coder: NSCoder) {
@@ -75,31 +74,16 @@ class View : MTKView, MTKViewDelegate {
         return try! device!.makeRenderPipelineState(descriptor: desc)
     }
 
-    private func makeVertexBuffer() -> MTLBuffer {
-        var positions = [
-            SIMD2<Float>(-0.8, 0.4),
-            SIMD2<Float>(0.4, -0.8),
-            SIMD2<Float>(0.8, 0.8),
-        ]
-
-        return (device?.makeBuffer(
-            bytes: &positions,
-            length: MemoryLayout<SIMD2<Float>>.stride * positions.count,
-            options: .storageModeShared
-        ))!
-    }
-
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
         let command = commandQueue.makeCommandBuffer()!
-
         let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
 
         encoder.setRenderPipelineState(pipeline)
-        encoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
 
-        encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 3)
+        let rect = Rectangle()
+        rect.encode(with: encoder)
 
         encoder.endEncoding()
 
@@ -110,5 +94,39 @@ class View : MTKView, MTKViewDelegate {
 
     private var commandQueue: MTLCommandQueue!
     private var pipeline: MTLRenderPipelineState!
-    private var vertexBuffer: MTLBuffer!
+}
+
+class Rectangle {
+    func encode(with encoder: MTLRenderCommandEncoder) {
+        var vertices: [SIMD2<Float>] = [
+            SIMD2(-0.5, 0.5),
+            SIMD2(0.5, 0.5),
+            SIMD2(0.5, -0.5),
+            SIMD2(-0.5, -0.5),
+        ];
+        var indices: [UInt16] = [
+            0, 1, 2,
+            2, 3, 0,
+        ]
+
+        let vertexBuffer = (encoder.device.makeBuffer(
+            bytes: &vertices,
+            length: MemoryLayout<SIMD2<Float>>.stride * vertices.count,
+            options: .storageModeShared
+        ))!
+        let indexBuffer = (encoder.device.makeBuffer(
+            bytes: &indices,
+            length: MemoryLayout<UInt16>.stride * indices.count,
+            options: .storageModeShared
+        ))!
+
+        encoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+        encoder.drawIndexedPrimitives(
+            type: .triangle,
+            indexCount: indices.count,
+            indexType: .uint16,
+            indexBuffer: indexBuffer,
+            indexBufferOffset: 0
+        )
+    }
 }
