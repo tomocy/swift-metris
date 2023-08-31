@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F5A268612A966B4600520C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A268602A966B4600520C84 /* main.swift */; };
+		F5B67BDA2AA0A61500842985 /* main.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* main.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		F5A2685D2A966B4600520C84 /* swift-metris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-metris"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F5B67BD92AA0A61500842985 /* main.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = main.metal; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 		F5A2685F2A966B4600520C84 /* swift-metris */ = {
 			isa = PBXGroup;
 			children = (
+				F5B67BD92AA0A61500842985 /* main.metal */,
 				F5A268602A966B4600520C84 /* main.swift */,
 			);
 			path = "swift-metris";
@@ -120,6 +123,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F5B67BDA2AA0A61500842985 /* main.metal in Sources */,
 				F5A268612A966B4600520C84 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
