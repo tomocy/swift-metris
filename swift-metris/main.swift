@@ -80,13 +80,9 @@ class View : MTKView, MTKViewDelegate {
         let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
 
         encoder.setRenderPipelineState(pipeline)
-
-        let transform = Transform()
-        transform.apply(Matrix2D.orthogonal(size: SIMD2(Float(frame.size.width), Float(frame.size.height))))
-        transform.encode(with: encoder, at: 1)
-
-        let rect = Rectangle()
-        rect.encode(with: encoder, at: 0)
+        
+        let target = RenderTarget(size: frame.size)
+        target.encode(with: encoder)
 
         encoder.endEncoding()
 
@@ -99,7 +95,21 @@ class View : MTKView, MTKViewDelegate {
     private var pipeline: MTLRenderPipelineState!
 }
 
-class Rectangle {
+struct RenderTarget {
+    func encode(with encoder: MTLRenderCommandEncoder) {
+        let transform = Transform(
+            value: Matrix2D.orthogonal(size: SIMD2(Float(size.width), Float(size.height)))
+        )
+        transform.encode(with: encoder, at: 1)
+
+        let rect = Rectangle()
+        rect.encode(with: encoder, at: 0)
+    }
+    
+    let size: CGSize
+}
+
+struct Rectangle {
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         var vertices: [SIMD2<Float>] = [
             SIMD2(-100, 100),
@@ -134,14 +144,19 @@ class Rectangle {
     }
 }
 
-class Transform {
-    func apply(_ matrix: float4x4) {
+struct Transform {
+    init(value: float4x4) {
+        self.value = value;
+    }
+    
+    mutating func apply(_ matrix: float4x4) {
         value = simd_mul(value, matrix)
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+        var bytes = value;
         let buffer = (encoder.device.makeBuffer(
-            bytes: &value,
+            bytes: &bytes,
             length: MemoryLayout<float4x4>.stride,
             options: .storageModeShared
         ))!
@@ -173,7 +188,7 @@ class Matrix2D {
             2 / (top - bottom)
         ))
 
-        return simd_mul(s, t)
+        return simd_mul(t, s)
     }
 
     static func translate(_ delta: SIMD2<Float>) -> float4x4 {
