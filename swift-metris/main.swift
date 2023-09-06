@@ -117,7 +117,7 @@ struct RenderTarget {
         )
         transform.encode(with: encoder, at: 1)
 
-        let rect = Rectangle()
+        let rect = Rectangle(size: CGSize(width: 200, height: 100))
         rect.encode(with: encoder, at: 0)
     }
 
@@ -126,11 +126,13 @@ struct RenderTarget {
 
 struct Rectangle {
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+        let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
+        
         var vertices: [Vertex] = [
-            Vertex(position: SIMD2(-100, 100)),
-            Vertex(position: SIMD2(100, 100)),
-            Vertex(position: SIMD2(100, -100)),
-            Vertex(position: SIMD2(-100, -100)),
+            Vertex(position: SIMD2(-halfSize.x, halfSize.y)),
+            Vertex(position: SIMD2(halfSize.x, halfSize.y)),
+            Vertex(position: SIMD2(halfSize.x, -halfSize.y)),
+            Vertex(position: SIMD2(-halfSize.x, -halfSize.y)),
         ];
         var indices: [UInt16] = [
             0, 1, 2,
@@ -157,6 +159,8 @@ struct Rectangle {
             indexBufferOffset: 0
         )
     }
+    
+    let size: CGSize
 }
 
 struct Vertex {
