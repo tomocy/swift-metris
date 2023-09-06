@@ -63,7 +63,8 @@ class View : MTKView, MTKViewDelegate {
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
         let lib = (device!.makeDefaultLibrary())!
-
+        
+        desc.vertexDescriptor = RenderTarget.describe()
         desc.vertexFunction = lib.makeFunction(name: "vertex_main")
         NSLog("Vertex function: \(desc.vertexFunction!.name)")
 
@@ -80,7 +81,7 @@ class View : MTKView, MTKViewDelegate {
         let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
 
         encoder.setRenderPipelineState(pipeline)
-        
+
         let target = RenderTarget(size: frame.size)
         target.encode(with: encoder)
 
@@ -96,6 +97,20 @@ class View : MTKView, MTKViewDelegate {
 }
 
 struct RenderTarget {
+    static func describe() -> MTLVertexDescriptor {
+        let desc = MTLVertexDescriptor();
+        
+        // Vertex
+        // - position
+        desc.attributes[0].bufferIndex = 0;
+        desc.attributes[0].format = .float2;
+        desc.attributes[0].offset = 0;
+        
+        desc.layouts[0].stride = MemoryLayout<SIMD2<Float>>.stride;
+        
+        return desc;
+    }
+    
     func encode(with encoder: MTLRenderCommandEncoder) {
         let transform = Transform(
             value: Matrix2D.orthogonal(size: SIMD2(Float(size.width), Float(size.height)))
@@ -105,26 +120,26 @@ struct RenderTarget {
         let rect = Rectangle()
         rect.encode(with: encoder, at: 0)
     }
-    
+
     let size: CGSize
 }
 
 struct Rectangle {
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        var vertices: [SIMD2<Float>] = [
-            SIMD2(-100, 100),
-            SIMD2(100, 100),
-            SIMD2(100, -100),
-            SIMD2(-100, -100),
+        var vertices: [Vertex] = [
+            Vertex(position: SIMD2(-100, 100)),
+            Vertex(position: SIMD2(100, 100)),
+            Vertex(position: SIMD2(100, -100)),
+            Vertex(position: SIMD2(-100, -100)),
         ];
         var indices: [UInt16] = [
             0, 1, 2,
             2, 3, 0,
         ]
-
+        
         let vertexBuffer = (encoder.device.makeBuffer(
             bytes: &vertices,
-            length: MemoryLayout<SIMD2<Float>>.stride * vertices.count,
+            length: MemoryLayout<Vertex>.stride * vertices.count,
             options: .storageModeShared
         ))!
         let indexBuffer = (encoder.device.makeBuffer(
@@ -144,11 +159,16 @@ struct Rectangle {
     }
 }
 
+struct Vertex {
+    let position: SIMD2<Float>
+};
+
+
 struct Transform {
     init(value: float4x4) {
         self.value = value;
     }
-    
+
     mutating func apply(_ matrix: float4x4) {
         value = simd_mul(value, matrix)
     }
