@@ -213,7 +213,7 @@ struct Transform {
         encoder.setVertexBuffer(buffer, offset: 0, index: index)
     }
 
-    private var value: float4x4 = matrix_identity_float4x4;
+    private var value: float4x4 = Matrix2D.identity;
 }
 
 class Matrix2D {
@@ -246,7 +246,7 @@ class Matrix2D {
         // 0 0 1 0
         // 0 0 0 1
 
-        var m = matrix_identity_float4x4
+        var m = identity
         m.columns.3.x = delta.x
         m.columns.3.y = delta.y
 
@@ -259,10 +259,12 @@ class Matrix2D {
         // 0  0  1 0
         // 0  0  0 1
 
-        var m = matrix_identity_float4x4
+        var m = identity
         m.columns.0.x = factor.x;
         m.columns.1.y = factor.y;
 
         return m
     }
+    
+    static let identity: float4x4 = matrix_identity_float4x4
 }
