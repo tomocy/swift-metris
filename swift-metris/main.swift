@@ -63,7 +63,7 @@ class View : MTKView, MTKViewDelegate {
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
         let lib = (device!.makeDefaultLibrary())!
-        
+
         desc.vertexDescriptor = RenderTarget.describe()
         desc.vertexFunction = lib.makeFunction(name: "vertex_main")
         NSLog("Vertex function: \(desc.vertexFunction!.name)")
@@ -100,32 +100,107 @@ struct RenderTarget {
     static func describe() -> MTLVertexDescriptor {
         let desc = MTLVertexDescriptor();
         
-        // Vertex
-        // - position
-        desc.attributes[0].bufferIndex = 0;
-        desc.attributes[0].format = .float2;
-        desc.attributes[0].offset = 0;
-        
-        desc.layouts[0].stride = MemoryLayout<SIMD2<Float>>.stride;
-        
+        Vertex.describe(to: desc, buffer: 0, layout: 0)
+
         return desc;
     }
-    
+
     func encode(with encoder: MTLRenderCommandEncoder) {
-        let transform = Transform(
-            value: Matrix2D.orthogonal(size: SIMD2(Float(size.width), Float(size.height)))
-        )
+        let transform = Transform2D.orthogonal(size: size)
         transform.encode(with: encoder, at: 1)
 
         var primitive = IndexedPrimitive()
-        
-        let rect = Rectangle(size: CGSize(width: 200, height: 100))
-        rect.append(to: &primitive)
-        
+
+        do {
+            var rect = Rectangle(
+                size: CGSize(width: 200, height: 100)
+            )
+            rect.transform.translate.y = 100
+            rect.transform.rotate(degree: 90)
+            
+            rect.append(to: &primitive)
+        }
+
+        do {
+            var rect = Rectangle(
+                size: CGSize(width: 200, height: 100)
+            )
+            rect.transform.translate.y = -100
+            rect.transform.scale.x = 2
+            
+            rect.append(to: &primitive)
+        }
+
         primitive.encode(with: encoder, at: 0)
     }
 
     let size: CGSize
+}
+
+struct Vertex {
+    static func describe(to descriptor: MTLVertexDescriptor, buffer: Int, layout: Int) {
+        var attr = 0
+        var stride = 0
+        
+        // translate
+        do {
+            descriptor.attributes[attr].bufferIndex = buffer
+            descriptor.attributes[attr].format = .float2
+            descriptor.attributes[attr].offset = stride
+            
+            attr += 1
+            
+            stride += MemoryLayout<SIMD2<Float>>.size
+            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
+        }
+        
+        // rotate
+        do {
+            descriptor.attributes[attr].bufferIndex = buffer
+            descriptor.attributes[attr].format = .float
+            descriptor.attributes[attr].offset = stride
+
+            attr += 1
+            
+            stride += MemoryLayout<Float>.size
+            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
+        }
+        
+        // scale
+        do {
+            descriptor.attributes[attr].bufferIndex = buffer
+            descriptor.attributes[attr].format = .float2
+            descriptor.attributes[attr].offset = stride
+            
+            attr += 1
+            
+            stride += MemoryLayout<SIMD2<Float>>.size
+            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
+        }
+        
+        assert(stride == MemoryLayout<Vertex>.stride)
+        descriptor.layouts[layout].stride = stride
+    }
+    
+    func tranform(by transform: Transform2D) -> Self {
+        return Self(
+            translate: translate + transform.translate,
+            rotate: rotate + transform.rotate,
+            scale: scale * transform.scale
+        )
+    }
+    
+    let translate: SIMD2<Float>
+    let rotate: Float
+    let scale: SIMD2<Float>
+};
+
+extension Vertex {
+    init(_ position: SIMD2<Float>) {
+        translate = position
+        rotate = 0
+        scale = SIMD2(1, 1)
+    }
 }
 
 struct IndexedPrimitive {
@@ -133,7 +208,7 @@ struct IndexedPrimitive {
         self.vertices += vertices
         self.indices += indices
     }
-    
+
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         let vertexBuffer = (encoder.device.makeBuffer(
             bytes: vertices,
@@ -141,7 +216,7 @@ struct IndexedPrimitive {
             options: .storageModeShared
         ))!
         encoder.setVertexBuffer(vertexBuffer, offset: 0, index: index)
-        
+
         let indexBuffer = (encoder.device.makeBuffer(
             bytes: indices,
             length: MemoryLayout<UInt16>.stride * indices.count,
@@ -155,11 +230,11 @@ struct IndexedPrimitive {
             indexBufferOffset: 0
         )
     }
-    
+
     var lastIndex: Int {
-        indices.count - 1
+        vertices.count - 1
     }
-    
+
     private var vertices: [Vertex] = []
     private var indices: [UInt16] = []
 }
@@ -167,43 +242,113 @@ struct IndexedPrimitive {
 struct Rectangle {
     func append(to primitive: inout IndexedPrimitive) {
         let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
-        
+
         let startIndex = UInt16(primitive.lastIndex + 1)
-    
-        
+
         primitive.append(
             vertices: [
-                Vertex(position: SIMD2(-halfSize.x, halfSize.y)),
-                Vertex(position: SIMD2(halfSize.x, halfSize.y)),
-                Vertex(position: SIMD2(halfSize.x, -halfSize.y)),
-                Vertex(position: SIMD2(-halfSize.x, -halfSize.y)),
-            ],
+                Vertex(SIMD2(-halfSize.x, halfSize.y)),
+                Vertex(SIMD2(halfSize.x, halfSize.y)),
+                Vertex(SIMD2(halfSize.x, -halfSize.y)),
+                Vertex(SIMD2(-halfSize.x, -halfSize.y)),
+            ].map({ v in v.tranform(by: transform) }),
             indices: [
                 startIndex, startIndex + 1, startIndex + 2,
                 startIndex + 2, startIndex + 3, startIndex,
             ]
         )
     }
-    
+
     let size: CGSize
+    var transform: Transform2D = Transform2D()
 }
 
-struct Vertex {
-    let position: SIMD2<Float>
-};
+struct Transform2D {
+    static func orthogonal(size: CGSize) -> Self {
+        let half = SIMD2<Float>(Float(size.width), Float(size.height)) / 2;
 
-
-struct Transform {
-    init(value: float4x4) {
-        self.value = value;
+        return orthogonal(
+            top: half.y,
+            bottom: -half.y,
+            left: -half.x,
+            right: half.x
+        )
     }
 
-    mutating func apply(_ matrix: float4x4) {
-        value = simd_mul(value, matrix)
+    static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
+        return Transform2D(
+            translate: SIMD2((left + right) / (left - right), (bottom + top) / (bottom - top)),
+            scale: SIMD2(2 / (right - left), 2 / (top - bottom))
+        )
+    }
+    
+    mutating func rotate(degree: Float) {
+        self.rotate = degree * .pi / 180
     }
 
+    func apply() -> Matrix2D {
+        let matrix = [
+            Matrix2D.translate(translate),
+            Matrix2D.rotate(rotate),
+            Matrix2D.scale(scale),
+        ]
+
+        return matrix.reduce(Matrix2D(), *)
+    }
+    
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        var bytes = value;
+        let matrix = apply()
+        matrix.encode(with: encoder, at: index)
+    }
+
+    var translate: SIMD2<Float> = SIMD2(0, 0)
+    var rotate: Float = 0
+    var scale: SIMD2<Float> = SIMD2(1, 1)
+}
+
+struct Matrix2D {
+    static func translate(_ delta: SIMD2<Float>) -> Self {
+        return Self(float4x4(
+            SIMD4(1, 0, 0, delta.x),
+            SIMD4(0, 1, 0, delta.y),
+            SIMD4(0, 0, 1, 0),
+            SIMD4(0, 0, 0, 1)
+        ))
+    }
+
+    static func rotate(_ radian: Float) -> Self {
+        let s = sin(radian)
+        let c = cos(radian)
+
+        return Self(float4x4(
+            SIMD4(c, -s, 0, 0),
+            SIMD4(s, c, 0, 0),
+            SIMD4(0, 0, 1, 0),
+            SIMD4(0, 0, 0, 1)
+        ))
+    }
+
+    static func scale(_ factor: SIMD2<Float>) -> Self {
+        return Self(float4x4(
+            SIMD4(factor.x, 0, 0, 0),
+            SIMD4(0, factor.y, 0, 0),
+            SIMD4(0, 0, 1, 0),
+            SIMD4(0, 0, 0, 1)
+        ))
+    }
+
+    static func *(lhs: Self, rhs: Self) -> Self {
+        return Self(simd_mul(lhs.raw, rhs.raw))
+    }
+
+    static let identity: float4x4 = matrix_identity_float4x4
+
+    init(_ raw: float4x4 = identity) {
+        self.raw = raw
+    }
+    
+    func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+        var bytes = raw;
         let buffer = (encoder.device.makeBuffer(
             bytes: &bytes,
             length: MemoryLayout<float4x4>.stride,
@@ -213,58 +358,9 @@ struct Transform {
         encoder.setVertexBuffer(buffer, offset: 0, index: index)
     }
 
-    private var value: float4x4 = Matrix2D.identity;
+    private var raw: float4x4 = identity
 }
 
-class Matrix2D {
-    static func orthogonal(size: SIMD2<Float>) -> float4x4 {
-        let half = size / 2;
-        return orthogonal(
-            top: half.y,
-            bottom: -half.y,
-            left: -half.x,
-            right: half.x
-        )
-    }
-
-    static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> float4x4 {
-        let t = translate(SIMD2(
-            (left + right) / (left - right),
-            (bottom + top) / (bottom - top)
-        ))
-        let s = scale(SIMD2(
-            2 / (right - left),
-            2 / (top - bottom)
-        ))
-
-        return simd_mul(t, s)
-    }
-
-    static func translate(_ delta: SIMD2<Float>) -> float4x4 {
-        // 1 0 0 Tx
-        // 0 1 0 Ty
-        // 0 0 1 0
-        // 0 0 0 1
-
-        var m = identity
-        m.columns.3.x = delta.x
-        m.columns.3.y = delta.y
-
-        return m
-    }
-
-    static func scale(_ factor: SIMD2<Float>) -> float4x4 {
-        // Sx 0  0 0
-        // 0  Sy 0 0
-        // 0  0  1 0
-        // 0  0  0 1
-
-        var m = identity
-        m.columns.0.x = factor.x;
-        m.columns.1.y = factor.y;
-
-        return m
-    }
-    
-    static let identity: float4x4 = matrix_identity_float4x4
+func align(_ n: Int, up alignment: Int) -> Int {
+    return (n + alignment - 1) / alignment * alignment
 }
