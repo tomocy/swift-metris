@@ -117,46 +117,71 @@ struct RenderTarget {
         )
         transform.encode(with: encoder, at: 1)
 
+        var primitive = IndexedPrimitive()
+        
         let rect = Rectangle(size: CGSize(width: 200, height: 100))
-        rect.encode(with: encoder, at: 0)
+        rect.append(to: &primitive)
+        
+        primitive.encode(with: encoder, at: 0)
     }
 
     let size: CGSize
 }
 
-struct Rectangle {
+struct IndexedPrimitive {
+    mutating func append(vertices: [Vertex], indices: [UInt16]) {
+        self.vertices += vertices
+        self.indices += indices
+    }
+    
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
-        
-        var vertices: [Vertex] = [
-            Vertex(position: SIMD2(-halfSize.x, halfSize.y)),
-            Vertex(position: SIMD2(halfSize.x, halfSize.y)),
-            Vertex(position: SIMD2(halfSize.x, -halfSize.y)),
-            Vertex(position: SIMD2(-halfSize.x, -halfSize.y)),
-        ];
-        var indices: [UInt16] = [
-            0, 1, 2,
-            2, 3, 0,
-        ]
-        
         let vertexBuffer = (encoder.device.makeBuffer(
-            bytes: &vertices,
+            bytes: vertices,
             length: MemoryLayout<Vertex>.stride * vertices.count,
             options: .storageModeShared
         ))!
+        encoder.setVertexBuffer(vertexBuffer, offset: 0, index: index)
+        
         let indexBuffer = (encoder.device.makeBuffer(
-            bytes: &indices,
+            bytes: indices,
             length: MemoryLayout<UInt16>.stride * indices.count,
             options: .storageModeShared
         ))!
-
-        encoder.setVertexBuffer(vertexBuffer, offset: 0, index: index)
         encoder.drawIndexedPrimitives(
             type: .triangle,
             indexCount: indices.count,
             indexType: .uint16,
             indexBuffer: indexBuffer,
             indexBufferOffset: 0
+        )
+    }
+    
+    var lastIndex: Int {
+        indices.count - 1
+    }
+    
+    private var vertices: [Vertex] = []
+    private var indices: [UInt16] = []
+}
+
+struct Rectangle {
+    func append(to primitive: inout IndexedPrimitive) {
+        let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
+        
+        let startIndex = UInt16(primitive.lastIndex + 1)
+    
+        
+        primitive.append(
+            vertices: [
+                Vertex(position: SIMD2(-halfSize.x, halfSize.y)),
+                Vertex(position: SIMD2(halfSize.x, halfSize.y)),
+                Vertex(position: SIMD2(halfSize.x, -halfSize.y)),
+                Vertex(position: SIMD2(-halfSize.x, -halfSize.y)),
+            ],
+            indices: [
+                startIndex, startIndex + 1, startIndex + 2,
+                startIndex + 2, startIndex + 3, startIndex,
+            ]
         )
     }
     
