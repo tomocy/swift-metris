@@ -293,7 +293,7 @@ struct Transform2D {
             Matrix2D.scale(scale),
         ]
 
-        return matrix.reduce(Matrix2D(), *)
+        return Matrix2D(matrix.reduce(Matrix2D.identity, *))
     }
     
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
@@ -307,43 +307,44 @@ struct Transform2D {
 }
 
 struct Matrix2D {
-    static func translate(_ delta: SIMD2<Float>) -> Self {
-        return Self(float4x4(
-            SIMD4(1, 0, 0, delta.x),
-            SIMD4(0, 1, 0, delta.y),
-            SIMD4(0, 0, 1, 0),
-            SIMD4(0, 0, 0, 1)
-        ))
+    typealias Raw = float3x3
+    
+    static func translate(_ delta: SIMD2<Float>) -> Raw {
+        return Raw(
+            rows: [
+                SIMD3(1, 0, delta.x),
+                SIMD3(0, 1, delta.y),
+                SIMD3(0, 0, 1),
+            ]
+        )
     }
 
-    static func rotate(_ radian: Float) -> Self {
+    static func rotate(_ radian: Float) -> Raw {
         let s = sin(radian)
         let c = cos(radian)
 
-        return Self(float4x4(
-            SIMD4(c, -s, 0, 0),
-            SIMD4(s, c, 0, 0),
-            SIMD4(0, 0, 1, 0),
-            SIMD4(0, 0, 0, 1)
-        ))
+        return Raw(
+            rows: [
+                SIMD3(c, -s, 0),
+                SIMD3(s, c, 0),
+                SIMD3(0, 0, 1),
+            ]
+        )
     }
 
-    static func scale(_ factor: SIMD2<Float>) -> Self {
-        return Self(float4x4(
-            SIMD4(factor.x, 0, 0, 0),
-            SIMD4(0, factor.y, 0, 0),
-            SIMD4(0, 0, 1, 0),
-            SIMD4(0, 0, 0, 1)
-        ))
+    static func scale(_ factor: SIMD2<Float>) -> Raw {
+        return Raw(
+            rows: [
+                SIMD3(factor.x, 0, 0),
+                SIMD3(0, factor.y, 0),
+                SIMD3(0, 0, 1),
+            ]
+        )
     }
 
-    static func *(lhs: Self, rhs: Self) -> Self {
-        return Self(simd_mul(lhs.raw, rhs.raw))
-    }
+    static let identity: Raw = matrix_identity_float3x3
 
-    static let identity: float4x4 = matrix_identity_float4x4
-
-    init(_ raw: float4x4 = identity) {
+    init(_ raw: Raw = identity) {
         self.raw = raw
     }
     
@@ -351,14 +352,14 @@ struct Matrix2D {
         var bytes = raw;
         let buffer = (encoder.device.makeBuffer(
             bytes: &bytes,
-            length: MemoryLayout<float4x4>.stride,
+            length: MemoryLayout<Raw>.stride,
             options: .storageModeShared
         ))!
 
         encoder.setVertexBuffer(buffer, offset: 0, index: index)
     }
 
-    private var raw: float4x4 = identity
+    private var raw: Raw = identity
 }
 
 func align(_ n: Int, up alignment: Int) -> Int {

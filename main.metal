@@ -10,36 +10,39 @@ struct Vertex {
 
 vertex float4 vertex_main(
     Vertex v [[stage_in]],
-    constant float4x4& transform [[buffer(1)]]
+    constant float3x3& transform [[buffer(1)]]
 ) {
-    const float4x4 translate = float4x4(
-        float4(1, 0, 0, v.translate.x),
-        float4(0, 1, 0, v.translate.y),
-        float4(0, 0, 1, 0),
-        float4(0, 0, 0, 1)
+    const auto translate = float3x3(
+        float3(1, 0, v.translate.x),
+        float3(0, 1, v.translate.y),
+        float3(0, 0, 1)
     );
     
-    const float4x4 scale = float4x4(
-        float4(v.scale.x, 0, 0, 0),
-        float4(0, v.scale.y, 0, 0),
-        float4(0, 0, 1, 0),
-        float4(0, 0, 0, 1)
+    const auto scale = float3x3(
+        float3(v.scale.x, 0, 0),
+        float3(0, v.scale.y, 0),
+        float3(0, 0, 1)
     );
     
-    float4x4 rotate = float4x4(1);
+    auto rotate = float3x3(1);
     {
         const float s = sin(v.rotate);
         const float c = cos(v.rotate);
-        rotate = float4x4(
-            float4(c, -s, 0, 0),
-            float4(s, c, 0, 0),
-            float4(0, 0, 1, 0),
-            float4(0, 0, 0, 1)
+        rotate = float3x3(
+            float3(c, -s, 0),
+            float3(s, c, 0),
+            float3(0, 0, 1)
         );
     }
     
+    auto position = float3(0, 0, 1);
+    position *= translate;
+    position *= scale;
+    position *= rotate;
+    position *= transform;
+    
 
-    return float4(0, 0, 0, 1) * translate * scale * rotate * transform;
+    return float4(position, 1);
 }
 
 fragment float4 fragment_main() { return float4(1.0, 0.0, 0.0, 1.0); }
