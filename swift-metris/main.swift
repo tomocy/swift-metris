@@ -113,7 +113,7 @@ struct RenderTarget {
 
         do {
             var rect = Rectangle(
-                size: CGSize(width: 200, height: 100)
+                size: CGSize(width: 150, height: 100)
             )
             rect.transform.translate.y = 100
             rect.transform.rotate(degree: 90)
@@ -127,7 +127,7 @@ struct RenderTarget {
             )
             rect.transform.translate.y = -100
             rect.transform.scale.x = 2
-            
+
             rect.append(to: &primitive)
         }
 
@@ -139,57 +139,53 @@ struct RenderTarget {
 
 struct Vertex {
     static func describe(to descriptor: MTLVertexDescriptor, buffer: Int, layout: Int) {
-        var attr = 0
+        let describe = { (attr: Int, stride: Int, format: MTLVertexFormat) -> Int in
+            descriptor.attributes[attr].bufferIndex = buffer
+            descriptor.attributes[attr].format = format
+            descriptor.attributes[attr].offset = stride
+            
+            var stride = stride
+            switch format {
+            case .float:
+                stride += MemoryLayout<Float>.size
+            case .float2:
+                stride += MemoryLayout<SIMD2<Float>>.size
+            default:
+                stride += 0
+            }
+            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
+            
+            return stride
+        }
+         
         var stride = 0
         
+        // position
+        stride = describe(0, stride, .float2)
+        
         // translate
-        do {
-            descriptor.attributes[attr].bufferIndex = buffer
-            descriptor.attributes[attr].format = .float2
-            descriptor.attributes[attr].offset = stride
-            
-            attr += 1
-            
-            stride += MemoryLayout<SIMD2<Float>>.size
-            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
-        }
+        stride = describe(1, stride, .float2)
         
         // rotate
-        do {
-            descriptor.attributes[attr].bufferIndex = buffer
-            descriptor.attributes[attr].format = .float
-            descriptor.attributes[attr].offset = stride
-
-            attr += 1
-            
-            stride += MemoryLayout<Float>.size
-            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
-        }
+        stride = describe(2, stride, .float)
         
         // scale
-        do {
-            descriptor.attributes[attr].bufferIndex = buffer
-            descriptor.attributes[attr].format = .float2
-            descriptor.attributes[attr].offset = stride
-            
-            attr += 1
-            
-            stride += MemoryLayout<SIMD2<Float>>.size
-            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
-        }
-        
-        assert(stride == MemoryLayout<Vertex>.stride)
+        stride = describe(3, stride, .float2)
+                
         descriptor.layouts[layout].stride = stride
+        assert(descriptor.layouts[layout].stride == MemoryLayout<Vertex>.stride)
     }
     
     func tranform(by transform: Transform2D) -> Self {
         return Self(
+            position: position,
             translate: translate + transform.translate,
             rotate: rotate + transform.rotate,
             scale: scale * transform.scale
         )
     }
     
+    let position: SIMD2<Float>
     let translate: SIMD2<Float>
     let rotate: Float
     let scale: SIMD2<Float>
@@ -197,7 +193,8 @@ struct Vertex {
 
 extension Vertex {
     init(_ position: SIMD2<Float>) {
-        translate = position
+        self.position = position
+        translate = SIMD2(0, 0)
         rotate = 0
         scale = SIMD2(1, 1)
     }

@@ -3,9 +3,10 @@
 using namespace metal;
 
 struct Vertex {
-    float2 translate [[attribute(0)]];
-    float rotate [[attribute(1)]];
-    float2 scale [[attribute(2)]];
+    float2 position [[attribute(0)]];
+    float2 translate [[attribute(1)]];
+    float rotate [[attribute(2)]];
+    float2 scale [[attribute(3)]];
 };
 
 vertex float4 vertex_main(
@@ -35,11 +36,12 @@ vertex float4 vertex_main(
         );
     }
     
-    auto position = float3(0, 0, 1);
-    position *= translate;
+    auto position = float3(v.position, 1);
     position *= scale;
     position *= rotate;
+    position *= translate;
     position *= transform;
+
     
 
     return float4(position, 1);
