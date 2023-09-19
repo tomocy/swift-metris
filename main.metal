@@ -9,9 +9,13 @@ struct Vertex {
     float2 scale [[attribute(3)]];
 };
 
+struct Camera {
+    float3x3 projection;
+};
+
 vertex float4 vertex_main(
     Vertex v [[stage_in]],
-    constant float3x3& transform [[buffer(1)]]
+    constant Camera* const camera [[buffer(1)]]
 ) {
     // Matrices are constructed in column-major order.
 
@@ -42,7 +46,7 @@ vertex float4 vertex_main(
     position = scale * position;
     position = rotate * position;
     position = translate * position;
-    position = transform * position;
+    position = camera->projection * position;
 
     return float4(position, 1);
 }

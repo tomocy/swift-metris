@@ -106,8 +106,10 @@ struct RenderTarget {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder) {
-        let transform = Transform2D.orthogonal(size: size)
-        transform.encode(with: encoder, at: 1)
+        let camera = Camera(
+            projection: Transform2D.orthogonal(size: size)
+        )
+        camera.encode(with: encoder, at: 1)
 
         var primitive = IndexedPrimitive()
 
@@ -199,6 +201,28 @@ extension Vertex {
         scale = SIMD2(1, 1)
     }
 }
+
+struct Camera {
+    struct Raw {
+        let projection: Matrix2D.Raw
+    }
+
+    func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+        var raw = Raw(
+            projection: projection.apply().raw
+        )
+
+        let buffer = encoder.device.makeBuffer(
+            bytes: &raw,
+            length: MemoryLayout<Raw>.stride,
+            options: .storageModeShared
+        );
+
+        encoder.setVertexBuffer(buffer, offset: 0, index: index)
+    }
+
+    let projection: Transform2D
+};
 
 struct IndexedPrimitive {
     mutating func append(vertices: [Vertex], indices: [UInt16]) {
@@ -346,17 +370,17 @@ struct Matrix2D {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        var bytes = raw;
-        let buffer = (encoder.device.makeBuffer(
+        var bytes = raw
+        let buffer = encoder.device.makeBuffer(
             bytes: &bytes,
             length: MemoryLayout<Raw>.stride,
             options: .storageModeShared
-        ))!
+        )
 
         encoder.setVertexBuffer(buffer, offset: 0, index: index)
     }
 
-    private var raw: Raw = identity
+    var raw: Raw = identity
 }
 
 func align(_ n: Int, up alignment: Int) -> Int {
