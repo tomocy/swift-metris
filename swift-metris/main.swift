@@ -99,7 +99,7 @@ class View : MTKView, MTKViewDelegate {
 struct RenderTarget {
     static func describe() -> MTLVertexDescriptor {
         let desc = MTLVertexDescriptor();
-        
+
         Vertex.describe(to: desc, buffer: 0, layout: 0)
 
         return desc;
@@ -117,7 +117,7 @@ struct RenderTarget {
             )
             rect.transform.translate.y = 100
             rect.transform.rotate(degree: 90)
-            
+
             rect.append(to: &primitive)
         }
 
@@ -143,7 +143,7 @@ struct Vertex {
             descriptor.attributes[attr].bufferIndex = buffer
             descriptor.attributes[attr].format = format
             descriptor.attributes[attr].offset = stride
-            
+
             var stride = stride
             switch format {
             case .float:
@@ -154,28 +154,28 @@ struct Vertex {
                 stride += 0
             }
             stride = align(stride, up: MemoryLayout<Vertex>.alignment)
-            
+
             return stride
         }
-         
+
         var stride = 0
-        
+
         // position
         stride = describe(0, stride, .float2)
-        
+
         // translate
         stride = describe(1, stride, .float2)
-        
+
         // rotate
         stride = describe(2, stride, .float)
-        
+
         // scale
         stride = describe(3, stride, .float2)
-                
+
         descriptor.layouts[layout].stride = stride
         assert(descriptor.layouts[layout].stride == MemoryLayout<Vertex>.stride)
     }
-    
+
     func tranform(by transform: Transform2D) -> Self {
         return Self(
             position: position,
@@ -184,7 +184,7 @@ struct Vertex {
             scale: scale * transform.scale
         )
     }
-    
+
     let position: SIMD2<Float>
     let translate: SIMD2<Float>
     let rotate: Float
@@ -278,7 +278,7 @@ struct Transform2D {
             scale: SIMD2(2 / (right - left), 2 / (top - bottom))
         )
     }
-    
+
     mutating func rotate(degree: Float) {
         self.rotate = degree * .pi / 180
     }
@@ -292,7 +292,7 @@ struct Transform2D {
 
         return Matrix2D(matrix.reduce(Matrix2D.identity, *))
     }
-    
+
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         let matrix = apply()
         matrix.encode(with: encoder, at: index)
@@ -305,7 +305,7 @@ struct Transform2D {
 
 struct Matrix2D {
     typealias Raw = float3x3
-    
+
     static func translate(_ delta: SIMD2<Float>) -> Raw {
         return Raw(
             rows: [
@@ -344,7 +344,7 @@ struct Matrix2D {
     init(_ raw: Raw = identity) {
         self.raw = raw
     }
-    
+
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         var bytes = raw;
         let buffer = (encoder.device.makeBuffer(
