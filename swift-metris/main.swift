@@ -107,30 +107,29 @@ struct RenderTarget {
 
     func encode(with encoder: MTLRenderCommandEncoder) {
         let camera = Camera(
-            projection: Transform2D.orthogonal(size: size)
+            projection: Transform2D.orthogonal(
+                top: Float(size.height), bottom: 0,
+                left: 0, right: Float(size.width)
+            ),
+            transform: Transform2D(
+                translate: SIMD2(0, 00)
+            )
         )
         camera.encode(with: encoder, at: 1)
 
         var primitive = IndexedPrimitive()
 
-        do {
-            var rect = Rectangle(
-                size: CGSize(width: 150, height: 100)
-            )
-            rect.transform.translate.y = 100
-            rect.transform.rotate(degree: 90)
+        for y in 0..<8 {
+            for x in 0..<5 {
+                var rect = Rectangle(
+                    size: CGSize(width: 94, height: 94)
+                )
 
-            rect.append(to: &primitive)
-        }
+                rect.transform.translate.x = Float(100 * x) + 50
+                rect.transform.translate.y = Float(100 * y) + 50
 
-        do {
-            var rect = Rectangle(
-                size: CGSize(width: 200, height: 100)
-            )
-            rect.transform.translate.y = -100
-            rect.transform.scale.x = 2
-
-            rect.append(to: &primitive)
+                rect.append(to: &primitive)
+            }
         }
 
         primitive.encode(with: encoder, at: 0)
@@ -205,11 +204,17 @@ extension Vertex {
 struct Camera {
     struct Raw {
         let projection: Matrix2D.Raw
+        let transform: Matrix2D.Raw
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         var raw = Raw(
-            projection: projection.apply().raw
+            projection: projection.apply().raw,
+            transform: Transform2D(
+                translate: -transform.translate,
+                rotate: -transform.rotate,
+                scale: transform.scale
+            ).apply().raw
         )
 
         let buffer = encoder.device.makeBuffer(
@@ -222,6 +227,7 @@ struct Camera {
     }
 
     let projection: Transform2D
+    let transform: Transform2D
 };
 
 struct IndexedPrimitive {
@@ -285,22 +291,25 @@ struct Rectangle {
 }
 
 struct Transform2D {
-    static func orthogonal(size: CGSize) -> Self {
-        let half = SIMD2<Float>(Float(size.width), Float(size.height)) / 2;
+    static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
+        // In MSL, NDC has (0, 0) at the center, (-1, -1) at the bottom left, and (1, 1) at the top right.
 
-        return orthogonal(
-            top: half.y,
-            bottom: -half.y,
-            left: -half.x,
-            right: half.x
+        return Transform2D(
+            translate: SIMD2(
+                (left + right) / (left - right),
+                (bottom + top) / (bottom - top)
+            ),
+            scale: SIMD2(
+                2 / (right - left),
+                2 / (top - bottom)
+            )
         )
     }
 
-    static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
-        return Transform2D(
-            translate: SIMD2((left + right) / (left - right), (bottom + top) / (bottom - top)),
-            scale: SIMD2(2 / (right - left), 2 / (top - bottom))
-        )
+    func rotated(degree: Float) -> Self {
+        var x = self
+        x.rotate(degree: degree)
+        return x
     }
 
     mutating func rotate(degree: Float) {
@@ -309,12 +318,12 @@ struct Transform2D {
 
     func apply() -> Matrix2D {
         let matrix = [
-            Matrix2D.translate(translate),
-            Matrix2D.rotate(rotate),
             Matrix2D.scale(scale),
+            Matrix2D.rotate(rotate),
+            Matrix2D.translate(translate),
         ]
 
-        return Matrix2D(matrix.reduce(Matrix2D.identity, *))
+        return Matrix2D(matrix.reduce(Matrix2D.identity) { matrix, current in current * matrix })
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
