@@ -26,7 +26,7 @@
 /* Begin PBXFileReference section */
 		F5A2685D2A966B4600520C84 /* swift-metris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-metris"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F5B67BD92AA0A61500842985 /* main.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = main.metal; sourceTree = SOURCE_ROOT; };
+		F5B67BD92AA0A61500842985 /* main.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = main.metal; path = "swift-metris/main.metal"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
