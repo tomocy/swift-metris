@@ -9,18 +9,18 @@ struct IndexedPrimitive {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        let vertexBuffer = (encoder.device.makeBuffer(
+        let vertexBuffer = encoder.device.makeBuffer(
             bytes: vertices,
             length: MemoryLayout<Vertex>.stride * vertices.count,
             options: .storageModeShared
-        ))!
+        )
         encoder.setVertexBuffer(vertexBuffer, offset: 0, index: index)
 
-        let indexBuffer = (encoder.device.makeBuffer(
+        let indexBuffer = encoder.device.makeBuffer(
             bytes: indices,
             length: MemoryLayout<UInt16>.stride * indices.count,
             options: .storageModeShared
-        ))!
+        )!
         encoder.drawIndexedPrimitives(
             type: .triangle,
             indexCount: indices.count,

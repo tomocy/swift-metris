@@ -3,65 +3,42 @@
 import Metal
 
 struct Vertex {
-    static func describe(to descriptor: MTLVertexDescriptor, buffer: Int, layout: Int) {
-        let describe = { (attr: Int, stride: Int, format: MTLVertexFormat) -> Int in
-            descriptor.attributes[attr].bufferIndex = buffer
-            descriptor.attributes[attr].format = format
-            descriptor.attributes[attr].offset = stride
-
-            var stride = stride
-            switch format {
-            case .float:
-                stride += MemoryLayout<Float>.size
-            case .float2:
-                stride += MemoryLayout<SIMD2<Float>>.size
-            default:
-                stride += 0
-            }
-            stride = align(stride, up: MemoryLayout<Vertex>.alignment)
-
-            return stride
-        }
-
-        var stride = 0
-
-        // position
-        stride = describe(0, stride, .float2)
-
-        // translate
-        stride = describe(1, stride, .float2)
-
-        // rotate
-        stride = describe(2, stride, .float)
-
-        // scale
-        stride = describe(3, stride, .float2)
-
-        descriptor.layouts[layout].stride = stride
-        assert(descriptor.layouts[layout].stride == MemoryLayout<Vertex>.stride)
+    mutating func position(at position: SIMD2<Float>) {
+        self.position = position
     }
 
-    func tranform(by transform: Transform2D) -> Self {
-        return Self(
-            position: position,
-            translate: translate + transform.translate,
-            rotate: rotate + transform.rotate,
-            scale: scale * transform.scale
-        )
+    func positioned(at position: SIMD2<Float>) -> Self {
+        var x = self
+        x.position(at: position)
+        return x
     }
 
-    let position: SIMD2<Float>
-    let translate: SIMD2<Float>
-    let rotate: Float
-    let scale: SIMD2<Float>
+    mutating func transform(with transform: Transform2D) {
+        self.transform = transform
+    }
+
+    mutating func transform(by delta: Transform2D) {
+        transform.transform(by: delta)
+    }
+
+    func transformed(with transform: Transform2D) -> Self {
+        var x = self
+        x.transform(with: transform)
+        return x
+    }
+
+    func transformed(by delta: Transform2D) -> Self {
+        var x = self
+        x.transform(by: delta)
+        return x
+    }
+
+    var position: SIMD2<Float> = SIMD2(0, 0)
+    var transform: Transform2D = Transform2D()
 };
 
 extension Vertex {
     init(_ position: SIMD2<Float>) {
         self.position = position
-        translate = SIMD2(0, 0)
-        rotate = 0
-        scale = SIMD2(1, 1)
     }
 }
-

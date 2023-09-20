@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA642ABB53A7000D29D5 /* Transform2D.h */; };
+		F56DCA672ABB5574000D29D5 /* Camera.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA662ABB5574000D29D5 /* Camera.h */; };
+		F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA682ABB60AD000D29D5 /* Vertex.h */; };
+		F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Angle.swift */; };
 		F5A268612A966B4600520C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A268602A966B4600520C84 /* main.swift */; };
 		F5B67BDA2AA0A61500842985 /* View.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* View.metal */; };
 		F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
@@ -35,6 +39,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F56DCA642ABB53A7000D29D5 /* Transform2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform2D.h; sourceTree = "<group>"; };
+		F56DCA662ABB5574000D29D5 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		F56DCA682ABB60AD000D29D5 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
+		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		F5A2685D2A966B4600520C84 /* swift-metris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-metris"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F5B67BD92AA0A61500842985 /* View.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = View.metal; path = "swift-metris/View.metal"; sourceTree = SOURCE_ROOT; };
@@ -81,7 +89,11 @@
 		F5A2685F2A966B4600520C84 /* swift-metris */ = {
 			isa = PBXGroup;
 			children = (
+				F56DCA682ABB60AD000D29D5 /* Vertex.h */,
+				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
 				F5B67BD92AA0A61500842985 /* View.metal */,
+				F56DCA662ABB5574000D29D5 /* Camera.h */,
+				F56DCA642ABB53A7000D29D5 /* Transform2D.h */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F5A268602A966B4600520C84 /* main.swift */,
 				F5E88F3F2ABB50C5003505BE /* App.swift */,
@@ -130,6 +142,7 @@
 				TargetAttributes = {
 					F5A2685C2A966B4600520C84 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -156,16 +169,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F56DCA672ABB5574000D29D5 /* Camera.h in Sources */,
 				F5E88F402ABB50C5003505BE /* App.swift in Sources */,
 				F5E88F362ABB5003003505BE /* Camera.swift in Sources */,
 				F5E88F2E2ABB4D80003505BE /* Matrix2D.swift in Sources */,
 				F5E88F382ABB501F003505BE /* Vertex.swift in Sources */,
 				F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */,
+				F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */,
 				F5E88F342ABB4FBC003505BE /* IndexedPrimitive.swift in Sources */,
 				F5B67BDA2AA0A61500842985 /* View.metal in Sources */,
 				F5E88F3A2ABB5053003505BE /* RenderTarget.swift in Sources */,
 				F5E88F322ABB4F39003505BE /* Rectangle.swift in Sources */,
 				F5A268612A966B4600520C84 /* main.swift in Sources */,
+				F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */,
+				F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */,
 				F5E88F3C2ABB5075003505BE /* View.swift in Sources */,
 				F5E88F302ABB4EB2003505BE /* Transform2D.swift in Sources */,
 				F5E88F3E2ABB5097003505BE /* Window.swift in Sources */,
@@ -291,10 +308,17 @@
 		F5A268652A966B4600520C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7675C8B65F;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -302,9 +326,15 @@
 		F5A268662A966B4600520C84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7675C8B65F;
 				ENABLE_HARDENED_RUNTIME = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};

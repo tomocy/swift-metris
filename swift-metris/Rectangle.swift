@@ -14,7 +14,7 @@ struct Rectangle {
                 Vertex(SIMD2(halfSize.x, halfSize.y)),
                 Vertex(SIMD2(halfSize.x, -halfSize.y)),
                 Vertex(SIMD2(-halfSize.x, -halfSize.y)),
-            ].map({ v in v.tranform(by: transform) }),
+            ].map({ v in v.transformed(by: transform) }),
             indices: [
                 startIndex, startIndex + 1, startIndex + 2,
                 startIndex + 2, startIndex + 3, startIndex,

@@ -25,14 +25,15 @@ class View : MTKView, MTKViewDelegate {
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
-        let lib = (device!.makeDefaultLibrary())!
+        do {
+            let lib = device!.makeDefaultLibrary()!
 
-        desc.vertexDescriptor = RenderTarget.describe()
-        desc.vertexFunction = lib.makeFunction(name: "shadeVertex")
-        NSLog("Vertex function: \(desc.vertexFunction!.name)")
+            desc.vertexFunction = lib.makeFunction(name: "shadeVertex")
+            NSLog("Vertex function: \(desc.vertexFunction!.name)")
 
-        desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")
-        NSLog("Fragment function: \(desc.fragmentFunction!.name)")
+            desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")
+            NSLog("Fragment function: \(desc.fragmentFunction!.name)")
+        }
 
         return try! device!.makeRenderPipelineState(descriptor: desc)
     }
@@ -45,13 +46,14 @@ class View : MTKView, MTKViewDelegate {
 
         encoder.setRenderPipelineState(pipeline)
 
-        let target = RenderTarget(size: frame.size)
-        target.encode(with: encoder)
+        do {
+            let target = RenderTarget(size: frame.size)
+            target.encode(with: encoder)
+        }
 
         encoder.endEncoding()
 
         command.present(currentDrawable!)
-
         command.commit()
     }
 

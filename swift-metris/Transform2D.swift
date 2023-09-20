@@ -19,32 +19,119 @@ struct Transform2D {
         )
     }
 
-    func rotated(degree: Float) -> Self {
+    mutating func transform(with transform: Self) {
+        translate(with: transform.translate)
+        rotate(with: transform.rotate)
+        scale(with: transform.scale)
+    }
+
+    mutating func transform(by delta: Self) {
+        translate(by: delta.translate)
+        rotate(by: delta.rotate)
+        scale(by: delta.scale)
+    }
+
+    func transformed(with transform: Self) -> Self {
         var x = self
-        x.rotate(degree: degree)
+        x.transform(with: transform)
         return x
     }
 
-    mutating func rotate(degree: Float) {
-        self.rotate = degree * .pi / 180
+    func transformed(by delta: Self) -> Self {
+        var x = self
+        x.transform(by: delta)
+        return x
     }
 
-    func apply() -> Matrix2D {
-        let matrix = [
-            Matrix2D.scale(scale),
-            Matrix2D.rotate(rotate),
-            Matrix2D.translate(translate),
-        ]
-
-        return Matrix2D(matrix.reduce(Matrix2D.identity) { matrix, current in current * matrix })
+    mutating func translate(with translate: SIMD2<Float>) {
+        self.translate = translate
     }
 
-    func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        let matrix = apply()
-        matrix.encode(with: encoder, at: index)
+    mutating func translate(by delta: SIMD2<Float>) {
+        self.translate += delta
+    }
+
+    func translated(with translate: SIMD2<Float>) -> Self {
+        var x = self
+        x.translate(with: translate)
+        return x
+    }
+
+    func translated(by delta: SIMD2<Float>) -> Self {
+        var x = self
+        x.translate(by: delta)
+        return x
+    }
+
+    mutating func rotate(with angle: Angle) {
+        self.rotate = angle;
+    }
+
+    mutating func rotate(by angle: Angle) {
+        self.rotate += angle
+    }
+
+    func rotated(with angle: Angle) -> Self {
+        var x = self
+        x.rotate(with: angle)
+        return x
+    }
+
+    func rotated(by angle: Angle) -> Self {
+        var x = self
+        x.rotate(by: angle)
+        return x
+    }
+
+    mutating func scale(with scale: SIMD2<Float>) {
+        self.scale = scale
+    }
+
+    mutating func scale(by factor: SIMD2<Float>) {
+        self.scale *= scale
+    }
+
+    func scaled(with factor: SIMD2<Float>) -> Self {
+        var x = self
+        x.scale(with: factor)
+        return x
+    }
+
+    func scaled(by factor: SIMD2<Float>) -> Self {
+        var x = self
+        x.scale(by: factor)
+        return x
+    }
+
+    mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
+        if (translate) {
+            self.translate *= -1
+        }
+
+        if (rotate) {
+            self.rotate *= -1
+        }
+
+        if (scale) {
+            self.scale *= -1
+        }
+    }
+
+    func inversed(translate: Bool = true, rotate: Bool = true, scale: Bool = true) -> Self {
+        var x = self
+        x.inverse(translate: translate, rotate: rotate, scale: scale)
+        return x
     }
 
     var translate: SIMD2<Float> = SIMD2(0, 0)
-    var rotate: Float = 0
+    var rotate: Angle = Angle(radian: 0)
     var scale: SIMD2<Float> = SIMD2(1, 1)
+}
+
+extension Transform2D {
+    init(_ other: Self) {
+        translate = other.translate
+        rotate = other.rotate
+        scale = other.scale
+    }
 }
