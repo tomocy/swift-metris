@@ -14,7 +14,7 @@ struct Camera {
     float3x3 transform;
 };
 
-vertex float4 vertex_main(
+vertex float4 shadeVertex(
     Vertex v [[stage_in]],
     constant Camera* const camera [[buffer(1)]]
 ) {
@@ -54,4 +54,4 @@ vertex float4 vertex_main(
     return float4(position, 1);
 }
 
-fragment float4 fragment_main() { return float4(0, 0.9, 0.4, 1.0); }
+fragment float4 shadeFragment() { return float4(0, 0.9, 0.4, 1.0); }
