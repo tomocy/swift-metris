@@ -1,0 +1,6 @@
+BasedOnStyle: WebKit
+
+Language: Cpp
+Standard: c++14
+
+AlignAfterOpenBracket: BlockIndent

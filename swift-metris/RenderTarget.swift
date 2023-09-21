@@ -3,6 +3,13 @@
 import Metal
 
 struct RenderTarget {
+    static func describe(to descriptor: MTLRenderPipelineDescriptor, with device: MTLDevice) {
+        let lib = device.makeDefaultLibrary()!
+
+        descriptor.vertexFunction = lib.makeFunction(name: "shadeVertex")
+        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")
+    }
+
     func encode(with encoder: MTLRenderCommandEncoder) {
         do {
             let camera = Camera(

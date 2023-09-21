@@ -12,7 +12,7 @@
 		F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA682ABB60AD000D29D5 /* Vertex.h */; };
 		F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Angle.swift */; };
 		F5A268612A966B4600520C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A268602A966B4600520C84 /* main.swift */; };
-		F5B67BDA2AA0A61500842985 /* View.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* View.metal */; };
+		F5B67BDA2AA0A61500842985 /* RenderTarget.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* RenderTarget.metal */; };
 		F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
 		F5E88F2E2ABB4D80003505BE /* Matrix2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */; };
 		F5E88F302ABB4EB2003505BE /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */; };
@@ -45,7 +45,7 @@
 		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		F5A2685D2A966B4600520C84 /* swift-metris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-metris"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F5B67BD92AA0A61500842985 /* View.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = View.metal; path = "swift-metris/View.metal"; sourceTree = SOURCE_ROOT; };
+		F5B67BD92AA0A61500842985 /* RenderTarget.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = RenderTarget.metal; path = "swift-metris/RenderTarget.metal"; sourceTree = SOURCE_ROOT; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix2D.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform2D.swift; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 			children = (
 				F56DCA682ABB60AD000D29D5 /* Vertex.h */,
 				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
-				F5B67BD92AA0A61500842985 /* View.metal */,
+				F5B67BD92AA0A61500842985 /* RenderTarget.metal */,
 				F56DCA662ABB5574000D29D5 /* Camera.h */,
 				F56DCA642ABB53A7000D29D5 /* Transform2D.h */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
@@ -177,7 +177,7 @@
 				F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */,
 				F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */,
 				F5E88F342ABB4FBC003505BE /* IndexedPrimitive.swift in Sources */,
-				F5B67BDA2AA0A61500842985 /* View.metal in Sources */,
+				F5B67BDA2AA0A61500842985 /* RenderTarget.metal in Sources */,
 				F5E88F3A2ABB5053003505BE /* RenderTarget.swift in Sources */,
 				F5E88F322ABB4F39003505BE /* Rectangle.swift in Sources */,
 				F5A268612A966B4600520C84 /* main.swift in Sources */,

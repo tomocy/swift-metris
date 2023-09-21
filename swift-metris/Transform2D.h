@@ -6,12 +6,14 @@
 
 struct Transform2D {
 public:
-    float3 apply(float3 position) const constant {
+    float3 apply(const float3 position) const constant
+    {
         const auto transform = *this;
         return transform.apply(position);
     }
 
-    float3 apply(float3 position) const {
+    float3 apply(float3 position) const
+    {
         const auto t = metal::float3x3(
             float3(1, 0, 0),
             float3(0, 1, 0),
@@ -42,7 +44,7 @@ public:
         return position;
     }
 
-    float2 translate;
-    float rotate;
-    float2 scale;
+    float2 translate = float2(0, 0);
+    float rotate = 0;
+    float2 scale = float2(0, 0);
 };

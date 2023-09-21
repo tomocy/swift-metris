@@ -5,6 +5,6 @@
 #include "Transform2D.h"
 
 struct Camera {
-    Transform2D projection;
-    Transform2D transform;
+    Transform2D projection = {};
+    Transform2D transform = {};
 };

@@ -15,7 +15,7 @@ struct Camera {
         })
     }
 
-    var projection: Transform2D
-    var transform: Transform2D
+    var projection: Transform2D = Transform2D()
+    var transform: Transform2D = Transform2D()
 }
 

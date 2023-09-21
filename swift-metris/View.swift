@@ -25,15 +25,7 @@ class View : MTKView, MTKViewDelegate {
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
-        do {
-            let lib = device!.makeDefaultLibrary()!
-
-            desc.vertexFunction = lib.makeFunction(name: "shadeVertex")
-            NSLog("Vertex function: \(desc.vertexFunction!.name)")
-
-            desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")
-            NSLog("Fragment function: \(desc.fragmentFunction!.name)")
-        }
+        RenderTarget.describe(to: desc, with: device!)
 
         return try! device!.makeRenderPipelineState(descriptor: desc)
     }
@@ -41,10 +33,10 @@ class View : MTKView, MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        let command = commandQueue.makeCommandBuffer()!
+        let command = commandQueue!.makeCommandBuffer()!
         let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
 
-        encoder.setRenderPipelineState(pipeline)
+        encoder.setRenderPipelineState(pipeline!)
 
         do {
             let target = RenderTarget(size: frame.size)
@@ -57,8 +49,8 @@ class View : MTKView, MTKViewDelegate {
         command.commit()
     }
 
-    private var commandQueue: MTLCommandQueue!
-    private var pipeline: MTLRenderPipelineState!
+    private var commandQueue: MTLCommandQueue?
+    private var pipeline: MTLRenderPipelineState?
 }
 
 

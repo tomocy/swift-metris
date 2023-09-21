@@ -7,7 +7,8 @@ vertex float4 shadeVertex(
     constant Camera* const camera [[buffer(0)]],
     constant Vertex* const vs [[buffer(1)]],
     const uint id [[vertex_id]]
-) {
+)
+{
     const auto v = vs[id];
 
     auto position = float3(v.position, 1);
