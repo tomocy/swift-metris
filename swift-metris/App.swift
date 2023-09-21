@@ -8,9 +8,36 @@ class AppDelegate : NSObject, NSApplicationDelegate {
 
         window = Window(contentRect: NSRect(x: 0, y: 0, width: 500, height: 800))
 
-        window!.orderFrontRegardless()
+        window!.makeKeyAndOrderFront(notification)
         window!.center()
+
+        NSApplication.shared.activate(ignoringOtherApps: true)
     }
 
     private var window: NSWindow?
+}
+
+class AppMenu : NSMenu {
+    override init(title: String) {
+        super.init(title: title)
+
+        do {
+            let item = NSMenuItem()
+            item.submenu = NSMenu()
+
+            item.submenu!.items.append(
+                NSMenuItem(
+                    title: "Quit",
+                    action: #selector(NSApplication.terminate(_:)),
+                    keyEquivalent: "q"
+                )
+            )
+
+            addItem(item)
+        }
+    }
+
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+    }
 }

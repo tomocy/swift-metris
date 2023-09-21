@@ -2,8 +2,14 @@
 
 import Cocoa
 
-let app = NSApplication.shared;
-let delegate = AppDelegate();
-app.delegate = delegate;
+let app = NSApplication.shared
 
-_ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv);
+app.setActivationPolicy(.regular)
+
+let delegate = AppDelegate()
+app.delegate = delegate
+
+let menu = AppMenu()
+app.menu = menu
+
+_ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

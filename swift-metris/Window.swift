@@ -12,7 +12,6 @@ class Window : NSWindow {
         );
 
         title = "swift metris"
-
         contentView = View(frame: contentRect)
 
         NSLog("Window: Initialized")
