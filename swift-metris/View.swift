@@ -25,7 +25,7 @@ class View : MTKView, MTKViewDelegate {
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
-        RenderTarget.describe(to: desc, with: device!)
+        Metris.describe(to: desc, with: device!)
 
         return try! device!.makeRenderPipelineState(descriptor: desc)
     }
@@ -39,8 +39,8 @@ class View : MTKView, MTKViewDelegate {
         encoder.setRenderPipelineState(pipeline!)
 
         do {
-            let target = RenderTarget(size: frame.size)
-            target.encode(with: encoder)
+            let metris = Metris(size: frame.size)
+            metris.encode(with: encoder)
         }
 
         encoder.endEncoding()

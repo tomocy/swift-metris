@@ -2,12 +2,12 @@
 
 import Metal
 
-struct RenderTarget {
+struct Metris {
     static func describe(to descriptor: MTLRenderPipelineDescriptor, with device: MTLDevice) {
         let lib = device.makeDefaultLibrary()!
 
-        descriptor.vertexFunction = lib.makeFunction(name: "shadeVertex")
-        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")
+        descriptor.vertexFunction = lib.makeFunction(name: "shadeVertex")!
+        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
     }
 
     func encode(with encoder: MTLRenderCommandEncoder) {
