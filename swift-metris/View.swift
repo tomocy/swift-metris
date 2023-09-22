@@ -10,10 +10,10 @@ class View : MTKView, MTKViewDelegate {
         NSLog("View: GPU device: \(device!.name)")
 
         delegate = self
-        clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
-
         commandQueue = device!.makeCommandQueue()!
         pipeline = makePipeline()
+
+        clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
     }
 
     required init(coder: NSCoder) {

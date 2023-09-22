@@ -12,7 +12,7 @@ struct Matrix2D {
         return Self(left.raw * right.raw)
     }
 
-    static func translate(with translate: SIMD2<Float>) -> Self {
+    static func translated(with translate: SIMD2<Float>) -> Self {
         return Self(Raw(
             rows: [
                 SIMD3(1, 0, translate.x),
@@ -22,7 +22,7 @@ struct Matrix2D {
         ))
     }
 
-    static func rotate(with angle: Angle) -> Self {
+    static func rotated(with angle: Angle) -> Self {
         let s = sin(angle.inRadian())
         let c = cos(angle.inRadian())
 
@@ -35,7 +35,7 @@ struct Matrix2D {
         ))
     }
 
-    static func scale(with scale: SIMD2<Float>) -> Self {
+    static func scaled(with scale: SIMD2<Float>) -> Self {
         return Self(Raw(
             rows: [
                 SIMD3(scale.x, 0, 0),
@@ -55,7 +55,7 @@ struct Matrix2D {
                 bytes: body.baseAddress!,
                 length: body.count,
                 options: .storageModeShared
-            )
+            )!
 
             encoder.setVertexBuffer(buffer, offset: 0, index: index)
         })

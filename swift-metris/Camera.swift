@@ -9,7 +9,7 @@ struct Camera {
                 bytes: body.baseAddress!,
                 length: body.count,
                 options: .storageModeShared
-            )
+            )!
 
             encoder.setVertexBuffer(buffer, offset: 0, index: index)
         })

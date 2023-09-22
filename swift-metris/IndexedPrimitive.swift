@@ -13,7 +13,7 @@ struct IndexedPrimitive {
             bytes: vertices,
             length: MemoryLayout<Vertex>.stride * vertices.count,
             options: .storageModeShared
-        )
+        )!
         encoder.setVertexBuffer(vertexBuffer, offset: 0, index: index)
 
         let indexBuffer = encoder.device.makeBuffer(
