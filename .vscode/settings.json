@@ -3,4 +3,7 @@
     "clangd.arguments": [
         "--enable-config"
     ],
+    "files.associations": {
+        "*.metal": "cpp"
+    }
 }
