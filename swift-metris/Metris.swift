@@ -25,10 +25,16 @@ struct Metris {
         }
 
         do {
+            let field = Metris.Field(width: 5, height: 8)
+
             var primitive = IndexedPrimitive()
 
-            for y in 0..<8 {
-                for x in 0..<5 {
+            for y in 0..<field.height {
+                for x in 0..<field.width {
+                    if (!field.get(x: x, y: y)) {
+                        continue
+                    }
+
                     var rect = Rectangle(
                         size: CGSize(width: 94, height: 94)
                     )
