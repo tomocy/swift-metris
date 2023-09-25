@@ -9,6 +9,10 @@ struct IndexedPrimitive {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+        if (vertices.isEmpty) {
+            return
+        }
+
         let vertexBuffer = encoder.device.makeBuffer(
             bytes: vertices,
             length: MemoryLayout<Vertex>.stride * vertices.count,

@@ -25,27 +25,15 @@ struct Metris {
         }
 
         do {
-            let field = Metris.Field(width: 5, height: 8)
+            var field = Metris.Field(width: 5, height: 8)
+
+            let mino = Metris.Mino(
+                pieces: [SIMD2<UInt>(0, 0), SIMD2(1, 0), SIMD2(2, 0), SIMD2(3, 0)]
+            )
+            mino.put(on: &field, at: SIMD2<UInt>(0, 7))
 
             var primitive = IndexedPrimitive()
-
-            for y in 0..<field.height {
-                for x in 0..<field.width {
-                    if (!field.get(x: x, y: y)) {
-                        continue
-                    }
-
-                    var rect = Rectangle(
-                        size: CGSize(width: 94, height: 94)
-                    )
-
-                    rect.transform.translate.x = Float(100 * x) + 50
-                    rect.transform.translate.y = Float(100 * y) + 50
-
-                    rect.append(to: &primitive)
-                }
-            }
-
+            field.append(to: &primitive)
             primitive.encode(with: encoder, at: 1)
         }
     }
