@@ -2,16 +2,30 @@
 
 extension Metris {
     struct Mino {
-        func put(on field: inout Metris.Field, at position: SIMD2<UInt>) {
-            for piece in pieces {
-                field.put(
-                    x: position.x + piece.x,
-                    y: position.y + piece.y,
-                    true
+        enum Shape {
+            case i
+        }
+
+        static func generate(_ shape: Shape) -> Self {
+            switch shape {
+            case .i:
+                return Self(
+                    pieces: [
+                        Piece(position: Field.Point(0, 0)),
+                        Piece(position: Field.Point(1, 0)),
+                        Piece(position: Field.Point(2, 0)),
+                        Piece(position: Field.Point(3, 0)),
+                    ]
                 )
             }
         }
 
-        var pieces: [SIMD2<UInt>] = []
+        func place(on field: inout Field, at position: Field.Point) {
+            pieces.forEach { piece in
+                field.place(piece, at: position &+ piece.position)
+            }
+        }
+
+        var pieces: [Piece] = []
     }
 }

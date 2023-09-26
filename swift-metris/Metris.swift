@@ -25,12 +25,10 @@ struct Metris {
         }
 
         do {
-            var field = Metris.Field(width: 5, height: 8)
+            var field = Field(width: 5, height: 8)
 
-            let mino = Metris.Mino(
-                pieces: [SIMD2<UInt>(0, 0), SIMD2(1, 0), SIMD2(2, 0), SIMD2(3, 0)]
-            )
-            mino.put(on: &field, at: SIMD2<UInt>(0, 7))
+            let mino = Mino.generate(.i)
+            mino.place(on: &field, at: Field.Point(0, 7))
 
             var primitive = IndexedPrimitive()
             field.append(to: &primitive)

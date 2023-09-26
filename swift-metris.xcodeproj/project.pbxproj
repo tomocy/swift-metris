@@ -14,6 +14,7 @@
 		F5A268612A966B4600520C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A268602A966B4600520C84 /* main.swift */; };
 		F5A9533F2ABE04B8008E4200 /* Metris+Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */; };
 		F5A953412AC1FA0A008E4200 /* Metris+Mino.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */; };
+		F5A953432AC329AE008E4200 /* Metris+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953422AC329AE008E4200 /* Metris+Piece.swift */; };
 		F5B67BDA2AA0A61500842985 /* Metris.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* Metris.metal */; };
 		F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
 		F5E88F2E2ABB4D80003505BE /* Matrix2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */; };
@@ -49,6 +50,7 @@
 		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
+		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
 		F5B67BD92AA0A61500842985 /* Metris.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = Metris.metal; path = "swift-metris/Metris.metal"; sourceTree = SOURCE_ROOT; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix2D.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 		F5A2685F2A966B4600520C84 /* swift-metris */ = {
 			isa = PBXGroup;
 			children = (
+				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
 				F5E88F3F2ABB50C5003505BE /* App.swift */,
 				F56DCA662ABB5574000D29D5 /* Camera.h */,
@@ -189,6 +192,7 @@
 				F5A953412AC1FA0A008E4200 /* Metris+Mino.swift in Sources */,
 				F5E88F322ABB4F39003505BE /* Rectangle.swift in Sources */,
 				F5A268612A966B4600520C84 /* main.swift in Sources */,
+				F5A953432AC329AE008E4200 /* Metris+Piece.swift in Sources */,
 				F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */,
 				F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */,
 				F5E88F3C2ABB5075003505BE /* View.swift in Sources */,

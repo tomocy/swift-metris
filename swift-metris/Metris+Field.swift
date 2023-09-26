@@ -4,46 +4,43 @@ import Foundation
 
 extension Metris {
     struct Field {
+        typealias Point = SIMD2<UInt>
+
         init(width: UInt, height: UInt) {
             self.width = width
             self.height = height
 
-            raw = .init(repeating: false, count: Int(width * height))
+            pieces = .init(repeating: nil, count: Int(width * height))
+        }
+
+        func index(at position: Point) -> Int {
+            index(x: position.x, y: position.y)
         }
 
         func index(x: UInt, y: UInt) -> Int {
             Int(y * width + x)
         }
 
-        func at(x: UInt, y: UInt) -> Bool {
-            raw[index(x: x, y: y)]
+        func at(_ position: Point) -> Piece? {
+            at(x: position.x, y: position.y)
         }
 
-        mutating func put(x: UInt, y: UInt, _ v: Bool) {
-            raw[index(x: x, y: y)] = v
+        func at(x: UInt, y: UInt) -> Piece? {
+            let i = index(x: x, y: y)
+            return pieces[i]
+        }
+
+        mutating func place(_ piece: Piece?, at position: Field.Point) {
+            let i = index(at: position)
+            pieces[i] = piece?.placed(at: position)
         }
 
         func append(to primitive: inout IndexedPrimitive) {
-            for y in 0..<height {
-                for x in 0..<width {
-                    if (!at(x: x, y: y)) {
-                        continue
-                    }
-
-                    var rect = Rectangle(
-                        size: CGSize(width: 94, height: 94)
-                    )
-
-                    rect.transform.translate.x = Float(100 * x) + 50
-                    rect.transform.translate.y = Float(100 * y) + 50
-
-                    rect.append(to: &primitive)
-                }
-            }
+            pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
         }
 
         let width: UInt
         let height: UInt
-        private var raw: [Bool] = []
+        private var pieces: [Piece?] = []
     }
 }
