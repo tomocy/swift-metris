@@ -1,6 +1,6 @@
 // tomocy
 
-import Foundation
+import CoreGraphics
 
 struct Rectangle {
     func append(to primitive: inout IndexedPrimitive) {
@@ -14,7 +14,8 @@ struct Rectangle {
                 Vertex(SIMD2(halfSize.x, halfSize.y)),
                 Vertex(SIMD2(halfSize.x, -halfSize.y)),
                 Vertex(SIMD2(-halfSize.x, -halfSize.y)),
-            ].map({ v in v.transformed(by: transform) }),
+            ].map({ $0.colorized(with: color) })
+            .map({ $0.transformed(with: transform) }),
             indices: [
                 startIndex, startIndex + 1, startIndex + 2,
                 startIndex + 2, startIndex + 3, startIndex,
@@ -23,5 +24,6 @@ struct Rectangle {
     }
 
     let size: CGSize
+    var color: CGColor = .black()
     var transform: Transform2D = Transform2D()
 }

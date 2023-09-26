@@ -1,5 +1,6 @@
 // tomocy
 
+import CoreGraphics
 import Metal
 
 struct Vertex {
@@ -10,6 +11,26 @@ struct Vertex {
     func positioned(at position: SIMD2<Float>) -> Self {
         var x = self
         x.position(at: position)
+        return x
+    }
+
+    mutating func colorize(with color: SIMD4<Float>) {
+        self.color = color
+    }
+
+    mutating func colorize(with color: CGColor) {
+        colorize(with: SIMD4(color))
+    }
+
+    func colorized(with color: SIMD4<Float>) -> Self {
+        var x = self
+        x.colorize(with: color)
+        return x
+    }
+
+    func colorized(with color: CGColor) -> Self {
+        var x = self
+        x.colorize(with: color)
         return x
     }
 
@@ -34,6 +55,7 @@ struct Vertex {
     }
 
     var position: SIMD2<Float> = SIMD2(0, 0)
+    var color: SIMD4<Float> = SIMD4(0, 0, 0, 1)
     var transform: Transform2D = Transform2D()
 };
 

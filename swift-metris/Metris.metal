@@ -21,7 +21,7 @@ vertex Fragment shadeVertex(
 
     return {
         .position = float4(position, 1),
-        .color = float4(0, 0.9, 0.4, 1.0),
+        .color = v.color,
     };
 }
 

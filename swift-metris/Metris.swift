@@ -27,7 +27,7 @@ struct Metris {
         do {
             var field = Field(width: 5, height: 8)
 
-            let mino = Mino.generate(.i)
+            let mino = Mino.generate(.i, color: .random())
             mino.place(on: &field, at: Field.Point(0, 7))
 
             var primitive = IndexedPrimitive()
