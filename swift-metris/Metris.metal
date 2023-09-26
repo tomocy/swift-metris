@@ -1,9 +1,10 @@
 // tomocy
 
 #include "Camera.h"
+#include "Fragment.h"
 #include "Vertex.h"
 
-vertex float4 shadeVertex(
+vertex Fragment shadeVertex(
     constant Camera* const camera [[buffer(0)]],
     constant Vertex* const vs [[buffer(1)]],
     const uint id [[vertex_id]]
@@ -18,7 +19,12 @@ vertex float4 shadeVertex(
     position = camera->transform.apply(position);
     position = camera->projection.apply(position);
 
-    return float4(position, 1);
+    return {
+        .position = float4(position, 1),
+        .color = float4(0, 0.9, 0.4, 1.0),
+    };
 }
 
-fragment float4 shadeFragment() { return float4(0, 0.9, 0.4, 1.0); }
+fragment float4 shadeFragment(const Fragment f [[stage_in]]) {
+    return f.color;
+}

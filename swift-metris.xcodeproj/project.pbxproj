@@ -51,6 +51,7 @@
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
 		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
+		F5A953452AC33FC7008E4200 /* Fragment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fragment.h; sourceTree = "<group>"; };
 		F5B67BD92AA0A61500842985 /* Metris.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = Metris.metal; path = "swift-metris/Metris.metal"; sourceTree = SOURCE_ROOT; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix2D.swift; sourceTree = "<group>"; };
@@ -105,6 +106,7 @@
 				F5E88F2D2ABB4D80003505BE /* Matrix2D.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F5B67BD92AA0A61500842985 /* Metris.metal */,
+				F5A953452AC33FC7008E4200 /* Fragment.h */,
 				F5E88F392ABB5053003505BE /* Metris.swift */,
 				F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */,
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
