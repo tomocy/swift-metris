@@ -15,18 +15,18 @@ extension Metris {
             Int(y * width + x)
         }
 
-        func get(x: UInt, y: UInt) -> Bool {
+        func at(x: UInt, y: UInt) -> Bool {
             raw[index(x: x, y: y)]
         }
 
-        mutating func set(x: UInt, y: UInt, _ v: Bool) {
+        mutating func put(x: UInt, y: UInt, _ v: Bool) {
             raw[index(x: x, y: y)] = v
         }
 
         func append(to primitive: inout IndexedPrimitive) {
             for y in 0..<height {
                 for x in 0..<width {
-                    if (!get(x: x, y: y)) {
+                    if (!at(x: x, y: y)) {
                         continue
                     }
 
