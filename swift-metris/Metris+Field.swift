@@ -4,24 +4,20 @@ import Foundation
 
 extension Metris {
     struct Field {
-        typealias Point = SIMD2<UInt>
-
-        init(width: UInt, height: UInt) {
-            self.width = width
-            self.height = height
-
-            pieces = .init(repeating: nil, count: Int(width * height))
+        init(size: SIMD2<UInt>) {
+            self.size = size
+            pieces = .init(repeating: nil, count: Int(size.x * size.y))
         }
 
-        func index(at position: Point) -> Int {
+        func index(at position: SIMD2<UInt>) -> Int {
             index(x: position.x, y: position.y)
         }
 
         func index(x: UInt, y: UInt) -> Int {
-            Int(y * width + x)
+            Int(y * size.x + x)
         }
 
-        func at(_ position: Point) -> Piece? {
+        func at(_ position: SIMD2<UInt>) -> Piece? {
             at(x: position.x, y: position.y)
         }
 
@@ -30,7 +26,7 @@ extension Metris {
             return pieces[i]
         }
 
-        mutating func place(_ piece: Piece?, at position: Field.Point) {
+        mutating func place(_ piece: Piece?, at position: SIMD2<UInt>) {
             let i = index(at: position)
             pieces[i] = piece?.placed(at: position)
         }
@@ -39,8 +35,7 @@ extension Metris {
             pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
         }
 
-        let width: UInt
-        let height: UInt
+        let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
     }
 }

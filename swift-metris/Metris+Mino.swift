@@ -10,26 +10,24 @@ extension Metris {
             switch shape {
             case .i:
                 return Self(
-                    width: 4,
-                    height: 1,
+                    size: SIMD2(4, 1),
                     pieces: [
-                        Piece(descriptor).placed(at: Field.Point(0, 0)),
-                        Piece(descriptor).placed(at: Field.Point(1, 0)),
-                        Piece(descriptor).placed(at: Field.Point(2, 0)),
-                        Piece(descriptor).placed(at: Field.Point(3, 0)),
+                        Piece(descriptor).placed(at: SIMD2(0, 0)),
+                        Piece(descriptor).placed(at: SIMD2(1, 0)),
+                        Piece(descriptor).placed(at: SIMD2(2, 0)),
+                        Piece(descriptor).placed(at: SIMD2(3, 0)),
                     ]
                 )
             }
         }
 
-        func place(on field: inout Field, at position: Field.Point) {
+        func place(on field: inout Field, at position: SIMD2<UInt>) {
             pieces.forEach { piece in
                 field.place(piece, at: position &+ piece.position)
             }
         }
 
-        let width: UInt
-        let height: UInt
+        let size: SIMD2<UInt>
         private var pieces: [Piece] = []
     }
 }

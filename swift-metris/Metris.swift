@@ -13,10 +13,13 @@ struct Metris {
     init(size: CGSize) {
         self.size = size
 
-        field = Field(width: 10, height: 20)
+        field = Field(size: SIMD2(10, 20))
 
         do {
-            let unit = min(size.width / CGFloat(field.width), size.height / CGFloat(field.height))
+            let unit = min(
+                size.width / CGFloat(field.size.x),
+                size.height / CGFloat(field.size.y)
+            )
             piece = Piece.Descriptor(
                 size: CGSize(width: unit, height: unit),
                 color: .random()
@@ -28,9 +31,9 @@ struct Metris {
         let mino = Mino.generate(.i, descriptor: piece.colorized(with: .random()))
         mino.place(
             on: &field,
-            at: Field.Point(
-                .random(in: 0..<field.width-(mino.width - 1)),
-                .random(in: 0..<field.height-(mino.height - 1))
+            at: SIMD2(
+                .random(in: 0..<field.size.x-(mino.size.x - 1)),
+                .random(in: 0..<field.size.y-(mino.size.y - 1))
             )
         )
     }
