@@ -4,19 +4,19 @@ import CoreGraphics
 
 extension Metris {
     struct Mino {
-        enum Shape {
-            case i
-        }
+        enum Shape { case i }
 
-        static func generate(_ shape: Shape, color: CGColor = .black()) -> Self {
+        static func generate(_ shape: Shape, descriptor: Piece.Descriptor) -> Self {
             switch shape {
             case .i:
                 return Self(
+                    width: 4,
+                    height: 1,
                     pieces: [
-                        Piece(color: color).placed(at: Field.Point(0, 0)),
-                        Piece(color: color).placed(at: Field.Point(1, 0)),
-                        Piece(color: color).placed(at: Field.Point(2, 0)),
-                        Piece(color: color).placed(at: Field.Point(3, 0)),
+                        Piece(descriptor).placed(at: Field.Point(0, 0)),
+                        Piece(descriptor).placed(at: Field.Point(1, 0)),
+                        Piece(descriptor).placed(at: Field.Point(2, 0)),
+                        Piece(descriptor).placed(at: Field.Point(3, 0)),
                     ]
                 )
             }
@@ -28,6 +28,8 @@ extension Metris {
             }
         }
 
-        var pieces: [Piece] = []
+        let width: UInt
+        let height: UInt
+        private var pieces: [Piece] = []
     }
 }

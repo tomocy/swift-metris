@@ -10,6 +10,31 @@ struct Metris {
         descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
     }
 
+    init(size: CGSize) {
+        self.size = size
+
+        field = Field(width: 10, height: 20)
+
+        do {
+            let unit = min(size.width / CGFloat(field.width), size.height / CGFloat(field.height))
+            piece = Piece.Descriptor(
+                size: CGSize(width: unit, height: unit),
+                color: .random()
+            )
+        }
+    }
+
+    mutating func process() {
+        let mino = Mino.generate(.i, descriptor: piece.colorized(with: .random()))
+        mino.place(
+            on: &field,
+            at: Field.Point(
+                .random(in: 0..<field.width-(mino.width - 1)),
+                .random(in: 0..<field.height-(mino.height - 1))
+            )
+        )
+    }
+
     func encode(with encoder: MTLRenderCommandEncoder) {
         do {
             let camera = Camera(
@@ -25,11 +50,6 @@ struct Metris {
         }
 
         do {
-            var field = Field(width: 5, height: 8)
-
-            let mino = Mino.generate(.i, color: .random())
-            mino.place(on: &field, at: Field.Point(0, 7))
-
             var primitive = IndexedPrimitive()
             field.append(to: &primitive)
             primitive.encode(with: encoder, at: 1)
@@ -37,4 +57,6 @@ struct Metris {
     }
 
     let size: CGSize
+    var field: Field
+    let piece: Piece.Descriptor
 }

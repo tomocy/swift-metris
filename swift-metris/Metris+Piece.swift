@@ -4,11 +4,11 @@ import CoreGraphics
 
 extension Metris {
     struct Piece {
-        init(color: CGColor = .black(), position: Field.Point = Field.Point(0, 0)) {
+        init(_ descriptor: Descriptor, position: Field.Point = Field.Point(0, 0)) {
             body = Rectangle(
-                size: CGSize(width: 94, height: 94),
-                color: color,
-                transform: Transform2D()
+                size: descriptor.size,
+                color: descriptor.color,
+                transform: Transform2D().scaled(with: SIMD2(0.94, 0.94))
             )
 
             self.position = position
@@ -25,13 +25,38 @@ extension Metris {
         }
 
         func append(to primitive: inout IndexedPrimitive) {
-            var body = body
-            body.transform.translate(with: SIMD2(Float(100 * position.x) + 50, Float(100 * position.y) + 50))
+            var target = body
 
-            body.append(to: &primitive)
+            target.transform.translate(
+                with: SIMD2(
+                    Float(target.size.width) * Float(position.x) + Float(target.size.width) / 2,
+                    Float(target.size.height) * Float(position.y) + Float(target.size.height) / 2
+                )
+            )
+
+            target.append(to: &primitive)
         }
 
-        var body: Rectangle
+        private var body: Rectangle
         var position: Field.Point = Field.Point(0, 0)
+    }
+}
+
+extension Metris.Piece {
+    struct Descriptor {
+        func resized(with size: CGSize) -> Self {
+            var x = self
+            x.size = size
+            return x
+        }
+
+        func colorized(with color: CGColor) -> Self {
+            var x = self
+            x.color = color
+            return x
+        }
+
+        var size: CGSize
+        var color: CGColor
     }
 }

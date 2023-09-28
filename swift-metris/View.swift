@@ -14,6 +14,8 @@ class View : MTKView, MTKViewDelegate {
         pipeline = makePipeline()
 
         clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+
+        metris = Metris(size: frame.size)
     }
 
     required init(coder: NSCoder) {
@@ -39,8 +41,8 @@ class View : MTKView, MTKViewDelegate {
         encoder.setRenderPipelineState(pipeline!)
 
         do {
-            let metris = Metris(size: frame.size)
-            metris.encode(with: encoder)
+            metris!.process()
+            metris!.encode(with: encoder)
         }
 
         encoder.endEncoding()
@@ -51,6 +53,8 @@ class View : MTKView, MTKViewDelegate {
 
     private var commandQueue: MTLCommandQueue?
     private var pipeline: MTLRenderPipelineState?
+
+    private var metris: Metris?
 }
 
 

@@ -6,7 +6,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("AppDelegate: Finished launching")
 
-        window = Window(contentRect: NSRect(x: 0, y: 0, width: 500, height: 800))
+        window = Window(contentRect: NSRect(x: 0, y: 0, width: 400, height: 800))
 
         window!.makeKeyAndOrderFront(notification)
         window!.center()
