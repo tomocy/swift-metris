@@ -9,7 +9,7 @@ class Window : NSWindow {
             styleMask: [.titled, .miniaturizable, .closable],
             backing: .buffered,
             defer: false
-        );
+        )
 
         title = "swift metris"
         contentView = View(frame: contentRect)

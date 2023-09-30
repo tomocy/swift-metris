@@ -3,6 +3,10 @@
 import Metal
 
 struct Metris {
+    struct Descriptor {
+        var piece: Piece.Descriptor
+    }
+
     static func describe(to descriptor: MTLRenderPipelineDescriptor, with device: MTLDevice) {
         let lib = device.makeDefaultLibrary()!
 
@@ -20,22 +24,42 @@ struct Metris {
                 size.width / CGFloat(field.size.x),
                 size.height / CGFloat(field.size.y)
             )
-            piece = Piece.Descriptor(
-                size: CGSize(width: unit, height: unit),
-                color: .random()
+            descriptor = Descriptor(
+                piece: Piece.Descriptor(
+                    size: CGSize(width: unit, height: unit),
+                    color: .random()
+                )
             )
         }
     }
 
     mutating func process() {
-        let mino = Mino.generate(.i, descriptor: piece.colorized(with: .random()))
-        mino.place(
-            on: &field,
-            at: SIMD2(
-                .random(in: 0..<field.size.x-(mino.size.x - 1)),
-                .random(in: 0..<field.size.y-(mino.size.y - 1))
+        defer { frames = (frames + 1) % 60 }
+
+        if frames == 0 {
+            currentMino = Mino.generate(
+                .i,
+                descriptor: descriptor.piece.colorized(with: .random())
             )
-        )
+
+            let positionRange = field.positionRange(for: currentMino!.size)
+            currentMino!.position = SIMD2(
+                .random(in: positionRange.x),
+                .random(in: positionRange.y)
+            )
+            currentMino!.place(on: &field)
+            return
+        }
+
+        if let mino = currentMino, frames % 10 == 0 {
+            mino.clear(on: &field)
+
+            let delta: SIMD2<Int> = [SIMD2<Int>(0, -1), SIMD2<Int>(-1, 0), SIMD2<Int>(1, 0)].randomElement()!
+            let range = field.positionRange(for: mino.size)
+            currentMino!.position = mino.position.added(delta, in: range)
+
+            currentMino!.place(on: &field)
+        }
     }
 
     func encode(with encoder: MTLRenderCommandEncoder) {
@@ -60,6 +84,9 @@ struct Metris {
     }
 
     let size: CGSize
+    let descriptor: Descriptor
+
     var field: Field
-    let piece: Piece.Descriptor
+    var frames: UInt = 0
+    var currentMino: Mino? = nil
 }

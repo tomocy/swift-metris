@@ -26,6 +26,13 @@ extension Metris {
             return pieces[i]
         }
 
+        func positionRange(for size: SIMD2<UInt>) -> Vector2D<Range<UInt>> {
+            return Vector2D(
+                x: 0..<self.size.x - size.x + 1,
+                y: 0..<self.size.y - size.y + 1
+            )
+        }
+
         mutating func place(_ piece: Piece?, at position: SIMD2<UInt>) {
             let i = index(at: position)
             pieces[i] = piece?.placed(at: position)

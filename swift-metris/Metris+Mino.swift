@@ -6,7 +6,7 @@ extension Metris {
     struct Mino {
         enum Shape { case i }
 
-        static func generate(_ shape: Shape, descriptor: Piece.Descriptor) -> Self {
+        static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<UInt> = SIMD2(0, 0)) -> Self {
             switch shape {
             case .i:
                 return Self(
@@ -16,18 +16,27 @@ extension Metris {
                         Piece(descriptor).placed(at: SIMD2(1, 0)),
                         Piece(descriptor).placed(at: SIMD2(2, 0)),
                         Piece(descriptor).placed(at: SIMD2(3, 0)),
-                    ]
+                    ],
+                    position: position
                 )
             }
         }
 
-        func place(on field: inout Field, at position: SIMD2<UInt>) {
+        func place(on field: inout Field) {
             pieces.forEach { piece in
                 field.place(piece, at: position &+ piece.position)
             }
         }
 
+        func clear(on field: inout Field) {
+            pieces.forEach { piece in
+                field.place(nil, at: position &+ piece.position)
+            }
+        }
+
         let size: SIMD2<UInt>
-        private var pieces: [Piece] = []
+        private var pieces: [Piece]
+
+        var position: SIMD2<UInt> = SIMD2(0, 0)
     }
 }

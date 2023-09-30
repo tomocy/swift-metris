@@ -11,25 +11,23 @@ class View : MTKView, MTKViewDelegate {
 
         delegate = self
         commandQueue = device!.makeCommandQueue()!
-        pipeline = makePipeline()
+        pipeline = makePipeline()!
 
         clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
 
         metris = Metris(size: frame.size)
     }
 
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init(coder: NSCoder) { super.init(coder: coder) }
 
-    private func makePipeline() -> MTLRenderPipelineState {
+    private func makePipeline() -> MTLRenderPipelineState? {
         let desc = MTLRenderPipelineDescriptor()
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
         Metris.describe(to: desc, with: device!)
 
-        return try! device!.makeRenderPipelineState(descriptor: desc)
+        return try? device!.makeRenderPipelineState(descriptor: desc)
     }
 
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
