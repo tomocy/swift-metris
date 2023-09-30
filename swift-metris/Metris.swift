@@ -31,34 +31,16 @@ struct Metris {
                 )
             )
         }
-    }
 
-    mutating func process() {
-        defer { frames = (frames + 1) % 60 }
-
-        if frames == 0 {
-            currentMino = Mino.generate(
-                .i,
-                descriptor: descriptor.piece.colorized(with: .random())
-            )
-
-            let positionRange = field.positionRange(for: currentMino!.size)
-            currentMino!.position = SIMD2(
-                .random(in: positionRange.x),
-                .random(in: positionRange.y)
-            )
-            currentMino!.place(on: &field)
-            return
-        }
-
-        if let mino = currentMino, frames % 10 == 0 {
-            mino.clear(on: &field)
-
-            let delta: SIMD2<Int> = [SIMD2<Int>(0, -1), SIMD2<Int>(-1, 0), SIMD2<Int>(1, 0)].randomElement()!
+        do {
+            var mino = Mino.generate(.i, descriptor: descriptor.piece)
             let range = field.positionRange(for: mino.size)
-            currentMino!.position = mino.position.added(delta, in: range)
+            mino.position = SIMD2(
+                .random(in: range.x),
+                range.y.last!
+            )
 
-            currentMino!.place(on: &field)
+            place(mino: mino)
         }
     }
 
@@ -83,10 +65,33 @@ struct Metris {
         }
     }
 
+    mutating func moveMino(by delta: SIMD2<Int>) {
+        guard var mino = currentMino else { return }
+
+        var nextField = field
+        mino.clear(on: &nextField)
+
+        mino.position = mino.position.added(
+            delta,
+            in: field.positionRange(for: mino.size)
+        )
+        if mino.collides(on: nextField) {
+            return
+        }
+
+        place(mino: mino)
+    }
+
+    mutating func place(mino: Mino) {
+        currentMino?.clear(on: &field)
+
+        mino.place(on: &field)
+        currentMino = mino
+    }
+
     let size: CGSize
     let descriptor: Descriptor
 
     var field: Field
-    var frames: UInt = 0
     var currentMino: Mino? = nil
 }

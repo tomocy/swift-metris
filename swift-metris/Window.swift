@@ -13,6 +13,7 @@ class Window : NSWindow {
 
         title = "swift metris"
         contentView = View(frame: contentRect)
+        makeFirstResponder(contentView)
 
         NSLog("Window: Initialized")
         NSLog("Window: Frame: \(frame)")

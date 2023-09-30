@@ -22,15 +22,27 @@ extension Metris {
             }
         }
 
+        func position(of piece: Piece) -> SIMD2<UInt> { position &+ piece.position }
+
+        func collides(on field: Field) -> Bool {
+            !pieces.allSatisfy { piece in
+                field.at(position(of: piece)) == nil
+            }
+        }
+
         func place(on field: inout Field) {
+            if collides(on: field) {
+                return
+            }
+
             pieces.forEach { piece in
-                field.place(piece, at: position &+ piece.position)
+                field.place(piece, at: position(of: piece))
             }
         }
 
         func clear(on field: inout Field) {
             pieces.forEach { piece in
-                field.place(nil, at: position &+ piece.position)
+                field.place(nil, at: position(of: piece))
             }
         }
 
