@@ -60,8 +60,8 @@ class View : MTKView, MTKViewDelegate {
         let command = chars.first!.lowercased()
 
         do {
-            let delta = ({ (char: String) -> SIMD2<Int> in
-                switch char {
+            let delta = ({ (command: String) -> SIMD2<Int> in
+                switch command {
                 case "s":
                     return SIMD2(0, -1)
                 case "a":

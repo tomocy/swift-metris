@@ -32,12 +32,22 @@ struct Metris {
             )
         }
 
+        camera = Camera(
+            projection: Transform2D.orthogonal(
+                top: Float(size.height), bottom: 0,
+                left: 0, right: Float(size.width)
+            ),
+            transform: Transform2D(
+                translate: SIMD2(0, 0)
+            )
+        )
+
         do {
             var mino = Mino.generate(.i, descriptor: descriptor.piece)
             let range = field.positionRange(for: mino.size)
             mino.position = SIMD2(
                 .random(in: range.x),
-                range.y.last!
+                range.y.upperBound
             )
 
             place(mino: mino)
@@ -45,18 +55,7 @@ struct Metris {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder) {
-        do {
-            let camera = Camera(
-                projection: Transform2D.orthogonal(
-                    top: Float(size.height), bottom: 0,
-                    left: 0, right: Float(size.width)
-                ),
-                transform: Transform2D(
-                    translate: SIMD2(0, 0)
-                )
-            )
-            camera.encode(with: encoder, at: 0)
-        }
+        camera.encode(with: encoder, at: 0)
 
         do {
             var primitive = IndexedPrimitive()
@@ -100,6 +99,8 @@ struct Metris {
 
     let size: CGSize
     let descriptor: Descriptor
+
+    var camera: Camera
 
     var field: Field
     var currentMino: Mino? = nil
