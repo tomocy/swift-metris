@@ -68,10 +68,22 @@ struct Metris {
     mutating func moveMino(by delta: SIMD2<Int>) {
         guard var mino = currentMino else { return }
 
-        var nextField = field
-        mino.clear(on: &nextField)
+        let nextField = field.cleared(mino: mino)
 
         mino.position &+= delta
+        if mino.collides(on: nextField) {
+            return
+        }
+
+        place(mino: mino)
+    }
+
+    mutating func rotateMino() {
+        guard var mino = currentMino else { return }
+
+        let nextField = field.cleared(mino: mino)
+
+        mino.rotate()
         if mino.collides(on: nextField) {
             return
         }

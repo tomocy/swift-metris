@@ -23,6 +23,18 @@ extension Metris {
 
         func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
 
+        mutating func rotate() {
+            let (sin, cos) = (/* sin(degree: 90) */ 1, /* cos(degree: 90) */ 0)
+
+            for (i, piece) in pieces.enumerated() {
+                let local = piece.position
+                pieces[i].position = SIMD2(
+                    local.x * cos - local.y * sin,
+                    local.x * sin + local.y * cos
+                )
+            }
+        }
+
         func collides(on field: Field) -> Bool {
             pieces.contains(where: { piece in
                 field.collides(piece, at: position(of: piece))

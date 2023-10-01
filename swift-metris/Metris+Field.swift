@@ -52,6 +52,16 @@ extension Metris {
             pieces[i] = piece?.placed(at: position)
         }
 
+        mutating func clear(mino: Mino) {
+            mino.clear(on: &self)
+        }
+
+        func cleared(mino: Mino) -> Self {
+            var x = self
+            x.clear(mino: mino)
+            return x
+        }
+
         func append(to primitive: inout IndexedPrimitive) {
             pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
         }

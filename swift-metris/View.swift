@@ -57,20 +57,28 @@ class View : MTKView, MTKViewDelegate {
             return
         }
 
-        let delta = ({ (char: String) -> SIMD2<Int> in
-            switch char {
-            case "s":
-                return SIMD2(0, -1)
-            case "a":
-                return SIMD2(-1, 0)
-            case "d":
-                return SIMD2(1, 0)
-            default:
-                return SIMD2(0, 0)
-            }
-        })(chars.first!.lowercased())
+        let command = chars.first!.lowercased()
 
-        metris!.moveMino(by: delta)
+        do {
+            let delta = ({ (char: String) -> SIMD2<Int> in
+                switch char {
+                case "s":
+                    return SIMD2(0, -1)
+                case "a":
+                    return SIMD2(-1, 0)
+                case "d":
+                    return SIMD2(1, 0)
+                default:
+                    return SIMD2(0, 0)
+                }
+            })(command)
+
+            metris!.moveMino(by: delta)
+        }
+
+        if command == "f" {
+            metris!.rotateMino()
+        }
     }
 
     private var commandQueue: MTLCommandQueue?
