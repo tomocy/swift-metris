@@ -10,7 +10,6 @@ extension Metris {
             switch shape {
             case .i:
                 return Self(
-                    size: SIMD2(4, 1),
                     pieces: [
                         Piece(descriptor).placed(at: SIMD2(0, 0)),
                         Piece(descriptor).placed(at: SIMD2(1, 0)),
@@ -46,7 +45,24 @@ extension Metris {
             }
         }
 
-        let size: SIMD2<UInt>
+        // O(pieces)
+        var size: SIMD2<UInt> {
+            let (min, max) = pieces.reduce((
+                min: SIMD2(0, 0),
+                max: SIMD2(0, 0)
+            )) { current, piece in
+                return (
+                    current.min.min(piece.position),
+                    current.max.max(piece.position)
+                )
+            }
+
+            let size = SIMD2(max.x - min.x + 1, max.y - min.y + 1)
+            assert(size.x >= 0 && size.y >= 0)
+
+            return SIMD2(size)
+        }
+
         private var pieces: [Piece]
 
         var position: SIMD2<Int> = SIMD2(0, 0)
