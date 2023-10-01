@@ -9,21 +9,8 @@ extension Metris {
             pieces = .init(repeating: nil, count: Int(size.x * size.y))
         }
 
-        func index(at position: SIMD2<Int>) -> Int {
-            index(x: position.x, y: position.y)
-        }
-
-        func index(x: Int, y: Int) -> Int {
-            Int(y * Int(size.x) + x)
-        }
-
-        func at(_ position: SIMD2<Int>) -> Piece? {
-            at(x: position.x, y: position.y)
-        }
-
-        func at(x: Int, y: Int) -> Piece? {
-            let i = index(x: x, y: y)
-            return pieces[i]
+        var positionRange: Vector2D<ClosedRange<Int>> {
+            positionRange(for: SIMD2(1, 1))
         }
 
         func positionRange(for size: SIMD2<UInt>) -> Vector2D<ClosedRange<Int>> {
@@ -33,8 +20,35 @@ extension Metris {
             )
         }
 
+        func contains(position: SIMD2<Int>) -> Bool {
+            positionRange.x.contains(position.x) && positionRange.y.contains(position.y)
+        }
+
+        func index(at position: SIMD2<Int>) -> Int? {
+            contains(position: position)
+                ? Int(position.y * Int(size.x) + position.x)
+                : nil
+        }
+
+        func index(x: Int, y: Int) -> Int? {
+            index(at: SIMD2(x, y))
+        }
+
+        func at(_ position: SIMD2<Int>) -> Piece? {
+            guard let i = index(at: position) else { return nil }
+            return pieces[i]
+        }
+
+        func at(x: Int, y: Int) -> Piece? {
+            at(SIMD2(x, y))
+        }
+
+        func collides(_ piece: Piece?, at position: SIMD2<Int>) -> Bool {
+            !contains(position: position) || at(position) != nil
+        }
+
         mutating func place(_ piece: Piece?, at position: SIMD2<Int>) {
-            let i = index(at: position)
+            guard let i = index(at: position) else { return }
             pieces[i] = piece?.placed(at: position)
         }
 

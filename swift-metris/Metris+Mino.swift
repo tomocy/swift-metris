@@ -24,9 +24,9 @@ extension Metris {
         func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
 
         func collides(on field: Field) -> Bool {
-            !pieces.allSatisfy { piece in
-                field.at(position(of: piece)) == nil
-            }
+            pieces.contains(where: { piece in
+                field.collides(piece, at: position(of: piece))
+            })
         }
 
         func place(on field: inout Field) {

@@ -72,11 +72,6 @@ struct Metris {
         mino.clear(on: &nextField)
 
         mino.position &+= delta
-        let range = field.positionRange(for: mino.size)
-        mino.position = mino.position.clamped(
-            lowerBound: SIMD2(range.x.lowerBound, range.y.lowerBound),
-            upperBound: SIMD2(range.x.upperBound, range.y.upperBound)
-        )
         if mino.collides(on: nextField) {
             return
         }
