@@ -8,24 +8,6 @@ extension Comparable {
     }
 }
 
-extension UInt {
-    func added(_ other: Int, in range: Range<Self>) -> Self {
-        assert(self <= Int.max)
-
-        let clamped = Int(self).clamped(in: Int(range.first!)-other...Int(range.last!)-other)
-        return Self(clamped + other)
-    }
-}
-
-extension SIMD2<UInt> {
-    func added(_ other: SIMD2<Int>, in range: Vector2D<Range<Self.Scalar>>) -> Self {
-        Self(
-            self.x.added(other.x, in: range.x),
-            self.y.added(other.y, in: range.y)
-        )
-    }
-}
-
 extension SIMD2<Float> {
     init(_ size: CGSize) {
         self.init()

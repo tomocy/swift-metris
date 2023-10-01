@@ -6,7 +6,7 @@ extension Metris {
     struct Mino {
         enum Shape { case i }
 
-        static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<UInt> = SIMD2(0, 0)) -> Self {
+        static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<Int> = SIMD2(0, 0)) -> Self {
             switch shape {
             case .i:
                 return Self(
@@ -22,7 +22,7 @@ extension Metris {
             }
         }
 
-        func position(of piece: Piece) -> SIMD2<UInt> { position &+ piece.position }
+        func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
 
         func collides(on field: Field) -> Bool {
             !pieces.allSatisfy { piece in
@@ -49,6 +49,6 @@ extension Metris {
         let size: SIMD2<UInt>
         private var pieces: [Piece]
 
-        var position: SIMD2<UInt> = SIMD2(0, 0)
+        var position: SIMD2<Int> = SIMD2(0, 0)
     }
 }
