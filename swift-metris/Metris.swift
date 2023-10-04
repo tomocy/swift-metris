@@ -1,8 +1,9 @@
 // tomocy
 
+import Foundation
 import Metal
 
-struct Metris {
+class Metris {
     struct Descriptor {
         var piece: Piece.Descriptor
     }
@@ -32,6 +33,8 @@ struct Metris {
             )
         }
 
+        ticker = Ticker(interval: 1.0)
+
         camera = Camera(
             projection: Transform2D.orthogonal(
                 top: Float(size.height), bottom: 0,
@@ -54,6 +57,10 @@ struct Metris {
         }
     }
 
+    deinit {
+        stop()
+    }
+
     func encode(with encoder: MTLRenderCommandEncoder) {
         camera.encode(with: encoder, at: 0)
 
@@ -64,7 +71,22 @@ struct Metris {
         }
     }
 
-    mutating func moveMino(by delta: SIMD2<Int>) {
+    func start() {
+        ticker.start { [weak self] in
+            guard let self = self else { return }
+            self.commit()
+        }
+    }
+
+    func stop() {
+        ticker.stop()
+    }
+
+    func commit() {
+        moveMino(by: SIMD2(0, -1))
+    }
+
+    func moveMino(by delta: SIMD2<Int>) {
         guard var mino = currentMino else { return }
 
         let nextField = field.cleared(mino: mino)
@@ -77,7 +99,7 @@ struct Metris {
         place(mino: mino)
     }
 
-    mutating func rotateMino() {
+    func rotateMino() {
         guard var mino = currentMino else { return }
 
         let nextField = field.cleared(mino: mino)
@@ -90,7 +112,7 @@ struct Metris {
         place(mino: mino)
     }
 
-    mutating func place(mino: Mino) {
+    func place(mino: Mino) {
         currentMino?.clear(on: &field)
 
         mino.place(on: &field)
@@ -100,8 +122,10 @@ struct Metris {
     let size: CGSize
     let descriptor: Descriptor
 
+    var ticker: Ticker
+
     var camera: Camera
 
     var field: Field
-    var currentMino: Mino? = nil
+    var currentMino: Mino?
 }

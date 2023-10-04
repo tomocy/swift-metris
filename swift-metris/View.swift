@@ -16,6 +16,7 @@ class View : MTKView, MTKViewDelegate {
         pipeline = makePipeline()!
 
         metris = Metris(size: frame.size)
+        metris!.start()
     }
 
     required init(coder: NSCoder) { super.init(coder: coder) }
