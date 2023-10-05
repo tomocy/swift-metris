@@ -61,24 +61,27 @@ class View : MTKView, MTKViewDelegate {
         let command = chars.first!.lowercased()
 
         do {
-            let delta = ({ (command: String) -> SIMD2<Int> in
+            let input = ({ (command: String) -> Metris.Input.Move? in
                 switch command {
                 case "s":
-                    return SIMD2(0, -1)
+                    return .down()
                 case "a":
-                    return SIMD2(-1, 0)
+                    return .left()
                 case "d":
-                    return SIMD2(1, 0)
+                    return .right()
                 default:
-                    return SIMD2(0, 0)
+                    return nil
                 }
             })(command)
 
-            metris!.moveMino(by: delta)
+            if let input = input {
+                metris!.process(input: input)
+                return
+            }
         }
 
         if command == "f" {
-            metris!.rotateMino()
+            metris!.process(input: Metris.Input.Rotate())
         }
     }
 
