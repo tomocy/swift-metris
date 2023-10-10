@@ -11,7 +11,7 @@ class Metris {
     init(size: CGSize) {
         self.size = size
 
-        ticker = Ticker(interval: 1.0)
+        ticker = Ticker(interval: 0.875)
 
         camera = Camera(
             projection: Transform2D.orthogonal(
@@ -62,6 +62,8 @@ extension Metris {
             guard let self = self else { return }
             self.commit()
         }
+
+        commit()
     }
 
     func stop() {
@@ -73,6 +75,8 @@ extension Metris {
         if placed {
             return
         }
+
+        field.clearLines()
 
         _ = spawnMino()
     }

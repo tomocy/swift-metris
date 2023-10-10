@@ -11,10 +11,10 @@ extension Metris {
             case .i:
                 return Self(
                     pieces: [
+                        Piece(descriptor).placed(at: SIMD2(-1, 0)),
                         Piece(descriptor).placed(at: SIMD2(0, 0)),
                         Piece(descriptor).placed(at: SIMD2(1, 0)),
                         Piece(descriptor).placed(at: SIMD2(2, 0)),
-                        Piece(descriptor).placed(at: SIMD2(3, 0)),
                     ],
                     position: position
                 )
@@ -42,7 +42,7 @@ extension Metris {
         }
 
         mutating func rotate() {
-            let (sin, cos) = (/* sin(degree: 90) */ 1, /* cos(degree: 90) */ 0)
+            let (sin, cos) = (/* sin(degree: -90) */ -1, /* cos(degree: -90) */ 0)
 
             for (i, piece) in pieces.enumerated() {
                 let local = piece.position
