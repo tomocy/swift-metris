@@ -70,8 +70,8 @@ extension Metris {
         ticker.stop()
     }
 
-    func commit() {
-        process(input: Input.Move.down())
+    private func commit() {
+        process(input: Input.Move.down)
     }
 
     private func spawnMino() {
@@ -94,10 +94,14 @@ extension Metris {
 }
 
 extension Metris.Input {
-    struct Move {
-        static func down() -> Self { Self(delta: SIMD2(0, -1)) }
-        static func left() -> Self { Self(delta: SIMD2(-1, 0)) }
-        static func right() -> Self { Self(delta: SIMD2(1, 0)) }
+    struct Move : Equatable {
+        static var down: Self { Self(delta: SIMD2(0, -1)) }
+        static var left: Self { Self(delta: SIMD2(-1, 0)) }
+        static var right: Self { Self(delta: SIMD2(1, 0)) }
+
+        static func ==(left: Self, right: Self) -> Bool {
+            return left.delta == right.delta
+        }
 
         private init(delta: SIMD2<Int>) {
             self.delta = delta

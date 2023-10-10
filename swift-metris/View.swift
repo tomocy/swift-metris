@@ -64,11 +64,11 @@ class View : MTKView, MTKViewDelegate {
             let input = ({ (command: String) -> Metris.Input.Move? in
                 switch command {
                 case "s":
-                    return .down()
+                    return .down
                 case "a":
-                    return .left()
+                    return .left
                 case "d":
-                    return .right()
+                    return .right
                 default:
                     return nil
                 }
