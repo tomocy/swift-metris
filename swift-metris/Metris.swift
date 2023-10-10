@@ -82,11 +82,11 @@ extension Metris {
             .i,
             descriptor: descriptor.piece.colorized(with: .random())
         )
-        let range = field.positionRange(for: mino.size)
-        mino.position = SIMD2(
-            .random(in: range.x),
-            range.y.upperBound
-        )
+
+        do {
+            let range = field.positionRange(for: mino.size)
+            mino.position = SIMD2(.random(in: range.x), range.y.upperBound)
+        }
 
         currentMino = nil
         return place(mino: mino)
@@ -128,10 +128,10 @@ extension Metris.Input {
 
 extension Metris {
     func process(input: Input.Move) -> Bool {
-        guard var mino = currentMino else { return false }
-
-        mino.position &+= input.delta
-        return place(mino: mino)
+        guard let mino = currentMino else { return false }
+        return place(
+            mino: mino.positioned(by: input.delta)
+        )
     }
 }
 
@@ -141,10 +141,10 @@ extension Metris.Input {
 
 extension Metris {
     func process(input: Input.Rotate) -> Bool {
-        guard var mino = currentMino else { return false }
-
-        mino.rotate()
-        return place(mino: mino)
+        guard let mino = currentMino else { return false }
+        return place(
+            mino: mino.rotated()
+        )
     }
 }
 

@@ -21,7 +21,25 @@ extension Metris {
             }
         }
 
-        func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
+        mutating func position(at position: SIMD2<Int>) {
+            self.position = position
+        }
+
+        func positioned(at position: SIMD2<Int>) -> Self {
+            var x = self
+            x.position(at: position)
+            return x
+        }
+
+        mutating func position(by delta: SIMD2<Int>) {
+            position &+= delta
+        }
+
+        func positioned(by delta: SIMD2<Int>) -> Self {
+            var x = self
+            x.position(by: delta)
+            return x
+        }
 
         mutating func rotate() {
             let (sin, cos) = (/* sin(degree: 90) */ 1, /* cos(degree: 90) */ 0)
@@ -34,6 +52,14 @@ extension Metris {
                 )
             }
         }
+
+        func rotated() -> Self {
+            var x = self
+            x.rotate()
+            return x
+        }
+
+        func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
 
         func collides(on field: Field) -> Bool {
             pieces.contains(where: { piece in
