@@ -62,8 +62,6 @@ extension Metris {
             guard let self = self else { return }
             self.commit()
         }
-
-        spawnMino()
     }
 
     func stop() {
@@ -71,18 +69,27 @@ extension Metris {
     }
 
     private func commit() {
-        _ = process(input: Input.Move.down)
+        let placed = process(input: Input.Move.down)
+        if placed {
+            return
+        }
+
+        _ = spawnMino()
     }
 
-    private func spawnMino() {
-        var mino = Mino.generate(.i, descriptor: descriptor.piece)
+    private func spawnMino() -> Bool {
+        var mino = Mino.generate(
+            .i,
+            descriptor: descriptor.piece.colorized(with: .random())
+        )
         let range = field.positionRange(for: mino.size)
         mino.position = SIMD2(
             .random(in: range.x),
             range.y.upperBound
         )
 
-        _ = place(mino: mino)
+        currentMino = nil
+        return place(mino: mino)
     }
 
     private func place(mino: Mino) -> Bool {
