@@ -75,13 +75,13 @@ class View : MTKView, MTKViewDelegate {
             })(command)
 
             if let input = input {
-                metris!.process(input: input)
+                _ = metris!.process(input: input)
                 return
             }
         }
 
         if command == "f" {
-            metris!.process(input: Metris.Input.Rotate())
+            _ = metris!.process(input: Metris.Input.Rotate())
         }
     }
 

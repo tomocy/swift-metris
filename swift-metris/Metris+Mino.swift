@@ -41,14 +41,15 @@ extension Metris {
             })
         }
 
-        func place(on field: inout Field) {
+        func place(on field: inout Field) -> Bool {
             if collides(on: field) {
-                return
+                return false
             }
 
             pieces.forEach { piece in
                 field.place(piece, at: position(of: piece))
             }
+            return true
         }
 
         func clear(on field: inout Field) {

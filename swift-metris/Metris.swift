@@ -71,7 +71,7 @@ extension Metris {
     }
 
     private func commit() {
-        process(input: Input.Move.down)
+        _ = process(input: Input.Move.down)
     }
 
     private func spawnMino() {
@@ -82,14 +82,22 @@ extension Metris {
             range.y.upperBound
         )
 
-        place(mino: mino)
+        _ = place(mino: mino)
     }
 
-    private func place(mino: Mino) {
-        currentMino?.clear(on: &field)
+    private func place(mino: Mino) -> Bool {
+        var nextField = field
+        currentMino?.clear(on: &nextField)
 
-        mino.place(on: &field)
+        let placed = mino.place(on: &nextField)
+        if !placed {
+            return false
+        }
+
+        field = nextField
         currentMino = mino
+
+        return true
     }
 }
 
@@ -112,17 +120,11 @@ extension Metris.Input {
 }
 
 extension Metris {
-    func process(input: Input.Move) {
-        guard var mino = currentMino else { return }
-
-        let nextField = field.cleared(mino: mino)
+    func process(input: Input.Move) -> Bool {
+        guard var mino = currentMino else { return false }
 
         mino.position &+= input.delta
-        if mino.collides(on: nextField) {
-            return
-        }
-
-        place(mino: mino)
+        return place(mino: mino)
     }
 }
 
@@ -131,17 +133,11 @@ extension Metris.Input {
 }
 
 extension Metris {
-    func process(input: Input.Rotate) {
-        guard var mino = currentMino else { return }
-
-        let nextField = field.cleared(mino: mino)
+    func process(input: Input.Rotate) -> Bool {
+        guard var mino = currentMino else { return false }
 
         mino.rotate()
-        if mino.collides(on: nextField) {
-            return
-        }
-
-        place(mino: mino)
+        return place(mino: mino)
     }
 }
 
