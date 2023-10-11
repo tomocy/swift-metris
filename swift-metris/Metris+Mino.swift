@@ -4,23 +4,6 @@ import CoreGraphics
 
 extension Metris {
     struct Mino {
-        enum Shape { case i }
-
-        static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<Int> = SIMD2(0, 0)) -> Self {
-            switch shape {
-            case .i:
-                return Self(
-                    pieces: [
-                        Piece(descriptor).placed(at: SIMD2(-1, 0)),
-                        Piece(descriptor).placed(at: SIMD2(0, 0)),
-                        Piece(descriptor).placed(at: SIMD2(1, 0)),
-                        Piece(descriptor).placed(at: SIMD2(2, 0)),
-                    ],
-                    position: position
-                )
-            }
-        }
-
         mutating func position(at position: SIMD2<Int>) {
             self.position = position
         }
@@ -105,5 +88,95 @@ extension Metris {
         private var pieces: [Piece]
 
         var position: SIMD2<Int> = SIMD2(0, 0)
+    }
+}
+
+extension Metris.Mino {
+    enum Shape : CaseIterable {
+        case i, j, l, o, s, t, z
+
+        static func random() -> Self {
+            var generator = SystemRandomNumberGenerator()
+            return .random(using: &generator)
+        }
+
+        static func random<Generator: RandomNumberGenerator>(using generator: inout Generator) -> Self {
+            .allCases.randomElement(using: &generator)!
+        }
+    }
+}
+
+extension Metris.Mino {
+    typealias Piece = Metris.Piece
+
+    static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<Int> = SIMD2(0, 0)) -> Self {
+        switch shape {
+        case .i:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                    Piece(descriptor).placed(at: SIMD2(2, 0)),
+                ],
+                position: position
+            )
+        case .j:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(0, 2)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
+                ],
+                position: position
+            )
+        case .l:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(0, 2)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                ],
+                position: position
+            )
+        case .o:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(1, 1)),
+                ]
+            )
+        case .s:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(1, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
+                ]
+            )
+        case .t:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(-1, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(1, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                ]
+            )
+        case .z:
+            return Self(
+                pieces: [
+                    Piece(descriptor).placed(at: SIMD2(-1, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                ]
+            )
+        }
     }
 }
