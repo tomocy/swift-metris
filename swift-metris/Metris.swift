@@ -1,6 +1,5 @@
 // tomocy
 
-import Foundation
 import Metal
 
 class Metris {
@@ -88,7 +87,7 @@ extension Metris {
         )
 
         do {
-            let range = field.positionRange(for: mino.size)
+            let range = field.positionRange(for: mino.boundary)
             mino.position = SIMD2(.random(in: range.x), range.y.upperBound)
         }
 

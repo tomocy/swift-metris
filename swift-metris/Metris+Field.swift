@@ -1,7 +1,5 @@
 // tomocy
 
-import Foundation
-
 extension Metris {
     struct Field {
         init(size: SIMD2<UInt>) {
@@ -16,14 +14,28 @@ extension Metris {
 
 extension Metris.Field {
     var positionRange: Vector2D<ClosedRange<Int>> {
-        positionRange(for: SIMD2(1, 1))
+        positionRange(for: Vector2D(x: 0...0, y: 0...0))
     }
 
-    func positionRange(for size: SIMD2<UInt>) -> Vector2D<ClosedRange<Int>> {
-        return Vector2D(
-            x: 0...Int(self.size.x - size.x),
-            y: 0...Int(self.size.y - size.y)
-        )
+    func positionRange(for boundary: Vector2D<ClosedRange<Int>>) -> Vector2D<ClosedRange<Int>> {
+        assert(boundary.x.lowerBound <= 0 && boundary.x.upperBound >= 0)
+        assert(boundary.y.lowerBound <= 0 && boundary.y.upperBound >= 0)
+
+        var x: ClosedRange<Int>
+        do {
+            let lower = 0 + abs(boundary.x.lowerBound)
+            let upper = Int(size.x) - 1 - boundary.x.upperBound
+            x = lower...upper
+        }
+
+        var y: ClosedRange<Int>
+        do {
+            let lower = 0 + abs(boundary.y.lowerBound)
+            let upper = Int(size.y) - 1 - boundary.y.upperBound
+            y = lower...upper
+        }
+
+        return Vector2D(x: x, y: y)
     }
 
     func contains(position: SIMD2<Int>) -> Bool {

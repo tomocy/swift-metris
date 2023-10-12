@@ -69,6 +69,18 @@ extension Metris {
 
         // O(pieces)
         var size: SIMD2<UInt> {
+            let boundary = boundary
+            let size = SIMD2(
+                boundary.x.upperBound - boundary.x.lowerBound + 1,
+                boundary.y.upperBound - boundary.y.lowerBound + 1
+            )
+            assert(size.x >= 0 && size.y >= 0)
+
+            return SIMD2(size)
+        }
+
+        // O(pieces)
+        var boundary: Vector2D<ClosedRange<Int>> {
             let (min, max) = pieces.reduce((
                 min: SIMD2(0, 0),
                 max: SIMD2(0, 0)
@@ -79,10 +91,10 @@ extension Metris {
                 )
             }
 
-            let size = SIMD2(max.x - min.x + 1, max.y - min.y + 1)
-            assert(size.x >= 0 && size.y >= 0)
-
-            return SIMD2(size)
+            return Vector2D(
+                x: min.x...max.x,
+                y: min.y...max.y
+            )
         }
 
         private var pieces: [Piece]
@@ -144,10 +156,10 @@ extension Metris.Mino {
         case .o:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(1, 0)),
                     Piece(descriptor).placed(at: SIMD2(0, 1)),
                     Piece(descriptor).placed(at: SIMD2(1, 1)),
+                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: SIMD2(1, 0)),
                 ]
             )
         case .s:
