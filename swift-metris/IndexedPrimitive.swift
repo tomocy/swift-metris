@@ -8,6 +8,15 @@ struct IndexedPrimitive {
         self.indices += indices
     }
 
+    var lastIndex: Int {
+        vertices.count - 1
+    }
+
+    private var vertices: [Vertex] = []
+    private var indices: [UInt16] = []
+}
+
+extension IndexedPrimitive {
     func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
         if (vertices.isEmpty) {
             return
@@ -33,12 +42,4 @@ struct IndexedPrimitive {
             indexBufferOffset: 0
         )
     }
-
-    var lastIndex: Int {
-        vertices.count - 1
-    }
-
-    private var vertices: [Vertex] = []
-    private var indices: [UInt16] = []
 }
-

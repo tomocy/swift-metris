@@ -1,7 +1,6 @@
 // tomocy
 
 import CoreGraphics
-import Metal
 
 struct Vertex {
     mutating func position(at position: SIMD2<Float>) {

@@ -1,7 +1,6 @@
 // tomocy
 
 import simd
-import Metal
 
 struct Matrix2D {
     typealias Raw = float3x3
@@ -49,18 +48,5 @@ struct Matrix2D {
         self.raw = raw
     }
 
-    func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
-        withUnsafeBytes(of: self, { body in
-            let buffer = encoder.device.makeBuffer(
-                bytes: body.baseAddress!,
-                length: body.count,
-                options: .storageModeShared
-            )!
-
-            encoder.setVertexBuffer(buffer, offset: 0, index: index)
-        })
-    }
-
     var raw: Raw = identity
 }
-

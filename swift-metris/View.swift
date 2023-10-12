@@ -48,6 +48,13 @@ class View : MTKView, MTKViewDelegate {
         command.commit()
     }
 
+    private var commandQueue: MTLCommandQueue?
+    private var pipeline: MTLRenderPipelineState?
+
+    private var metris: Metris?
+}
+
+extension View {
     override func keyDown(with event: NSEvent) {
         if metris == nil {
             return
@@ -84,11 +91,4 @@ class View : MTKView, MTKViewDelegate {
             _ = metris!.process(input: Metris.Input.Rotate())
         }
     }
-
-    private var commandQueue: MTLCommandQueue?
-    private var pipeline: MTLRenderPipelineState?
-
-    private var metris: Metris?
 }
-
-
