@@ -70,14 +70,24 @@ extension Metris {
     }
 
     private func commit() {
-        let placed = process(input: Input.Move.down)
-        if placed {
-            return
+        do {
+            let placed = process(input: Input.Move.down)
+            if placed {
+                return
+            }
         }
 
         field.clearLines()
 
-        _ = spawnMino()
+        do {
+            let placed = spawnMino()
+            if placed {
+                return
+            }
+        }
+
+        NSLog("Metris: Game over")
+        stop()
     }
 
     private func spawnMino() -> Bool {
