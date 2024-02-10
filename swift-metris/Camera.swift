@@ -7,8 +7,8 @@ struct Camera {
     var transform: Transform2D = Transform2D()
 }
 
-extension Camera {
-    func encode(with encoder: MTLRenderCommandEncoder, at index: Int) {
+extension Camera: MTLRenderCommandEncodableAt {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int) {
         withUnsafeBytes(of: self, { body in
             let buffer = encoder.device.makeBuffer(
                 bytes: body.baseAddress!,

@@ -170,12 +170,12 @@ extension Metris {
     }
 
     func encode(with encoder: MTLRenderCommandEncoder) {
-        camera.encode(with: encoder, at: 0)
+        camera.encode(to: encoder, at: 0)
 
         do {
             var primitive = IndexedPrimitive()
             field.append(to: &primitive)
-            primitive.encode(with: encoder, at: 1)
+            primitive.encode(to: encoder, at: 1)
         }
     }
 }
