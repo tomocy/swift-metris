@@ -1,5 +1,7 @@
 // tomocy
 
+import Metal
+
 extension Metris {
     struct Field {
         init(size: SIMD2<UInt>) {
@@ -125,5 +127,13 @@ extension Metris.Field {
 extension Metris.Field: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
         pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
+    }
+}
+
+extension Metris.Field: MTLRenderCommandEncodableAt {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int) {
+        var primitive = IndexedPrimitive()
+        append(to: &primitive)
+        primitive.encode(to: encoder, at: index)
     }
 }

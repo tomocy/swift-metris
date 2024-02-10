@@ -173,11 +173,6 @@ extension Metris {
 extension Metris: MTLRenderCommandEncodable {
     func encode(to encoder: MTLRenderCommandEncoder) {
         camera.encode(to: encoder, at: 0)
-
-        do {
-            var primitive = IndexedPrimitive()
-            field.append(to: &primitive)
-            primitive.encode(to: encoder, at: 1)
-        }
+        field.encode(to: encoder, at: 1)
     }
 }
