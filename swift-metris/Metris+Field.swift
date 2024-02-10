@@ -75,14 +75,8 @@ extension Metris.Field {
         pieces[i] = piece?.placed(at: position)
     }
 
-    mutating func clear(mino: Metris.Mino) {
+    mutating func clearMino(_ mino: Metris.Mino) {
         mino.clear(on: &self)
-    }
-
-    func cleared(mino: Metris.Mino) -> Self {
-        var x = self
-        x.clear(mino: mino)
-        return x
     }
 
     mutating func clearLines() {
@@ -90,8 +84,8 @@ extension Metris.Field {
 
         var bottom = range.y.lowerBound
         for y in range.y {
-            if isFilled(in: y) {
-                clear(in: y)
+            if isLineFilled(at: y) {
+                clearLine(at: y)
                 continue
             }
 
@@ -105,21 +99,21 @@ extension Metris.Field {
         }
     }
 
-    mutating func clear(in line: Int) {
+    mutating func clearLine(at index: Int) {
         let range = positionRange
-        if !range.y.contains(line) {
+        if !range.y.contains(index) {
             return
         }
 
         range.x.forEach { x in
-            place(nil, at: SIMD2(x, line))
+            place(nil, at: SIMD2(x, index))
         }
     }
 
-    func isFilled(in line: Int) -> Bool {
+    func isLineFilled(at index: Int) -> Bool {
         let range = positionRange
-        return range.y.contains(line) && range.x.allSatisfy { x in
-            at(x: x, y: line) != nil
+        return range.y.contains(index) && range.x.allSatisfy { x in
+            at(x: x, y: index) != nil
         }
     }
 }
