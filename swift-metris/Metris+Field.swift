@@ -122,7 +122,7 @@ extension Metris.Field {
     }
 }
 
-extension Metris.Field {
+extension Metris.Field: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
         pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
     }

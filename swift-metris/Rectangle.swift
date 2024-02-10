@@ -3,6 +3,12 @@
 import CoreGraphics
 
 struct Rectangle {
+    let size: CGSize
+    var color: CGColor = .black()
+    var transform: Transform2D = Transform2D()
+}
+
+extension Rectangle: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
         let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
 
@@ -22,8 +28,4 @@ struct Rectangle {
             ]
         )
     }
-
-    let size: CGSize
-    var color: CGColor = .black()
-    var transform: Transform2D = Transform2D()
 }

@@ -5,40 +5,44 @@ import CoreGraphics
 extension Metris {
     struct Piece {
         init(_ descriptor: Descriptor, position: SIMD2<Int> = SIMD2(0, 0)) {
+            self.position = position
+
             body = Rectangle(
                 size: descriptor.size,
                 color: descriptor.color,
                 transform: Transform2D().scaled(with: SIMD2(0.94, 0.94))
             )
-
-            self.position = position
         }
 
-        mutating func place(at position: SIMD2<Int>) {
-            self.position = position
-        }
-
-        func placed(at position: SIMD2<Int>) -> Self {
-            var x = self
-            x.place(at: position)
-            return x
-        }
-
-        func append(to primitive: inout IndexedPrimitive) {
-            var target = body
-
-            target.transform.translate(
-                with: SIMD2(
-                    Float(target.size.width) * Float(position.x) + Float(target.size.width) / 2,
-                    Float(target.size.height) * Float(position.y) + Float(target.size.height) / 2
-                )
-            )
-
-            target.append(to: &primitive)
-        }
-
-        private var body: Rectangle
         var position: SIMD2<Int> = SIMD2(0, 0)
+        private var body: Rectangle
+    }
+}
+
+extension Metris.Piece {
+    mutating func place(at position: SIMD2<Int>) {
+        self.position = position
+    }
+
+    func placed(at position: SIMD2<Int>) -> Self {
+        var x = self
+        x.place(at: position)
+        return x
+    }
+}
+
+extension Metris.Piece: IndexedPrimitiveAppendable {
+    func append(to primitive: inout IndexedPrimitive) {
+        var target = body
+
+        target.transform.translate(
+            with: SIMD2(
+                Float(target.size.width) * Float(position.x) + Float(target.size.width) / 2,
+                Float(target.size.height) * Float(position.y) + Float(target.size.height) / 2
+            )
+        )
+
+        target.append(to: &primitive)
     }
 }
 
