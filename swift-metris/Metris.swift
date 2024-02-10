@@ -168,8 +168,10 @@ extension Metris {
         descriptor.vertexFunction = lib.makeFunction(name: "shadeVertex")!
         descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
     }
+}
 
-    func encode(with encoder: MTLRenderCommandEncoder) {
+extension Metris: MTLRenderCommandEncodable {
+    func encode(to encoder: MTLRenderCommandEncoder) {
         camera.encode(to: encoder, at: 0)
 
         do {

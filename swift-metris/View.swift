@@ -41,7 +41,7 @@ class View : MTKView, MTKViewDelegate {
         let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
         encoder.setRenderPipelineState(pipeline!)
 
-        metris.encode(with: encoder)
+        metris.encode(to: encoder)
         encoder.endEncoding()
 
         command.present(currentDrawable!)
