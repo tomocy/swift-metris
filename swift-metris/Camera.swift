@@ -22,7 +22,7 @@ struct Camera {
 
     private var state: MTLRenderState = .init()
 
-    private var frameBuffers: [Int: MTLBuffer] = [:]
+    private var frameBuffers: MTLSizedBuffers = .init(options: .storageModeShared)
 }
 
 extension Camera: MTLRenderCommandEncodableWithAt {
@@ -46,16 +46,14 @@ extension Camera: MTLFrameRenderCommandEncodableAt {
     }
 
     mutating func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        if !frameBuffers.keys.contains(frame.id) {
-            frameBuffers[frame.id] = encoder.device.makeBuffer(
-                length: type(of: state).stride,
-                options: .storageModeShared
-            )
-        }
-
         encode(
             to: encoder,
-            with: frameBuffers[frame.id]!, at: index
+            with: frameBuffers.take(
+                at: frame.id,
+                of: type(of: state).stride,
+                with: encoder.device
+            ),
+            at: index
         )
     }
 }
