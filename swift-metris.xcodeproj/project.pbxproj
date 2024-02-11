@@ -10,6 +10,7 @@
 		F54E82D52ACDC71D00D2143B /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
 		F56D460B2B77B9CF00B069DC /* MTLRenderCommandEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D460A2B77B9CF00B069DC /* MTLRenderCommandEncoder.swift */; };
 		F56D46132B7801C300B069DC /* SemaphoricPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46122B7801C300B069DC /* SemaphoricPool.swift */; };
+		F56D46152B78763F00B069DC /* MTLRenderFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46142B78763F00B069DC /* MTLRenderFrame.swift */; };
 		F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA642ABB53A7000D29D5 /* Transform2D.h */; };
 		F56DCA672ABB5574000D29D5 /* Camera.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA662ABB5574000D29D5 /* Camera.h */; };
 		F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA682ABB60AD000D29D5 /* Vertex.h */; };
@@ -52,6 +53,7 @@
 		F54E82D42ACDC71D00D2143B /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		F56D460A2B77B9CF00B069DC /* MTLRenderCommandEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLRenderCommandEncoder.swift; sourceTree = "<group>"; };
 		F56D46122B7801C300B069DC /* SemaphoricPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemaphoricPool.swift; sourceTree = "<group>"; };
+		F56D46142B78763F00B069DC /* MTLRenderFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MTLRenderFrame.swift; sourceTree = "<group>"; };
 		F56DCA642ABB53A7000D29D5 /* Transform2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform2D.h; sourceTree = "<group>"; };
 		F56DCA662ABB5574000D29D5 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		F56DCA682ABB60AD000D29D5 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F56D460A2B77B9CF00B069DC /* MTLRenderCommandEncoder.swift */,
+				F56D46142B78763F00B069DC /* MTLRenderFrame.swift */,
 				F5E88F312ABB4F39003505BE /* Rectangle.swift */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F54E82D42ACDC71D00D2143B /* Ticker.swift */,
@@ -206,6 +209,7 @@
 				F56D460B2B77B9CF00B069DC /* MTLRenderCommandEncoder.swift in Sources */,
 				F5A9533F2ABE04B8008E4200 /* Metris+Field.swift in Sources */,
 				F5E88F362ABB5003003505BE /* Camera.swift in Sources */,
+				F56D46152B78763F00B069DC /* MTLRenderFrame.swift in Sources */,
 				F5E88F2E2ABB4D80003505BE /* Matrix2D.swift in Sources */,
 				F5E88F382ABB501F003505BE /* Vertex.swift in Sources */,
 				F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */,
