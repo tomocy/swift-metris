@@ -19,7 +19,10 @@ class View : MTKView {
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
-        framePool = .init(size: 3) { index in .init(id: index) }
+        framePool = .init(
+            size: 3,
+            fill: { index in .init(id: index) }
+        )
 
         metris = Metris(size: frame.size)
         metris!.start()
@@ -34,7 +37,7 @@ class View : MTKView {
 
 extension View {
     private func makePipeline() -> MTLRenderPipelineState? {
-        let desc = MTLRenderPipelineDescriptor()
+        let desc = MTLRenderPipelineDescriptor.init()
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
@@ -59,7 +62,7 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             encoder.setRenderPipelineState(pipeline!)
 
-            metris.encode(to: encoder, in: frame)
+            metris.encode(with: encoder, in: frame)
             encoder.endEncoding()
         }
 
@@ -100,13 +103,13 @@ extension View {
             })(command)
 
             if let input = input {
-                _ = metris!.process(input: input)
+                _ = metris!.processInput(input)
                 return
             }
         }
 
         if command == "f" {
-            _ = metris!.process(input: Metris.Input.Rotate())
+            _ = metris!.processInput(Metris.Input.Rotate.being)
         }
     }
 }

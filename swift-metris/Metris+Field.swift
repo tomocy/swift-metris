@@ -6,7 +6,10 @@ extension Metris {
     struct Field {
         init(size: SIMD2<UInt>) {
             self.size = size
-            pieces = .init(repeating: nil, count: Int(size.x * size.y))
+            pieces = .init(
+                repeating: nil,
+                count: Int(size.x * size.y)
+            )
         }
 
         let size: SIMD2<UInt>
@@ -18,7 +21,12 @@ extension Metris {
 
 extension Metris.Field {
     var positionRange: Vector2D<ClosedRange<Int>> {
-        positionRange(for: Vector2D(x: 0...0, y: 0...0))
+        positionRange(
+            for: Vector2D(
+                x: 0...0,
+                y: 0...0
+            )
+        )
     }
 
     func positionRange(for boundary: Vector2D<ClosedRange<Int>>) -> Vector2D<ClosedRange<Int>> {
@@ -39,7 +47,7 @@ extension Metris.Field {
             y = lower...upper
         }
 
-        return Vector2D(x: x, y: y)
+        return .init(x: x, y: y)
     }
 
     func contains(position: SIMD2<Int>) -> Bool {
@@ -53,7 +61,7 @@ extension Metris.Field {
     }
 
     func index(x: Int, y: Int) -> Int? {
-        index(at: SIMD2(x, y))
+        index(at: .init(x, y))
     }
 
     func at(_ position: SIMD2<Int>) -> Metris.Piece? {
@@ -62,14 +70,15 @@ extension Metris.Field {
     }
 
     func at(x: Int, y: Int) -> Metris.Piece? {
-        at(SIMD2(x, y))
+        at(.init(x, y))
     }
 
 }
 
 extension Metris.Field {
     func collides(_ piece: Metris.Piece?, at position: SIMD2<Int>) -> Bool {
-        !contains(position: position) || at(position) != nil
+        !contains(position: position) 
+        || at(position) != nil
     }
 
     mutating func place(_ piece: Metris.Piece?, at position: SIMD2<Int>) {
@@ -94,7 +103,7 @@ extension Metris.Field {
             if y != bottom {
                 range.x.forEach { x in
                     let piece = at(x: x, y: y)
-                    place(piece, at: SIMD2(x, bottom))
+                    place(piece, at: .init(x, bottom))
                 }
             }
             bottom += 1
@@ -108,7 +117,7 @@ extension Metris.Field {
         }
 
         range.x.forEach { x in
-            place(nil, at: SIMD2(x, index))
+            place(nil, at: .init(x, index))
         }
     }
 
@@ -132,13 +141,13 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
         var index: MTLSizedBuffers = .init(options: .storageModeShared)
     }
 
-    mutating func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
+    mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         var primitive = IndexedPrimitive()
         append(to: &primitive)
 
         primitive.encode(
-            to: encoder,
-            with: .init(
+            with: encoder,
+            to: .init(
                 data: frameBuffers.data.take(
                     at: frame.id,
                     of: primitive.verticesSize,

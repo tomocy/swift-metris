@@ -4,17 +4,17 @@ import CoreGraphics
 
 extension Metris {
     struct Piece {
-        init(_ descriptor: Descriptor, position: SIMD2<Int> = SIMD2(0, 0)) {
+        init(_ descriptor: Descriptor, position: SIMD2<Int> = .init(0, 0)) {
             self.position = position
 
             body = Rectangle(
                 size: descriptor.size,
                 color: descriptor.color,
-                transform: Transform2D().scaled(with: SIMD2(0.94, 0.94))
+                transform: Transform2D().scaled(with: .init(0.94, 0.94))
             )
         }
 
-        var position: SIMD2<Int> = SIMD2(0, 0)
+        var position: SIMD2<Int> = .init(0, 0)
         private var body: Rectangle
     }
 }
@@ -36,7 +36,7 @@ extension Metris.Piece: IndexedPrimitiveAppendable {
         var target = body
 
         target.transform.translate(
-            with: SIMD2(
+            with: .init(
                 Float(target.size.width) * Float(position.x) + Float(target.size.width) / 2,
                 Float(target.size.height) * Float(position.y) + Float(target.size.height) / 2
             )

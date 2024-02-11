@@ -6,7 +6,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSLog("AppDelegate: Finished launching")
 
-        window = Window(contentRect: NSRect(x: 0, y: 0, width: 400, height: 800))
+        window = Window.init(contentRect: .init(x: 0, y: 0, width: 400, height: 800))
 
         window!.makeKeyAndOrderFront(notification)
         window!.center()
@@ -18,12 +18,14 @@ class AppDelegate : NSObject, NSApplicationDelegate {
 }
 
 class AppMenu : NSMenu {
+    required init(coder: NSCoder) { super.init(coder: coder) }
+
     override init(title: String) {
         super.init(title: title)
 
         do {
-            let item = NSMenuItem()
-            item.submenu = NSMenu()
+            let item = NSMenuItem.init()
+            item.submenu = NSMenu.init()
 
             item.submenu!.items.append(
                 NSMenuItem(
@@ -35,9 +37,5 @@ class AppMenu : NSMenu {
 
             addItem(item)
         }
-    }
-
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
     }
 }

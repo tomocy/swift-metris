@@ -22,28 +22,32 @@ protocol IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive)
 }
 
-extension IndexedPrimitive: MTLRenderCommandEncodableWithIndexedAt {
-    func encode(to encoder: MTLRenderCommandEncoder, with buffer: MTLIndexedBuffer, at index: Int) {
+extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
+    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int) {
         if (vertices.isEmpty) {
             return
         }
 
-        buffer.data.contents().copyMemory(
-            from: vertices,
-            byteCount: buffer.data.length
-        )
-        encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
+        do {
+            buffer.data.contents().copyMemory(
+                from: vertices,
+                byteCount: buffer.data.length
+            )
+            encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
+        }
 
-        buffer.index.contents().copyMemory(
-            from: indices,
-            byteCount: buffer.index.length
-        )
-        encoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: indices.count,
-            indexType: .uint16,
-            indexBuffer: buffer.index,
-            indexBufferOffset: 0
-        )
+        do {
+            buffer.index.contents().copyMemory(
+                from: indices,
+                byteCount: buffer.index.length
+            )
+            encoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: indices.count,
+                indexType: .uint16,
+                indexBuffer: buffer.index,
+                indexBufferOffset: 0
+            )
+        }
     }
 }

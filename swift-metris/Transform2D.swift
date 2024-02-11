@@ -122,9 +122,9 @@ struct Transform2D {
         return x
     }
 
-    var translate: SIMD2<Float> = SIMD2(0, 0)
-    var rotate: Angle = Angle(radian: 0)
-    var scale: SIMD2<Float> = SIMD2(1, 1)
+    var translate: SIMD2<Float> = .init(0, 0)
+    var rotate: Angle = .init(radian: 0)
+    var scale: SIMD2<Float> = .init(1, 1)
 }
 
 extension Transform2D {

@@ -29,7 +29,7 @@ extension Metris {
 
             for (i, piece) in pieces.enumerated() {
                 let local = piece.position
-                pieces[i].position = SIMD2(
+                pieces[i].position = .init(
                     local.x * cos - local.y * sin,
                     local.x * sin + local.y * cos
                 )
@@ -70,7 +70,7 @@ extension Metris {
         // O(pieces)
         var size: SIMD2<UInt> {
             let boundary = boundary
-            let size = SIMD2(
+            let size = SIMD2.init(
                 boundary.x.upperBound - boundary.x.lowerBound + 1,
                 boundary.y.upperBound - boundary.y.lowerBound + 1
             )
@@ -82,8 +82,8 @@ extension Metris {
         // O(pieces)
         var boundary: Vector2D<ClosedRange<Int>> {
             let (min, max) = pieces.reduce((
-                min: SIMD2(0, 0),
-                max: SIMD2(0, 0)
+                min: SIMD2.init(0, 0),
+                max: SIMD2.init(0, 0)
             )) { current, piece in
                 return (
                     current.min.min(piece.position),
@@ -91,7 +91,7 @@ extension Metris {
                 )
             }
 
-            return Vector2D(
+            return .init(
                 x: min.x...max.x,
                 y: min.y...max.y
             )
@@ -99,7 +99,7 @@ extension Metris {
 
         private var pieces: [Piece]
 
-        var position: SIMD2<Int> = SIMD2(0, 0)
+        var position: SIMD2<Int> = .init(0, 0)
     }
 }
 
@@ -121,72 +121,72 @@ extension Metris.Mino {
 extension Metris.Mino {
     typealias Piece = Metris.Piece
 
-    static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<Int> = SIMD2(0, 0)) -> Self {
+    static func generate(_ shape: Shape, descriptor: Piece.Descriptor, at position: SIMD2<Int> = .init(0, 0)) -> Self {
         switch shape {
         case .i:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(1, 0)),
-                    Piece(descriptor).placed(at: SIMD2(2, 0)),
+                    Piece(descriptor).placed(at: .init(-1, 0)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(1, 0)),
+                    Piece(descriptor).placed(at: .init(2, 0)),
                 ],
                 position: position
             )
         case .j:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(0, 2)),
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
+                    Piece(descriptor).placed(at: .init(0, 2)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(-1, 0)),
                 ],
                 position: position
             )
         case .l:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(0, 2)),
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                    Piece(descriptor).placed(at: .init(0, 2)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(1, 0)),
                 ],
                 position: position
             )
         case .o:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(1, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(1, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(1, 0)),
                 ]
             )
         case .s:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(1, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(-1, 0)),
+                    Piece(descriptor).placed(at: .init(1, 1)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(-1, 0)),
                 ]
             )
         case .t:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(-1, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(1, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
+                    Piece(descriptor).placed(at: .init(-1, 1)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(1, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
                 ]
             )
         case .z:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: SIMD2(-1, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 1)),
-                    Piece(descriptor).placed(at: SIMD2(0, 0)),
-                    Piece(descriptor).placed(at: SIMD2(1, 0)),
+                    Piece(descriptor).placed(at: .init(-1, 1)),
+                    Piece(descriptor).placed(at: .init(0, 1)),
+                    Piece(descriptor).placed(at: .init(0, 0)),
+                    Piece(descriptor).placed(at: .init(1, 0)),
                 ]
             )
         }

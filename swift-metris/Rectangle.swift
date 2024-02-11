@@ -5,7 +5,7 @@ import CoreGraphics
 struct Rectangle {
     let size: CGSize
     var color: CGColor = .black()
-    var transform: Transform2D = Transform2D()
+    var transform: Transform2D = .init()
 }
 
 extension Rectangle: IndexedPrimitiveAppendable {
@@ -16,10 +16,10 @@ extension Rectangle: IndexedPrimitiveAppendable {
 
         primitive.append(
             vertices: [
-                Vertex(SIMD2(-halfSize.x, halfSize.y)),
-                Vertex(SIMD2(halfSize.x, halfSize.y)),
-                Vertex(SIMD2(halfSize.x, -halfSize.y)),
-                Vertex(SIMD2(-halfSize.x, -halfSize.y)),
+                Vertex(.init(-halfSize.x, halfSize.y)),
+                Vertex(.init(halfSize.x, halfSize.y)),
+                Vertex(.init(halfSize.x, -halfSize.y)),
+                Vertex(.init(-halfSize.x, -halfSize.y)),
             ].map({ $0.colorized(with: color) })
             .map({ $0.transformed(with: transform) }),
             indices: [

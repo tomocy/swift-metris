@@ -18,7 +18,7 @@ struct Vertex {
     }
 
     mutating func colorize(with color: CGColor) {
-        colorize(with: SIMD4(color))
+        colorize(with: .init(color))
     }
 
     func colorized(with color: SIMD4<Float>) -> Self {
@@ -53,9 +53,9 @@ struct Vertex {
         return x
     }
 
-    var position: SIMD2<Float> = SIMD2(0, 0)
-    var color: SIMD4<Float> = SIMD4(0, 0, 0, 1)
-    var transform: Transform2D = Transform2D()
+    var position: SIMD2<Float> = .init(0, 0)
+    var color: SIMD4<Float> = .init(0, 0, 0, 1)
+    var transform: Transform2D = .init()
 }
 
 extension Vertex {

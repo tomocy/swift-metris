@@ -18,19 +18,19 @@ class Metris {
                 left: 0, right: Float(size.width)
             ),
             transform: Transform2D(
-                translate: SIMD2(0, 0)
+                translate: .init(0, 0)
             )
         )
 
-        field = Field(size: SIMD2(10, 20))
+        field = Field(size: .init(10, 20))
 
         do {
             let unit = min(
                 size.width / CGFloat(field.size.x),
                 size.height / CGFloat(field.size.y)
             )
-            descriptor = Descriptor(
-                piece: Piece.Descriptor(
+            descriptor = .init(
+                piece: .init(
                     size: CGSize(width: unit, height: unit),
                     color: .random()
                 )
@@ -71,7 +71,7 @@ extension Metris {
 
     private func commit() {
         do {
-            let placed = process(input: Input.Move.down)
+            let placed = processInput(Input.Move.down)
             if placed {
                 return
             }
@@ -104,7 +104,10 @@ extension Metris {
 
         do {
             let range = field.positionRange(for: mino.boundary)
-            mino.position = SIMD2(.random(in: range.x), range.y.upperBound)
+            mino.position = .init(
+                .random(in: range.x),
+                range.y.upperBound
+            )
         }
 
         currentMino = nil
@@ -129,9 +132,9 @@ extension Metris {
 
 extension Metris.Input {
     struct Move : Equatable {
-        static var down: Self { Self(delta: SIMD2(0, -1)) }
-        static var left: Self { Self(delta: SIMD2(-1, 0)) }
-        static var right: Self { Self(delta: SIMD2(1, 0)) }
+        static var down: Self { .init(delta: .init(0, -1)) }
+        static var left: Self { .init(delta: .init(-1, 0)) }
+        static var right: Self { .init(delta: .init(1, 0)) }
 
         static func ==(left: Self, right: Self) -> Bool {
             return left.delta == right.delta
@@ -146,7 +149,7 @@ extension Metris.Input {
 }
 
 extension Metris {
-    func process(input: Input.Move) -> Bool {
+    func processInput(_ input: Input.Move) -> Bool {
         guard let mino = currentMino else { return false }
         return placeMino(
             mino.positioned(by: input.delta)
@@ -155,11 +158,13 @@ extension Metris {
 }
 
 extension Metris.Input {
-    struct Rotate {}
+    struct Rotate {
+        static var being: Self { .init() }
+    }
 }
 
 extension Metris {
-    func process(input: Input.Rotate) -> Bool {
+    func processInput(_ input: Input.Rotate) -> Bool {
         guard let mino = currentMino else { return false }
         return placeMino(
             mino.rotated()
@@ -177,8 +182,8 @@ extension Metris {
 }
 
 extension Metris: MTLFrameRenderCommandEncodable {
-    func encode(to encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
-        camera.encode(to: encoder, at: 0, in: frame)
-        field.encode(to: encoder, at: 1, in: frame)
+    func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
+        camera.encode(with: encoder, at: 0, in: frame)
+        field.encode(with: encoder, at: 1, in: frame)
     }
 }
