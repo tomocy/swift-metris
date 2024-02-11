@@ -22,7 +22,7 @@ struct MTLSizedBuffers {
                 length: size,
                 options: options
             )
-            NSLog("MTLBuffer: Generated: {size: \(size)}")
+            NSLog("MTLBuffer: Generated: {index: \(index), size: \(size)}")
         }
 
         return buffers[index]!
@@ -49,6 +49,9 @@ protocol MTLRenderCommandEncodableWithIndexedAt {
     func encode(to encoder: MTLRenderCommandEncoder, with buffer: MTLIndexedBuffer, at index: Int)
 }
 
+// MTLFrameRenderCommandEncodable encodes itself using the buffer assigned for the frame.
+// It should use the buffer if its size matches the encoding one.
+// Otherwise it should make a new buffer, use and retain it for subsequent calls.
 protocol MTLFrameRenderCommandEncodable {
     mutating func encode(to encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame)
 }

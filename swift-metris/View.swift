@@ -16,6 +16,9 @@ class View : MTKView {
         delegate = self
         pipeline = makePipeline()!
         commandQueue = device!.makeCommandQueue()!
+
+        // This is the frame pool that is used to achieve "Triple Buffering",
+        // or more precisely, "Triple Framing".
         framePool = .init(size: 3) { index in .init(id: index) }
 
         metris = Metris(size: frame.size)
