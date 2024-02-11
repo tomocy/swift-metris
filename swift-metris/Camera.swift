@@ -25,6 +25,18 @@ struct Camera {
     private var frameBuffers: [Int: MTLBuffer] = [:]
 }
 
+extension Camera: MTLRenderCommandEncodableWithAt {
+    func encode(to encoder: MTLRenderCommandEncoder, with buffer: MTLBuffer, at index: Int) {
+        withUnsafeBytes(of: state, { body in
+            buffer.contents().copyMemory(
+                from: body.baseAddress!,
+                byteCount: body.count
+            )
+            encoder.setVertexBuffer(buffer, offset: 0, index: index)
+        })
+    }
+}
+
 extension Camera: MTLFrameRenderCommandEncodableAt {
     private struct MTLRenderState {
         static var stride: Int { MemoryLayout<Self>.stride }
@@ -41,11 +53,9 @@ extension Camera: MTLFrameRenderCommandEncodableAt {
             )
         }
 
-        let buffer = frameBuffers[frame.id]!
-        buffer.contents().copyMemory(
-            from: &state,
-            byteCount: buffer.length
+        encode(
+            to: encoder,
+            with: frameBuffers[frame.id]!, at: index
         )
-        encoder.setVertexBuffer(buffer, offset: 0, index: index)
     }
 }
