@@ -56,7 +56,7 @@ struct Vertex {
     var position: SIMD2<Float> = SIMD2(0, 0)
     var color: SIMD4<Float> = SIMD4(0, 0, 0, 1)
     var transform: Transform2D = Transform2D()
-};
+}
 
 extension Vertex {
     init(_ position: SIMD2<Float>) {

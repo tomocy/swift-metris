@@ -93,7 +93,13 @@ extension Metris {
     private func spawnMino() -> Bool {
         var mino = Mino.generate(
             .random(),
-            descriptor: descriptor.piece.colorized(with: .random())
+            descriptor: descriptor.piece.colorized(
+                with: .random(
+                    red: .random(in: 0...0.8),
+                    green: .random(in: 0...0.8),
+                    blue: .random(in: 0...0.8)
+                )
+            )
         )
 
         do {
@@ -102,10 +108,10 @@ extension Metris {
         }
 
         currentMino = nil
-        return place(mino: mino)
+        return placeMino(mino)
     }
 
-    private func place(mino: Mino) -> Bool {
+    private func placeMino(_ mino: Mino) -> Bool {
         var nextField = field
         currentMino?.clear(on: &nextField)
 
@@ -142,8 +148,8 @@ extension Metris.Input {
 extension Metris {
     func process(input: Input.Move) -> Bool {
         guard let mino = currentMino else { return false }
-        return place(
-            mino: mino.positioned(by: input.delta)
+        return placeMino(
+            mino.positioned(by: input.delta)
         )
     }
 }
@@ -155,8 +161,8 @@ extension Metris.Input {
 extension Metris {
     func process(input: Input.Rotate) -> Bool {
         guard let mino = currentMino else { return false }
-        return place(
-            mino: mino.rotated()
+        return placeMino(
+            mino.rotated()
         )
     }
 }
