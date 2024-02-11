@@ -3,23 +3,34 @@
 import Metal
 
 struct Camera {
-    var projection: Transform2D = Transform2D()
-    var transform: Transform2D = Transform2D()
+    init(
+        projection: Transform2D = .init(),
+        transform: Transform2D = .init()
+    ) {
+        self.projection = projection
+        self.transform = transform
+    }
+
+    var projection: Transform2D {
+        get { state.projection }
+        set { state.projection = newValue }
+    }
+    var transform: Transform2D {
+        get { state.transform }
+        set { state.transform = newValue }
+    }
+
+    private var state: MTLRenderState = .init()
 }
 
 extension Camera: MTLFrameRenderCommandEncodableAt {
     private struct MTLRenderState {
-        let projection: Transform2D
-        let transform: Transform2D
+        var projection: Transform2D = .init()
+        var transform: Transform2D = .init()
     }
 
     func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        var state = MTLRenderState(
-            projection: projection,
-            transform: transform
-        )
-
-        withUnsafeBytes(of: &state, { body in
+        withUnsafeBytes(of: state, { body in
             let buffer = encoder.device.makeBuffer(
                 bytes: body.baseAddress!,
                 length: body.count,
