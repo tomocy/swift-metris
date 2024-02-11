@@ -47,22 +47,3 @@ extension IndexedPrimitive: MTLRenderCommandEncodableWithIndexedAt {
         )
     }
 }
-
-extension IndexedPrimitive: MTLFrameRenderCommandEncodableAt {
-    func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        encode(
-            to: encoder,
-            with: .init(
-                data: encoder.device.makeBuffer(
-                    length: verticesSize,
-                    options: .storageModeShared
-                )!,
-                index: encoder.device.makeBuffer(
-                    length: indicesSize,
-                    options: .storageModeShared
-                )!
-            ),
-            at: index
-        )
-    }
-}
