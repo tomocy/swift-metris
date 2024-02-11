@@ -6,6 +6,11 @@ struct MTLRenderFrame {
     let id: Int
 }
 
+struct MTLIndexedBuffer {
+    var data: MTLBuffer
+    var index: MTLBuffer
+}
+
 protocol MTLFrameRenderCommandEncodable {
     func encode(to encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame)
 }
