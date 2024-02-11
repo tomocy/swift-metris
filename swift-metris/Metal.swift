@@ -11,7 +11,7 @@ struct MTLIndexedBuffer {
     var index: MTLBuffer
 }
 
-protocol MTLRenderCommandEncodableWithIndexedBufferAt {
+protocol MTLRenderCommandEncodableWithIndexedAt {
     func encode(to encoder: MTLRenderCommandEncoder, with buffer: MTLIndexedBuffer, at index: Int)
 }
 

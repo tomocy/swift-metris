@@ -22,7 +22,7 @@ protocol IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive)
 }
 
-extension IndexedPrimitive: MTLRenderCommandEncodableWithIndexedBufferAt {
+extension IndexedPrimitive: MTLRenderCommandEncodableWithIndexedAt {
     func encode(to encoder: MTLRenderCommandEncoder, with buffer: MTLIndexedBuffer, at index: Int) {
         if (vertices.isEmpty) {
             return
