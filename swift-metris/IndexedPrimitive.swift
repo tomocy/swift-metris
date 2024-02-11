@@ -22,8 +22,8 @@ protocol IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive)
 }
 
-extension IndexedPrimitive: MTLRenderCommandEncodableAt {
-    func encode(to encoder: MTLRenderCommandEncoder, at index: Int) {
+extension IndexedPrimitive: MTLFrameRenderCommandEncodableAt {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         if (vertices.isEmpty) {
             return
         }

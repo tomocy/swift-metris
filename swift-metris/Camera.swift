@@ -7,13 +7,13 @@ struct Camera {
     var transform: Transform2D = Transform2D()
 }
 
-extension Camera: MTLRenderCommandEncodableAt {
+extension Camera: MTLFrameRenderCommandEncodableAt {
     private struct MTLRenderState {
         let projection: Transform2D
         let transform: Transform2D
     }
 
-    func encode(to encoder: MTLRenderCommandEncoder, at index: Int) {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         var state = MTLRenderState(
             projection: projection,
             transform: transform

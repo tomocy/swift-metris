@@ -48,7 +48,7 @@ extension View: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let metris = metris else { return }
 
-        let _ = framePool!.acquire()
+        let frame = framePool!.acquire()
 
         let command = commandQueue!.makeCommandBuffer()!
 
@@ -56,7 +56,7 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             encoder.setRenderPipelineState(pipeline!)
 
-            metris.encode(to: encoder)
+            metris.encode(to: encoder, in: frame)
             encoder.endEncoding()
         }
 

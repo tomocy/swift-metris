@@ -124,10 +124,10 @@ extension Metris.Field: IndexedPrimitiveAppendable {
     }
 }
 
-extension Metris.Field: MTLRenderCommandEncodableAt {
-    func encode(to encoder: MTLRenderCommandEncoder, at index: Int) {
+extension Metris.Field: MTLFrameRenderCommandEncodableAt {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         var primitive = IndexedPrimitive()
         append(to: &primitive)
-        primitive.encode(to: encoder, at: index)
+        primitive.encode(to: encoder, at: index, in: frame)
     }
 }

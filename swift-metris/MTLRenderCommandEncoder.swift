@@ -2,10 +2,10 @@
 
 import Metal
 
-protocol MTLRenderCommandEncodable {
-    func encode(to encoder: MTLRenderCommandEncoder)
+protocol MTLFrameRenderCommandEncodable {
+    func encode(to encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame)
 }
 
-protocol MTLRenderCommandEncodableAt {
-    func encode(to encoder: MTLRenderCommandEncoder, at index: Int)
+protocol MTLFrameRenderCommandEncodableAt {
+    func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame)
 }

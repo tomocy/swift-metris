@@ -170,9 +170,9 @@ extension Metris {
     }
 }
 
-extension Metris: MTLRenderCommandEncodable {
-    func encode(to encoder: MTLRenderCommandEncoder) {
-        camera.encode(to: encoder, at: 0)
-        field.encode(to: encoder, at: 1)
+extension Metris: MTLFrameRenderCommandEncodable {
+    func encode(to encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
+        camera.encode(to: encoder, at: 0, in: frame)
+        field.encode(to: encoder, at: 1, in: frame)
     }
 }
