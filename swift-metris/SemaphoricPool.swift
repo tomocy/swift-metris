@@ -3,7 +3,7 @@
 import Dispatch
 
 struct SemaphoricPool<Element> {
-    init(size: Int, fill: (Int) -> Element) {
+    init(size: Int, _ fill: (Int) -> Element) {
         elements.reserveCapacity(size)
         for i in 0..<size {
             elements.append(

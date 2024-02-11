@@ -3,24 +3,33 @@
 import Metal
 import MetalKit
 
-class View : MTKView, MTKViewDelegate {
+class View : MTKView {
+    required init(coder: NSCoder) { super.init(coder: coder) }
+
     init(frame: NSRect) {
         super.init(frame: frame, device: MTLCreateSystemDefaultDevice())
         NSLog("View: Initialized")
         NSLog("View: GPU device: \(device!.name)")
 
-        delegate = self
         clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
 
-        commandQueue = device!.makeCommandQueue()!
+        delegate = self
         pipeline = makePipeline()!
+        commandQueue = device!.makeCommandQueue()!
+        framePool = .init(size: 3) { index in .init(id: index) }
 
         metris = Metris(size: frame.size)
         metris!.start()
     }
 
-    required init(coder: NSCoder) { super.init(coder: coder) }
+    private var pipeline: MTLRenderPipelineState?
+    private var commandQueue: MTLCommandQueue?
+    private var framePool: SemaphoricPool<MTLRenderFrame>?
 
+    private var metris: Metris?
+}
+
+extension View {
     private func makePipeline() -> MTLRenderPipelineState? {
         let desc = MTLRenderPipelineDescriptor()
 
@@ -31,27 +40,33 @@ class View : MTKView, MTKViewDelegate {
         return try? device!.makeRenderPipelineState(descriptor: desc)
     }
 
+}
+
+extension View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
         guard let metris = metris else { return }
 
+        let _ = framePool!.acquire()
+
         let command = commandQueue!.makeCommandBuffer()!
 
-        let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
-        encoder.setRenderPipelineState(pipeline!)
+        do {
+            let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
+            encoder.setRenderPipelineState(pipeline!)
 
-        metris.encode(to: encoder)
-        encoder.endEncoding()
+            metris.encode(to: encoder)
+            encoder.endEncoding()
+        }
 
         command.present(currentDrawable!)
+
+        command.addCompletedHandler { _ in
+            self.framePool?.release()
+        }
         command.commit()
     }
-
-    private var commandQueue: MTLCommandQueue?
-    private var pipeline: MTLRenderPipelineState?
-
-    private var metris: Metris?
 }
 
 extension View {
