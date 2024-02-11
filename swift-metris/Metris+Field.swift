@@ -12,8 +12,7 @@ extension Metris {
         let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
 
-        private var frameDataBuffers: [Int: MTLBuffer] = [:]
-        private var frameIndexBuffers: [Int: MTLBuffer] = [:]
+        private var frameBuffers: FrameBuffers = .init()
     }
 }
 
@@ -128,41 +127,28 @@ extension Metris.Field: IndexedPrimitiveAppendable {
 }
 
 extension Metris.Field: MTLFrameRenderCommandEncodableAt {
+    private struct FrameBuffers {
+        var data: MTLSizedBuffers = .init(options: .storageModeShared)
+        var index: MTLSizedBuffers = .init(options: .storageModeShared)
+    }
+
     mutating func encode(to encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         var primitive = IndexedPrimitive()
         append(to: &primitive)
 
-        do {
-            let hasBuffer = frameDataBuffers.contains(where: { (id, buffer) in
-                return id == frame.id
-                    && buffer.length == primitive.verticesSize
-            })
-            if !hasBuffer {
-                frameDataBuffers[frame.id] = encoder.device.makeBuffer(
-                    length: primitive.verticesSize,
-                    options: .storageModeShared
-                )
-            }
-        }
-
-        do {
-            let hasBuffer = frameIndexBuffers.contains(where: { (id, buffer) in
-                return id == frame.id
-                    && buffer.length == primitive.indicesSize
-            })
-            if !hasBuffer {
-                frameIndexBuffers[frame.id] = encoder.device.makeBuffer(
-                    length: primitive.indicesSize,
-                    options: .storageModeShared
-                )
-            }
-        }
-
         primitive.encode(
             to: encoder,
             with: .init(
-                data: frameDataBuffers[frame.id]!,
-                index: frameIndexBuffers[frame.id]!
+                data: frameBuffers.data.take(
+                    at: frame.id,
+                    of: primitive.verticesSize,
+                    with: encoder.device
+                ),
+                index: frameBuffers.index.take(
+                    at: frame.id,
+                    of: primitive.indicesSize,
+                    with: encoder.device
+                )
             ),
             at: index
         )
