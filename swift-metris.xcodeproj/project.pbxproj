@@ -7,47 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F54E82D52ACDC71D00D2143B /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
-		F56D46132B7801C300B069DC /* SemaphoricPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46122B7801C300B069DC /* SemaphoricPool.swift */; };
-		F56D46172B78881400B069DC /* Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46162B78881400B069DC /* Metal.swift */; };
-		F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA642ABB53A7000D29D5 /* Transform2D.h */; };
-		F56DCA672ABB5574000D29D5 /* Camera.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA662ABB5574000D29D5 /* Camera.h */; };
-		F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA682ABB60AD000D29D5 /* Vertex.h */; };
-		F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Angle.swift */; };
-		F5A268612A966B4600520C84 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A268602A966B4600520C84 /* main.swift */; };
-		F5A9533F2ABE04B8008E4200 /* Metris+Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */; };
-		F5A953412AC1FA0A008E4200 /* Metris+Mino.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */; };
-		F5A953432AC329AE008E4200 /* Metris+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953422AC329AE008E4200 /* Metris+Piece.swift */; };
-		F5A9534C2AC3F983008E4200 /* Fragment.h in Sources */ = {isa = PBXBuildFile; fileRef = F5A953452AC33FC7008E4200 /* Fragment.h */; };
-		F5A9534E2AC3F9B7008E4200 /* CG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534D2AC3F9B7008E4200 /* CG.swift */; };
-		F5A953502AC3F9C3008E4200 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534F2AC3F9C3008E4200 /* Math.swift */; };
-		F5A953522AC8617B008E4200 /* Vector2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953512AC8617B008E4200 /* Vector2D.swift */; };
-		F5B67BDA2AA0A61500842985 /* Metris.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* Metris.metal */; };
-		F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
-		F5E88F302ABB4EB2003505BE /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */; };
-		F5E88F322ABB4F39003505BE /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F312ABB4F39003505BE /* Rectangle.swift */; };
-		F5E88F342ABB4FBC003505BE /* IndexedPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */; };
-		F5E88F362ABB5003003505BE /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F352ABB5003003505BE /* Camera.swift */; };
-		F5E88F382ABB501F003505BE /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F372ABB501F003505BE /* Vertex.swift */; };
-		F5E88F3A2ABB5053003505BE /* Metris.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F392ABB5053003505BE /* Metris.swift */; };
-		F5E88F3C2ABB5075003505BE /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3B2ABB5075003505BE /* View.swift */; };
-		F5E88F3E2ABB5097003505BE /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3D2ABB5097003505BE /* Window.swift */; };
-		F5E88F402ABB50C5003505BE /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* App.swift */; };
+		F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F52641992B7F54F900BB540F /* Assets.xcassets */; };
+		F52641A22B7F551D00BB540F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* App.swift */; };
+		F52641A32B7F551D00BB540F /* CG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534D2AC3F9B7008E4200 /* CG.swift */; };
+		F52641A42B7F551D00BB540F /* Metris+Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */; };
+		F52641A52B7F551D00BB540F /* IndexedPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */; };
+		F52641A62B7F551D00BB540F /* Metris+Mino.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */; };
+		F52641A72B7F551D00BB540F /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
+		F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953422AC329AE008E4200 /* Metris+Piece.swift */; };
+		F52641A92B7F551D00BB540F /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3B2ABB5075003505BE /* View.swift */; };
+		F52641AA2B7F551D00BB540F /* Metris.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F392ABB5053003505BE /* Metris.swift */; };
+		F52641AB2B7F551D00BB540F /* SemaphoricPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46122B7801C300B069DC /* SemaphoricPool.swift */; };
+		F52641AC2B7F551D00BB540F /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534F2AC3F9C3008E4200 /* Math.swift */; };
+		F52641AE2B7F551D00BB540F /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F352ABB5003003505BE /* Camera.swift */; };
+		F52641AF2B7F551D00BB540F /* Metris.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5B67BD92AA0A61500842985 /* Metris.metal */; };
+		F52641B02B7F551D00BB540F /* Transform2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */; };
+		F52641B12B7F551D00BB540F /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F372ABB501F003505BE /* Vertex.swift */; };
+		F52641B22B7F551D00BB540F /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Angle.swift */; };
+		F52641B32B7F551D00BB540F /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F312ABB4F39003505BE /* Rectangle.swift */; };
+		F52641B42B7F551D00BB540F /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3D2ABB5097003505BE /* Window.swift */; };
+		F52641B52B7F551D00BB540F /* Vector2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953512AC8617B008E4200 /* Vector2D.swift */; };
+		F52641B62B7F551D00BB540F /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
+		F52641B72B7F551D00BB540F /* Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46162B78881400B069DC /* Metal.swift */; };
+		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		F5A2685B2A966B4600520C84 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		F52641932B7F54F600BB540F /* swift-metris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swift-metris.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F52641992B7F54F900BB540F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F526419E2B7F54F900BB540F /* swift_metris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_metris.entitlements; sourceTree = "<group>"; };
+		F52641CB2B7F5DB600BB540F /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F54E82D42ACDC71D00D2143B /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		F56D46122B7801C300B069DC /* SemaphoricPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemaphoricPool.swift; sourceTree = "<group>"; };
 		F56D46162B78881400B069DC /* Metal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal.swift; sourceTree = "<group>"; };
@@ -55,8 +44,6 @@
 		F56DCA662ABB5574000D29D5 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		F56DCA682ABB60AD000D29D5 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
-		F5A2685D2A966B4600520C84 /* swift-metris */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "swift-metris"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F5A268602A966B4600520C84 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
 		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
@@ -78,7 +65,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		F5A2685A2A966B4600520C84 /* Frameworks */ = {
+		F52641902B7F54F600BB540F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -88,33 +75,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F5A268542A966B4600520C84 = {
-			isa = PBXGroup;
-			children = (
-				F5A2685F2A966B4600520C84 /* swift-metris */,
-				F5A2685E2A966B4600520C84 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		F5A2685E2A966B4600520C84 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F5A2685D2A966B4600520C84 /* swift-metris */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		F5A2685F2A966B4600520C84 /* swift-metris */ = {
+		F52641942B7F54F600BB540F /* swift-metris */ = {
 			isa = PBXGroup;
 			children = (
 				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
 				F5E88F3F2ABB50C5003505BE /* App.swift */,
+				F52641992B7F54F900BB540F /* Assets.xcassets */,
 				F56DCA662ABB5574000D29D5 /* Camera.h */,
 				F5E88F352ABB5003003505BE /* Camera.swift */,
 				F5A9534D2AC3F9B7008E4200 /* CG.swift */,
 				F5A953452AC33FC7008E4200 /* Fragment.h */,
 				F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */,
-				F5A268602A966B4600520C84 /* main.swift */,
+				F52641CB2B7F5DB600BB540F /* main.swift */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F56D46162B78881400B069DC /* Metal.swift */,
@@ -125,6 +97,7 @@
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F312ABB4F39003505BE /* Rectangle.swift */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
+				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
 				F54E82D42ACDC71D00D2143B /* Ticker.swift */,
 				F56DCA642ABB53A7000D29D5 /* Transform2D.h */,
 				F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */,
@@ -137,16 +110,32 @@
 			path = "swift-metris";
 			sourceTree = "<group>";
 		};
+		F5A268542A966B4600520C84 = {
+			isa = PBXGroup;
+			children = (
+				F52641942B7F54F600BB540F /* swift-metris */,
+				F5A2685E2A966B4600520C84 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F5A2685E2A966B4600520C84 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F52641932B7F54F600BB540F /* swift-metris.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F5A2685C2A966B4600520C84 /* swift-metris */ = {
+		F52641922B7F54F600BB540F /* swift-metris */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F5A268642A966B4600520C84 /* Build configuration list for PBXNativeTarget "swift-metris" */;
+			buildConfigurationList = F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "swift-metris" */;
 			buildPhases = (
-				F5A268592A966B4600520C84 /* Sources */,
-				F5A2685A2A966B4600520C84 /* Frameworks */,
-				F5A2685B2A966B4600520C84 /* CopyFiles */,
+				F526418F2B7F54F600BB540F /* Sources */,
+				F52641902B7F54F600BB540F /* Frameworks */,
+				F52641912B7F54F600BB540F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -154,8 +143,8 @@
 			);
 			name = "swift-metris";
 			productName = "swift-metris";
-			productReference = F5A2685D2A966B4600520C84 /* swift-metris */;
-			productType = "com.apple.product-type.tool";
+			productReference = F52641932B7F54F600BB540F /* swift-metris.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -164,12 +153,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1420;
+				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					F5A2685C2A966B4600520C84 = {
-						CreatedOnToolsVersion = 14.2;
-						LastSwiftMigration = 1420;
+					F52641922B7F54F600BB540F = {
+						CreatedOnToolsVersion = 15.2;
 					};
 				};
 			};
@@ -186,48 +174,120 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F5A2685C2A966B4600520C84 /* swift-metris */,
+				F52641922B7F54F600BB540F /* swift-metris */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		F52641912B7F54F600BB540F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		F5A268592A966B4600520C84 /* Sources */ = {
+		F526418F2B7F54F600BB540F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F5A9534C2AC3F983008E4200 /* Fragment.h in Sources */,
-				F56DCA672ABB5574000D29D5 /* Camera.h in Sources */,
-				F5E88F402ABB50C5003505BE /* App.swift in Sources */,
-				F5A9534E2AC3F9B7008E4200 /* CG.swift in Sources */,
-				F5A9533F2ABE04B8008E4200 /* Metris+Field.swift in Sources */,
-				F5E88F362ABB5003003505BE /* Camera.swift in Sources */,
-				F56D46172B78881400B069DC /* Metal.swift in Sources */,
-				F5E88F382ABB501F003505BE /* Vertex.swift in Sources */,
-				F5E88F2C2ABB4CF4003505BE /* Memory.swift in Sources */,
-				F56DCA6B2ABB6518000D29D5 /* Angle.swift in Sources */,
-				F56D46132B7801C300B069DC /* SemaphoricPool.swift in Sources */,
-				F5A953522AC8617B008E4200 /* Vector2D.swift in Sources */,
-				F5E88F342ABB4FBC003505BE /* IndexedPrimitive.swift in Sources */,
-				F5A953502AC3F9C3008E4200 /* Math.swift in Sources */,
-				F5B67BDA2AA0A61500842985 /* Metris.metal in Sources */,
-				F5E88F3A2ABB5053003505BE /* Metris.swift in Sources */,
-				F5A953412AC1FA0A008E4200 /* Metris+Mino.swift in Sources */,
-				F5E88F322ABB4F39003505BE /* Rectangle.swift in Sources */,
-				F5A268612A966B4600520C84 /* main.swift in Sources */,
-				F5A953432AC329AE008E4200 /* Metris+Piece.swift in Sources */,
-				F56DCA692ABB60AD000D29D5 /* Vertex.h in Sources */,
-				F56DCA652ABB53A7000D29D5 /* Transform2D.h in Sources */,
-				F5E88F3C2ABB5075003505BE /* View.swift in Sources */,
-				F5E88F302ABB4EB2003505BE /* Transform2D.swift in Sources */,
-				F54E82D52ACDC71D00D2143B /* Ticker.swift in Sources */,
-				F5E88F3E2ABB5097003505BE /* Window.swift in Sources */,
+				F52641A92B7F551D00BB540F /* View.swift in Sources */,
+				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
+				F52641B32B7F551D00BB540F /* Rectangle.swift in Sources */,
+				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,
+				F52641A22B7F551D00BB540F /* App.swift in Sources */,
+				F52641B12B7F551D00BB540F /* Vertex.swift in Sources */,
+				F52641B22B7F551D00BB540F /* Angle.swift in Sources */,
+				F52641A32B7F551D00BB540F /* CG.swift in Sources */,
+				F52641B72B7F551D00BB540F /* Metal.swift in Sources */,
+				F52641A62B7F551D00BB540F /* Metris+Mino.swift in Sources */,
+				F52641A42B7F551D00BB540F /* Metris+Field.swift in Sources */,
+				F52641AB2B7F551D00BB540F /* SemaphoricPool.swift in Sources */,
+				F52641B02B7F551D00BB540F /* Transform2D.swift in Sources */,
+				F52641AA2B7F551D00BB540F /* Metris.swift in Sources */,
+				F52641B52B7F551D00BB540F /* Vector2D.swift in Sources */,
+				F52641AE2B7F551D00BB540F /* Camera.swift in Sources */,
+				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
+				F52641A52B7F551D00BB540F /* IndexedPrimitive.swift in Sources */,
+				F52641CC2B7F5DB600BB540F /* main.swift in Sources */,
+				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,
+				F52641B42B7F551D00BB540F /* Window.swift in Sources */,
+				F52641AF2B7F551D00BB540F /* Metris.metal in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		F52641A02B7F54F900BB540F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "swift-metris/swift_metris.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7675C8B65F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "swift-metris";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = tomocy;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tomocy.swift-metris";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		F52641A12B7F54F900BB540F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "swift-metris/swift_metris.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7675C8B65F;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "swift-metris";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
+				INFOPLIST_KEY_NSHumanReadableCopyright = tomocy;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.tomocy.swift-metris";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		F5A268622A966B4600520C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -345,60 +405,23 @@
 			};
 			name = Release;
 		};
-		F5A268652A966B4600520C84 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 7675C8B65F;
-				ENABLE_HARDENED_RUNTIME = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		F5A268662A966B4600520C84 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 7675C8B65F;
-				ENABLE_HARDENED_RUNTIME = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "swift-metris" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F52641A02B7F54F900BB540F /* Debug */,
+				F52641A12B7F54F900BB540F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F5A268582A966B4600520C84 /* Build configuration list for PBXProject "swift-metris" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F5A268622A966B4600520C84 /* Debug */,
 				F5A268632A966B4600520C84 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F5A268642A966B4600520C84 /* Build configuration list for PBXNativeTarget "swift-metris" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F5A268652A966B4600520C84 /* Debug */,
-				F5A268662A966B4600520C84 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
