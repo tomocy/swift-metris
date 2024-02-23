@@ -25,6 +25,15 @@ struct Camera {
     private var frameBuffers: MTLSizedBuffers = .init(options: .storageModeShared)
 }
 
+extension Camera {
+    private struct MTLRenderState {
+        static var stride: Int { MemoryLayout<Self>.stride }
+
+        var projection: Transform2D = .init()
+        var transform: Transform2D = .init()
+    }
+}
+
 extension Camera: MTLRenderCommandEncodableToAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int) {
         withUnsafeBytes(of: state, { body in
@@ -38,13 +47,6 @@ extension Camera: MTLRenderCommandEncodableToAt {
 }
 
 extension Camera: MTLFrameRenderCommandEncodableAt {
-    private struct MTLRenderState {
-        static var stride: Int { MemoryLayout<Self>.stride }
-
-        var projection: Transform2D = .init()
-        var transform: Transform2D = .init()
-    }
-
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         encode(
             with: encoder,

@@ -68,7 +68,8 @@ extension View: MTKViewDelegate {
 
         command.present(currentDrawable!)
 
-        command.addCompletedHandler { _ in
+        command.addCompletedHandler { [weak self] _ in
+            guard let self = self else { return }
             self.framePool?.release()
         }
         command.commit()
@@ -88,28 +89,39 @@ extension View {
 
         let command = chars.first!.lowercased()
 
-        do {
-            let input = ({ (command: String) -> Metris.Input.Move? in
-                switch command {
-                case "s":
-                    return .down
-                case "a":
-                    return .left
-                case "d":
-                    return .right
-                default:
-                    return nil
-                }
-            })(command)
-
-            if let input = input {
-                _ = metris!.processInput(input)
-                return
-            }
+        if let input = Metris.Input.Move.parse(command) {
+            _ = metris!.processInput(input)
+            return
         }
 
-        if command == "f" {
-            _ = metris!.processInput(Metris.Input.Rotate.being)
+        if let input = Metris.Input.Rotate.parse(command) {
+            _ = metris!.processInput(input)
+        }
+    }
+}
+
+extension Metris.Input.Move {
+    static func parse(_ command: String) -> Self? {
+        switch command {
+        case "s":
+            return .down
+        case "a":
+            return .left
+        case "d":
+            return .right
+        default:
+            return nil
+        }
+    }
+}
+
+extension Metris.Input.Rotate {
+    static func parse(_ command: String) -> Self? {
+        switch command {
+        case "f":
+            return .being
+        default:
+            return nil
         }
     }
 }
