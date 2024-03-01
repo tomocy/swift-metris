@@ -59,7 +59,7 @@ struct Vertex {
 }
 
 extension Vertex {
-    init(_ position: SIMD2<Float>) {
+    init(at position: SIMD2<Float>) {
         self.position = position
     }
 }

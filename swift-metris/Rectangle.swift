@@ -16,10 +16,10 @@ extension Rectangle: IndexedPrimitiveAppendable {
 
         primitive.append(
             vertices: [
-                Vertex(.init(-halfSize.x, halfSize.y)),
-                Vertex(.init(halfSize.x, halfSize.y)),
-                Vertex(.init(halfSize.x, -halfSize.y)),
-                Vertex(.init(-halfSize.x, -halfSize.y)),
+                Vertex(at: .init(-halfSize.x, halfSize.y)),
+                Vertex(at: .init(halfSize.x, halfSize.y)),
+                Vertex(at: .init(halfSize.x, -halfSize.y)),
+                Vertex(at: .init(-halfSize.x, -halfSize.y)),
             ].map({ $0.colorized(with: color) })
             .map({ $0.transformed(with: transform) }),
             indices: [

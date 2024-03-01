@@ -22,7 +22,10 @@ struct MTLSizedBuffers {
                 length: size,
                 options: options
             )
-            NSLog("MTLBuffer: Generated: {index: \(index), size: \(size)}")
+            Log.debug("MTLBuffer: Generated", with: [
+                ("Index", "\(index)"),
+                ("Size", "\(size)"),
+            ])
         }
 
         return buffers[index]!

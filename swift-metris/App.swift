@@ -4,9 +4,14 @@ import Cocoa
 
 class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        NSLog("AppDelegate: Finished launching")
+        Log.debug("App: Launched")
 
-        window = Window.init(contentRect: .init(x: 0, y: 0, width: 400, height: 800))
+        window = Window.init(
+            contentRect: .init(
+                x: 0, y: 0,
+                width: 400, height: 800
+            )
+        )
 
         window!.makeKeyAndOrderFront(notification)
         window!.center()
@@ -25,10 +30,10 @@ class AppMenu : NSMenu {
 
         do {
             let item = NSMenuItem.init()
-            item.submenu = NSMenu.init()
+            item.submenu = .init()
 
             item.submenu!.items.append(
-                NSMenuItem(
+                .init(
                     title: "Quit",
                     action: #selector(NSApplication.terminate(_:)),
                     keyEquivalent: "q"

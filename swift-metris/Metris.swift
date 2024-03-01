@@ -86,7 +86,7 @@ extension Metris {
             }
         }
 
-        NSLog("Metris: Game over")
+        Log.debug("Metris: Game over")
         stop()
     }
 

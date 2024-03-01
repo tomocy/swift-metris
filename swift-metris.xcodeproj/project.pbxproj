@@ -30,6 +30,7 @@
 		F52641B62B7F551D00BB540F /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
 		F52641B72B7F551D00BB540F /* Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46162B78881400B069DC /* Metal.swift */; };
 		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
+		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		F56DCA662ABB5574000D29D5 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		F56DCA682ABB60AD000D29D5 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
+		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
 		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 				F5A9534D2AC3F9B7008E4200 /* CG.swift */,
 				F5A953452AC33FC7008E4200 /* Fragment.h */,
 				F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */,
+				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
@@ -196,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F52641A92B7F551D00BB540F /* View.swift in Sources */,
+				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
 				F52641B32B7F551D00BB540F /* Rectangle.swift in Sources */,
 				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,

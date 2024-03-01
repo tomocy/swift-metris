@@ -8,8 +8,10 @@ class View : MTKView {
 
     init(frame: NSRect) {
         super.init(frame: frame, device: MTLCreateSystemDefaultDevice())
-        NSLog("View: Initialized")
-        NSLog("View: GPU device: \(device!.name)")
+        Log.debug("View: Initialized")
+        Log.debug("View: GPU", with: [
+            ("Name", device!.name),
+        ])
 
         clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
 
