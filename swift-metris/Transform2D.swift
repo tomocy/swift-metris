@@ -1,7 +1,6 @@
 // tomocy
 
 import simd
-import CoreGraphics
 
 struct Transform2D {
     static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
