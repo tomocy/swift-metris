@@ -13,7 +13,7 @@ extension CGColor {
     }
 
     static func black(alpha: CGFloat = 1) -> Self {
-        return Self(
+        return .init(
             red: 0,
             green: 0,
             blue: 0,

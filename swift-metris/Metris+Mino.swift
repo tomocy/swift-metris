@@ -45,7 +45,7 @@ extension Metris {
         func position(of piece: Piece) -> SIMD2<Int> { position &+ piece.position }
 
         func collides(on field: Field) -> Bool {
-            pieces.contains(where: { piece in
+            return pieces.contains(where: { piece in
                 field.collides(piece, at: position(of: piece))
             })
         }
@@ -76,7 +76,7 @@ extension Metris {
             )
             assert(size.x >= 0 && size.y >= 0)
 
-            return SIMD2(size)
+            return .init(size)
         }
 
         // O(pieces)
@@ -113,7 +113,7 @@ extension Metris.Mino {
         }
 
         static func random<Generator: RandomNumberGenerator>(using generator: inout Generator) -> Self {
-            .allCases.randomElement(using: &generator)!
+            return .allCases.randomElement(using: &generator)!
         }
     }
 }
@@ -126,67 +126,67 @@ extension Metris.Mino {
         case .i:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(-1, 0)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(1, 0)),
-                    Piece(descriptor).placed(at: .init(2, 0)),
+                    .init(descriptor).placed(at: .init(-1, 0)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(1, 0)),
+                    .init(descriptor).placed(at: .init(2, 0)),
                 ],
                 position: position
             )
         case .j:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(0, 2)),
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(-1, 0)),
+                    .init(descriptor).placed(at: .init(0, 2)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(-1, 0)),
                 ],
                 position: position
             )
         case .l:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(0, 2)),
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(1, 0)),
+                    .init(descriptor).placed(at: .init(0, 2)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(1, 0)),
                 ],
                 position: position
             )
         case .o:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(1, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(1, 0)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(1, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(1, 0)),
                 ]
             )
         case .s:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(1, 1)),
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(-1, 0)),
+                    .init(descriptor).placed(at: .init(1, 1)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(-1, 0)),
                 ]
             )
         case .t:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(-1, 1)),
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(1, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(-1, 1)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(1, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
                 ]
             )
         case .z:
             return Self(
                 pieces: [
-                    Piece(descriptor).placed(at: .init(-1, 1)),
-                    Piece(descriptor).placed(at: .init(0, 1)),
-                    Piece(descriptor).placed(at: .init(0, 0)),
-                    Piece(descriptor).placed(at: .init(1, 0)),
+                    .init(descriptor).placed(at: .init(-1, 1)),
+                    .init(descriptor).placed(at: .init(0, 1)),
+                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(descriptor).placed(at: .init(1, 0)),
                 ]
             )
         }

@@ -13,11 +13,11 @@ class Metris {
         ticker = Ticker(interval: 0.875)
 
         camera = Camera(
-            projection: Transform2D.orthogonal(
-                top: Float(size.height), bottom: 0,
-                left: 0, right: Float(size.width)
+            projection: .orthogonal(
+                top: .init(size.height), bottom: 0,
+                left: 0, right: .init(size.width)
             ),
-            transform: Transform2D(
+            transform: .init(
                 translate: .init(0, 0)
             )
         )
@@ -26,12 +26,12 @@ class Metris {
 
         do {
             let unit = min(
-                size.width / CGFloat(field.size.x),
-                size.height / CGFloat(field.size.y)
+                size.width / .init(field.size.x),
+                size.height / .init(field.size.y)
             )
             descriptor = .init(
                 piece: .init(
-                    size: CGSize(width: unit, height: unit),
+                    size: .init(width: unit, height: unit),
                     color: .random()
                 )
             )

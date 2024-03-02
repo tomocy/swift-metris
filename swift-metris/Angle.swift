@@ -44,7 +44,9 @@ extension Angle : SignedNumeric {
     }
 
     init(integerLiteral value: Raw.IntegerLiteralType) {
-        self.init(degree: .init(integerLiteral: value))
+        self.init(
+            degree: .init(integerLiteral: value)
+        )
     }
 
     init?<T>(exactly source: T) where T : BinaryInteger {

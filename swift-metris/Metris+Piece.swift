@@ -7,10 +7,12 @@ extension Metris {
         init(_ descriptor: Descriptor, position: SIMD2<Int> = .init(0, 0)) {
             self.position = position
 
-            body = Rectangle(
+            body = .init(
                 size: descriptor.size,
                 color: descriptor.color,
-                transform: Transform2D().scaled(with: .init(0.94, 0.94))
+                transform: .init().scaled(
+                    with: .init(0.94, 0.94)
+                )
             )
         }
 

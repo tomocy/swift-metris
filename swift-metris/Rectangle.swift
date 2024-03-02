@@ -10,22 +10,35 @@ struct Rectangle {
 
 extension Rectangle: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
-        let halfSize = SIMD2<Float>(Float(size.width / 2), Float(size.height / 2))
+        var vertices: [Vertex] = []
+        do {
+            let halfSize = SIMD2<Float>.init(size) / 2
+            vertices += [
+                .init(at: .init(-halfSize.x, halfSize.y)),
+                .init(at: .init(halfSize.x, halfSize.y)),
+                .init(at: .init(halfSize.x, -halfSize.y)),
+                .init(at: .init(-halfSize.x, -halfSize.y)),
+            ]
 
-        let startIndex = UInt16(primitive.lastIndex + 1)
+            vertices = vertices.map({
+                $0.colorized(with: color)
+            }).map({
+                $0.transformed(with: transform)
+            })
+        }
 
-        primitive.append(
-            vertices: [
-                Vertex(at: .init(-halfSize.x, halfSize.y)),
-                Vertex(at: .init(halfSize.x, halfSize.y)),
-                Vertex(at: .init(halfSize.x, -halfSize.y)),
-                Vertex(at: .init(-halfSize.x, -halfSize.y)),
-            ].map({ $0.colorized(with: color) })
-            .map({ $0.transformed(with: transform) }),
-            indices: [
+        var indices: [UInt16] = []
+        do {
+            let startIndex = UInt16(primitive.lastIndex + 1)
+            indices += [
                 startIndex, startIndex + 1, startIndex + 2,
                 startIndex + 2, startIndex + 3, startIndex,
             ]
+        }
+
+        primitive.append(
+            vertices: vertices,
+            indices: indices
         )
     }
 }

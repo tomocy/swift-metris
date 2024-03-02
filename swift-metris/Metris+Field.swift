@@ -8,7 +8,7 @@ extension Metris {
             self.size = size
             pieces = .init(
                 repeating: nil,
-                count: Int(size.x * size.y)
+                count: .init(size.x * size.y)
             )
         }
 
@@ -36,14 +36,14 @@ extension Metris.Field {
         var x: ClosedRange<Int>
         do {
             let lower = 0 + abs(boundary.x.lowerBound)
-            let upper = Int(size.x) - 1 - boundary.x.upperBound
+            let upper = .init(size.x) - 1 - boundary.x.upperBound
             x = lower...upper
         }
 
         var y: ClosedRange<Int>
         do {
             let lower = 0 + abs(boundary.y.lowerBound)
-            let upper = Int(size.y) - 1 - boundary.y.upperBound
+            let upper = .init(size.y) - 1 - boundary.y.upperBound
             y = lower...upper
         }
 
@@ -51,17 +51,18 @@ extension Metris.Field {
     }
 
     func contains(position: SIMD2<Int>) -> Bool {
-        positionRange.x.contains(position.x) && positionRange.y.contains(position.y)
+        return positionRange.x.contains(position.x)
+            && positionRange.y.contains(position.y)
     }
 
     func index(at position: SIMD2<Int>) -> Int? {
-        contains(position: position)
-            ? Int(position.y * Int(size.x) + position.x)
-            : nil
+        return contains(position: position)
+                ? Int(position.y * Int(size.x) + position.x)
+                : nil
     }
 
     func index(x: Int, y: Int) -> Int? {
-        index(at: .init(x, y))
+        return index(at: .init(x, y))
     }
 
     func at(_ position: SIMD2<Int>) -> Metris.Piece? {
@@ -70,15 +71,15 @@ extension Metris.Field {
     }
 
     func at(x: Int, y: Int) -> Metris.Piece? {
-        at(.init(x, y))
+        return at(.init(x, y))
     }
 
 }
 
 extension Metris.Field {
     func collides(_ piece: Metris.Piece?, at position: SIMD2<Int>) -> Bool {
-        !contains(position: position) 
-        || at(position) != nil
+        return !contains(position: position)
+            || at(position) != nil
     }
 
     mutating func place(_ piece: Metris.Piece?, at position: SIMD2<Int>) {
@@ -131,7 +132,9 @@ extension Metris.Field {
 
 extension Metris.Field: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
-        pieces.compactMap({ $0 }).forEach { $0.append(to: &primitive) }
+        pieces.compactMap({ $0 }).forEach {
+            $0.append(to: &primitive)
+        }
     }
 }
 

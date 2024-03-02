@@ -1,17 +1,18 @@
 // tomocy
 
 import simd
+import CoreGraphics
 
 struct Transform2D {
     static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
         // In MSL, NDC has (0, 0) at the center, (-1, -1) at the bottom left, and (1, 1) at the top right.
 
-        return Transform2D(
-            translate: SIMD2(
+        return .init(
+            translate: .init(
                 (left + right) / (left - right),
                 (bottom + top) / (bottom - top)
             ),
-            scale: SIMD2(
+            scale: .init(
                 2 / (right - left),
                 2 / (top - bottom)
             )
