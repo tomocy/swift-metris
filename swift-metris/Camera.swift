@@ -36,6 +36,9 @@ extension Camera {
 
 extension Camera: MTLRenderCommandEncodableToAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int) {
+        var state = state
+        state.transform = state.transform.inversed(rotate: false, scale: false)
+
         withUnsafeBytes(of: state, { body in
             buffer.contents().copyMemory(
                 from: body.baseAddress!,

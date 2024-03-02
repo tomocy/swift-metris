@@ -10,19 +10,22 @@ class Metris {
     init(size: CGSize) {
         self.size = size
 
-        ticker = Ticker(interval: 0.875)
+        ticker = .init(interval: 0.875)
 
-        camera = Camera(
-            projection: .orthogonal(
-                top: .init(size.height), bottom: 0,
-                left: 0, right: .init(size.width)
-            ),
-            transform: .init(
-                translate: .init(0, 0)
+        do {
+            let halfSize = SIMD2<Float>.init(size) / 2
+            camera = .init(
+                projection: .orthogonal(
+                    top: halfSize.y, bottom: -halfSize.y,
+                    left: -halfSize.x, right: halfSize.x
+                ),
+                transform: .init(
+                    translate: halfSize
+                )
             )
-        )
+        }
 
-        field = Field(size: .init(10, 20))
+        field = .init(size: .init(10, 20))
 
         do {
             let unit = min(
