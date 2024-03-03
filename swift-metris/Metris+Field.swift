@@ -22,7 +22,7 @@ extension Metris {
 extension Metris.Field {
     var positionRange: Vector2D<ClosedRange<Int>> {
         positionRange(
-            for: Vector2D(
+            for: .init(
                 x: 0...0,
                 y: 0...0
             )
