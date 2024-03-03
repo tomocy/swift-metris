@@ -3,6 +3,20 @@
 import simd
 
 struct Transform2D {
+    var translate: SIMD2<Float> = .init(0, 0)
+    var rotate: Angle = .init(radian: 0)
+    var scale: SIMD2<Float> = .init(1, 1)
+}
+
+extension Transform2D {
+    init(_ other: Self) {
+        translate = other.translate
+        rotate = other.rotate
+        scale = other.scale
+    }
+}
+
+extension Transform2D {
     static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
         // In MSL, NDC has (0, 0) at the center, (-1, -1) at the bottom left, and (1, 1) at the top right.
 
@@ -17,7 +31,9 @@ struct Transform2D {
             )
         )
     }
+}
 
+extension Transform2D {
     mutating func transform(with transform: Self) {
         translate(with: transform.translate)
         rotate(with: transform.rotate)
@@ -120,17 +136,5 @@ struct Transform2D {
         var x = self
         x.inverse(translate: translate, rotate: rotate, scale: scale)
         return x
-    }
-
-    var translate: SIMD2<Float> = .init(0, 0)
-    var rotate: Angle = .init(radian: 0)
-    var scale: SIMD2<Float> = .init(1, 1)
-}
-
-extension Transform2D {
-    init(_ other: Self) {
-        translate = other.translate
-        rotate = other.rotate
-        scale = other.scale
     }
 }
