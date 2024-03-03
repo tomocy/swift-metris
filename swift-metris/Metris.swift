@@ -93,8 +93,8 @@ extension Metris {
 
     private func spawnMino() -> Bool {
         var mino = Mino.generate(
-            .random(),
-            descriptor: descriptor.piece.colorized(
+            in: .random(),
+            as: descriptor.piece.colorized(
                 with: .random(
                     red: .random(in: 0...0.8),
                     green: .random(in: 0...0.8),
