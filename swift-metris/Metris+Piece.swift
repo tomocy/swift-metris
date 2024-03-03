@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension Metris {
     struct Piece {
-        init(_ descriptor: Descriptor, position: SIMD2<Int> = .init(0, 0)) {
+        init(_ descriptor: Descriptor, position: Translate = .init(0, 0)) {
             self.position = position
 
             body = .init(
@@ -16,17 +16,17 @@ extension Metris {
             )
         }
 
-        var position: SIMD2<Int> = .init(0, 0)
+        var position: Translate = .init(0, 0)
         private var body: Rectangle
     }
 }
 
 extension Metris.Piece {
-    mutating func place(at position: SIMD2<Int>) {
+    mutating func place(at position: Metris.Translate) {
         self.position = position
     }
 
-    func placed(at position: SIMD2<Int>) -> Self {
+    func placed(at position: Metris.Translate) -> Self {
         var x = self
         x.place(at: position)
         return x

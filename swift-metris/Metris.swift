@@ -57,6 +57,10 @@ class Metris {
 }
 
 extension Metris {
+    typealias Translate = SIMD2<Int>
+}
+
+extension Metris {
     func start() {
         ticker.start { [weak self] in
             guard let self = self else { return }
@@ -145,11 +149,11 @@ extension Metris.Input {
             return left.delta == right.delta
         }
 
-        private init(delta: SIMD2<Int>) {
+        private init(delta: Metris.Translate) {
             self.delta = delta
         }
 
-        let delta: SIMD2<Int>
+        let delta: Metris.Translate
     }
 }
 
