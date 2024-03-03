@@ -57,8 +57,6 @@ class Metris {
 }
 
 extension Metris {
-    struct Input {}
-
     func start() {
         ticker.start { [weak self] in
             guard let self = self else { return }
@@ -131,6 +129,10 @@ extension Metris {
 
         return true
     }
+}
+
+extension Metris {
+    struct Input {}
 }
 
 extension Metris.Input {

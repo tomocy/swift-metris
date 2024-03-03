@@ -96,7 +96,7 @@ extension Metris.Field {
 
         var bottom = range.y.lowerBound
         for y in range.y {
-            if isLineFilled(at: y) {
+            if hasLineFilled(at: y) {
                 clearLine(at: y)
                 continue
             }
@@ -122,7 +122,7 @@ extension Metris.Field {
         }
     }
 
-    func isLineFilled(at index: Int) -> Bool {
+    func hasLineFilled(at index: Int) -> Bool {
         let range = positionRange
         return range.y.contains(index) && range.x.allSatisfy { x in
             at(x: x, y: index) != nil
