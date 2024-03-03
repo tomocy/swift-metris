@@ -3,11 +3,11 @@
 import CoreGraphics
 
 struct Vertex {
-    mutating func position(at position: SIMD2<Float>) {
+    mutating func position(at position: Transform2D.Translate) {
         self.position = position
     }
 
-    func positioned(at position: SIMD2<Float>) -> Self {
+    func positioned(at position: Transform2D.Translate) -> Self {
         var x = self
         x.position(at: position)
         return x
@@ -53,13 +53,13 @@ struct Vertex {
         return x
     }
 
-    var position: SIMD2<Float> = .init(0, 0)
+    var position: Transform2D.Translate = .init(0, 0)
     var color: SIMD4<Float> = .init(0, 0, 0, 1)
     var transform: Transform2D = .init()
 }
 
 extension Vertex {
-    init(at position: SIMD2<Float>) {
+    init(at position: Transform2D.Translate) {
         self.position = position
     }
 }

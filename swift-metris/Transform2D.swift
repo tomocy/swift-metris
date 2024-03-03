@@ -3,9 +3,14 @@
 import simd
 
 struct Transform2D {
-    var translate: SIMD2<Float> = .init(0, 0)
+    var translate: Translate = .init(0, 0)
     var rotate: Angle = .init(radian: 0)
-    var scale: SIMD2<Float> = .init(1, 1)
+    var scale: Scale = .init(1, 1)
+}
+
+extension Transform2D {
+    typealias Translate = SIMD2<Float>
+    typealias Scale = SIMD2<Float>
 }
 
 extension Transform2D {
@@ -58,21 +63,21 @@ extension Transform2D {
         return x
     }
 
-    mutating func translate(with translate: SIMD2<Float>) {
+    mutating func translate(with translate: Translate) {
         self.translate = translate
     }
 
-    mutating func translate(by delta: SIMD2<Float>) {
+    mutating func translate(by delta: Translate) {
         self.translate += delta
     }
 
-    func translated(with translate: SIMD2<Float>) -> Self {
+    func translated(with translate: Translate) -> Self {
         var x = self
         x.translate(with: translate)
         return x
     }
 
-    func translated(by delta: SIMD2<Float>) -> Self {
+    func translated(by delta: Translate) -> Self {
         var x = self
         x.translate(by: delta)
         return x
@@ -98,21 +103,21 @@ extension Transform2D {
         return x
     }
 
-    mutating func scale(with scale: SIMD2<Float>) {
+    mutating func scale(with scale: Scale) {
         self.scale = scale
     }
 
-    mutating func scale(by factor: SIMD2<Float>) {
+    mutating func scale(by factor: Scale) {
         self.scale *= scale
     }
 
-    func scaled(with factor: SIMD2<Float>) -> Self {
+    func scaled(with factor: Scale) -> Self {
         var x = self
         x.scale(with: factor)
         return x
     }
 
-    func scaled(by factor: SIMD2<Float>) -> Self {
+    func scaled(by factor: Scale) -> Self {
         var x = self
         x.scale(by: factor)
         return x
