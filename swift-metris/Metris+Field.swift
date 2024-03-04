@@ -88,6 +88,30 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
+    func collides(with mino: Metris.Mino) -> Bool {
+        return mino.pieces.contains(where: { piece in
+            collides(at: mino.position(of: piece))
+        })
+    }
+
+    mutating func placeMino(_ mino: Metris.Mino) -> Bool {
+        guard !collides(with: mino) else { return false }
+
+        mino.pieces.forEach { piece in
+            placePiece(piece, at: mino.position(of: piece))
+        }
+
+        return true
+    }
+
+    mutating func clearMino(_ mino: Metris.Mino) {
+        mino.pieces.forEach { piece in
+            placePiece(nil, at: mino.position(of: piece))
+        }
+    }
+}
+
+extension Metris.Field {
     mutating func clearLines() {
         let range = positionRange
 

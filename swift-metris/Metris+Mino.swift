@@ -4,8 +4,8 @@ import CoreGraphics
 
 extension Metris {
     struct Mino {
+        var pieces: [Piece]
         var position: Position = .init(0, 0)
-        private var pieces: [Piece]
     }
 }
 
@@ -86,29 +86,6 @@ extension Metris.Mino {
 }
 
 extension Metris.Mino {
-    func collides(in field: Metris.Field) -> Bool {
-        return pieces.contains(where: { piece in
-            field.collides(at: position(of: piece))
-        })
-    }
-
-    func place(in field: inout Metris.Field) -> Bool {
-        guard !collides(in: field) else { return false }
-
-        pieces.forEach { piece in
-            field.placePiece(piece, at: position(of: piece))
-        }
-        return true
-    }
-
-    func clear(in field: inout Metris.Field) {
-        pieces.forEach { piece in
-            field.placePiece(nil, at: position(of: piece))
-        }
-    }
-}
-
-extension Metris.Mino {
     enum Shape : CaseIterable {
         case i, j, l, o, s, t, z
 
@@ -132,73 +109,73 @@ extension Metris.Mino {
         switch shape {
         case .i:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(-1, 0)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(1, 0)),
                     .init(as: descriptor, at: .init(2, 0)),
-                ]
+                ],
+                position: position
             )
         case .j:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(0, 2)),
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(-1, 0)),
-                ]
+                ],
+                position: position
             )
         case .l:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(0, 2)),
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(1, 0)),
-                ]
+                ],
+                position: position
             )
         case .o:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(1, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(1, 0)),
-                ]
+                ],
+                position: position
             )
         case .s:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(1, 1)),
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(-1, 0)),
-                ]
+                ],
+                position: position
             )
         case .t:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(-1, 1)),
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(1, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
-                ]
+                ], 
+                position: position
             )
         case .z:
             return .init(
-                position: position,
                 pieces: [
                     .init(as: descriptor, at: .init(-1, 1)),
                     .init(as: descriptor, at: .init(0, 1)),
                     .init(as: descriptor, at: .init(0, 0)),
                     .init(as: descriptor, at: .init(1, 0)),
-                ]
+                ], 
+                position: position
             )
         }
     }
