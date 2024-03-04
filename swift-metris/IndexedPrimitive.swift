@@ -3,12 +3,10 @@
 import Metal
 
 struct IndexedPrimitive {
-    var verticesSize: Int { MemoryLayout<Vertex>.stride * vertices.count }
-    private var vertices: [Vertex] = []
+    var vertices: [Vertex] = []
+    var indices: [UInt16] = []
 
-    var indicesSize: Int { MemoryLayout<UInt16>.stride * indices.count }
     var lastIndex: Int { vertices.count - 1 }
-    private var indices: [UInt16] = []
 }
 
 extension IndexedPrimitive {
@@ -50,4 +48,8 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
             )
         }
     }
+}
+
+extension Array {
+    var size: Int { MemoryLayout<Element>.stride * count }
 }

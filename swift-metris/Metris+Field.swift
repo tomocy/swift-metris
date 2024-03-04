@@ -153,12 +153,12 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
             to: .init(
                 data: frameBuffers.data.take(
                     at: frame.id,
-                    of: primitive.verticesSize,
+                    of: primitive.vertices.size,
                     with: encoder.device
                 ),
                 index: frameBuffers.index.take(
                     at: frame.id,
-                    of: primitive.indicesSize,
+                    of: primitive.indices.size,
                     with: encoder.device
                 )
             ),
