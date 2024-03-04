@@ -123,9 +123,9 @@ extension Metris {
 
     private func placeMino(_ mino: Mino) -> Bool {
         var nextField = field
-        currentMino?.clear(on: &nextField)
+        currentMino?.clear(in: &nextField)
 
-        let placed = mino.place(on: &nextField)
+        let placed = mino.place(in: &nextField)
         if !placed {
             return false
         }

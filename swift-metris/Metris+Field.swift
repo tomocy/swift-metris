@@ -21,7 +21,7 @@ extension Metris {
 
 extension Metris.Field {
     var positionRange: Vector2D<ClosedRange<Int>> {
-        positionRange(
+        return positionRange(
             for: .init(
                 x: 0...0,
                 y: 0...0
@@ -50,18 +50,18 @@ extension Metris.Field {
         return .init(x: x, y: y)
     }
 
-    func contains(position: Metris.Position) -> Bool {
+    func contains(_ position: Metris.Position) -> Bool {
         return positionRange.x.contains(position.x)
             && positionRange.y.contains(position.y)
     }
 
     func collides(at position: Metris.Position) -> Bool {
-        return !contains(position: position)
+        return !contains(position)
             || at(position) != nil
     }
 
     func index(at position: Metris.Position) -> Int? {
-        return contains(position: position)
+        return contains(position)
                 ? Int(position.y * Int(size.x) + position.x)
                 : nil
     }
@@ -81,7 +81,7 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
-    mutating func place(_ piece: Metris.Piece?, at position: Metris.Position) {
+    mutating func placePiece(_ piece: Metris.Piece?, at position: Metris.Position) {
         guard let i = index(at: position) else { return }
         pieces[i] = piece?.placed(at: position)
     }
@@ -101,7 +101,7 @@ extension Metris.Field {
             if y != bottom {
                 range.x.forEach { x in
                     let piece = at(x: x, y: y)
-                    place(piece, at: .init(x, bottom))
+                    placePiece(piece, at: .init(x, bottom))
                 }
             }
             bottom += 1
@@ -115,7 +115,7 @@ extension Metris.Field {
         }
 
         range.x.forEach { x in
-            place(nil, at: .init(x, index))
+            placePiece(nil, at: .init(x, index))
         }
     }
 

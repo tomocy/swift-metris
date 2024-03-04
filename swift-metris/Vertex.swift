@@ -15,13 +15,13 @@ extension Vertex {
 }
 
 extension Vertex {
-    mutating func position(at position: SIMD2<Float>) {
+    mutating func place(at position: SIMD2<Float>) {
         self.position = position
     }
 
-    func positioned(at position: SIMD2<Float>) -> Self {
+    func placed(at position: SIMD2<Float>) -> Self {
         var next = self
-        next.position(at: position)
+        next.place(at: position)
         return next
     }
 

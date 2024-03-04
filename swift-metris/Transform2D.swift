@@ -52,15 +52,15 @@ extension Transform2D {
     }
 
     func transformed(with transform: Self) -> Self {
-        var x = self
-        x.transform(with: transform)
-        return x
+        var next = self
+        next.transform(with: transform)
+        return next
     }
 
     func transformed(by delta: Self) -> Self {
-        var x = self
-        x.transform(by: delta)
-        return x
+        var next = self
+        next.transform(by: delta)
+        return next
     }
 
     mutating func translate(with translate: Translate) {
@@ -72,15 +72,15 @@ extension Transform2D {
     }
 
     func translated(with translate: Translate) -> Self {
-        var x = self
-        x.translate(with: translate)
-        return x
+        var next = self
+        next.translate(with: translate)
+        return next
     }
 
     func translated(by delta: Translate) -> Self {
-        var x = self
-        x.translate(by: delta)
-        return x
+        var next = self
+        next.translate(by: delta)
+        return next
     }
 
     mutating func rotate(with angle: Angle) {
@@ -92,15 +92,15 @@ extension Transform2D {
     }
 
     func rotated(with angle: Angle) -> Self {
-        var x = self
-        x.rotate(with: angle)
-        return x
+        var next = self
+        next.rotate(with: angle)
+        return next
     }
 
     func rotated(by angle: Angle) -> Self {
-        var x = self
-        x.rotate(by: angle)
-        return x
+        var next = self
+        next.rotate(by: angle)
+        return next
     }
 
     mutating func scale(with scale: Scale) {
@@ -112,15 +112,15 @@ extension Transform2D {
     }
 
     func scaled(with factor: Scale) -> Self {
-        var x = self
-        x.scale(with: factor)
-        return x
+        var next = self
+        next.scale(with: factor)
+        return next
     }
 
     func scaled(by factor: Scale) -> Self {
-        var x = self
-        x.scale(by: factor)
-        return x
+        var next = self
+        next.scale(by: factor)
+        return next
     }
 
     mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
@@ -138,8 +138,8 @@ extension Transform2D {
     }
 
     func inversed(translate: Bool = true, rotate: Bool = true, scale: Bool = true) -> Self {
-        var x = self
-        x.inverse(translate: translate, rotate: rotate, scale: scale)
-        return x
+        var next = self
+        next.inverse(translate: translate, rotate: rotate, scale: scale)
+        return next
     }
 }
