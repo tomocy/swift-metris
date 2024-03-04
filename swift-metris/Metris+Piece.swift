@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension Metris {
     struct Piece {
-        init(_ descriptor: Descriptor, position: Translate = .init(0, 0)) {
+        init(as descriptor: Descriptor, at position: Translate = .init(0, 0)) {
             self.position = position
 
             body = .init(

@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension CGColor {
     static func random(red: CGFloat? = nil, green: CGFloat? = nil, blue: CGFloat? = nil, alpha: CGFloat? = nil) -> Self {
-        return Self(
+        return .init(
             red: red ?? .random(in: 0...1),
             green: green ?? .random(in: 0...1),
             blue: blue ?? .random(in: 0...1),

@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension Comparable {
     func clamped(in range: ClosedRange<Self>) -> Self {
-        max(
+        return max(
             min(self, range.upperBound),
             range.lowerBound
         )
@@ -13,14 +13,14 @@ extension Comparable {
 
 extension SIMD2 where Scalar: Comparable {
     func min(_ other: Self) -> Self {
-        Self(
+        return .init(
             Swift.min(x, other.x),
             Swift.min(y, other.y)
         )
     }
 
     func max(_ other: Self) -> Self {
-        Self(
+        return .init(
             Swift.max(x, other.x),
             Swift.max(y, other.y)
         )
@@ -50,7 +50,7 @@ extension SIMD4<Float> {
     init(_ color: CGColor) {
         self.init()
 
-        let c = color.components!
+        guard let c = color.components else { return }
         x = .init(c[0])
         y = .init(c[1])
         z = .init(c[2])

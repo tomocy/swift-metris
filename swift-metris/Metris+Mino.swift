@@ -136,70 +136,70 @@ extension Metris.Mino {
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(-1, 0)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(1, 0)),
-                    .init(descriptor).placed(at: .init(2, 0)),
+                    .init(as: descriptor, at: .init(-1, 0)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(1, 0)),
+                    .init(as: descriptor, at: .init(2, 0)),
                 ]
             )
         case .j:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(0, 2)),
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(-1, 0)),
+                    .init(as: descriptor, at: .init(0, 2)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(-1, 0)),
                 ]
             )
         case .l:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(0, 2)),
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(1, 0)),
+                    .init(as: descriptor, at: .init(0, 2)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(1, 0)),
                 ]
             )
         case .o:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(1, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(1, 0)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(1, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(1, 0)),
                 ]
             )
         case .s:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(1, 1)),
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(-1, 0)),
+                    .init(as: descriptor, at: .init(1, 1)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(-1, 0)),
                 ]
             )
         case .t:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(-1, 1)),
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(1, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(-1, 1)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(1, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
                 ]
             )
         case .z:
             return .init(
                 position: position,
                 pieces: [
-                    .init(descriptor).placed(at: .init(-1, 1)),
-                    .init(descriptor).placed(at: .init(0, 1)),
-                    .init(descriptor).placed(at: .init(0, 0)),
-                    .init(descriptor).placed(at: .init(1, 0)),
+                    .init(as: descriptor, at: .init(-1, 1)),
+                    .init(as: descriptor, at: .init(0, 1)),
+                    .init(as: descriptor, at: .init(0, 0)),
+                    .init(as: descriptor, at: .init(1, 0)),
                 ]
             )
         }

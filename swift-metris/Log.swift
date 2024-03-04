@@ -3,7 +3,9 @@
 import Foundation
 
 struct Log {
-    static func debug(_ message: String, with details: [(String, String)]? = nil) {
+    typealias Details = [(String, String)]
+
+    static func debug(_ message: String, with details: Details? = nil) {
         var output = ""
         output += message
 
@@ -14,7 +16,7 @@ struct Log {
         NSLog(output)
     }
 
-    private static func serializeDetails(_ details: [(String, String)]) -> String {
+    private static func serializeDetails(_ details: Details) -> String {
         var output = "{"
         for i in 0..<details.count {
             if i != 0 {
