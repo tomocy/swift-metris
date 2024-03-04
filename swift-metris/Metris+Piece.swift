@@ -27,42 +27,44 @@ extension Metris.Piece {
     }
 
     func placed(at position: Metris.Position) -> Self {
-        var x = self
-        x.place(at: position)
-        return x
+        var next = self
+        next.place(at: position)
+        return next
     }
 }
 
 extension Metris.Piece: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
-        var target = body
+        var body = self.body
 
-        target.transform.translate(
+        body.transform.translate(
             with: .init(
-                Float(target.size.width) * Float(position.x) + Float(target.size.width) / 2,
-                Float(target.size.height) * Float(position.y) + Float(target.size.height) / 2
+                Float(body.size.width) * Float(position.x) + Float(body.size.width) / 2,
+                Float(body.size.height) * Float(position.y) + Float(body.size.height) / 2
             )
         )
 
-        target.append(to: &primitive)
+        body.append(to: &primitive)
     }
 }
 
 extension Metris.Piece {
     struct Descriptor {
-        func resized(with size: CGSize) -> Self {
-            var x = self
-            x.size = size
-            return x
-        }
-
-        func colorized(with color: CGColor) -> Self {
-            var x = self
-            x.color = color
-            return x
-        }
-
         var size: CGSize
         var color: CGColor
+    }
+}
+
+extension Metris.Piece.Descriptor {
+    func resized(with size: CGSize) -> Self {
+        var next = self
+        next.size = size
+        return next
+    }
+
+    func colorized(with color: CGColor) -> Self {
+        var next = self
+        next.color = color
+        return next
     }
 }

@@ -11,7 +11,7 @@ extension Metris {
                 count: .init(size.x * size.y)
             )
         }
-
+        
         let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
 
@@ -55,6 +55,11 @@ extension Metris.Field {
             && positionRange.y.contains(position.y)
     }
 
+    func collides(at position: Metris.Position) -> Bool {
+        return !contains(position: position)
+            || at(position) != nil
+    }
+
     func index(at position: Metris.Position) -> Int? {
         return contains(position: position)
                 ? Int(position.y * Int(size.x) + position.x)
@@ -73,24 +78,16 @@ extension Metris.Field {
     func at(x: Int, y: Int) -> Metris.Piece? {
         return at(.init(x, y))
     }
-
 }
 
 extension Metris.Field {
-    func collides(_ piece: Metris.Piece?, at position: Metris.Position) -> Bool {
-        return !contains(position: position)
-            || at(position) != nil
-    }
-
     mutating func place(_ piece: Metris.Piece?, at position: Metris.Position) {
         guard let i = index(at: position) else { return }
         pieces[i] = piece?.placed(at: position)
     }
+}
 
-    mutating func clearMino(_ mino: Metris.Mino) {
-        mino.clear(on: &self)
-    }
-
+extension Metris.Field {
     mutating func clearLines() {
         let range = positionRange
 

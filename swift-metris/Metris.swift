@@ -3,10 +3,6 @@
 import Metal
 
 class Metris {
-    struct Descriptor {
-        var piece: Piece.Descriptor
-    }
-
     init(size: CGSize) {
         self.size = size
 
@@ -54,6 +50,12 @@ class Metris {
     private var field: Field
 
     private var currentMino: Mino?
+}
+
+extension Metris {
+    struct Descriptor {
+        var piece: Piece.Descriptor
+    }
 }
 
 extension Metris {
@@ -161,7 +163,7 @@ extension Metris {
     func processInput(_ input: Input.Move) -> Bool {
         guard let mino = currentMino else { return false }
         return placeMino(
-            mino.positioned(by: input.delta)
+            mino.placed(by: input.delta)
         )
     }
 }

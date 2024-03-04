@@ -42,23 +42,23 @@ extension Metris.Mino {
 }
 
 extension Metris.Mino {
-    mutating func position(at position: Metris.Position) {
+    mutating func place(at position: Metris.Position) {
         self.position = position
     }
 
-    func positioned(at position: Metris.Position) -> Self {
-        var x = self
-        x.position(at: position)
-        return x
+    func placed(at position: Metris.Position) -> Self {
+        var next = self
+        next.place(at: position)
+        return next
     }
 
-    mutating func position(by delta: Metris.Position) {
+    mutating func place(by delta: Metris.Position) {
         position &+= delta
     }
 
-    func positioned(by delta: Metris.Position) -> Self {
+    func placed(by delta: Metris.Position) -> Self {
         var x = self
-        x.position(by: delta)
+        x.place(by: delta)
         return x
     }
 
@@ -79,16 +79,16 @@ extension Metris.Mino {
     }
 
     func rotated() -> Self {
-        var x = self
-        x.rotate()
-        return x
+        var next = self
+        next.rotate()
+        return next
     }
 }
 
 extension Metris.Mino {
     func collides(on field: Metris.Field) -> Bool {
         return pieces.contains(where: { piece in
-            field.collides(piece, at: position(of: piece))
+            field.collides(at: position(of: piece))
         })
     }
 

@@ -6,8 +6,7 @@ struct Log {
     typealias Details = [(String, String)]
 
     static func debug(_ message: String, with details: Details? = nil) {
-        var output = ""
-        output += message
+        var output = message
 
         if let details = details {
             output += ": \(serializeDetails(details))"
