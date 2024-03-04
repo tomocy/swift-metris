@@ -11,7 +11,7 @@
 		F52641A22B7F551D00BB540F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* App.swift */; };
 		F52641A32B7F551D00BB540F /* CG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534D2AC3F9B7008E4200 /* CG.swift */; };
 		F52641A42B7F551D00BB540F /* Metris+Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */; };
-		F52641A52B7F551D00BB540F /* IndexedPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */; };
+		F52641A52B7F551D00BB540F /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F332ABB4FBC003505BE /* Primitive.swift */; };
 		F52641A62B7F551D00BB540F /* Metris+Mino.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */; };
 		F52641A72B7F551D00BB540F /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Memory.swift */; };
 		F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953422AC329AE008E4200 /* Metris+Piece.swift */; };
@@ -57,7 +57,7 @@
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform2D.swift; sourceTree = "<group>"; };
 		F5E88F312ABB4F39003505BE /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
-		F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedPrimitive.swift; sourceTree = "<group>"; };
+		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
 		F5E88F352ABB5003003505BE /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		F5E88F372ABB501F003505BE /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		F5E88F392ABB5053003505BE /* Metris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metris.swift; sourceTree = "<group>"; };
@@ -87,7 +87,6 @@
 				F5E88F352ABB5003003505BE /* Camera.swift */,
 				F5A9534D2AC3F9B7008E4200 /* CG.swift */,
 				F5A953452AC33FC7008E4200 /* Fragment.h */,
-				F5E88F332ABB4FBC003505BE /* IndexedPrimitive.swift */,
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
@@ -98,6 +97,7 @@
 				F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */,
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
+				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
 				F5E88F312ABB4F39003505BE /* Rectangle.swift */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
@@ -216,7 +216,7 @@
 				F52641B52B7F551D00BB540F /* Vector2D.swift in Sources */,
 				F52641AE2B7F551D00BB540F /* Camera.swift in Sources */,
 				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
-				F52641A52B7F551D00BB540F /* IndexedPrimitive.swift in Sources */,
+				F52641A52B7F551D00BB540F /* Primitive.swift in Sources */,
 				F52641CC2B7F5DB600BB540F /* main.swift in Sources */,
 				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,
 				F52641B42B7F551D00BB540F /* Window.swift in Sources */,
