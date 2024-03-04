@@ -21,7 +21,7 @@ extension Rectangle: IndexedPrimitiveAppendable {
             ]
 
             vertices = vertices.map({
-                $0.colorized(with: color)
+                $0.colorized(with: .init(color))
             }).map({
                 $0.transformed(with: transform)
             })

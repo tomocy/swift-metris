@@ -3,6 +3,18 @@
 import CoreGraphics
 
 struct Vertex {
+    var position: Transform2D.Translate = .init(0, 0)
+    var color: SIMD4<Float> = .init(0, 0, 0, 1)
+    var transform: Transform2D = .init()
+}
+
+extension Vertex {
+    init(at position: Transform2D.Translate) {
+        self.position = position
+    }
+}
+
+extension Vertex {
     mutating func position(at position: Transform2D.Translate) {
         self.position = position
     }
@@ -17,17 +29,7 @@ struct Vertex {
         self.color = color
     }
 
-    mutating func colorize(with color: CGColor) {
-        colorize(with: .init(color))
-    }
-
     func colorized(with color: SIMD4<Float>) -> Self {
-        var x = self
-        x.colorize(with: color)
-        return x
-    }
-
-    func colorized(with color: CGColor) -> Self {
         var x = self
         x.colorize(with: color)
         return x
@@ -51,15 +53,5 @@ struct Vertex {
         var x = self
         x.transform(by: delta)
         return x
-    }
-
-    var position: Transform2D.Translate = .init(0, 0)
-    var color: SIMD4<Float> = .init(0, 0, 0, 1)
-    var transform: Transform2D = .init()
-}
-
-extension Vertex {
-    init(at position: Transform2D.Translate) {
-        self.position = position
     }
 }
