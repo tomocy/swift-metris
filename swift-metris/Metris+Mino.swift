@@ -4,7 +4,7 @@ import CoreGraphics
 
 extension Metris {
     struct Mino {
-        var position: Translate = .init(0, 0)
+        var position: Position = .init(0, 0)
         private var pieces: [Piece]
     }
 }
@@ -42,27 +42,27 @@ extension Metris.Mino {
 }
 
 extension Metris.Mino {
-    mutating func position(at position: Metris.Translate) {
+    mutating func position(at position: Metris.Position) {
         self.position = position
     }
 
-    func positioned(at position: Metris.Translate) -> Self {
+    func positioned(at position: Metris.Position) -> Self {
         var x = self
         x.position(at: position)
         return x
     }
 
-    mutating func position(by delta: Metris.Translate) {
+    mutating func position(by delta: Metris.Position) {
         position &+= delta
     }
 
-    func positioned(by delta: Metris.Translate) -> Self {
+    func positioned(by delta: Metris.Position) -> Self {
         var x = self
         x.position(by: delta)
         return x
     }
 
-    func position(of piece: Metris.Piece) -> Metris.Translate { position &+ piece.position }
+    func position(of piece: Metris.Piece) -> Metris.Position { position &+ piece.position }
 }
 
 extension Metris.Mino {
@@ -129,7 +129,7 @@ extension Metris.Mino {
     static func generate(
         in shape: Shape,
         as descriptor: Metris.Piece.Descriptor,
-        at position: Metris.Translate = .init(0, 0)
+        at position: Metris.Position = .init(0, 0)
     ) -> Self {
         switch shape {
         case .i:

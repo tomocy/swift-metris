@@ -50,12 +50,12 @@ extension Metris.Field {
         return .init(x: x, y: y)
     }
 
-    func contains(position: Metris.Translate) -> Bool {
+    func contains(position: Metris.Position) -> Bool {
         return positionRange.x.contains(position.x)
             && positionRange.y.contains(position.y)
     }
 
-    func index(at position: Metris.Translate) -> Int? {
+    func index(at position: Metris.Position) -> Int? {
         return contains(position: position)
                 ? Int(position.y * Int(size.x) + position.x)
                 : nil
@@ -65,7 +65,7 @@ extension Metris.Field {
         return index(at: .init(x, y))
     }
 
-    func at(_ position: Metris.Translate) -> Metris.Piece? {
+    func at(_ position: Metris.Position) -> Metris.Piece? {
         guard let i = index(at: position) else { return nil }
         return pieces[i]
     }
@@ -77,12 +77,12 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
-    func collides(_ piece: Metris.Piece?, at position: Metris.Translate) -> Bool {
+    func collides(_ piece: Metris.Piece?, at position: Metris.Position) -> Bool {
         return !contains(position: position)
             || at(position) != nil
     }
 
-    mutating func place(_ piece: Metris.Piece?, at position: Metris.Translate) {
+    mutating func place(_ piece: Metris.Piece?, at position: Metris.Position) {
         guard let i = index(at: position) else { return }
         pieces[i] = piece?.placed(at: position)
     }

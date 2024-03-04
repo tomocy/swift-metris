@@ -57,7 +57,7 @@ class Metris {
 }
 
 extension Metris {
-    typealias Translate = SIMD2<Int>
+    typealias Position = SIMD2<Int>
 }
 
 extension Metris {
@@ -149,11 +149,11 @@ extension Metris.Input {
             return left.delta == right.delta
         }
 
-        private init(delta: Metris.Translate) {
+        private init(delta: Metris.Position) {
             self.delta = delta
         }
 
-        let delta: Metris.Translate
+        let delta: Metris.Position
     }
 }
 
