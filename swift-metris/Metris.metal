@@ -10,18 +10,14 @@ vertex Fragment shadeVertex(
     const uint id [[vertex_id]]
 )
 {
-    const auto v = vs[id];
+    const constant auto* v = &vs[id];
 
-    auto position = float3(v.position, 1);
-
-    position = v.transform.apply(position);
-
-    position = camera->transform.apply(position);
-    position = camera->projection.apply(position);
+    auto position = v->resolvePosition(1);
+    position = camera->applyTransformTo(position);
 
     return {
         .position = float4(position, 1),
-        .color = v.color,
+        .color = v->color,
     };
 }
 

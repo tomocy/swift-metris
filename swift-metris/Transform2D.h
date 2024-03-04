@@ -12,16 +12,18 @@ public:
         return transform.apply(position);
     }
 
-    float3 apply(float3 position) const
+    float3 apply(const float3 position) const
     {
+        auto result = position;
+
         // In MSL, matrix are constructed in column-major order.
         // Therefore in applying transformations,
         // you should proceed from right to left: scale, rotate and then translate.
-        position = toScale() * position;
-        position = toRotate() * position;
-        position = toTranslate() * position;
+        result = toScale() * result;
+        result = toRotate() * result;
+        result = toTranslate() * result;
 
-        return position;
+        return result;
     }
 
 protected:
