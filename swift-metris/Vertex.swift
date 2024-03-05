@@ -55,3 +55,15 @@ extension Vertex2D {
         return next
     }
 }
+
+struct Vertex3D {
+    var position: SIMD3<Float> = .init(0, 0, 0)
+    var color: SIMD4<Float> = .init(0, 0, 0, 1)
+    var transform: Transform3D = .init()
+}
+
+extension Vertex3D {
+    init(at position: SIMD3<Float>) {
+        self.position = position
+    }
+}

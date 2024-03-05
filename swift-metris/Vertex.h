@@ -20,3 +20,8 @@ public:
     float4 color = float4(0, 0, 0, 1);
     Transform2D transform = {};
 };
+
+struct Vertex3D {
+public:
+    float3 position = float3(0, 0, 0);
+};
