@@ -67,3 +67,15 @@ extension Vertex3D {
         self.position = position
     }
 }
+
+extension Vertex3D {
+    mutating func colorize(with color: SIMD4<Float>) {
+        self.color = color
+    }
+
+    func colorized(with color: SIMD4<Float>) -> Self {
+        var next = self
+        next.colorize(with: color)
+        return next
+    }
+}

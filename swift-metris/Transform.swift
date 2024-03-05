@@ -148,7 +148,7 @@ struct Transform3D {
     var translate: Translate = .init(0, 0, 0)
 }
 
-extension Transform2D {
+extension Transform3D {
     typealias Translate = SIMD3<Float>
 }
 

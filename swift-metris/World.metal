@@ -24,11 +24,16 @@ namespace World2D {
 }
 
 namespace World3D {
-    vertex Fragment shadeVertex()
+    vertex Fragment shadeVertex(
+        constant Vertex3D* const vs [[buffer(0)]],
+        const uint id [[vertex_id]]
+    )
     {
+        const constant auto* v = &vs[id];
+
         return {
-            .position = float4(0, 0, 0, 1),
-            .color = float4(0, 0, 0, 1),
+            .position = float4(v->position, 1),
+            .color = v->color,
         };
     }
 }

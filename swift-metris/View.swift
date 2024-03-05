@@ -39,7 +39,11 @@ class View: MTKView {
 extension View {
     private func makePipeline() -> MTLRenderPipelineState? {
         let desc = MTLRenderPipelineDescriptor.init()
-        desc.colorAttachments[0].pixelFormat = colorPixelFormat
+
+        do {
+            let attachment = desc.colorAttachments[0]!
+            attachment.pixelFormat = colorPixelFormat
+        }
 
         world!.describe(with: device!, to: desc)
 
