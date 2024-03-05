@@ -26,8 +26,8 @@ struct World2D {
     var metris: Metris
 }
 
-extension World2D {
-    static func describe(to descriptor: MTLRenderPipelineDescriptor, with device: MTLDevice) {
+extension World2D: MTLRenderPipelineDescriable {
+    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {
         let lib = device.makeDefaultLibrary()!
 
         descriptor.vertexFunction = lib.makeFunction(name: "World2D::shadeVertex")!

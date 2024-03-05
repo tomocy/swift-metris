@@ -13,8 +13,9 @@ class View : MTKView {
             ("Name", device!.name),
         ])
 
-        clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+        world = .init(size: frame.size)
 
+        clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
         pipeline = makePipeline()!
         commandQueue = device!.makeCommandQueue()!
@@ -25,24 +26,21 @@ class View : MTKView {
             size: 3,
             fill: { index in .init(id: index) }
         )
-
-        world = .init(size: frame.size)
     }
+
+    private var world: World2D?
 
     private var pipeline: MTLRenderPipelineState?
     private var commandQueue: MTLCommandQueue?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
-
-    private var world: World2D?
 }
 
 extension View {
     private func makePipeline() -> MTLRenderPipelineState? {
         let desc = MTLRenderPipelineDescriptor.init()
-
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
-        World2D.describe(to: desc, with: device!)
+        world!.describe(with: device!, to: desc)
 
         return try? device!.makeRenderPipelineState(descriptor: desc)
     }

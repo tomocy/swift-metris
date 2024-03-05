@@ -44,21 +44,26 @@ struct MTLSizedBuffers {
     private var buffers: [Int: MTLBuffer] = [:]
 }
 
-protocol MTLRenderCommandEncodableToAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int)
-}
-
-protocol MTLRenderCommandEncodableToIndexedAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int)
+protocol MTLRenderPipelineDescriable {
+    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor)
 }
 
 // MTLFrameRenderCommandEncodable encodes itself using the buffer assigned for the frame.
 // It should use the buffer if its size matches the encoding one.
 // Otherwise it should make a new buffer, use and retain it for subsequent calls.
+//
 protocol MTLFrameRenderCommandEncodable {
     mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame)
 }
 
 protocol MTLFrameRenderCommandEncodableAt {
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame)
+}
+
+protocol MTLRenderCommandEncodableToAt {
+    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int)
+}
+
+protocol MTLRenderCommandEncodableToIndexedAt {
+    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int)
 }
