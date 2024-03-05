@@ -3,7 +3,11 @@
 import CoreGraphics
 import Metal
 
-struct World2D {
+protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodable {
+    var metris: Metris { get }
+}
+
+struct World2D: World {
     init(size: CGSize) {
         do {
             let halfSize = SIMD2<Float>.init(size) / 2

@@ -3,7 +3,7 @@
 import Metal
 import MetalKit
 
-class View : MTKView {
+class View: MTKView {
     required init(coder: NSCoder) { super.init(coder: coder) }
 
     init(frame: NSRect) {
@@ -13,7 +13,7 @@ class View : MTKView {
             ("Name", device!.name),
         ])
 
-        world = .init(size: frame.size)
+        world = World2D.init(size: frame.size)
 
         clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
@@ -28,7 +28,7 @@ class View : MTKView {
         )
     }
 
-    private var world: World2D?
+    private var world: World?
 
     private var pipeline: MTLRenderPipelineState?
     private var commandQueue: MTLCommandQueue?
