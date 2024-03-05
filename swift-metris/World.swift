@@ -22,7 +22,7 @@ struct World2D: World {
             )
         }
 
-        metris = Metris(size: size)
+        metris = .init(size: size)
         metris.start()
     }
 
@@ -45,4 +45,26 @@ extension World2D: MTLFrameRenderCommandEncodable {
         camera.encode(with: encoder, at: 0, in: frame)
         metris.encode(with: encoder, at: 1, in: frame)
     }
+}
+
+struct World3D: World {
+    init(size: CGSize) {
+        metris = .init(size: size)
+    }
+
+    var metris: Metris
+}
+
+extension World3D: MTLRenderPipelineDescriable {
+    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {
+        let lib = device.makeDefaultLibrary()!
+
+        descriptor.vertexFunction = lib.makeFunction(name: "World3D::shadeVertex")!
+        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
+    }
+}
+
+
+extension World3D: MTLFrameRenderCommandEncodable {
+    mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {}
 }

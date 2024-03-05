@@ -23,6 +23,16 @@ namespace World2D {
     }
 }
 
+namespace World3D {
+    vertex Fragment shadeVertex()
+    {
+        return {
+            .position = float4(0, 0, 0, 1),
+            .color = float4(0, 0, 0, 1),
+        };
+    }
+}
+
 fragment float4 shadeFragment(const Fragment f [[stage_in]]) {
     return f.color;
 }
