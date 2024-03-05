@@ -3,14 +3,14 @@
 import Metal
 
 struct IndexedPrimitive {
-    var vertices: [Vertex] = []
+    var vertices: [Vertex2D] = []
     var indices: [UInt16] = []
 
     var lastIndex: Int { vertices.count - 1 }
 }
 
 extension IndexedPrimitive {
-    mutating func append(vertices: [Vertex], indices: [UInt16]) {
+    mutating func append(vertices: [Vertex2D], indices: [UInt16]) {
         self.vertices += vertices
         self.indices += indices
     }

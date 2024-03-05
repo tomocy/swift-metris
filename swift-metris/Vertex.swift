@@ -2,19 +2,19 @@
 
 import CoreGraphics
 
-struct Vertex {
+struct Vertex2D {
     var position: SIMD2<Float> = .init(0, 0)
     var color: SIMD4<Float> = .init(0, 0, 0, 1)
     var transform: Transform2D = .init()
 }
 
-extension Vertex {
+extension Vertex2D {
     init(at position: SIMD2<Float>) {
         self.position = position
     }
 }
 
-extension Vertex {
+extension Vertex2D {
     mutating func place(at position: SIMD2<Float>) {
         self.position = position
     }

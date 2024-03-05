@@ -4,7 +4,7 @@
 
 #include "Transform2D.h"
 
-struct Vertex {
+struct Vertex2D {
 public:
     float3 resolvePosition(const float z) const constant {
         return applyTransformTo(float3(position, z));

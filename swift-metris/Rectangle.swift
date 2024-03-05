@@ -10,7 +10,7 @@ struct Rectangle {
 
 extension Rectangle: IndexedPrimitiveAppendable {
     func append(to primitive: inout IndexedPrimitive) {
-        var vertices: [Vertex] = []
+        var vertices: [Vertex2D] = []
         do {
             let halfSize = SIMD2<Float>.init(size) / 2
             vertices += [
