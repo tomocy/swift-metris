@@ -32,6 +32,7 @@
 		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
+		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5910ABD2B972D8300834DEF /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
+		F5910ABF2B975EF000834DEF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
 		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			children = (
 				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
 				F5E88F3F2ABB50C5003505BE /* App.swift */,
+				F5910ABF2B975EF000834DEF /* Array.swift */,
 				F52641992B7F54F900BB540F /* Assets.xcassets */,
 				F56DCA662ABB5574000D29D5 /* Camera.h */,
 				F5E88F352ABB5003003505BE /* Camera.swift */,
@@ -222,6 +225,7 @@
 				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
 				F52641A52B7F551D00BB540F /* Primitive.swift in Sources */,
 				F52641CC2B7F5DB600BB540F /* main.swift in Sources */,
+				F5910AC02B975EF000834DEF /* Array.swift in Sources */,
 				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,
 				F52641B42B7F551D00BB540F /* Window.swift in Sources */,
 				F52641AF2B7F551D00BB540F /* World.metal in Sources */,

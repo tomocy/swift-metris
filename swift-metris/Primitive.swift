@@ -93,7 +93,3 @@ extension IndexedPrimitive3D: MTLRenderCommandEncodableToIndexedAt {
         }
     }
 }
-
-extension Array {
-    var size: Int { MemoryLayout<Element>.stride * count }
-}
