@@ -46,7 +46,7 @@ class Metris {
 
     private var ticker: Ticker
 
-    private var camera: Camera
+    private var camera: Camera2D
     private var field: Field
 
     private var currentMino: Mino?

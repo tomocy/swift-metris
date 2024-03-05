@@ -2,7 +2,7 @@
 
 import Metal
 
-struct Camera {
+struct Camera2D {
     init(
         projection: Transform2D = .init(),
         transform: Transform2D = .init()
@@ -25,7 +25,7 @@ struct Camera {
     private var frameBuffers: MTLSizedBuffers = .init(options: .storageModeShared)
 }
 
-extension Camera {
+extension Camera2D {
     private struct MTLRenderState {
         static var stride: Int { MemoryLayout<Self>.stride }
 
@@ -34,7 +34,7 @@ extension Camera {
     }
 }
 
-extension Camera: MTLRenderCommandEncodableToAt {
+extension Camera2D: MTLRenderCommandEncodableToAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int) {
         var state = state
         state.transform = state.transform.inversed(rotate: false, scale: false)
@@ -49,7 +49,7 @@ extension Camera: MTLRenderCommandEncodableToAt {
     }
 }
 
-extension Camera: MTLFrameRenderCommandEncodableAt {
+extension Camera2D: MTLFrameRenderCommandEncodableAt {
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
         encode(
             with: encoder,
