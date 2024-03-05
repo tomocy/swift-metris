@@ -151,8 +151,8 @@ extension Metris.Field {
     }
 }
 
-extension Metris.Field: IndexedPrimitiveAppendable {
-    func append(to primitive: inout IndexedPrimitive) {
+extension Metris.Field: IndexedPrimitive2DAppendable {
+    func append(to primitive: inout IndexedPrimitive2D) {
         pieces.compactMap({ $0 }).forEach {
             $0.append(to: &primitive)
         }
@@ -166,7 +166,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     }
 
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        var primitive = IndexedPrimitive()
+        var primitive = IndexedPrimitive2D()
         append(to: &primitive)
 
         primitive.encode(

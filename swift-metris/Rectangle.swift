@@ -8,8 +8,8 @@ struct Rectangle {
     var transform: Transform2D = .init()
 }
 
-extension Rectangle: IndexedPrimitiveAppendable {
-    func append(to primitive: inout IndexedPrimitive) {
+extension Rectangle: IndexedPrimitive2DAppendable {
+    func append(to primitive: inout IndexedPrimitive2D) {
         var vertices: [Vertex2D] = []
         do {
             let halfSize = SIMD2<Float>.init(size) / 2

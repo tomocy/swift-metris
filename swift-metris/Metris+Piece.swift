@@ -33,8 +33,8 @@ extension Metris.Piece {
     }
 }
 
-extension Metris.Piece: IndexedPrimitiveAppendable {
-    func append(to primitive: inout IndexedPrimitive) {
+extension Metris.Piece: IndexedPrimitive2DAppendable {
+    func append(to primitive: inout IndexedPrimitive2D) {
         var body = self.body
 
         body.transform.translate(

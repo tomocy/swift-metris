@@ -2,25 +2,25 @@
 
 import Metal
 
-struct IndexedPrimitive {
+struct IndexedPrimitive2D {
     var vertices: [Vertex2D] = []
     var indices: [UInt16] = []
 
     var lastIndex: Int { vertices.count - 1 }
 }
 
-extension IndexedPrimitive {
+extension IndexedPrimitive2D {
     mutating func append(vertices: [Vertex2D], indices: [UInt16]) {
         self.vertices += vertices
         self.indices += indices
     }
 }
 
-protocol IndexedPrimitiveAppendable {
-    func append(to primitive: inout IndexedPrimitive)
+protocol IndexedPrimitive2DAppendable {
+    func append(to primitive: inout IndexedPrimitive2D)
 }
 
-extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
+extension IndexedPrimitive2D: MTLRenderCommandEncodableToIndexedAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int) {
         if (vertices.isEmpty) {
             return

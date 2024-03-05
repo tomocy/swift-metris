@@ -13,7 +13,7 @@ class View: MTKView {
             ("Name", device!.name),
         ])
 
-//        world = World2D.init(size: frame.size)
+        // world = World2D.init(size: frame.size)
         world = World3D.init(size: frame.size)
 
         clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
