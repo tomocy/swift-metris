@@ -4,7 +4,7 @@
 
 #include "Transform.h"
 
-struct Camera {
+struct Camera2D {
 public:
     float3 applyTransformTo(const float3 position) const constant {
         auto result = position;

@@ -26,15 +26,14 @@ class View : MTKView {
             fill: { index in .init(id: index) }
         )
 
-        metris = Metris(size: frame.size)
-        metris!.start()
+        world = .init(size: frame.size)
     }
 
     private var pipeline: MTLRenderPipelineState?
     private var commandQueue: MTLCommandQueue?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
 
-    private var metris: Metris?
+    private var world: World2D?
 }
 
 extension View {
@@ -43,7 +42,7 @@ extension View {
 
         desc.colorAttachments[0].pixelFormat = colorPixelFormat
 
-        Metris.describe(to: desc, with: device!)
+        World2D.describe(to: desc, with: device!)
 
         return try? device!.makeRenderPipelineState(descriptor: desc)
     }
@@ -54,7 +53,7 @@ extension View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        guard let metris = metris else { return }
+        guard var world = world else { return }
 
         let frame = framePool!.acquire()
 
@@ -64,7 +63,7 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             encoder.setRenderPipelineState(pipeline!)
 
-            metris.encode(with: encoder, in: frame)
+            world.encode(with: encoder, in: frame)
             encoder.endEncoding()
         }
 
@@ -80,9 +79,7 @@ extension View: MTKViewDelegate {
 
 extension View {
     override func keyDown(with event: NSEvent) {
-        if metris == nil {
-            return
-        }
+        guard let world = world else { return }
 
         guard let chars = event.charactersIgnoringModifiers else { return }
         if chars.isEmpty {
@@ -92,12 +89,12 @@ extension View {
         let command = chars.first!.lowercased()
 
         if let input = Metris.Input.Move.parse(command) {
-            _ = metris!.processInput(input)
+            _ = world.metris.processInput(input)
             return
         }
 
         if let input = Metris.Input.Rotate.parse(command) {
-            _ = metris!.processInput(input)
+            _ = world.metris.processInput(input)
         }
     }
 }

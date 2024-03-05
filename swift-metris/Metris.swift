@@ -4,22 +4,7 @@ import Metal
 
 class Metris {
     init(size: CGSize) {
-        self.size = size
-
         ticker = .init(interval: 0.875)
-
-        do {
-            let halfSize = SIMD2<Float>.init(size) / 2
-            camera = .init(
-                projection: .orthogonal(
-                    top: halfSize.y, bottom: -halfSize.y,
-                    left: -halfSize.x, right: halfSize.x
-                ),
-                transform: .init(
-                    translate: halfSize
-                )
-            )
-        }
 
         field = .init(size: .init(10, 20))
 
@@ -41,14 +26,11 @@ class Metris {
         stop()
     }
 
-    let size: CGSize
     let descriptor: Descriptor
 
     private var ticker: Ticker
 
-    private var camera: Camera2D
     private var field: Field
-
     private var currentMino: Mino?
 }
 
@@ -186,18 +168,8 @@ extension Metris {
     }
 }
 
-extension Metris {
-    static func describe(to descriptor: MTLRenderPipelineDescriptor, with device: MTLDevice) {
-        let lib = device.makeDefaultLibrary()!
-
-        descriptor.vertexFunction = lib.makeFunction(name: "shadeVertex")!
-        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
-    }
-}
-
-extension Metris: MTLFrameRenderCommandEncodable {
-    func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
-        camera.encode(with: encoder, at: 0, in: frame)
-        field.encode(with: encoder, at: 1, in: frame)
+extension Metris: MTLFrameRenderCommandEncodableAt {
+    func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
+        field.encode(with: encoder, at: index, in: frame)
     }
 }
