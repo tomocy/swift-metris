@@ -61,3 +61,8 @@ public:
     float rotate = 0;
     float2 scale = float2(0, 0);
 };
+
+struct Transform3D {
+public:
+    float3 translate = float3(0, 0, 0);
+};
