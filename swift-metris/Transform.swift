@@ -152,3 +152,44 @@ extension Transform3D {
     typealias Translate = SIMD3<Float>
 }
 
+extension Transform3D {
+    mutating func transform(with transform: Self) {
+        translate(with: transform.translate)
+    }
+
+    mutating func transform(by delta: Self) {
+        translate(by: delta.translate)
+    }
+
+    func transformed(with transform: Self) -> Self {
+        var next = self
+        next.transform(with: transform)
+        return next
+    }
+
+    func transformed(by delta: Self) -> Self {
+        var next = self
+        next.transform(by: delta)
+        return next
+    }
+
+    mutating func translate(with translate: Translate) {
+        self.translate = translate
+    }
+
+    mutating func translate(by delta: Translate) {
+        self.translate += delta
+    }
+
+    func translated(with translate: Translate) -> Self {
+        var next = self
+        next.translate(with: translate)
+        return next
+    }
+
+    func translated(by delta: Translate) -> Self {
+        var next = self
+        next.translate(by: delta)
+        return next
+    }
+}
