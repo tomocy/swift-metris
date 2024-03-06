@@ -18,8 +18,9 @@ class View: MTKView {
 
         clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
-        pipeline = makePipeline()!
+
         commandQueue = device!.makeCommandQueue()!
+        pipelineStates = .init(view: self)!
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
@@ -31,25 +32,39 @@ class View: MTKView {
 
     private var world: World?
 
-    private var pipeline: MTLRenderPipelineState?
     private var commandQueue: MTLCommandQueue?
+    private var pipelineStates: MTLPipelineStates?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
 }
 
 extension View {
-    private func makePipeline() -> MTLRenderPipelineState? {
-        let desc = MTLRenderPipelineDescriptor.init()
+    fileprivate struct MTLPipelineStates {
+        var render: MTLRenderPipelineState
+    }
+}
+
+extension View.MTLPipelineStates {
+    init?(view: View) {
+        do {
+            guard let state = Self.make(in: view) else { return nil }
+            render = state
+        }
+    }
+}
+
+extension View.MTLPipelineStates {
+    static func make(in view: View) -> MTLRenderPipelineState? {
+        let desc: MTLRenderPipelineDescriptor = .init()
 
         do {
             let attachment = desc.colorAttachments[0]!
-            attachment.pixelFormat = colorPixelFormat
+            attachment.pixelFormat = view.colorPixelFormat
         }
 
-        world!.describe(with: device!, to: desc)
+        view.world!.describe(with: view.device!, to: desc)
 
-        return try? device!.makeRenderPipelineState(descriptor: desc)
+        return try? view.device!.makeRenderPipelineState(descriptor: desc)
     }
-
 }
 
 extension View: MTKViewDelegate {
@@ -64,7 +79,7 @@ extension View: MTKViewDelegate {
 
         do {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
-            encoder.setRenderPipelineState(pipeline!)
+            encoder.setRenderPipelineState(pipelineStates!.render)
 
             world.encode(with: encoder, in: frame)
             encoder.endEncoding()
