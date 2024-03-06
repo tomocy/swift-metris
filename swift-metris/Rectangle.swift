@@ -14,10 +14,10 @@ extension Rectangle: IndexedPrimitive2DAppendable {
         do {
             let halfSize = SIMD2<Float>.init(size) / 2
             vertices += [
-                .init(at: .init(-halfSize.x, halfSize.y)),
-                .init(at: .init(halfSize.x, halfSize.y)),
-                .init(at: .init(halfSize.x, -halfSize.y)),
-                .init(at: .init(-halfSize.x, -halfSize.y)),
+                /* 0 */ .init(at: .init(-halfSize.x, halfSize.y)),
+                /* 1 */ .init(at: .init(halfSize.x, halfSize.y)),
+                /* 2 */ .init(at: .init(halfSize.x, -halfSize.y)),
+                /* 3 */ .init(at: .init(-halfSize.x, -halfSize.y)),
             ]
 
             vertices = vertices.map({

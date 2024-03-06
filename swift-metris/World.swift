@@ -64,44 +64,16 @@ extension World3D: MTLRenderPipelineDescriable {
     }
 }
 
-
 extension World3D: MTLFrameRenderCommandEncodable {
     mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
-        let primitive = IndexedPrimitive3D.init(
-            vertices: [
-                // front
-                .init(at: .init(-0.2, 0.2, 0)).colorized(with: .init(1, 0, 0, 1)), // 0
-                .init(at: .init(0.2, 0.2, 0)).colorized(with: .init(0, 1, 0, 1)), // 1
-                .init(at: .init(0.2, -0.2, 0)).colorized(with: .init(0, 0, 1, 1)), // 2
-                .init(at: .init(-0.2, -0.2, 0)).colorized(with: .init(0, 0, 0, 1)), // 3
-                // back
-                .init(at: .init(0.2, 0.2, 0.2)).colorized(with: .init(1, 0, 0, 1)), // 4
-                .init(at: .init(-0.2, 0.2, 0.2)).colorized(with: .init(0, 1, 0, 1)), // 5
-                .init(at: .init(-0.2, -0.2, 0.2)).colorized(with: .init(0, 0, 1, 1)), // 6
-                .init(at: .init(0.2, -0.2, 0.2)).colorized(with: .init(0, 0, 0, 1)), // 7
-            ],
-            indices: [
-                // front
-                0, 1, 2,
-                2, 3, 0,
-                // back
-                4, 5, 6,
-                6, 7, 4,
-                // left
-                1, 4, 7,
-                7, 2, 1,
-                // right
-                5, 0, 3,
-                3, 6, 5,
-                // top
-                1, 0, 5,
-                5, 4, 1,
-                // back
-                7, 6, 3,
-                3, 2, 7,
-            ]
-        )
-
+        var primitive = IndexedPrimitive3D.init()
+        do {
+            let cube = Cube(
+                size: .init(0.2, 0.2, 0.2),
+                color: .init(.random())
+            )
+            cube.append(to: &primitive)
+        }
 
         primitive.encode(
             with: encoder,
