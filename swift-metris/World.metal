@@ -13,11 +13,11 @@ namespace World2D {
     {
         const constant auto* v = &vs[id];
 
-        auto position = v->resolvePosition(1);
+        auto position = v->resolvePosition();
         position = camera->applyTransformTo(position);
 
         return {
-            .position = float4(position, 1),
+            .position = position,
             .color = v->color,
         };
     }
@@ -36,7 +36,7 @@ namespace World3D {
         position = camera->applyTransformTo(position);
 
         return {
-            .position = float4(position, 1),
+            .position = position,
             .color = v->color,
         };
     }

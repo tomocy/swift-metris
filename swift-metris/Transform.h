@@ -6,24 +6,24 @@
 
 struct Transform2D {
 public:
-    float3 apply(const float3 position) const constant
+    float4 apply(const float4 position) const constant
     {
         const auto transform = *this;
         return transform.apply(position);
     }
 
-    float3 apply(const float3 position) const
+    float4 apply(const float4 position) const
     {
-        auto result = position;
+        auto result = position.xyz;
 
         // In MSL, matrix are constructed in column-major order.
         // Therefore in applying transformations,
         // you should proceed from right to left: scale, rotate and then translate.
-        result = toScale() * result;
-        result = toRotate() * result;
-        result = toTranslate() * result;
+        result = toScale() * result.xyz;
+        result = toRotate() * result.xyz;
+        result = toTranslate() * result.xyz;
 
-        return result;
+        return float4(result, 1);
     }
 
 protected:
@@ -64,14 +64,14 @@ public:
 
 struct Transform3D {
 public:
-    float3 apply(const float3 position) const constant
+    float4 apply(const float4 position) const constant
     {
-        auto result = float4(position, 1);
+        auto result = position;
 
         result = toScale() * result;
         result = toTranslate() * result;
 
-        return result.xyz;
+        return result;
     }
 
 protected:

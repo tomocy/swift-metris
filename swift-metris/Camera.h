@@ -6,7 +6,7 @@
 
 struct Camera2D {
 public:
-    float3 applyTransformTo(const float3 position) const constant {
+    float4 applyTransformTo(const float4 position) const constant {
         auto result = position;
         result = transform.apply(result);
         result = projection.apply(result);
@@ -20,7 +20,7 @@ public:
 
 struct Camera3D {
 public:
-    float3 applyTransformTo(const float3 position) const constant {
+    float4 applyTransformTo(const float4 position) const constant {
         auto result = position;
         result = transform.apply(result);
         result = projection.apply(result);

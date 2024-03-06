@@ -6,11 +6,11 @@
 
 struct Vertex2D {
 public:
-    float3 resolvePosition(const float z) const constant {
-        return applyTransformTo(float3(position, z));
+    float4 resolvePosition(const float z = 1, const float w = 1) const constant {
+        return applyTransformTo(float4(position, z, w));
     }
 
-    float3 applyTransformTo(const float3 position) const constant {
+    float4 applyTransformTo(const float4 position) const constant {
         return transform.apply(position);
     }
 
@@ -23,11 +23,11 @@ public:
 
 struct Vertex3D {
 public:
-    float3 resolvePosition() const constant {
-        return applyTransformTo(position);
+    float4 resolvePosition(const float w = 1) const constant {
+        return applyTransformTo(float4(position, w));
     }
 
-    float3 applyTransformTo(const float3 position) const constant {
+    float4 applyTransformTo(const float4 position) const constant {
         return transform.apply(position);
     }
 
