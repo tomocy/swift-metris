@@ -64,5 +64,39 @@ public:
 
 struct Transform3D {
 public:
+    float3 apply(const float3 position) const constant
+    {
+        auto result = float4(position, 1);
+
+        result = toScale() * result;
+        result = toTranslate() * result;
+
+        return result.xyz;
+    }
+
+protected:
+    metal::float4x4 toTranslate() const constant
+    {
+        return metal::float4x4(
+            float4(1, 0, 0, 0),
+            float4(0, 1, 0, 0),
+            float4(0, 0, 1, 0),
+            float4(translate.x, translate.y, translate.z, 1)
+        );
+    }
+
+    metal::float4x4 toScale() const constant
+    {
+        return metal::float4x4(
+            float4(scale.x, 0, 0, 0),
+            float4(0, scale.y, 0, 0),
+            float4(0, 0, scale.z, 0),
+            float4(0, 0, 0, 1)
+        );
+    }
+
+
+public:
     float3 translate = float3(0, 0, 0);
+    float3 scale = float3(1, 1, 1);
 };

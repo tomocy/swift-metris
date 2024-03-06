@@ -24,7 +24,6 @@ extension Transform2D {
 extension Transform2D {
     static func orthogonal(top: Float, bottom: Float, left: Float, right: Float) -> Self {
         // In MSL, NDC has (0, 0) at the center, (-1, -1) at the bottom left, and (1, 1) at the top right.
-
         return .init(
             translate: .init(
                 (left + right) / (left - right),
@@ -146,10 +145,29 @@ extension Transform2D {
 
 struct Transform3D {
     var translate: Translate = .init(0, 0, 0)
+    var scale: Scale = .init(1, 1, 1)
 }
 
 extension Transform3D {
     typealias Translate = SIMD3<Float>
+    typealias Scale = SIMD3<Float>
+}
+
+extension Transform3D {
+    static func orthogonal(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> Self {
+        return .init(
+            translate: .init(
+                (left + right) / (left - right),
+                (bottom + top) / (bottom - top),
+                (near + far) / (near - far)
+            ),
+            scale: .init(
+                2 / (right - left),
+                2 / (top - bottom),
+                2 / (near - far)
+            )
+        )
+    }
 }
 
 extension Transform3D {
