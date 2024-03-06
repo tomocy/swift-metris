@@ -7,7 +7,7 @@ protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodable {
     var metris: Metris { get }
 }
 
-struct World2D: World {
+class World2D: World {
     init(size: CGSize) {
         do {
             let halfSize = SIMD2<Float>.init(size) / 2
@@ -41,13 +41,13 @@ extension World2D: MTLRenderPipelineDescriable {
 
 
 extension World2D: MTLFrameRenderCommandEncodable {
-    mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
+    func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
         camera.encode(with: encoder, at: 0, in: frame)
         metris.encode(with: encoder, at: 1, in: frame)
     }
 }
 
-struct World3D: World {
+class World3D: World {
     init(size: CGSize) {
         do {
             let halfSize = SIMD2<Float>.init(size) / 2
@@ -78,7 +78,7 @@ extension World3D: MTLRenderPipelineDescriable {
 }
 
 extension World3D: MTLFrameRenderCommandEncodable {
-    mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
+    func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
         camera.encode(
             with: encoder,
             to: encoder.device.makeBuffer(
