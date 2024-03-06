@@ -5,6 +5,7 @@ import CoreGraphics
 struct Cube {
     var size: SIMD3<Float> = .init(0, 0, 0)
     var color: SIMD4<Float> = .init(0, 0, 0, 1)
+    var transform: Transform3D = .init()
 }
 
 extension Cube: IndexedPrimitive3DAppendable {
@@ -24,14 +25,11 @@ extension Cube: IndexedPrimitive3DAppendable {
                 /* 6 */ .init(at: .init(-halfSize.x, -halfSize.y, halfSize.z)),
                 /* 7 */ .init(at: .init(halfSize.x, -halfSize.y, halfSize.z)),
             ]
-            vertices = vertices.map({
-                var v = $0
-                v.position.z += 0.5
-                return v
-            })
 
             vertices = vertices.map({
                 $0.colorized(with: color)
+            }).map({
+                $0.transformed(with: transform)
             })
         }
 
