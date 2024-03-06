@@ -8,16 +8,16 @@ extension Metris {
             self.position = position
 
             body = .init(
-                size: .init(width: descriptor.size.width, height: descriptor.size.height),
+                size: descriptor.size,
                 color: descriptor.color,
                 transform: .init().scaled(
-                    with: .init(0.94, 0.94)
+                    with: .init(filled: 0.94)
                 )
             )
         }
 
         var position: Position = .init(0, 0)
-        private var body: Rectangle
+        var body: Cube
     }
 }
 
@@ -37,10 +37,12 @@ extension Metris.Piece: IndexedPrimitive3DAppendable {
     func append(to primitive: inout IndexedPrimitive3D) {
         var body = self.body
 
+        // Shift the origin from the center to the bottom left.
         body.transform.translate(
             with: .init(
-                Float(body.size.width) * Float(position.x) + Float(body.size.width) / 2,
-                Float(body.size.height) * Float(position.y) + Float(body.size.height) / 2
+                Float(body.size.width) * .init(position.x) + .init(body.size.width) / 2,
+                Float(body.size.height) * .init(position.y) + .init(body.size.height) / 2,
+                0
             )
         )
 

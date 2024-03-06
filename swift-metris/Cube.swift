@@ -3,8 +3,8 @@
 import CoreGraphics
 
 struct Cube {
-    var size: SIMD3<Float> = .init(0, 0, 0)
-    var color: SIMD4<Float> = .init(0, 0, 0, 1)
+    var size: CGVolume = .init(width: 0, height: 0, depth: 0)
+    var color: CGColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
     var transform: Transform3D = .init()
 }
 
@@ -12,7 +12,7 @@ extension Cube: IndexedPrimitive3DAppendable {
     func append(to primitive: inout IndexedPrimitive3D) {
         var vertices: [Vertex3D] = []
         do {
-            let halfSize = size / 2
+            let halfSize = SIMD3<Float>.init(size) / 2
             vertices += [
                 // front
                 /* 0 */ .init(at: .init(-halfSize.x, halfSize.y, -halfSize.z)),
@@ -27,7 +27,7 @@ extension Cube: IndexedPrimitive3DAppendable {
             ]
 
             vertices = vertices.map({
-                $0.colorized(with: color)
+                $0.colorized(with: .init(color))
             }).map({
                 $0.transformed(with: transform)
             })
