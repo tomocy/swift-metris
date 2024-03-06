@@ -83,7 +83,7 @@ extension Transform2D {
     }
 
     mutating func rotate(with angle: Angle) {
-        self.rotate = angle;
+        self.rotate = angle
     }
 
     mutating func rotate(by angle: Angle) {
@@ -145,11 +145,13 @@ extension Transform2D {
 
 struct Transform3D {
     var translate: Translate = .init(0, 0, 0)
+    var rotate: Rotate = .init(0, 0, 0)
     var scale: Scale = .init(1, 1, 1)
 }
 
 extension Transform3D {
     typealias Translate = SIMD3<Float>
+    typealias Rotate = SIMD3<Float>
     typealias Scale = SIMD3<Float>
 }
 
@@ -211,15 +213,63 @@ extension Transform3D {
         return next
     }
 
-    mutating func inverse(translate: Bool = true) {
+    mutating func rotate(with rotate: Rotate) {
+        self.rotate = rotate
+    }
+
+    mutating func rotate(by rotate: Rotate) {
+        self.rotate += rotate
+    }
+
+    func rotated(with rotate: Rotate) -> Self {
+        var next = self
+        next.rotate(with: rotate)
+        return next
+    }
+
+    func rotated(by rotate: Rotate) -> Self {
+        var next = self
+        next.rotate(by: rotate)
+        return next
+    }
+
+    mutating func scale(with scale: Scale) {
+        self.scale = scale
+    }
+
+    mutating func scale(by factor: Scale) {
+        self.scale *= scale
+    }
+
+    func scaled(with factor: Scale) -> Self {
+        var next = self
+        next.scale(with: factor)
+        return next
+    }
+
+    func scaled(by factor: Scale) -> Self {
+        var next = self
+        next.scale(by: factor)
+        return next
+    }
+
+    mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
         if (translate) {
             self.translate *= -1
         }
+
+        if (rotate) {
+            self.rotate *= -1
+        }
+
+        if (scale) {
+            self.scale *= -1
+        }
     }
 
-    func inversed(translate: Bool = true) -> Self {
+    func inversed(translate: Bool = true, rotate: Bool = true, scale: Bool = true) -> Self {
         var next = self
-        next.inverse(translate: translate)
+        next.inverse(translate: translate, rotate: rotate, scale: scale)
         return next
     }
 }

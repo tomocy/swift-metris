@@ -91,10 +91,15 @@ extension World3D: MTLFrameRenderCommandEncodable {
         do {
             var primitive = IndexedPrimitive3D.init()
             do {
-                let cube = Cube(
+                var cube = Cube(
                     size: .init(50, 50, 50),
                     color: .init(.random())
                 )
+
+                cube.transform.rotate(
+                    with: .init(0, 0, Angle(degree: 45).inRadian())
+                )
+
                 cube.append(to: &primitive)
             }
 
