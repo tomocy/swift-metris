@@ -34,6 +34,21 @@ extension Camera2D {
     }
 }
 
+extension Camera2D: MTLFrameRenderCommandEncodableAt {
+    mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
+        encode(
+            with: encoder,
+            to: frameBuffers.take(
+                at: frame.id,
+                of: type(of: state).stride,
+                with: encoder.device
+            ),
+            at: index
+        )
+    }
+}
+
+
 extension Camera2D: MTLRenderCommandEncodableToAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int) {
         var state = state
@@ -46,20 +61,6 @@ extension Camera2D: MTLRenderCommandEncodableToAt {
             )
             encoder.setVertexBuffer(buffer, offset: 0, index: index)
         })
-    }
-}
-
-extension Camera2D: MTLFrameRenderCommandEncodableAt {
-    mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        encode(
-            with: encoder,
-            to: frameBuffers.take(
-                at: frame.id,
-                of: type(of: state).stride,
-                with: encoder.device
-            ),
-            at: index
-        )
     }
 }
 
@@ -92,6 +93,20 @@ extension Camera3D {
 
         var projection: Transform3D = .init()
         var transform: Transform3D = .init()
+    }
+}
+
+extension Camera3D: MTLFrameRenderCommandEncodableAt {
+    mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
+        encode(
+            with: encoder,
+            to: frameBuffers.take(
+                at: frame.id,
+                of: type(of: state).stride,
+                with: encoder.device
+            ),
+            at: index
+        )
     }
 }
 
