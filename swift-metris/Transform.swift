@@ -192,4 +192,16 @@ extension Transform3D {
         next.translate(by: delta)
         return next
     }
+
+    mutating func inverse(translate: Bool = true) {
+        if (translate) {
+            self.translate *= -1
+        }
+    }
+
+    func inversed(translate: Bool = true) -> Self {
+        var next = self
+        next.inverse(translate: translate)
+        return next
+    }
 }

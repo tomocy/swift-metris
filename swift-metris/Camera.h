@@ -17,3 +17,9 @@ public:
     Transform2D projection = {};
     Transform2D transform = {};
 };
+
+struct Camera3D {
+public:
+    Transform3D projection = {};
+    Transform3D transform = {};
+};
