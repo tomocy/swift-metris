@@ -79,14 +79,7 @@ extension World3D: MTLRenderPipelineDescriable {
 
 extension World3D: MTLFrameRenderCommandEncodable {
     func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
-        camera.encode(
-            with: encoder,
-            to: encoder.device.makeBuffer(
-                length: type(of: camera.state).stride,
-                options: .storageModeShared
-            )!,
-            at: 0
-        )
+        camera.encode(with: encoder, at: 0, in: frame)
 
         do {
             var primitive = IndexedPrimitive3D.init()
