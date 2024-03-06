@@ -48,6 +48,12 @@ extension Metris.Piece: IndexedPrimitive2DAppendable {
     }
 }
 
+extension Metris.Piece: IndexedPrimitive3DAppendable {
+    func append(to primitive: inout IndexedPrimitive3D) {
+        body.append(to: &primitive)
+    }
+}
+
 extension Metris.Piece {
     struct Descriptor {
         var size: CGSize
