@@ -159,6 +159,14 @@ extension Metris.Field: IndexedPrimitive2DAppendable {
     }
 }
 
+extension Metris.Field: IndexedPrimitive3DAppendable {
+    func append(to primitive: inout IndexedPrimitive3D) {
+        pieces.compactMap({ $0 }).forEach {
+            $0.append(to: &primitive)
+        }
+    }
+}
+
 extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     private struct FrameBuffers {
         var data: MTLSizedBuffers = .init(options: .storageModeShared)

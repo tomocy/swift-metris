@@ -50,6 +50,16 @@ extension Metris.Piece: IndexedPrimitive2DAppendable {
 
 extension Metris.Piece: IndexedPrimitive3DAppendable {
     func append(to primitive: inout IndexedPrimitive3D) {
+        var body = self.body
+
+        body.transform.translate(
+            with: .init(
+                Float(body.size.width) * Float(position.x) + Float(body.size.width) / 2,
+                Float(body.size.height) * Float(position.y) + Float(body.size.height) / 2,
+                0
+            )
+        )
+
         body.append(to: &primitive)
     }
 }
