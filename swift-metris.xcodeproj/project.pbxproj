@@ -24,7 +24,6 @@
 		F52641B02B7F551D00BB540F /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2F2ABB4EB2003505BE /* Transform.swift */; };
 		F52641B12B7F551D00BB540F /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F372ABB501F003505BE /* Vertex.swift */; };
 		F52641B22B7F551D00BB540F /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Angle.swift */; };
-		F52641B32B7F551D00BB540F /* Rectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F312ABB4F39003505BE /* Rectangle.swift */; };
 		F52641B42B7F551D00BB540F /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3D2ABB5097003505BE /* Window.swift */; };
 		F52641B52B7F551D00BB540F /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953512AC8617B008E4200 /* Vector.swift */; };
 		F52641B62B7F551D00BB540F /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
@@ -64,7 +63,6 @@
 		F5B67BD92AA0A61500842985 /* World.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; name = World.metal; path = "swift-metris/World.metal"; sourceTree = SOURCE_ROOT; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
-		F5E88F312ABB4F39003505BE /* Rectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rectangle.swift; sourceTree = "<group>"; };
 		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
 		F5E88F352ABB5003003505BE /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		F5E88F372ABB501F003505BE /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
-				F5E88F312ABB4F39003505BE /* Rectangle.swift */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F54A4A0B2B98EE6F00E1F388 /* SIMD.swift */,
 				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
@@ -214,7 +211,6 @@
 				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
 				F54A4A0C2B98EE6F00E1F388 /* SIMD.swift in Sources */,
-				F52641B32B7F551D00BB540F /* Rectangle.swift in Sources */,
 				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,
 				F52641A22B7F551D00BB540F /* App.swift in Sources */,
 				F5910ABE2B972D8300834DEF /* World.swift in Sources */,
