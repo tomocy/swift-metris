@@ -8,41 +8,6 @@ struct Rectangle {
     var transform: Transform2D = .init()
 }
 
-extension Rectangle: IndexedPrimitive2DAppendable {
-    func append(to primitive: inout IndexedPrimitive2D) {
-        var vertices: [Vertex2D] = []
-        do {
-            let halfSize = SIMD2<Float>.init(size) / 2
-            vertices += [
-                /* 0 */ .init(at: .init(-halfSize.x, halfSize.y)),
-                /* 1 */ .init(at: .init(halfSize.x, halfSize.y)),
-                /* 2 */ .init(at: .init(halfSize.x, -halfSize.y)),
-                /* 3 */ .init(at: .init(-halfSize.x, -halfSize.y)),
-            ]
-
-            vertices = vertices.map({
-                $0.colorized(with: .init(color))
-            }).map({
-                $0.transformed(with: transform)
-            })
-        }
-
-        var indices: [UInt16] = []
-        do {
-            let startIndex = UInt16(primitive.lastIndex + 1)
-            indices += [
-                startIndex, startIndex + 1, startIndex + 2,
-                startIndex + 2, startIndex + 3, startIndex,
-            ]
-        }
-
-        primitive.append(
-            vertices: vertices,
-            indices: indices
-        )
-    }
-}
-
 extension Rectangle: IndexedPrimitive3DAppendable {
     func append(to primitive: inout IndexedPrimitive3D) {
         var vertices: [Vertex3D] = []
