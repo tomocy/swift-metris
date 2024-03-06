@@ -55,8 +55,7 @@ extension Metris.Piece: IndexedPrimitive3DAppendable {
         body.transform.translate(
             with: .init(
                 Float(body.size.width) * Float(position.x) + Float(body.size.width) / 2,
-                Float(body.size.height) * Float(position.y) + Float(body.size.height) / 2,
-                0
+                Float(body.size.height) * Float(position.y) + Float(body.size.height) / 2
             )
         )
 

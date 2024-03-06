@@ -57,11 +57,15 @@ class World3D: World {
                     top: halfSize.y, bottom: -halfSize.y,
                     left: -halfSize.x, right: halfSize.x,
                     near: -halfDepth, far: halfDepth
+                ),
+                transform: .init(
+                    translate: .init(halfSize, 0)
                 )
             )
         }
 
         metris = .init(size: size)
+        metris.start()
     }
 
     var camera: Camera3D
@@ -80,36 +84,6 @@ extension World3D: MTLRenderPipelineDescriable {
 extension World3D: MTLFrameRenderCommandEncodable {
     func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
         camera.encode(with: encoder, at: 0, in: frame)
-
-        do {
-            var primitive = IndexedPrimitive3D.init()
-            do {
-                var cube = Cube(
-                    size: .init(50, 50, 50),
-                    color: .init(.random())
-                )
-
-                cube.transform.rotate(
-                    with: .init(0, 0, Angle(degree: 45).inRadian())
-                )
-
-                cube.append(to: &primitive)
-            }
-
-            primitive.encode(
-                with: encoder,
-                to: .init(
-                    data: encoder.device.makeBuffer(
-                        length: primitive.vertices.size,
-                        options: .storageModeShared
-                    )!,
-                    index: encoder.device.makeBuffer(
-                        length: primitive.indices.size,
-                        options: .storageModeShared
-                    )!
-                ),
-                at: 1
-            )
-        }
+        metris.encode(with: encoder, at: 1, in: frame)
     }
 }

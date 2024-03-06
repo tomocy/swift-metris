@@ -174,7 +174,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     }
 
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        var primitive = IndexedPrimitive2D()
+        var primitive = IndexedPrimitive3D.init()
         append(to: &primitive)
 
         primitive.encode(
