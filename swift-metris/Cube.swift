@@ -33,28 +33,28 @@ extension Cube: IndexedPrimitive3DAppendable {
             })
         }
 
-        var indices: [UInt16] = []
+        var indices: [IndexedPrimitive3D.Index] = []
         do {
-            let startIndex = UInt16(primitive.lastIndex + 1)
+            let start = primitive.nextStartIndex
             indices += [
                 // front
-                startIndex, startIndex + 1, startIndex + 2,
-                startIndex + 2, startIndex + 3, startIndex,
+                start, start + 1, start + 2,
+                start + 2, start + 3, start,
                 // back
-                startIndex + 4, startIndex + 5, startIndex + 6,
-                startIndex + 6, startIndex + 7, startIndex + 4,
+                start + 4, start + 5, start + 6,
+                start + 6, start + 7, start + 4,
                 // left
-                startIndex + 1, startIndex + 4, startIndex + 7,
-                startIndex + 7, startIndex + 2, startIndex + 1,
+                start + 1, start + 4, start + 7,
+                start + 7, start + 2, start + 1,
                 // right
-                startIndex + 5, startIndex, startIndex + 3,
-                startIndex + 3, startIndex + 6, startIndex + 5,
+                start + 5, start, start + 3,
+                start + 3, start + 6, start + 5,
                 // top
-                startIndex + 1, startIndex, startIndex + 5,
-                startIndex + 5, startIndex + 4, startIndex + 1,
+                start + 1, start, start + 5,
+                start + 5, start + 4, start + 1,
                 // bottom
-                startIndex + 7, startIndex + 6, startIndex + 3,
-                startIndex + 3, startIndex + 2, startIndex + 7,
+                start + 7, start + 6, start + 3,
+                start + 3, start + 2, start + 7,
             ]
         }
 

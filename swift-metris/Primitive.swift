@@ -4,13 +4,29 @@ import Metal
 
 struct IndexedPrimitive3D {
     var vertices: [Vertex3D] = []
-    var indices: [UInt16] = []
+    var indices: [Index] = []
 
-    var lastIndex: Int { vertices.count - 1 }
+    var lastEndIndex: Index? {
+        let count = vertices.count
+        return count >= 1
+            ? .init(count - 1)
+            : nil
+    }
+    var nextStartIndex: Index {
+        if let end = lastEndIndex {
+            return end + 1
+        }
+
+        return 0
+    }
 }
 
 extension IndexedPrimitive3D {
-    mutating func append(vertices: [Vertex3D], indices: [UInt16]) {
+    typealias Index = UInt16
+}
+
+extension IndexedPrimitive3D {
+    mutating func append(vertices: [Vertex3D], indices: [Index]) {
         self.vertices += vertices
         self.indices += indices
     }
