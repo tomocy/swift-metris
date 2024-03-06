@@ -49,9 +49,22 @@ extension World2D: MTLFrameRenderCommandEncodable {
 
 struct World3D: World {
     init(size: CGSize) {
+        do {
+            let halfSize = SIMD2<Float>.init(size) / 2
+            let halfDepth = halfSize.max()
+            camera = .init(
+                projection: .orthogonal(
+                    top: halfSize.y, bottom: -halfSize.y,
+                    left: -halfSize.x, right: halfSize.x,
+                    near: -halfDepth, far: halfDepth
+                )
+            )
+        }
+
         metris = .init(size: size)
     }
 
+    var camera: Camera3D
     var metris: Metris
 }
 
@@ -66,28 +79,39 @@ extension World3D: MTLRenderPipelineDescriable {
 
 extension World3D: MTLFrameRenderCommandEncodable {
     mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
-        var primitive = IndexedPrimitive3D.init()
-        do {
-            let cube = Cube(
-                size: .init(0.2, 0.2, 0.2),
-                color: .init(.random())
-            )
-            cube.append(to: &primitive)
-        }
-
-        primitive.encode(
+        camera.encode(
             with: encoder,
-            to: .init(
-                data: encoder.device.makeBuffer(
-                    length: primitive.vertices.size,
-                    options: .storageModeShared
-                )!,
-                index: encoder.device.makeBuffer(
-                    length: primitive.indices.size,
-                    options: .storageModeShared
-                )!
-            ),
+            to: encoder.device.makeBuffer(
+                length: type(of: camera.state).stride,
+                options: .storageModeShared
+            )!,
             at: 0
         )
+
+        do {
+            var primitive = IndexedPrimitive3D.init()
+            do {
+                let cube = Cube(
+                    size: .init(50, 50, 50),
+                    color: .init(.random())
+                )
+                cube.append(to: &primitive)
+            }
+
+            primitive.encode(
+                with: encoder,
+                to: .init(
+                    data: encoder.device.makeBuffer(
+                        length: primitive.vertices.size,
+                        options: .storageModeShared
+                    )!,
+                    index: encoder.device.makeBuffer(
+                        length: primitive.indices.size,
+                        options: .storageModeShared
+                    )!
+                ),
+                at: 1
+            )
+        }
     }
 }

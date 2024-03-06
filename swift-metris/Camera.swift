@@ -81,13 +81,13 @@ struct Camera3D {
         set { state.transform = newValue }
     }
 
-    private var state: MTLRenderState = .init()
+    var state: MTLRenderState = .init()
 
     private var frameBuffers: MTLSizedBuffers = .init(options: .storageModeShared)
 }
 
 extension Camera3D {
-    private struct MTLRenderState {
+    struct MTLRenderState {
         static var stride: Int { MemoryLayout<Self>.stride }
 
         var projection: Transform3D = .init()

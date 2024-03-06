@@ -25,14 +25,18 @@ namespace World2D {
 
 namespace World3D {
     vertex Fragment shadeVertex(
-        constant Vertex3D* const vs [[buffer(0)]],
+        constant Camera3D* const camera [[buffer(0)]],
+        constant Vertex3D* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
     )
     {
         const constant auto* v = &vs[id];
 
+        auto position = v->resolvePosition();
+        position = camera->applyTransformTo(position);
+
         return {
-            .position = float4(v->position, 1),
+            .position = float4(position, 1),
             .color = v->color,
         };
     }
