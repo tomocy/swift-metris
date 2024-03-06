@@ -64,6 +64,10 @@ extension IndexedPrimitive3D {
     }
 }
 
+protocol IndexedPrimitive3DAppendable {
+    func append(to primitive: inout IndexedPrimitive3D)
+}
+
 extension IndexedPrimitive3D: MTLRenderCommandEncodableToIndexedAt {
     func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int) {
         if (vertices.isEmpty) {
