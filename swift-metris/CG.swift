@@ -2,6 +2,12 @@
 
 import CoreGraphics
 
+struct CGVolume {
+    var width: CGFloat
+    var height: CGFloat
+    var depth: CGFloat
+}
+
 extension CGColor {
     static func random(red: CGFloat? = nil, green: CGFloat? = nil, blue: CGFloat? = nil, alpha: CGFloat? = nil) -> Self {
         return .init(

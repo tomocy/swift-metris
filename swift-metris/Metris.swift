@@ -15,7 +15,7 @@ class Metris {
             )
             descriptor = .init(
                 piece: .init(
-                    size: .init(width: unit, height: unit),
+                    size: .init(width: unit, height: unit, depth: unit / 2),
                     color: .random()
                 )
             )

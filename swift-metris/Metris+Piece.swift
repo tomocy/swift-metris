@@ -8,7 +8,7 @@ extension Metris {
             self.position = position
 
             body = .init(
-                size: descriptor.size,
+                size: .init(width: descriptor.size.width, height: descriptor.size.height),
                 color: descriptor.color,
                 transform: .init().scaled(
                     with: .init(0.94, 0.94)
@@ -50,13 +50,13 @@ extension Metris.Piece: IndexedPrimitive3DAppendable {
 
 extension Metris.Piece {
     struct Descriptor {
-        var size: CGSize
+        var size: CGVolume
         var color: CGColor
     }
 }
 
 extension Metris.Piece.Descriptor {
-    func resized(with size: CGSize) -> Self {
+    func resized(with size: CGVolume) -> Self {
         var next = self
         next.size = size
         return next
