@@ -18,9 +18,9 @@ extension Transform3D {
     static func orthogonal(top: Float, bottom: Float, left: Float, right: Float, near: Float, far: Float) -> Self {
         return .init(
             translate: .init(
-                (left + right) / (left - right),
-                (bottom + top) / (bottom - top),
-                (near + far) / (near - far)
+                (left + right) / -2,
+                (bottom + top) / -2,
+                (near + far) / -2
             ),
             scale: .init(
                 2 / (right - left),
