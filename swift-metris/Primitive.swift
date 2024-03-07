@@ -3,7 +3,7 @@
 import Metal
 
 struct IndexedPrimitive3D {
-    var vertices: [Vertex3D] = []
+    var vertices: [Vertex] = []
     var indices: [Index] = []
 
     var lastEndIndex: Index? {
@@ -22,11 +22,12 @@ struct IndexedPrimitive3D {
 }
 
 extension IndexedPrimitive3D {
+    typealias Vertex = D3.Vertex<Float>
     typealias Index = UInt16
 }
 
 extension IndexedPrimitive3D {
-    mutating func append(vertices: [Vertex3D], indices: [Index]) {
+    mutating func append(vertices: [Vertex], indices: [Index]) {
         self.vertices += vertices
         self.indices += indices
     }

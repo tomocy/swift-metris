@@ -14,7 +14,7 @@ extension Cube {
 
 extension Cube: IndexedPrimitive3DAppendable {
     func append(to primitive: inout IndexedPrimitive3D) {
-        var vertices: [Vertex3D] = []
+        var vertices: [IndexedPrimitive3D.Vertex] = []
         do {
             let halfSize = SIMD3<Float>.init(size) / 2
             vertices += [
