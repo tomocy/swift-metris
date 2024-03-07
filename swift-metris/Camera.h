@@ -2,12 +2,13 @@
 
 #pragma once
 
+#include "Dimension.h"
 #include "Transform.h"
 
 namespace D3 {
 struct Camera {
 public:
-    float4 applyTransformTo(const float4 position) const constant {
+    Coordinate withTransformed(const Coordinate position) const constant {
         auto result = position;
         result = transform.apply(result);
         result = projection.apply(result);

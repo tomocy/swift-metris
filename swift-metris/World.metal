@@ -13,8 +13,8 @@ namespace D3 {
     {
         const constant auto* v = &vs[id];
 
-        auto position = v->resolvePosition();
-        position = camera->applyTransformTo(position);
+        auto position = v->toCoordinate();
+        position = camera->withTransformed(position);
 
         return {
             .position = position,

@@ -8,7 +8,7 @@
 namespace D3 {
 struct Transform {
 public:
-    float4 apply(const float4 position) const constant
+    Coordinate apply(const Coordinate position) const constant
     {
         auto result = position;
 
@@ -24,59 +24,59 @@ public:
     }
 
 protected:
-    metal::float4x4 toTranslate() const constant
+    Matrix toTranslate() const constant
     {
-        return metal::float4x4(
-            float4(1, 0, 0, 0),
-            float4(0, 1, 0, 0),
-            float4(0, 0, 1, 0),
-            float4(translate.x, translate.y, translate.z, 1)
-        );
+        return {
+            { 1, 0, 0, 0 },
+            { 0, 1, 0, 0 },
+            { 0, 0, 1, 0 },
+            { translate.x, translate.y, translate.z, 1 }
+        };
     }
 
-    metal::float4x4 toRotateAround(const Axis axis) const constant
+    Matrix toRotateAround(const Axis axis) const constant
     {
         const float s = metal::sin(rotate.z);
         const float c = metal::cos(rotate.z);
 
         switch (axis) {
         case Axis::X:
-            return metal::float4x4(
-                float4(1, 0, 0, 0),
-                float4(0, c, s, 0),
-                float4(0, -s, c, 0),
-                float4(0, 0, 0, 1)
-            );
+            return {
+                { 1, 0, 0, 0 },
+                { 0, c, s, 0 },
+                { 0, -s, c, 0 },
+                { 0, 0, 0, 1 }
+            };
         case Axis::Y:
-            return metal::float4x4(
-                float4(c, 0, -s, 0),
-                float4(0, 1, 0, 0),
-                float4(s, 0, c, 0),
-                float4(0, 0, 0, 1)
-            );
+            return {
+                { c, 0, -s, 0 },
+                { 0, 1, 0, 0 },
+                { s, 0, c, 0 },
+                { 0, 0, 0, 1 }
+            };
         case Axis::Z:
-            return metal::float4x4(
-                float4(c, s, 0, 0),
-                float4(-s, c, 0, 0),
-                float4(0, 0, 1, 0),
-                float4(0, 0, 0, 1)
-            );
+            return {
+                { c, s, 0, 0 },
+                { -s, c, 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
+            };
         }
     }
 
-    metal::float4x4 toScale() const constant
+    Matrix toScale() const constant
     {
-        return metal::float4x4(
-            float4(scale.x, 0, 0, 0),
-            float4(0, scale.y, 0, 0),
-            float4(0, 0, scale.z, 0),
-            float4(0, 0, 0, 1)
-        );
+        return {
+            { scale.x, 0, 0, 0 },
+            { 0, scale.y, 0, 0 },
+            { 0, 0, scale.z, 0 },
+            { 0, 0, 0, 1 }
+        };
     }
 
 public:
-    float3 translate = float3(0, 0, 0);
-    float3 rotate = float3(0, 0, 0);
-    float3 scale = float3(1, 1, 1);
+    Measure translate = { 0, 0, 0 };
+    Measure rotate = { 0, 0, 0 };
+    Measure scale = { 1, 1, 1 };
 };
 };
