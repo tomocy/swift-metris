@@ -6,7 +6,7 @@
 
 namespace World3D {
     vertex Fragment shadeVertex(
-        constant Camera3D* const camera [[buffer(0)]],
+        constant D3::Camera* const camera [[buffer(0)]],
         constant D3::Vertex* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
     )

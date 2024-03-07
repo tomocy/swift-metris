@@ -28,7 +28,7 @@ class World3D: World {
         metris.start()
     }
 
-    var camera: Camera3D
+    var camera: D3.Camera
     var metris: Metris
 }
 
