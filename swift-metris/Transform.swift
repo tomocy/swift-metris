@@ -6,7 +6,7 @@ extension D3 {
     struct Transform<Precision: DimensionalPrecision> {
         var translate: Measure = .init(0, 0, 0)
         var rotate: Measure = .init(0, 0, 0)
-        var scale: Measure = .init(0, 0, 0)
+        var scale: Measure = .init(1, 1, 1)
     }
 }
 
@@ -32,6 +32,28 @@ extension D3.Transform {
                 2 / (near - far)
             )
         )
+    }
+}
+
+extension D3.Transform {
+    mutating func transform(with transform: Self) {
+        translate(with: transform.translate)
+        rotate(with: transform.rotate)
+        scale(with: transform.scale)
+    }
+
+    mutating func transform(by delta: Self) {
+        translate(by: delta.translate)
+        rotate(by: delta.rotate)
+        scale(by: delta.scale)
+    }
+
+    func transformed(with transform: Self) -> Self {
+        return mapState(self) { $0.transform(with: transform) }
+    }
+
+    func transformed(by delta: Self) -> Self {
+        return mapState(self) { $0.transform(by: delta) }
     }
 }
 
