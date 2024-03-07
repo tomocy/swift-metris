@@ -4,7 +4,8 @@
 
 #include <metal_stdlib>
 
-struct Transform3D {
+namespace D3 {
+struct Transform {
 public:
     enum class Axis {
         X,
@@ -83,4 +84,5 @@ public:
     float3 translate = float3(0, 0, 0);
     float3 rotate = float3(0, 0, 0);
     float3 scale = float3(1, 1, 1);
+};
 };

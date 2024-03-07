@@ -14,6 +14,6 @@ public:
     }
 
 public:
-    Transform3D projection = {};
-    Transform3D transform = {};
+    D3::Transform projection = {};
+    D3::Transform transform = {};
 };

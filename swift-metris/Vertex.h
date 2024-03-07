@@ -17,5 +17,5 @@ public:
 public:
     float3 position = float3(0, 0, 0);
     float4 color = float4(0, 0, 0, 1);
-    Transform3D transform = {};
+    D3::Transform transform = {};
 };
