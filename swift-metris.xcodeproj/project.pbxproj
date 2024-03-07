@@ -29,9 +29,9 @@
 		F52641B62B7F551D00BB540F /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
 		F52641B72B7F551D00BB540F /* Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46162B78881400B069DC /* Metal.swift */; };
 		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
-		F54A4A0C2B98EE6F00E1F388 /* SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A0B2B98EE6F00E1F388 /* SIMD.swift */; };
-		F54A4A0E2B99878300E1F388 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A0D2B99878300E1F388 /* Dimension.swift */; };
-		F54A4A102B99907900E1F388 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A0F2B99907900E1F388 /* State.swift */; };
+		F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A132B99B28000E1F388 /* Dimension.swift */; };
+		F54A4A162B99B28D00E1F388 /* SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A152B99B28D00E1F388 /* SIMD.swift */; };
+		F54A4A182B99B29700E1F388 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A172B99B29700E1F388 /* State.swift */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
@@ -43,9 +43,10 @@
 		F52641992B7F54F900BB540F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F526419E2B7F54F900BB540F /* swift_metris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_metris.entitlements; sourceTree = "<group>"; };
 		F52641CB2B7F5DB600BB540F /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F54A4A0B2B98EE6F00E1F388 /* SIMD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIMD.swift; sourceTree = SOURCE_ROOT; };
-		F54A4A0D2B99878300E1F388 /* Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = SOURCE_ROOT; };
-		F54A4A0F2B99907900E1F388 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = SOURCE_ROOT; };
+		F54A4A122B99B28000E1F388 /* Dimension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dimension.h; sourceTree = "<group>"; };
+		F54A4A132B99B28000E1F388 /* Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
+		F54A4A152B99B28D00E1F388 /* SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMD.swift; sourceTree = "<group>"; };
+		F54A4A172B99B29700E1F388 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		F54E82D42ACDC71D00D2143B /* Ticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticker.swift; sourceTree = "<group>"; };
 		F56D46122B7801C300B069DC /* SemaphoricPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemaphoricPool.swift; sourceTree = "<group>"; };
 		F56D46162B78881400B069DC /* Metal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metal.swift; sourceTree = "<group>"; };
@@ -98,7 +99,8 @@
 				F5E88F352ABB5003003505BE /* Camera.swift */,
 				F5A9534D2AC3F9B7008E4200 /* CG.swift */,
 				F5910AC12B983AD300834DEF /* Cube.swift */,
-				F54A4A0D2B99878300E1F388 /* Dimension.swift */,
+				F54A4A122B99B28000E1F388 /* Dimension.h */,
+				F54A4A132B99B28000E1F388 /* Dimension.swift */,
 				F5A953452AC33FC7008E4200 /* Fragment.h */,
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
@@ -111,8 +113,8 @@
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
-				F54A4A0B2B98EE6F00E1F388 /* SIMD.swift */,
-				F54A4A0F2B99907900E1F388 /* State.swift */,
+				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
+				F54A4A172B99B29700E1F388 /* State.swift */,
 				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
 				F54E82D42ACDC71D00D2143B /* Ticker.swift */,
 				F56DCA642ABB53A7000D29D5 /* Transform.h */,
@@ -216,7 +218,7 @@
 				F52641A92B7F551D00BB540F /* View.swift in Sources */,
 				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
-				F54A4A0C2B98EE6F00E1F388 /* SIMD.swift in Sources */,
+				F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */,
 				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,
 				F52641A22B7F551D00BB540F /* App.swift in Sources */,
 				F5910ABE2B972D8300834DEF /* World.swift in Sources */,
@@ -232,10 +234,10 @@
 				F52641B52B7F551D00BB540F /* Vector.swift in Sources */,
 				F52641AE2B7F551D00BB540F /* Camera.swift in Sources */,
 				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
-				F54A4A102B99907900E1F388 /* State.swift in Sources */,
+				F54A4A182B99B29700E1F388 /* State.swift in Sources */,
 				F52641A52B7F551D00BB540F /* Primitive.swift in Sources */,
-				F54A4A0E2B99878300E1F388 /* Dimension.swift in Sources */,
 				F5910AC22B983AD300834DEF /* Cube.swift in Sources */,
+				F54A4A162B99B28D00E1F388 /* SIMD.swift in Sources */,
 				F52641CC2B7F5DB600BB540F /* main.swift in Sources */,
 				F5910AC02B975EF000834DEF /* Array.swift in Sources */,
 				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,

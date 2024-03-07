@@ -2,17 +2,11 @@
 
 #pragma once
 
+#include "Dimension.h"
 #include <metal_stdlib>
 
 namespace D3 {
 struct Transform {
-public:
-    enum class Axis {
-        X,
-        Y,
-        Z,
-    };
-
 public:
     float4 apply(const float4 position) const constant
     {
