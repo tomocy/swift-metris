@@ -47,9 +47,7 @@ extension Metris.Mino {
     }
 
     func placed(at position: Metris.Position) -> Self {
-        var next = self
-        next.place(at: position)
-        return next
+        return mapState(self) { $0.place(at: position) }
     }
 
     mutating func place(by delta: Metris.Position) {
@@ -79,9 +77,7 @@ extension Metris.Mino {
     }
 
     func rotated() -> Self {
-        var next = self
-        next.rotate()
-        return next
+        return mapState(self) { $0.rotate() }
     }
 }
 

@@ -20,9 +20,7 @@ extension Vertex3D {
     }
 
     func placed(at position: SIMD3<Float>) -> Self {
-        var next = self
-        next.place(at: position)
-        return next
+        return mapState(self) { $0.place(at: position) }
     }
 
     mutating func colorize(with color: SIMD4<Float>) {
@@ -30,9 +28,7 @@ extension Vertex3D {
     }
 
     func colorized(with color: SIMD4<Float>) -> Self {
-        var next = self
-        next.colorize(with: color)
-        return next
+        return mapState(self) { $0.colorize(with: color) }
     }
 
     mutating func transform(with transform: Transform3D) {
@@ -44,14 +40,10 @@ extension Vertex3D {
     }
 
     func transformed(with transform: Transform3D) -> Self {
-        var next = self
-        next.transform(with: transform)
-        return next
+        return mapState(self) { $0.transform(with: transform) }
     }
 
     func transformed(by delta: Transform3D) -> Self {
-        var next = self
-        next.transform(by: delta)
-        return next
+        return mapState(self) { $0.transform(by: delta) }
     }
 }

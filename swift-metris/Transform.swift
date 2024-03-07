@@ -41,15 +41,11 @@ extension Transform3D {
     }
 
     func transformed(with transform: Self) -> Self {
-        var next = self
-        next.transform(with: transform)
-        return next
+        return mapState(self) { $0.transform(with: transform) }
     }
 
     func transformed(by delta: Self) -> Self {
-        var next = self
-        next.transform(by: delta)
-        return next
+        return mapState(self) { $0.transform(by: delta) }
     }
 
     mutating func translate(with translate: Translate) {
@@ -61,55 +57,43 @@ extension Transform3D {
     }
 
     func translated(with translate: Translate) -> Self {
-        var next = self
-        next.translate(with: translate)
-        return next
+        return mapState(self) { $0.translate(with: translate) }
     }
 
     func translated(by delta: Translate) -> Self {
-        var next = self
-        next.translate(by: delta)
-        return next
+        return mapState(self) { $0.translate(by: delta) }
     }
 
     mutating func rotate(with rotate: Rotate) {
         self.rotate = rotate
     }
 
-    mutating func rotate(by rotate: Rotate) {
-        self.rotate += rotate
+    mutating func rotate(by delta: Rotate) {
+        self.rotate += delta
     }
 
     func rotated(with rotate: Rotate) -> Self {
-        var next = self
-        next.rotate(with: rotate)
-        return next
+        return mapState(self) { $0.rotate(with: rotate) }
     }
 
-    func rotated(by rotate: Rotate) -> Self {
-        var next = self
-        next.rotate(by: rotate)
-        return next
+    func rotated(by delta: Rotate) -> Self {
+        return mapState(self) { $0.rotate(by: delta) }
     }
 
     mutating func scale(with scale: Scale) {
         self.scale = scale
     }
 
-    mutating func scale(by factor: Scale) {
-        self.scale *= scale
+    mutating func scale(by delta: Scale) {
+        self.scale *= delta
     }
 
-    func scaled(with factor: Scale) -> Self {
-        var next = self
-        next.scale(with: factor)
-        return next
+    func scaled(with scale: Scale) -> Self {
+        return mapState(self) { $0.scale(with: scale) }
     }
 
-    func scaled(by factor: Scale) -> Self {
-        var next = self
-        next.scale(by: factor)
-        return next
+    func scaled(by delta: Scale) -> Self {
+        return mapState(self) { $0.scale(by: delta) }
     }
 
     mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
@@ -127,8 +111,8 @@ extension Transform3D {
     }
 
     func inversed(translate: Bool = true, rotate: Bool = true, scale: Bool = true) -> Self {
-        var next = self
-        next.inverse(translate: translate, rotate: rotate, scale: scale)
-        return next
+        return mapState(self) {
+            $0.inverse(translate: translate, rotate: rotate, scale: scale)
+        }
     }
 }

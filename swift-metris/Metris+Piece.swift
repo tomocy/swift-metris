@@ -27,9 +27,7 @@ extension Metris.Piece {
     }
 
     func placed(at position: Metris.Position) -> Self {
-        var next = self
-        next.place(at: position)
-        return next
+        return mapState(self) { $0.place(at: position) }
     }
 }
 
@@ -59,14 +57,10 @@ extension Metris.Piece {
 
 extension Metris.Piece.Descriptor {
     func resized(with size: CGVolume) -> Self {
-        var next = self
-        next.size = size
-        return next
+        return mapState(self) { $0.size = size }
     }
 
     func colorized(with color: CGColor) -> Self {
-        var next = self
-        next.color = color
-        return next
+        return mapState(self) { $0.color = color }
     }
 }
