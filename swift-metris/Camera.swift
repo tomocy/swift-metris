@@ -4,18 +4,18 @@ import Metal
 
 struct Camera3D {
     init(
-        projection: Transform3D = .init(),
-        transform: Transform3D = .init()
+        projection: Transform = .init(),
+        transform: Transform = .init()
     ) {
         self.projection = projection
         self.transform = transform
     }
 
-    var projection: Transform3D {
+    var projection: Transform {
         get { state.projection }
         set { state.projection = newValue }
     }
-    var transform: Transform3D {
+    var transform: Transform {
         get { state.transform }
         set { state.transform = newValue }
     }
@@ -26,11 +26,15 @@ struct Camera3D {
 }
 
 extension Camera3D {
+    typealias Transform = D3.Transform<Float>
+}
+
+extension Camera3D {
     struct MTLRenderState {
         static var stride: Int { MemoryLayout<Self>.stride }
 
-        var projection: Transform3D = .init()
-        var transform: Transform3D = .init()
+        var projection: Transform = .init()
+        var transform: Transform = .init()
     }
 }
 
