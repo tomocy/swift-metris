@@ -61,7 +61,7 @@
 		F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Field.swift"; sourceTree = "<group>"; };
 		F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Mino.swift"; sourceTree = "<group>"; };
 		F5A953422AC329AE008E4200 /* Metris+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Metris+Piece.swift"; sourceTree = "<group>"; };
-		F5A953452AC33FC7008E4200 /* Fragment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fragment.h; sourceTree = "<group>"; };
+		F5A953452AC33FC7008E4200 /* Raster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
 		F5A9534D2AC3F9B7008E4200 /* CG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CG.swift; sourceTree = "<group>"; };
 		F5A9534F2AC3F9C3008E4200 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		F5A953512AC8617B008E4200 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
@@ -101,7 +101,6 @@
 				F5910AC12B983AD300834DEF /* Cube.swift */,
 				F54A4A122B99B28000E1F388 /* Dimension.h */,
 				F54A4A132B99B28000E1F388 /* Dimension.swift */,
-				F5A953452AC33FC7008E4200 /* Fragment.h */,
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
@@ -112,6 +111,7 @@
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
+				F5A953452AC33FC7008E4200 /* Raster.h */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,

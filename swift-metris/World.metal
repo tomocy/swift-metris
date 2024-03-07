@@ -1,11 +1,11 @@
 // tomocy
 
 #include "Camera.h"
-#include "Fragment.h"
+#include "Raster.h"
 #include "Vertex.h"
 
 namespace D3 {
-    vertex Fragment shadeVertex(
+    vertex Raster shadeVertex(
         constant Camera* const camera [[buffer(0)]],
         constant Vertex* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
@@ -23,6 +23,6 @@ namespace D3 {
     }
 }
 
-fragment float4 shadeFragment(const Fragment f [[stage_in]]) {
-    return f.color;
+fragment float4 shadeFragment(const Raster r [[stage_in]]) {
+    return r.color;
 }
