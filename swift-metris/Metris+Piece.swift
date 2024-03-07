@@ -32,7 +32,9 @@ extension Metris.Piece {
 }
 
 extension Metris.Piece: IndexedPrimitive3DAppendable {
-    func append(to primitive: inout IndexedPrimitive3D) {
+    typealias Precision = Float
+
+    func append(to primitive: inout Primitive) {
         var body = self.body
 
         // Shift the origin from the center to the bottom left.

@@ -13,10 +13,12 @@ extension Cube {
 }
 
 extension Cube: IndexedPrimitive3DAppendable {
-    func append(to primitive: inout IndexedPrimitive3D) {
-        var vertices: [IndexedPrimitive3D.Vertex] = []
+    typealias Precision = Float
+
+    func append(to primitive: inout Primitive) {
+        var vertices: [Primitive.Vertex] = []
         do {
-            let halfSize = SIMD3<Float>.init(size) / 2
+            let halfSize = SIMD3<Precision>.init(size) / 2
             vertices += [
                 // front
                 /* 0 */ .init(at: .init(-halfSize.x, halfSize.y, -halfSize.z)),
@@ -37,7 +39,7 @@ extension Cube: IndexedPrimitive3DAppendable {
             })
         }
 
-        var indices: [IndexedPrimitive3D.Index] = []
+        var indices: [Primitive.Index] = []
         do {
             let start = primitive.nextStartIndex
             indices += [

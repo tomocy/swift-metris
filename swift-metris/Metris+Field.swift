@@ -152,7 +152,9 @@ extension Metris.Field {
 }
 
 extension Metris.Field: IndexedPrimitive3DAppendable {
-    func append(to primitive: inout IndexedPrimitive3D) {
+    typealias Precision = Float
+
+    func append(to primitive: inout Primitive) {
         pieces.compactMap({ $0 }).forEach {
             $0.append(to: &primitive)
         }
@@ -166,7 +168,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     }
 
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        var primitive = IndexedPrimitive3D.init()
+        var primitive = D3.IndexedPrimitive<Float>.init()
         append(to: &primitive)
 
         primitive.encode(
