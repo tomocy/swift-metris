@@ -5,7 +5,11 @@ import CoreGraphics
 struct Vertex3D {
     var position: SIMD3<Float> = .init(0, 0, 0)
     var color: SIMD4<Float> = .init(0, 0, 0, 1)
-    var transform: Transform3D = .init()
+    var transform: Transform = .init()
+}
+
+extension Vertex3D {
+    typealias Transform = D3.Transform<Float>
 }
 
 extension Vertex3D {
@@ -31,19 +35,19 @@ extension Vertex3D {
         return mapState(self) { $0.colorize(with: color) }
     }
 
-    mutating func transform(with transform: Transform3D) {
+    mutating func transform(with transform: Transform) {
         self.transform = transform
     }
 
-    mutating func transform(by delta: Transform3D) {
+    mutating func transform(by delta: Transform) {
         transform.transform(by: delta)
     }
 
-    func transformed(with transform: Transform3D) -> Self {
+    func transformed(with transform: Transform) -> Self {
         return mapState(self) { $0.transform(with: transform) }
     }
 
-    func transformed(by delta: Transform3D) -> Self {
+    func transformed(by delta: Transform) -> Self {
         return mapState(self) { $0.transform(by: delta) }
     }
 }
