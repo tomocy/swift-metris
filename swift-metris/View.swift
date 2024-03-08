@@ -78,10 +78,11 @@ extension View: MTKViewDelegate {
 
         do {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
+            defer { encoder.endEncoding() }
+
             encoder.setRenderPipelineState(pipelineStates!.render)
 
             world.encode(with: encoder, in: frame)
-            encoder.endEncoding()
         }
 
         command.present(currentDrawable!)
