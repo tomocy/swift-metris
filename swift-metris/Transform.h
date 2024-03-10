@@ -79,4 +79,4 @@ public:
     Measure rotate = { 0, 0, 0 };
     Measure scale = { 1, 1, 1 };
 };
-};
+}

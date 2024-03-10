@@ -19,4 +19,4 @@ public:
     Transform projection = {};
     Transform transform = {};
 };
-};
+}
