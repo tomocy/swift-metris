@@ -5,7 +5,7 @@
 #include "Vertex.h"
 
 namespace D3 {
-    vertex Raster shadeVertex(
+    vertex Raster vertexMain(
         constant Camera* const camera [[buffer(0)]],
         constant Vertex* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
@@ -23,6 +23,6 @@ namespace D3 {
     }
 }
 
-fragment float4 shadeFragment(const Raster r [[stage_in]]) {
+fragment float4 fragmentMain(const Raster r [[stage_in]]) {
     return r.color;
 }

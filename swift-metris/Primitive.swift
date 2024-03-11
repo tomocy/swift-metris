@@ -57,8 +57,8 @@ extension D3.IndexedPrimitive: MTLRenderCommandEncodableAsToIndexedAt {
             let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
             let lib = encoder.device.makeDefaultLibrary()!
 
-            desc.vertexFunction = lib.makeFunction(name: "D3::shadeVertex")!
-            desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
+            desc.vertexFunction = lib.makeFunction(name: "D3::vertexMain")!
+            desc.fragmentFunction = lib.makeFunction(name: "fragmentMain")!
 
             encoder.setRenderPipelineState(
                 desc.describe(with: encoder.device)!
