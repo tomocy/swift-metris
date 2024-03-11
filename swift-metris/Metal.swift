@@ -52,12 +52,47 @@ protocol MTLRenderPipelineDescriable {
 // It should use the buffer if its size matches the encoding one.
 // Otherwise it should make a new buffer, use and retain it for subsequent calls.
 //
+protocol MTLFrameRenderCommandEncodableAs {
+    mutating func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor, 
+        in frame: MTLRenderFrame
+    )
+}
+
+protocol MTLFrameRenderCommandEncodableAsAt {
+    mutating func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        at index: Int,
+        in frame: MTLRenderFrame
+    )
+}
+
 protocol MTLFrameRenderCommandEncodable {
     mutating func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame)
 }
 
 protocol MTLFrameRenderCommandEncodableAt {
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame)
+}
+
+protocol MTLRenderCommandEncodableAsToAt {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        to buffer: MTLBuffer,
+        at index: Int
+    )
+}
+
+protocol MTLRenderCommandEncodableAsToIndexedAt {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        to buffer: MTLIndexedBuffer,
+        at index: Int
+    )
 }
 
 protocol MTLRenderCommandEncodableToAt {
