@@ -50,11 +50,7 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             defer { encoder.endEncoding() }
 
-            encoder.setRenderPipelineState(
-                pipelineDescriptors!.render.describe(with: device!)!
-            )
-
-            world.encode(with: encoder, in: frame)
+            world.encode(with: encoder, as: pipelineDescriptors!.render, in: frame)
         }
 
         command.present(currentDrawable!)
@@ -136,19 +132,6 @@ extension View.MTLPipelineDescriptors {
             attachment.pixelFormat = view.colorPixelFormat
         }
 
-        do {
-            let lib = view.device!.makeDefaultLibrary()!
-
-            desc.vertexFunction = lib.makeFunction(name: "D3::shadeVertex")!
-            desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
-        }
-
         return desc
-    }
-}
-
-extension MTLRenderPipelineDescriptor {
-    func describe(with device: MTLDevice) -> MTLRenderPipelineState? {
-        return try? device.makeRenderPipelineState(descriptor: self)
     }
 }

@@ -42,22 +42,39 @@ protocol IndexedPrimitive3DAppendable {
     func append(to primitive: inout Primitive)
 }
 
-extension D3.IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int) {
+extension D3.IndexedPrimitive: MTLRenderCommandEncodableAsToIndexedAt {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        to buffer: MTLIndexedBuffer,
+        at index: Int
+    ) {
         if (vertices.isEmpty) {
             return
         }
 
-        vertices.withUnsafeBytes({ body in
+        do {
+            let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
+            let lib = encoder.device.makeDefaultLibrary()!
+
+            desc.vertexFunction = lib.makeFunction(name: "D3::shadeVertex")!
+            desc.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
+
+            encoder.setRenderPipelineState(
+                desc.describe(with: encoder.device)!
+            )
+        }
+
+        vertices.withUnsafeBytes { body in
             buffer.data.contents().copyMemory(
                 from: body.baseAddress!,
                 byteCount: buffer.data.length
             )
 
             encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
-        })
+        }
 
-        indices.withUnsafeBytes({ body in
+        indices.withUnsafeBytes { body in
             buffer.index.contents().copyMemory(
                 from: body.baseAddress!,
                 byteCount: buffer.index.length
@@ -70,6 +87,6 @@ extension D3.IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
                 indexBuffer: buffer.index,
                 indexBufferOffset: 0
             )
-        })
+        }
     }
 }

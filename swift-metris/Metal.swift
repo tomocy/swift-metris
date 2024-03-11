@@ -48,6 +48,12 @@ protocol MTLRenderPipelineDescriable {
     func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor)
 }
 
+extension MTLRenderPipelineDescriptor {
+    func describe(with device: MTLDevice) -> MTLRenderPipelineState? {
+        return try? device.makeRenderPipelineState(descriptor: self)
+    }
+}
+
 // MTLFrameRenderCommandEncodable encodes itself using the buffer assigned for the frame.
 // It should use the buffer if its size matches the encoding one.
 // Otherwise it should make a new buffer, use and retain it for subsequent calls.

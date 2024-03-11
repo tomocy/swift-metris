@@ -3,7 +3,7 @@
 import CoreGraphics
 import Metal
 
-protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodable {
+protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodableAs {
     var metris: Metris { get }
 }
 
@@ -45,9 +45,13 @@ extension D3.World: MTLRenderPipelineDescriable {
     }
 }
 
-extension D3.World: MTLFrameRenderCommandEncodable {
-    func encode(with encoder: MTLRenderCommandEncoder, in frame: MTLRenderFrame) {
+extension D3.World: MTLFrameRenderCommandEncodableAs {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        in frame: MTLRenderFrame
+    ) {
         camera.encode(with: encoder, at: 0, in: frame)
-        metris.encode(with: encoder, at: 1, in: frame)
+        metris.encode(with: encoder, as: descriptor, at: 1, in: frame)
     }
 }

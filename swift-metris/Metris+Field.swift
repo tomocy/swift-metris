@@ -11,7 +11,7 @@ extension Metris {
                 count: .init(size.x * size.y)
             )
         }
-        
+
         let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
 
@@ -161,18 +161,24 @@ extension Metris.Field: IndexedPrimitive3DAppendable {
     }
 }
 
-extension Metris.Field: MTLFrameRenderCommandEncodableAt {
+extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
     private struct FrameBuffers {
         var data: MTLSizedBuffers = .init(options: .storageModeShared)
         var index: MTLSizedBuffers = .init(options: .storageModeShared)
     }
 
-    mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
+    mutating func encode(
+        with encoder: MTLRenderCommandEncoder,
+        as descriptor: MTLRenderPipelineDescriptor,
+        at index: Int,
+        in frame: MTLRenderFrame
+    ) {
         var primitive = D3.IndexedPrimitive<Float>.init()
         append(to: &primitive)
 
         primitive.encode(
             with: encoder,
+            as: descriptor,
             to: .init(
                 data: frameBuffers.data.take(
                     at: frame.id,
