@@ -3,10 +3,10 @@
 import Metal
 
 class Metris {
-    init(size: CGSize) {
+    init(size: CGSize, device: MTLDevice) {
         ticker = .init(interval: 0.875)
 
-        field = .init(size: .init(10, 20))
+        field = .init(size: .init(10, 20), device: device)
 
         do {
             let unit = min(

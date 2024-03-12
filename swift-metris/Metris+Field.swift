@@ -1,21 +1,29 @@
 // tomocy
 
 import Metal
+import MetalKit
 
 extension Metris {
     struct Field {
-        init(size: SIMD2<UInt>) {
+        init(size: SIMD2<UInt>, device: MTLDevice) {
             self.size = size
             pieces = .init(
                 repeating: nil,
                 count: .init(size.x * size.y)
             )
+
+            do {
+                let loader = MTKTextureLoader(device: device)
+                texture = try! loader.newTexture(name: "Dogs/1", scaleFactor: 1, bundle: .main)
+            }
         }
 
         let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
 
         private var frameBuffers: FrameBuffers = .init()
+
+        private var texture: MTLTexture
     }
 }
 
@@ -151,8 +159,15 @@ extension Metris.Field {
     }
 }
 
+// TODO(tomocy): Implemnet append in generic way
 extension Metris.Field {
     func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
+        pieces.compactMap({ $0 }).forEach {
+            $0.append(to: &primitive)
+        }
+    }
+
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>) {
         pieces.compactMap({ $0 }).forEach {
             $0.append(to: &primitive)
         }
@@ -171,20 +186,37 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>.init()
+        // var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>.init()
+        // append(to: &primitive)
+
+        // do {
+        //     let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
+
+        //     let lib = encoder.device.makeDefaultLibrary()!
+        //     desc.vertexFunction = lib.makeFunction(name: "D3::WithColor::vertexMain")!
+        //     desc.fragmentFunction = lib.makeFunction(name: "D3::WithColor::fragmentMain")!
+
+        //     encoder.setRenderPipelineState(
+        //         desc.describe(with: encoder.device)!
+        //     )
+        // }
+
+        var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>.init()
         append(to: &primitive)
 
         do {
             let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
 
             let lib = encoder.device.makeDefaultLibrary()!
-            desc.vertexFunction = lib.makeFunction(name: "D3::WithColor::vertexMain")!
-            desc.fragmentFunction = lib.makeFunction(name: "D3::WithColor::fragmentMain")!
+            desc.vertexFunction = lib.makeFunction(name: "D3::WithTexture::vertexMain")!
+            desc.fragmentFunction = lib.makeFunction(name: "D3::WithTexture::fragmentMain")!
 
             encoder.setRenderPipelineState(
                 desc.describe(with: encoder.device)!
             )
         }
+
+        encoder.setFragmentTexture(texture, index: 0)
 
         primitive.encode(
             with: encoder,

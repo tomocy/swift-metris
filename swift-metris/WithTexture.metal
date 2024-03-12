@@ -47,7 +47,10 @@ namespace WithTexture {
         };
     }
 
-    fragment float4 fragmentMain(const Raster r [[stage_in]], const metal::texture2d<float> texture)
+    fragment float4 fragmentMain(
+        const Raster r [[stage_in]],
+        const metal::texture2d<float> texture [[texture(0)]]
+    )
     {
         constexpr auto sampler = metal::sampler(
             metal::mag_filter::linear,
