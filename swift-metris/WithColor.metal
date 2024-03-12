@@ -8,23 +8,25 @@ namespace D3 {
 namespace WithColor {
     struct Vertex {
     public:
-        Coordinate toCoordinate(const float w = 1) const constant {
+        Coordinate toCoordinate(const float w = 1) const constant
+        {
             return withTransformed(Coordinate(position, w));
         }
 
-        Coordinate withTransformed(const Coordinate position) const constant {
+        Coordinate withTransformed(const Coordinate position) const constant
+        {
             return transform.apply(position);
         }
 
     public:
-        Measure position = {0, 0, 0};
+        Measure position = { 0, 0, 0 };
         Transform transform = {};
-        float4 color = {0, 0, 0, 1};
+        float4 color = { 0, 0, 0, 1 };
     };
 
     struct Raster {
-        Coordinate position [[position]] = {0};
-        float4 color = {0, 0, 0, 1};
+        Coordinate position [[position]] = { 0 };
+        float4 color = { 0, 0, 0, 1 };
     };
 
     vertex Raster vertexMain(
@@ -44,7 +46,8 @@ namespace WithColor {
         };
     }
 
-    fragment float4 fragmentMain(const Raster r [[stage_in]]) {
+    fragment float4 fragmentMain(const Raster r [[stage_in]])
+    {
         return r.color;
     }
 }

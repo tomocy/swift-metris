@@ -27,10 +27,10 @@ protected:
     Matrix toTranslate() const constant
     {
         return {
-            {1, 0, 0, 0},
-            {0, 1, 0, 0},
-            {0, 0, 1, 0},
-            {translate.x, translate.y, translate.z, 1}
+            { 1, 0, 0, 0 },
+            { 0, 1, 0, 0 },
+            { 0, 0, 1, 0 },
+            { translate.x, translate.y, translate.z, 1 }
         };
     }
 
@@ -42,24 +42,24 @@ protected:
         switch (axis) {
         case Axis::X:
             return {
-                {1, 0, 0, 0},
-                {0, c, s, 0},
-                {0, -s, c, 0},
-                {0, 0, 0, 1}
+                { 1, 0, 0, 0 },
+                { 0, c, s, 0 },
+                { 0, -s, c, 0 },
+                { 0, 0, 0, 1 }
             };
         case Axis::Y:
             return {
-                {c, 0, -s, 0},
-                {0, 1, 0, 0},
-                {s, 0, c, 0},
-                {0, 0, 0, 1}
+                { c, 0, -s, 0 },
+                { 0, 1, 0, 0 },
+                { s, 0, c, 0 },
+                { 0, 0, 0, 1 }
             };
         case Axis::Z:
             return {
-                {c, s, 0, 0},
-                {-s, c, 0, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 1}
+                { c, s, 0, 0 },
+                { -s, c, 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
             };
         }
     }
@@ -67,16 +67,16 @@ protected:
     Matrix toScale() const constant
     {
         return {
-            {scale.x, 0, 0, 0},
-            {0, scale.y, 0, 0},
-            {0, 0, scale.z, 0},
-            {0, 0, 0, 1}
+            { scale.x, 0, 0, 0 },
+            { 0, scale.y, 0, 0 },
+            { 0, 0, scale.z, 0 },
+            { 0, 0, 0, 1 }
         };
     }
 
 public:
-    Measure translate = {0, 0, 0};
-    Measure rotate = {0, 0, 0};
-    Measure scale = {1, 1, 1};
+    Measure translate = { 0, 0, 0 };
+    Measure rotate = { 0, 0, 0 };
+    Measure scale = { 1, 1, 1 };
 };
 }
