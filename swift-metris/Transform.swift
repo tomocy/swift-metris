@@ -3,7 +3,7 @@
 import simd
 
 extension D3 {
-    struct Transform<Precision: DimensionalPrecision> {
+    struct Transform<P: DimensionalPrecision> {
         var translate: Measure = .init(0, 0, 0)
         var rotate: Measure = .init(0, 0, 0)
         var scale: Measure = .init(1, 1, 1)
@@ -11,6 +11,7 @@ extension D3 {
 }
 
 extension D3.Transform {
+    typealias Precision = P
     typealias Measure = D3.Storage<Precision>
 }
 

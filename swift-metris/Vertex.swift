@@ -5,7 +5,7 @@ import CoreGraphics
 protocol Vertex: Writable {}
 
 extension D3 {
-    struct Vertex<Precision: DimensionalPrecision> {
+    struct Vertex<P: DimensionalPrecision> {
         var position: Measure = .init(0, 0, 0)
         var transform: Transform = .init()
         var color: SIMD4<Float> = .init(0, 0, 0, 1)
@@ -13,6 +13,7 @@ extension D3 {
 }
 
 extension D3.Vertex {
+    typealias Precision = P
     typealias Measure = D3.Storage<Precision>
     typealias Transform = D3.Transform<Precision>
 }
