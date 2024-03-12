@@ -151,6 +151,14 @@ extension Metris.Field {
     }
 }
 
+extension Metris.Field {
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
+        pieces.compactMap({ $0 }).forEach {
+            $0.append(to: &primitive)
+        }
+    }
+}
+
 extension Metris.Field: IndexedPrimitive3DAppendable {
     typealias Precision = Float
 
