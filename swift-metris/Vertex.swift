@@ -2,10 +2,14 @@
 
 import CoreGraphics
 
-protocol Vertex: Writable {}
+enum Vertex {
+    typealias Vertex = _Vertex
+}
+
+protocol _Vertex: IO.Writable {}
 
 extension D3 {
-    struct Vertex<P: DimensionalPrecision> {
+    struct Vertex<P: Dimension.Precision> {
         var position: Measure = .init(0, 0, 0)
         var transform: Transform = .init()
         var color: SIMD4<Float> = .init(0, 0, 0, 1)
@@ -24,9 +28,9 @@ extension D3.Vertex {
     }
 }
 
-extension D3.Vertex: Vertex {}
+extension D3.Vertex: Vertex.Vertex {}
 
-extension D3.Vertex: Writable {
+extension D3.Vertex: IO.Writable {
     func write(to destination: UnsafeMutableRawPointer) {
         withUnsafeBytes(of: self) { bytes in
             var offset = 0

@@ -2,7 +2,7 @@
 
 import Metal
 
-struct IndexedPrimitive<V: Vertex> {
+struct IndexedPrimitive<V: Vertex.Vertex> {
     var vertices: [Vertex] = []
     var indices: [Index] = []
 }

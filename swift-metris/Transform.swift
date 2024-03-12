@@ -3,7 +3,7 @@
 import simd
 
 extension D3 {
-    struct Transform<P: DimensionalPrecision> {
+    struct Transform<P: Dimension.Precision> {
         var translate: Measure = .init(0, 0, 0)
         var rotate: Measure = .init(0, 0, 0)
         var scale: Measure = .init(1, 1, 1)

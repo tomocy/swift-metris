@@ -2,9 +2,13 @@
 
 import simd
 
-protocol DimensionalPrecision: Encodable, Decodable, FloatingPoint, SIMDScalar {}
+enum Dimension {
+    typealias Precision = _DimensionPrecision
+}
 
-extension Float: DimensionalPrecision {}
+protocol _DimensionPrecision: Encodable, Decodable, FloatingPoint, SIMDScalar {}
+
+extension Float: Dimension.Precision {}
 
 enum D3 {}
 
