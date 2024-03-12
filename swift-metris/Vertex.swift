@@ -66,12 +66,7 @@ extension D3.Vertex: Vertex.Vertex {}
 extension D3.Vertex: IO.Writable {
     func write(to destination: UnsafeMutableRawPointer) {
         withUnsafeBytes(of: self) { bytes in
-            var offset = 0
-            for v in [position, transform, material] {
-                let stride = MemoryLayout.stride(ofValue: v)
-                destination.copy(from: bytes.baseAddress!, count: stride, offset: offset)
-                offset += stride
-            }
+            destination.copy(from: bytes.baseAddress!, count: bytes.count)
         }
     }
 }
