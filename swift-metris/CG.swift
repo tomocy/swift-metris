@@ -3,9 +3,9 @@
 import CoreGraphics
 
 struct CGVolume {
-    var width: CGFloat
-    var height: CGFloat
-    var depth: CGFloat
+    var width: CGFloat = 0
+    var height: CGFloat = 0
+    var depth: CGFloat = 0
 }
 
 extension CGColor {

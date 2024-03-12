@@ -20,8 +20,8 @@ namespace WithColor {
 
     public:
         Measure position = { 0, 0, 0 };
-        Transform transform = {};
         float4 color = { 0, 0, 0, 1 };
+        Transform transform = {};
     };
 
     struct Raster {

@@ -7,7 +7,10 @@ enum Vertex {
     typealias Material = _VertexMaterial
 }
 
-protocol _Vertex: IO.Writable {}
+protocol _Vertex: IO.Writable {
+    init()
+}
+
 protocol _VertexMaterial {
     init()
 }
@@ -43,16 +46,16 @@ extension Vertex.Materials.Color: Vertex.Material {
 extension D3 {
     struct Vertex<P: Dimension.Precision, M: _VertexMaterial> {
         var position: Measure = .init(0, 0, 0)
-        var transform: Transform = .init()
         var material: Material = .init()
+        var transform: Transform = .init()
     }
 }
 
 extension D3.Vertex {
     typealias Precision = P
     typealias Measure = D3.Storage<Precision>
-    typealias Transform = D3.Transform<Precision>
     typealias Material = M
+    typealias Transform = D3.Transform<Precision>
 }
 
 extension D3.Vertex {
