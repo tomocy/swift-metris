@@ -23,13 +23,17 @@ extension D3.Vertex {
     }
 }
 
-extension D3.Vertex: Vertex {
+extension D3.Vertex: Vertex {}
+
+extension D3.Vertex: Writable {
     func write(to destination: UnsafeMutableRawPointer) {
-        withUnsafeBytes(of: self) { body in
-            destination.copyMemory(
-                from: body.baseAddress!,
-                byteCount: body.count
-            )
+        withUnsafeBytes(of: self) { bytes in
+            var offset = 0
+            for v in [position, transform, color] {
+                let stride = MemoryLayout.stride(ofValue: v)
+                destination.copy(from: bytes.baseAddress!, count: stride, offset: offset)
+                offset += stride
+            }
         }
     }
 }
@@ -67,5 +71,3 @@ extension D3.Vertex {
         return mapState(self) { $0.transform(by: delta) }
     }
 }
-
-protocol VertexMaterial {}
