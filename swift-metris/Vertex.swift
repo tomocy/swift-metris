@@ -67,3 +67,5 @@ extension D3.Vertex {
         return mapState(self) { $0.transform(by: delta) }
     }
 }
+
+protocol VertexMaterial {}
