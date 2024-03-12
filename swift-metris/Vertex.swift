@@ -4,9 +4,11 @@ import CoreGraphics
 
 enum Vertex {
     typealias Vertex = _Vertex
+    typealias Material = _VertexMaterial
 }
 
 protocol _Vertex: IO.Writable {}
+protocol _VertexMaterial: IO.Writable {}
 
 extension D3 {
     struct Vertex<P: Dimension.Precision> {
