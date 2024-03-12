@@ -159,16 +159,6 @@ extension Metris.Field {
     }
 }
 
-extension Metris.Field: IndexedPrimitive3DAppendable {
-    typealias Precision = Float
-
-    func append(to primitive: inout Primitive) {
-        pieces.compactMap({ $0 }).forEach {
-            $0.append(to: &primitive)
-        }
-    }
-}
-
 extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
     private struct FrameBuffers {
         var data: MTLSizedBuffers = .init(options: .storageModeShared)
