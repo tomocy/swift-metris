@@ -2,7 +2,7 @@
 
 import Metal
 
-struct IndexedPrimitive<V> {
+struct IndexedPrimitive<V: Vertex> {
     var vertices: [Vertex] = []
     var indices: [Index] = []
 }
@@ -42,12 +42,8 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
         to buffer: MTLIndexedBuffer,
         at index: Int
     ) {
-        vertices.withUnsafeBytes { body in
-            buffer.data.contents().copyMemory(
-                from: body.baseAddress!,
-                byteCount: buffer.data.length
-            )
-
+        do {
+            vertices.write(to: buffer.data.contents())
             encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
         }
 
