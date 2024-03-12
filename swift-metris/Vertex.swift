@@ -8,7 +8,9 @@ enum Vertex {
 }
 
 protocol _Vertex: IO.Writable {}
-protocol _VertexMaterial: IO.Writable {}
+protocol _VertexMaterial {
+    init()
+}
 
 extension Vertex {
     enum Materials {}
@@ -34,11 +36,15 @@ extension Vertex.Materials.Color {
     }
 }
 
+extension Vertex.Materials.Color: Vertex.Material {
+    init() { self.init(0, 0, 0, 1) }
+}
+
 extension D3 {
-    struct Vertex<P: Dimension.Precision> {
+    struct Vertex<P: Dimension.Precision, M: _VertexMaterial> {
         var position: Measure = .init(0, 0, 0)
         var transform: Transform = .init()
-        var color: SIMD4<Float> = .init(0, 0, 0, 1)
+        var material: Material = .init()
     }
 }
 
@@ -46,6 +52,7 @@ extension D3.Vertex {
     typealias Precision = P
     typealias Measure = D3.Storage<Precision>
     typealias Transform = D3.Transform<Precision>
+    typealias Material = M
 }
 
 extension D3.Vertex {
@@ -60,7 +67,7 @@ extension D3.Vertex: IO.Writable {
     func write(to destination: UnsafeMutableRawPointer) {
         withUnsafeBytes(of: self) { bytes in
             var offset = 0
-            for v in [position, transform, color] {
+            for v in [position, transform, material] {
                 let stride = MemoryLayout.stride(ofValue: v)
                 destination.copy(from: bytes.baseAddress!, count: stride, offset: offset)
                 offset += stride
@@ -78,12 +85,12 @@ extension D3.Vertex {
         return mapState(self) { $0.place(at: position) }
     }
 
-    mutating func colorize(with color: SIMD4<Float>) {
-        self.color = color
+    mutating func materialize(with material: Material) {
+        self.material = material
     }
 
-    func colorized(with color: SIMD4<Float>) -> Self {
-        return mapState(self) { $0.colorize(with: color) }
+    func materialized(with material: Material) -> Self {
+        return mapState(self) { $0.materialize(with: material) }
     }
 
     mutating func transform(with transform: Transform) {

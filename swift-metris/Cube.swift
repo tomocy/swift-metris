@@ -14,8 +14,8 @@ extension Cube {
 }
 
 extension Cube {
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
-        typealias Primitive = IndexedPrimitive<D3.Vertex<Float>>
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
+        typealias Primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>
 
         var vertices: [Primitive.Vertex] = []
         do {
@@ -34,7 +34,9 @@ extension Cube {
             ]
 
             vertices = vertices.map({
-                $0.colorized(with: .init(color))
+                $0.materialized(
+                    with: Vertex.Materials.Color.init(color)
+                )
             }).map({
                 $0.transformed(with: transform)
             })

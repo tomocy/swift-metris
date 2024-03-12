@@ -152,7 +152,7 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
         pieces.compactMap({ $0 }).forEach {
             $0.append(to: &primitive)
         }
@@ -171,7 +171,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        var primitive = IndexedPrimitive<D3.Vertex<Float>>.init()
+        var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>.init()
         append(to: &primitive)
 
         do {
