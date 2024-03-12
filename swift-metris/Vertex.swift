@@ -2,6 +2,8 @@
 
 import CoreGraphics
 
+protocol Vertex: Writable {}
+
 extension D3 {
     struct Vertex<Precision: DimensionalPrecision> {
         var position: Measure = .init(0, 0, 0)
