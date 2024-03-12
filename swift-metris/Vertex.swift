@@ -21,15 +21,15 @@ extension Vertex {
 
 extension Vertex.Materials {
     struct Color {
-        init(_ value: SIMD4<Float>) {
-            self.value = value
-        }
-
         var value: SIMD4<Float> = .init(0, 0, 0, 1)
     }
 }
 
 extension Vertex.Materials.Color {
+    init(_ value: SIMD4<Float>) {
+        self.value = value
+    }
+
     init(_ value: CGColor) {
         self.init(.init(value))
     }
@@ -39,9 +39,15 @@ extension Vertex.Materials.Color {
     }
 }
 
-extension Vertex.Materials.Color: Vertex.Material {
-    init() { self.init(0, 0, 0, 1) }
+extension Vertex.Materials.Color: Vertex.Material {}
+
+extension Vertex.Materials {
+    struct Texture {
+        var coordinate: SIMD2<Float> = .init(0, 0)
+    }
 }
+
+extension Vertex.Materials.Texture: Vertex.Material {}
 
 extension D3 {
     struct Vertex<P: Dimension.Precision, M: _VertexMaterial> {
