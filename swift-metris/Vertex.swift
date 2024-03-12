@@ -10,6 +10,30 @@ enum Vertex {
 protocol _Vertex: IO.Writable {}
 protocol _VertexMaterial: IO.Writable {}
 
+extension Vertex {
+    enum Materials {}
+}
+
+extension Vertex.Materials {
+    struct Color {
+        init(_ value: SIMD4<Float>) {
+            self.value = value
+        }
+
+        var value: SIMD4<Float> = .init(0, 0, 0, 1)
+    }
+}
+
+extension Vertex.Materials.Color {
+    init(_ value: CGColor) {
+        self.init(.init(value))
+    }
+
+    init(_ red: Float, _ green: Float, _ blue: Float, _ alpha: Float) {
+        self.init(.init(red, green, blue, alpha))
+    }
+}
+
 extension D3 {
     struct Vertex<P: Dimension.Precision> {
         var position: Measure = .init(0, 0, 0)
