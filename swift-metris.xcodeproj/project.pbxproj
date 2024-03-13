@@ -70,6 +70,7 @@
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0852BA1F0AF005A1E01 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		F5ACF0862BA1F51C005A1E01 /* Material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
+		F5ACF0872BA1F5E2005A1E01 /* Raster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
@@ -108,6 +109,7 @@
 				F5ACF0812BA03DC7005A1E01 /* IO.swift */,
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
+				F5ACF0862BA1F51C005A1E01 /* Material.h */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F56D46162B78881400B069DC /* Metal.swift */,
@@ -116,6 +118,7 @@
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
+				F5ACF0872BA1F5E2005A1E01 /* Raster.h */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,
@@ -130,7 +133,6 @@
 				F5E88F3D2ABB5097003505BE /* Window.swift */,
 				F58B27BD2B9EF1AB00242F32 /* WithColor.metal */,
 				F58B27BB2B9EF02700242F32 /* WithTexture.metal */,
-				F5ACF0862BA1F51C005A1E01 /* Material.h */,
 				F5910ABD2B972D8300834DEF /* World.swift */,
 			);
 			path = "swift-metris";
