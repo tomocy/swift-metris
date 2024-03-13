@@ -3,18 +3,13 @@
 #include "Camera.h"
 #include "Dimension.h"
 #include "Material.h"
+#include "Raster.h"
 #include "Transform.h"
 #include "Vertex.h"
 
 namespace D3 {
 namespace WithTexture {
-    struct Raster {
-    public:
-        Coordinate position [[position]] = { 0, 0, 0, 1 };
-        float2 textureCoordinate = { 0, 0 };
-    };
-
-    vertex Raster vertexMain(
+    vertex Raster<Material::Texture> vertexMain(
         constant Camera* const camera [[buffer(0)]],
         constant Vertex<Material::Texture>* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
@@ -27,12 +22,12 @@ namespace WithTexture {
 
         return {
             .position = position,
-            .textureCoordinate = v->material.coordinate,
+            .material = v->material,
         };
     }
 
     fragment float4 fragmentMain(
-        const Raster r [[stage_in]],
+        const Raster<Material::Texture> r [[stage_in]],
         const metal::texture2d<float> texture [[texture(0)]]
     )
     {
@@ -41,7 +36,7 @@ namespace WithTexture {
             metal::min_filter::linear
         );
 
-        return texture.sample(sampler, r.textureCoordinate);
+        return texture.sample(sampler, r.material.coordinate);
     }
 }
 }
