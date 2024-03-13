@@ -3,27 +3,10 @@
 #include "Camera.h"
 #include "Dimension.h"
 #include "Transform.h"
+#include "Vertex.h"
 
 namespace D3 {
 namespace WithTexture {
-    struct Vertex {
-    public:
-        Coordinate toCoordinate(const float w = 1) const constant
-        {
-            return withTransformed(Coordinate(position, w));
-        }
-
-        Coordinate withTransformed(const Coordinate position) const constant
-        {
-            return transform.apply(position);
-        }
-
-    public:
-        Measure position = { 0, 0, 0 };
-        float2 textureCoordinate = { 0, 0 };
-        Transform transform = {};
-    };
-
     struct Raster {
     public:
         Coordinate position [[position]] = { 0, 0, 0, 1 };
@@ -32,7 +15,7 @@ namespace WithTexture {
 
     vertex Raster vertexMain(
         constant Camera* const camera [[buffer(0)]],
-        constant Vertex* const vs [[buffer(1)]],
+        constant Vertex<::Vertex::Materials::Texture>* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
     )
     {
@@ -43,7 +26,7 @@ namespace WithTexture {
 
         return {
             .position = position,
-            .textureCoordinate = v->textureCoordinate,
+            .textureCoordinate = v->material.coordinate,
         };
     }
 
