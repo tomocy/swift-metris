@@ -5,20 +5,6 @@
 #include "Dimension.h"
 #include "Transform.h"
 
-namespace Vertex {
-namespace Materials {
-    struct Color {
-    public:
-        float4 color = { 0, 0, 0, 1 };
-    };
-
-    struct Texture {
-    public:
-        float2 coordinate = { 0, 0 };
-    };
-}
-}
-
 namespace D3 {
 template <typename M>
 struct Vertex {

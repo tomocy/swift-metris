@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "Dimension.h"
+#include "Material.h"
 #include "Transform.h"
 #include "Vertex.h"
 
@@ -15,7 +16,7 @@ namespace WithTexture {
 
     vertex Raster vertexMain(
         constant Camera* const camera [[buffer(0)]],
-        constant Vertex<::Vertex::Materials::Texture>* const vs [[buffer(1)]],
+        constant Vertex<Material::Texture>* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
     )
     {

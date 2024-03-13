@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "Dimension.h"
+#include "Material.h"
 #include "Transform.h"
 #include "Vertex.h"
 
@@ -14,7 +15,7 @@ namespace WithColor {
 
     vertex Raster vertexMain(
         constant Camera* const camera [[buffer(0)]],
-        constant Vertex<::Vertex::Materials::Color>* const vs [[buffer(1)]],
+        constant Vertex<Material::Color>* const vs [[buffer(1)]],
         const uint id [[vertex_id]]
     )
     {
@@ -25,7 +26,7 @@ namespace WithColor {
 
         return {
             .position = position,
-            .color = v->material.color,
+            .color = v->material.value,
         };
     }
 
