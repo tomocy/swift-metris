@@ -7,7 +7,7 @@ extension Metris {
     struct Field {
         init(size: SIMD2<UInt>, device: MTLDevice) {
             self.size = size
-            pieces = .init(
+            seats = .init(
                 repeating: nil,
                 count: .init(size.x * size.y)
             )
@@ -19,7 +19,7 @@ extension Metris {
         }
 
         let size: SIMD2<UInt>
-        private var pieces: [Piece?] = []
+        private var seats: [Piece?] = []
 
         private var frameBuffers: Indexed<MTLSizedBuffers> = .init(
             data: .init(options: .storageModeShared),
@@ -83,7 +83,7 @@ extension Metris.Field {
 
     func at(_ position: Metris.Position) -> Metris.Piece? {
         guard let i = index(at: position) else { return nil }
-        return pieces[i]
+        return seats[i]
     }
 
     func at(x: Int, y: Int) -> Metris.Piece? {
@@ -92,9 +92,11 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
+    var pieces: [Metris.Piece] { seats.compactMap { $0 } }
+
     mutating func placePiece(_ piece: Metris.Piece?, at position: Metris.Position) {
         guard let i = index(at: position) else { return }
-        pieces[i] = piece?.placed(at: position)
+        seats[i] = piece?.placed(at: position)
     }
 }
 
@@ -166,7 +168,7 @@ extension Metris.Field: IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
     func append(to primitive: inout IndexedPrimitive<Vertex>) {
-        pieces.compactMap({ $0 }).forEach {
+        pieces.forEach {
             $0.append(to: &primitive)
         }
     }
@@ -185,8 +187,6 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        let primitive = IndexedPrimitive.init(self)
-
         do {
             describe(with: encoder.device, to: descriptor)
             encoder.setRenderPipelineState(
@@ -196,6 +196,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
 
         encoder.setFragmentTexture(texture, index: 0)
 
+        let primitive = IndexedPrimitive.init(self)
         primitive.encode(
             with: encoder,
             to: .init(
