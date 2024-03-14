@@ -2,14 +2,28 @@
 
 import Metal
 
+protocol _IndexedPrimitive {
+    associatedtype Vertex: swift_metris.Vertex.Vertex
+}
+
 struct IndexedPrimitive<V: Vertex.Vertex> {
     var vertices: [Vertex] = []
     var indices: [Index] = []
 }
 
 extension IndexedPrimitive {
+    typealias Appendable = _IndexedPrimitiveAppendable
+}
+
+extension IndexedPrimitive {
     typealias Vertex = V
     typealias Index = UInt16
+}
+
+extension IndexedPrimitive {
+    init(_ appendable: any Appendable<Vertex>) {
+        appendable.append(to: &self)
+    }
 }
 
 extension IndexedPrimitive {
@@ -27,6 +41,10 @@ extension IndexedPrimitive {
 
         return 0
     }
+}
+
+protocol _IndexedPrimitiveAppendable<Vertex>: _IndexedPrimitive {
+    func append(to primitive: inout IndexedPrimitive<Vertex>)
 }
 
 extension IndexedPrimitive {
