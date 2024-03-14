@@ -7,13 +7,9 @@ enum Vertex {
     typealias Material = _VertexMaterial
 }
 
-protocol _Vertex: IO.Writable {
-    init()
-}
+protocol _Vertex: DefaultInitializable, IO.Writable {}
 
-protocol _VertexMaterial {
-    init()
-}
+protocol _VertexMaterial: DefaultInitializable {}
 
 extension Vertex {
     enum Materials {}
@@ -62,12 +58,6 @@ extension D3.Vertex {
     typealias Measure = D3.Storage<Precision>
     typealias Material = M
     typealias Transform = D3.Transform<Precision>
-}
-
-extension D3.Vertex {
-    init(at position: Measure) {
-        self.position = position
-    }
 }
 
 extension D3.Vertex: Vertex.Vertex {}
