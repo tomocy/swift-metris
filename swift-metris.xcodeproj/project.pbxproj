@@ -40,6 +40,7 @@
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
 		F5ACF0922BA2B5FA005A1E01 /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0912BA2B5FA005A1E01 /* Texture.swift */; };
 		F5ACF0942BA2B777005A1E01 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0932BA2B777005A1E01 /* Material.swift */; };
+		F5ACF0972BA2BC5E005A1E01 /* Shader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0962BA2BC5E005A1E01 /* Shader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		F5ACF0912BA2B5FA005A1E01 /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
 		F5ACF0932BA2B777005A1E01 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		F5ACF0952BA2B964005A1E01 /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
+		F5ACF0962BA2BC5E005A1E01 /* Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shader.swift; sourceTree = "<group>"; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
 				F5ACF0872BA1F5E2005A1E01 /* Raster.h */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
+				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,
 				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
@@ -242,6 +245,7 @@
 				F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */,
 				F52641B12B7F551D00BB540F /* Vertex.swift in Sources */,
 				F52641B22B7F551D00BB540F /* Angle.swift in Sources */,
+				F5ACF0972BA2BC5E005A1E01 /* Shader.swift in Sources */,
 				F52641A32B7F551D00BB540F /* CG.swift in Sources */,
 				F52641B72B7F551D00BB540F /* Metal.swift in Sources */,
 				F52641A62B7F551D00BB540F /* Metris+Mino.swift in Sources */,

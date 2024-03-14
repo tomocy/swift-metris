@@ -167,6 +167,12 @@ extension Metris.Field {
     }
 }
 
+extension Metris.Field: MTLRenderPipelineDescriable {
+    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {
+        D3.Shader.init().describe(with: device, to: descriptor)
+    }
+}
+
 extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
     private struct FrameBuffers {
         var data: MTLSizedBuffers = .init(options: .storageModeShared)
@@ -183,14 +189,9 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
         append(to: &primitive)
 
         do {
-            let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
-
-            let lib = encoder.device.makeDefaultLibrary()!
-            desc.vertexFunction = lib.makeFunction(name: "D3::vertexMain")!
-            desc.fragmentFunction = lib.makeFunction(name: "D3::fragmentMain")!
-
+            describe(with: encoder.device, to: descriptor)
             encoder.setRenderPipelineState(
-                desc.describe(with: encoder.device)!
+                descriptor.describe(with: encoder.device)!
             )
         }
 
