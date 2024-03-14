@@ -4,7 +4,14 @@
 
 #include "Texture.h"
 
-struct Material {
+namespace Material {
+struct Source {
 public:
-    Texture diffuse = {};
+    Texture::Source<float> diffuse [[texture(0)]];
 };
+
+struct Reference {
+public:
+    Texture::Reference diffuse = {};
+};
+}

@@ -16,8 +16,10 @@ extension Cube {
 extension Cube {
     func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
         typealias Primitive = IndexedPrimitive<D3.Vertex<Float>>
+        typealias Vertex = Primitive.Vertex
+        typealias Material = Primitive.Vertex.Material
 
-        var vertices: [Primitive.Vertex] = arrangeVertices(for: .init(size))
+        var vertices: [Vertex] = arrangeVertices(for: .init(size))
         do {
             vertices[0].materialize(
                 with: Material.init(
@@ -75,7 +77,9 @@ extension Cube {
     }
 
     private func arrangeVertices(for size: D3.Vertex<Float>.Measure) -> [D3.Vertex<Float>] {
-        let halfSize = D3.Vertex<Float>.Measure.init(size) / 2
+        typealias Vertex = D3.Vertex<Float>
+
+        let halfSize = Vertex.Measure.init(size) / 2
 
         return [
             // front

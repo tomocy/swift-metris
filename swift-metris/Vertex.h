@@ -21,7 +21,7 @@ public:
 
 public:
     Measure position = { 0, 0, 0 };
-    Material material = {};
+    Material::Reference material = {};
     Transform transform = {};
 };
 }

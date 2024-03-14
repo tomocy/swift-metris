@@ -1,5 +1,15 @@
 // tomocy
 
-struct Material {
-    var diffuse: Texture = .init()
+enum Material {}
+
+extension Material {
+    struct Source {
+        var diffuse: Texture.Source
+    }
+}
+
+extension Material {
+    struct Reference {
+        var diffuse: Texture.Reference<Float> = .init()
+    }
 }

@@ -19,6 +19,7 @@ extension D3 {
 extension D3.Vertex {
     typealias Precision = P
     typealias Measure = D3.Storage<Precision>
+    typealias Material = swift_metris.Material.Reference
     typealias Transform = D3.Transform<Precision>
 }
 

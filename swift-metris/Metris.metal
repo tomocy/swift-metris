@@ -10,11 +10,11 @@
 namespace D3 {
 vertex Raster vertexMain(
     constant Camera* const camera [[buffer(0)]],
-    constant Vertex* const vs [[buffer(1)]],
+    constant Vertex* const vertices [[buffer(1)]],
     const uint id [[vertex_id]]
 )
 {
-    constant auto* const v = &vs[id];
+    constant auto* const v = &vertices[id];
 
     auto position = v->toCoordinate();
     position = camera->withTransformed(position);
@@ -26,8 +26,8 @@ vertex Raster vertexMain(
 }
 
 fragment float4 fragmentMain(
-    const Raster r [[stage_in]],
-    const metal::texture2d<float> diffuse [[texture(0)]]
+    const Raster raster [[stage_in]],
+    const Material::Source material
 )
 {
     constexpr auto sampler = metal::sampler(
@@ -35,6 +35,6 @@ fragment float4 fragmentMain(
         metal::min_filter::linear
     );
 
-    return diffuse.sample(sampler, r.material.diffuse.coordinate);
+    return material.diffuse.sample(sampler, raster.material.diffuse.coordinate);
 }
 }
