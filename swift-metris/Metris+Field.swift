@@ -198,25 +198,54 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
             )
         }
 
-        encoder.setFragmentTexture(texture, index: 0)
-
         let primitive = IndexedPrimitive.init(self)
-        primitive.encode(
-            with: encoder,
-            to: .init(
-                data: frameBuffers.data.take(
-                    at: frame.id,
-                    of: primitive.vertices.size,
+        let buffers = Indexed.init(
+            data: frameBuffers.data.take(
+                at: frame.id,
+                of: primitive.vertices.size,
+                with: encoder.device
+            ),
+            index: frameBuffers.index.take(
+                at: frame.id,
+                of: primitive.indices.size,
+                with: encoder.device
+            )
+        )
+
+        encoder.setVertexBuffer(buffers.data, offset: 0, index: index)
+
+        primitive.vertices.withUnsafeBytes { bytes in
+            buffers.data.contents().copy(
+                from: bytes.baseAddress!,
+                count: bytes.count
+            )
+
+            encoder.setVertexBuffer(buffers.data, offset: 0, index: index)
+        }
+
+        primitive.indices.withUnsafeBytes { bytes in
+            buffers.index.contents().copy(
+                from: bytes.baseAddress!,
+                count: bytes.count
+            )
+        }
+
+        pieces.map(IndexedPrimitive.init).enumerated().forEach { i, piece in
+            encoder.setFragmentTexture(
+                Texture.Sources.Color.load(
+                    .init(red: CGFloat(i) / CGFloat(pieces.count), green: 0.1, blue: 0.1, alpha: 1),
                     with: encoder.device
                 ),
-                index: frameBuffers.index.take(
-                    at: frame.id,
-                    of: primitive.indices.size,
-                    with: encoder.device
-                )
-            ),
-            offset: .init(data: 0, index: 0),
-            at: index
-        )
+                index: 0
+            )
+
+            encoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: piece.indices.count,
+                indexType: .uint16,
+                indexBuffer: buffers.index,
+                indexBufferOffset: piece.indices.size * i
+            )
+        }
     }
 }
