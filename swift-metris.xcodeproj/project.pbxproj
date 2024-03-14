@@ -39,6 +39,7 @@
 		F5910AC22B983AD300834DEF /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910AC12B983AD300834DEF /* Cube.swift */; };
 		F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0812BA03DC7005A1E01 /* IO.swift */; };
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
+		F5ACF0922BA2B5FA005A1E01 /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0912BA2B5FA005A1E01 /* Texture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		F5ACF0862BA1F51C005A1E01 /* Material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
 		F5ACF0872BA1F5E2005A1E01 /* Raster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
+		F5ACF0912BA2B5FA005A1E01 /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				F54A4A172B99B29700E1F388 /* State.swift */,
 				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
 				F5ACF0882BA2AA35005A1E01 /* Swift.swift */,
+				F5ACF0912BA2B5FA005A1E01 /* Texture.swift */,
 				F54E82D42ACDC71D00D2143B /* Ticker.swift */,
 				F56DCA642ABB53A7000D29D5 /* Transform.h */,
 				F5E88F2F2ABB4EB2003505BE /* Transform.swift */,
@@ -253,6 +256,7 @@
 				F5910AC22B983AD300834DEF /* Cube.swift in Sources */,
 				F54A4A162B99B28D00E1F388 /* SIMD.swift in Sources */,
 				F52641CC2B7F5DB600BB540F /* main.swift in Sources */,
+				F5ACF0922BA2B5FA005A1E01 /* Texture.swift in Sources */,
 				F5910AC02B975EF000834DEF /* Array.swift in Sources */,
 				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,
 				F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */,
