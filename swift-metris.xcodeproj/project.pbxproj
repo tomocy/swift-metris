@@ -40,6 +40,7 @@
 		F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0812BA03DC7005A1E01 /* IO.swift */; };
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
 		F5ACF0922BA2B5FA005A1E01 /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0912BA2B5FA005A1E01 /* Texture.swift */; };
+		F5ACF0942BA2B777005A1E01 /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0932BA2B777005A1E01 /* Material.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		F5ACF0872BA1F5E2005A1E01 /* Raster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Raster.h; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		F5ACF0912BA2B5FA005A1E01 /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
+		F5ACF0932BA2B777005A1E01 /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
 		F5E88F2B2ABB4CF4003505BE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		F5E88F2F2ABB4EB2003505BE /* Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transform.swift; sourceTree = "<group>"; };
 		F5E88F332ABB4FBC003505BE /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
 				F5ACF0862BA1F51C005A1E01 /* Material.h */,
+				F5ACF0932BA2B777005A1E01 /* Material.swift */,
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F56D46162B78881400B069DC /* Metal.swift */,
@@ -248,6 +251,7 @@
 				F52641AB2B7F551D00BB540F /* SemaphoricPool.swift in Sources */,
 				F52641B02B7F551D00BB540F /* Transform.swift in Sources */,
 				F52641AA2B7F551D00BB540F /* Metris.swift in Sources */,
+				F5ACF0942BA2B777005A1E01 /* Material.swift in Sources */,
 				F52641B52B7F551D00BB540F /* Vector.swift in Sources */,
 				F52641AE2B7F551D00BB540F /* Camera.swift in Sources */,
 				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
