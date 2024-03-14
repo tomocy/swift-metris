@@ -4,49 +4,12 @@ import CoreGraphics
 
 enum Vertex {
     typealias Vertex = _Vertex
-    typealias Material = _VertexMaterial
 }
 
 protocol _Vertex: DefaultInitializable, IO.Writable {}
 
-protocol _VertexMaterial: DefaultInitializable {}
-
-extension Vertex {
-    enum Materials {}
-}
-
-extension Vertex.Materials {
-    struct Color {
-        var value: SIMD4<Float> = .init(0, 0, 0, 1)
-    }
-}
-
-extension Vertex.Materials.Color {
-    init(_ value: SIMD4<Float>) {
-        self.value = value
-    }
-
-    init(_ value: CGColor) {
-        self.init(.init(value))
-    }
-
-    init(_ red: Float, _ green: Float, _ blue: Float, _ alpha: Float) {
-        self.init(.init(red, green, blue, alpha))
-    }
-}
-
-extension Vertex.Materials.Color: Vertex.Material {}
-
-extension Vertex.Materials {
-    struct Texture {
-        var coordinate: SIMD2<Float> = .init(0, 0)
-    }
-}
-
-extension Vertex.Materials.Texture: Vertex.Material {}
-
 extension D3 {
-    struct Vertex<P: Dimension.Precision, M: _VertexMaterial> {
+    struct Vertex<P: Dimension.Precision> {
         var position: Measure = .init(0, 0, 0)
         var material: Material = .init()
         var transform: Transform = .init()
@@ -56,7 +19,6 @@ extension D3 {
 extension D3.Vertex {
     typealias Precision = P
     typealias Measure = D3.Storage<Precision>
-    typealias Material = M
     typealias Transform = D3.Transform<Precision>
 }
 

@@ -3,14 +3,11 @@
 #pragma once
 
 #include "Dimension.h"
+#include "Material.h"
 #include "Transform.h"
 
 namespace D3 {
-template <typename M>
 struct Vertex {
-public:
-    using Material = M;
-
 public:
     Coordinate toCoordinate(const float w = 1) const constant
     {

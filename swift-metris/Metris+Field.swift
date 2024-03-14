@@ -159,15 +159,8 @@ extension Metris.Field {
     }
 }
 
-// TODO(tomocy): Implemnet append in generic way
 extension Metris.Field {
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
-        pieces.compactMap({ $0 }).forEach {
-            $0.append(to: &primitive)
-        }
-    }
-
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>) {
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
         pieces.compactMap({ $0 }).forEach {
             $0.append(to: &primitive)
         }
@@ -186,30 +179,15 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        // var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>.init()
-        // append(to: &primitive)
-
-        // do {
-        //     let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
-
-        //     let lib = encoder.device.makeDefaultLibrary()!
-        //     desc.vertexFunction = lib.makeFunction(name: "D3::WithColor::vertexMain")!
-        //     desc.fragmentFunction = lib.makeFunction(name: "D3::WithColor::fragmentMain")!
-
-        //     encoder.setRenderPipelineState(
-        //         desc.describe(with: encoder.device)!
-        //     )
-        // }
-
-        var primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>.init()
+        var primitive = IndexedPrimitive<D3.Vertex<Float>>.init()
         append(to: &primitive)
 
         do {
             let desc = descriptor.copy() as! MTLRenderPipelineDescriptor
 
             let lib = encoder.device.makeDefaultLibrary()!
-            desc.vertexFunction = lib.makeFunction(name: "D3::WithTexture::vertexMain")!
-            desc.fragmentFunction = lib.makeFunction(name: "D3::WithTexture::fragmentMain")!
+            desc.vertexFunction = lib.makeFunction(name: "D3::vertexMain")!
+            desc.fragmentFunction = lib.makeFunction(name: "D3::fragmentMain")!
 
             encoder.setRenderPipelineState(
                 desc.describe(with: encoder.device)!

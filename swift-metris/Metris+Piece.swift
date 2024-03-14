@@ -33,22 +33,7 @@ extension Metris.Piece {
 }
 
 extension Metris.Piece {
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
-        var body = self.body
-
-        // Shift the origin from the center to the bottom left.
-        body.transform.translate(
-            with: .init(
-                Float(body.size.width) * .init(position.x) + .init(body.size.width) / 2,
-                Float(body.size.height) * .init(position.y) + .init(body.size.height) / 2,
-                0
-            )
-        )
-
-        body.append(to: &primitive)
-    }
-
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>) {
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
         var body = self.body
 
         // Shift the origin from the center to the bottom left.

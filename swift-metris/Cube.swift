@@ -14,58 +14,51 @@ extension Cube {
 }
 
 extension Cube {
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>) {
-        typealias Material = Vertex.Materials.Color
-        typealias Primitive = IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Color>>
-
-        let vertices = arrangeVertices(
-            for: .init(size)
-        ).map({
-            $0.materialized(
-                with: Vertex.Materials.Color.init(color)
-            )
-        }).map({
-            $0.transformed(with: transform)
-        })
-
-        let indices = arrangeIndices(from: primitive.nextStartIndex)
-
-        primitive.append(
-            vertices: vertices,
-            indices: indices
-        )
-    }
-
-    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float, Vertex.Materials.Texture>>) {
-        typealias Material = Vertex.Materials.Texture
-        typealias Primitive = IndexedPrimitive<D3.Vertex<Float, Material>>
+    func append(to primitive: inout IndexedPrimitive<D3.Vertex<Float>>) {
+        typealias Primitive = IndexedPrimitive<D3.Vertex<Float>>
 
         var vertices: [Primitive.Vertex] = arrangeVertices(for: .init(size))
         do {
             vertices[0].materialize(
-                with: Material.init(coordinate: .init(0, 0))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(0, 0))
+                )
             )
             vertices[1].materialize(
-                with: Material.init(coordinate: .init(1, 0))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(1, 0))
+                )
             )
             vertices[2].materialize(
-                with: Material.init(coordinate: .init(1, 1))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(1, 1))
+                )
             )
             vertices[3].materialize(
-                with: Material.init(coordinate: .init(0, 1))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(0, 1))
+                )
             )
 
             vertices[4].materialize(
-                with: Material.init(coordinate: .init(0, 0))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(0, 0))
+                )
             )
             vertices[5].materialize(
-                with: Material.init(coordinate: .init(1, 0))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(1, 0))
+                )
             )
             vertices[6].materialize(
-                with: Material.init(coordinate: .init(1, 1))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(1, 1))
+                )
             )
             vertices[7].materialize(
-                with: Material.init(coordinate: .init(0, 1))
+                with: Material.init(
+                    diffuse: .init(coordinate: .init(0, 1))
+                )
             )
 
             vertices = vertices.map({
@@ -81,10 +74,8 @@ extension Cube {
         )
     }
 
-    private func arrangeVertices<M: Vertex.Material>(
-        for size: D3.Vertex<Float, M>.Measure
-    ) -> [D3.Vertex<Float, M>] {
-        let halfSize = D3.Vertex<Float, M>.Measure.init(size) / 2
+    private func arrangeVertices(for size: D3.Vertex<Float>.Measure) -> [D3.Vertex<Float>] {
+        let halfSize = D3.Vertex<Float>.Measure.init(size) / 2
 
         return [
             // front

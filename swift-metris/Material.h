@@ -2,14 +2,9 @@
 
 #pragma once
 
-namespace Material {
-struct Color {
-public:
-    float4 value = { 0, 0, 0, 1 };
-};
+#include "Texture.h"
 
-struct Texture {
+struct Material {
 public:
-    float2 coordinate = { 0, 0 };
+    Texture diffuse = {};
 };
-}
