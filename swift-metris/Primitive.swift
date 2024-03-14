@@ -39,12 +39,12 @@ extension IndexedPrimitive {
 extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>,
+        to buffer: Indexed<MTLBuffer>, offset: Indexed<Int>,
         at index: Int
     ) {
         do {
             vertices.write(to: buffer.data.contents())
-            encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
+            encoder.setVertexBuffer(buffer.data, offset: offset.data, index: index)
         }
 
         indices.withUnsafeBytes { body in
@@ -58,7 +58,7 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
                 indexCount: indices.count,
                 indexType: .uint16,
                 indexBuffer: buffer.index,
-                indexBufferOffset: 0
+                indexBufferOffset: offset.index
             )
         }
     }

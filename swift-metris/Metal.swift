@@ -54,7 +54,7 @@ extension MTLRenderPipelineDescriptor {
 protocol MTLFrameRenderCommandEncodableAs {
     mutating func encode(
         with encoder: MTLRenderCommandEncoder,
-        as descriptor: MTLRenderPipelineDescriptor, 
+        as descriptor: MTLRenderPipelineDescriptor,
         in frame: MTLRenderFrame
     )
 }
@@ -95,9 +95,17 @@ protocol MTLRenderCommandEncodableAsToIndexedAt {
 }
 
 protocol MTLRenderCommandEncodableToAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int)
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: MTLBuffer, offset: Int,
+        at index: Int
+    )
 }
 
 protocol MTLRenderCommandEncodableToIndexedAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: Indexed<MTLBuffer>, at index: Int)
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>, offset: Indexed<Int>,
+        at index: Int
+    )
 }

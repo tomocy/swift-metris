@@ -49,13 +49,18 @@ extension D3.Camera: MTLFrameRenderCommandEncodableAt {
                 of: type(of: state).stride,
                 with: encoder.device
             ),
+            offset: 0,
             at: index
         )
     }
 }
 
 extension D3.Camera: MTLRenderCommandEncodableToAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLBuffer, at index: Int) {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: MTLBuffer, offset: Int,
+        at index: Int
+    ) {
         var state = state
 
         // Camera should move invertedly to translate itself in the same direction as others.
@@ -66,7 +71,7 @@ extension D3.Camera: MTLRenderCommandEncodableToAt {
                 from: body.baseAddress!,
                 byteCount: body.count
             )
-            encoder.setVertexBuffer(buffer, offset: 0, index: index)
+            encoder.setVertexBuffer(buffer, offset: offset, index: index)
         })
     }
 }

@@ -209,6 +209,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
                     with: encoder.device
                 )
             ),
+            offset: .init(data: 0, index: 0),
             at: index
         )
     }
