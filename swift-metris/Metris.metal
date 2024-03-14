@@ -31,8 +31,8 @@ fragment float4 fragmentMain(
 )
 {
     constexpr auto sampler = metal::sampler(
-        metal::mag_filter::linear,
-        metal::min_filter::linear
+        metal::mag_filter::nearest,
+        metal::min_filter::nearest
     );
 
     return material.diffuse.sample(sampler, raster.material.diffuse.coordinate);

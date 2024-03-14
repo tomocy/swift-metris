@@ -12,10 +12,14 @@ extension Metris {
                 count: .init(size.x * size.y)
             )
 
-            do {
-                let loader = MTKTextureLoader(device: device)
-                texture = try! loader.newTexture(name: "Dogs/1", scaleFactor: 1, bundle: .main)
-            }
+            texture = Texture.Sources.Color.load(
+                .random(
+                    red: .random(in: 0...0.8),
+                    green: .random(in: 0...0.8),
+                    blue: .random(in: 0...0.8)
+                ),
+                with: device
+            )!
         }
 
         let size: SIMD2<UInt>
@@ -26,7 +30,7 @@ extension Metris {
             index: .init(options: .storageModeShared)
         )
 
-        private var texture: MTLTexture
+        private var texture: Texture.Source
     }
 }
 

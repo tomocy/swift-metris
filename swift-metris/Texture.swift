@@ -1,11 +1,60 @@
 // tomocy
 
+import CoreGraphics
 import Metal
 
 enum Texture {}
 
 extension Texture {
     typealias Source = MTLTexture
+    enum Sources {}
+}
+
+extension Texture.Sources {
+    struct Color {}
+}
+
+extension Texture.Sources.Color {
+    private struct BGRA {
+        init(_ color: CGColor) {
+            let factor: CGFloat = 255
+
+            blue = .init(color.blue * factor)
+            green = .init(color.green * factor)
+            red = .init(color.red * factor)
+            alpha = .init(color.alpha * factor)
+        }
+
+        var blue: UInt8
+        var green: UInt8
+        var red: UInt8
+        var alpha: UInt8
+    }
+
+    static func load(_ color: CGColor, with device: MTLDevice) -> Texture.Source? {
+        let desc = MTLTextureDescriptor.texture2DDescriptor(
+            pixelFormat: .bgra8Unorm,
+            width: 1, height: 1,
+            mipmapped: false
+        )
+
+        let texture = device.makeTexture(descriptor: desc)
+
+        let pixels = [BGRA].init(repeating: .init(color), count: desc.width * desc.height)
+        pixels.withUnsafeBytes { bytes in
+            texture?.replace(
+                region: .init(
+                    origin: .init(x: 0, y: 0, z: 0),
+                    size: .init(width: desc.width, height: desc.height, depth: 1)
+                ),
+                mipmapLevel: 0,
+                withBytes: bytes.baseAddress!,
+                bytesPerRow: bytes.count / desc.width
+            )
+        }
+
+        return texture
+    }
 }
 
 extension Texture {
