@@ -10,7 +10,7 @@ extension Metris {
 
             body = .init(
                 size: descriptor.size,
-                color: descriptor.color,
+                material: descriptor.material,
                 transform: .init().scaled(
                     with: .init(filled: 0.94)
                 )
@@ -54,7 +54,7 @@ extension Metris.Piece: IndexedPrimitive.Appendable {
 extension Metris.Piece {
     struct Descriptor {
         var size: CGVolume
-        var color: CGColor
+        var material: Material.Source
     }
 }
 
@@ -63,7 +63,7 @@ extension Metris.Piece.Descriptor {
         return mapState(self) { $0.size = size }
     }
 
-    func colorized(with color: CGColor) -> Self {
-        return mapState(self) { $0.color = color }
+    func materialized(with material: Material.Source) -> Self {
+        return mapState(self) { $0.material = material }
     }
 }

@@ -9,7 +9,7 @@ protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodableAs {
 
 extension D3 {
     class World {
-        init(size: CGSize, device: MTLDevice) {
+        init(with device: MTLDevice, for size: CGSize) {
             do {
                 let halfSize = SIMD2<Float>.init(size) / 2
                 let halfDepth = halfSize.max()
@@ -25,7 +25,7 @@ extension D3 {
                 )
             }
 
-            metris = .init(size: size, device: device)
+            metris = .init(with: device, for: size)
             metris.start()
         }
 

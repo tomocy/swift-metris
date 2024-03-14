@@ -5,7 +5,7 @@ import Metal
 
 struct Cube {
     var size: CGVolume = .init(width: 0, height: 0, depth: 0)
-    var color: CGColor = .init(red: 0, green: 0, blue: 0, alpha: 1)
+    var material: Material.Source
     var transform: Transform = .init()
 }
 

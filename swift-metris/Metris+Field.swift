@@ -5,21 +5,12 @@ import MetalKit
 
 extension Metris {
     struct Field {
-        init(size: SIMD2<UInt>, device: MTLDevice) {
+        init(for size: SIMD2<UInt>) {
             self.size = size
             seats = .init(
                 repeating: nil,
                 count: .init(size.x * size.y)
             )
-
-            texture = Texture.Sources.Color.load(
-                .random(
-                    red: .random(in: 0...0.8),
-                    green: .random(in: 0...0.8),
-                    blue: .random(in: 0...0.8)
-                ),
-                with: device
-            )!
         }
 
         let size: SIMD2<UInt>
@@ -29,8 +20,6 @@ extension Metris {
             data: .init(options: .storageModeShared),
             index: .init(options: .storageModeShared)
         )
-
-        private var texture: Texture.Source
     }
 }
 
@@ -232,10 +221,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
 
         pieces.map(IndexedPrimitive.init).enumerated().forEach { i, piece in
             encoder.setFragmentTexture(
-                Texture.Sources.Color.load(
-                    .init(red: CGFloat(i) / CGFloat(pieces.count), green: 0.1, blue: 0.1, alpha: 1),
-                    with: encoder.device
-                ),
+                pieces[i].body.material.diffuse,
                 index: 0
             )
 

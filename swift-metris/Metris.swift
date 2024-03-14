@@ -3,20 +3,25 @@
 import Metal
 
 class Metris {
-    init(size: CGSize, device: MTLDevice) {
+    init(with device: MTLDevice, for size: CGSize) {
+        self.device = device
+
         ticker = .init(interval: 0.875)
 
-        field = .init(size: .init(10, 20), device: device)
+        field = .init(for: .init(10, 20))
 
         do {
             let unit = min(
                 size.width / .init(field.size.x),
                 size.height / .init(field.size.y)
             )
+
             descriptor = .init(
                 piece: .init(
                     size: .init(width: unit, height: unit, depth: unit / 2),
-                    color: .random()
+                    material: .init(
+                        diffuse: Texture.Sources.Color.load(.black(), with: device)!
+                    )
                 )
             )
         }
@@ -26,6 +31,7 @@ class Metris {
         stop()
     }
 
+    let device: MTLDevice
     let descriptor: Descriptor
 
     private var ticker: Ticker
@@ -82,11 +88,16 @@ extension Metris {
     private func spawnMino() -> Bool {
         var mino = Mino.generate(
             in: .random(),
-            as: descriptor.piece.colorized(
-                with: .random(
-                    red: .random(in: 0...0.8),
-                    green: .random(in: 0...0.8),
-                    blue: .random(in: 0...0.8)
+            as: descriptor.piece.materialized(
+                with: .init(
+                    diffuse: Texture.Sources.Color.load(
+                        .random(
+                            red: .random(in: 0...0.8),
+                            green: .random(in: 0...0.8),
+                            blue: .random(in: 0...0.8)
+                        ),
+                        with: device
+                    )!
                 )
             )
         )
