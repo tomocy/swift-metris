@@ -39,7 +39,7 @@ extension IndexedPrimitive {
 extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLIndexedBuffer,
+        to buffer: Indexed<MTLBuffer>,
         at index: Int
     ) {
         do {
@@ -48,9 +48,9 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
         }
 
         indices.withUnsafeBytes { body in
-            buffer.index.contents().copyMemory(
+            buffer.index.contents().copy(
                 from: body.baseAddress!,
-                byteCount: buffer.index.length
+                count: buffer.index.length
             )
 
             encoder.drawIndexedPrimitives(

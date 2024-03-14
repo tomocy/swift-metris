@@ -21,7 +21,10 @@ extension Metris {
         let size: SIMD2<UInt>
         private var pieces: [Piece?] = []
 
-        private var frameBuffers: FrameBuffers = .init()
+        private var frameBuffers: Indexed<MTLSizedBuffers> = .init(
+            data: .init(options: .storageModeShared),
+            index: .init(options: .storageModeShared)
+        )
 
         private var texture: MTLTexture
     }
@@ -174,11 +177,6 @@ extension Metris.Field: MTLRenderPipelineDescriable {
 }
 
 extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
-    private struct FrameBuffers {
-        var data: MTLSizedBuffers = .init(options: .storageModeShared)
-        var index: MTLSizedBuffers = .init(options: .storageModeShared)
-    }
-
     mutating func encode(
         with encoder: MTLRenderCommandEncoder,
         as descriptor: MTLRenderPipelineDescriptor,

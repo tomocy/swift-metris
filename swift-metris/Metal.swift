@@ -6,11 +6,6 @@ struct MTLRenderFrame {
     let id: Int
 }
 
-struct MTLIndexedBuffer {
-    var data: MTLBuffer
-    var index: MTLBuffer
-}
-
 struct MTLSizedBuffers {
     init(options: MTLResourceOptions = []) {
         self.options = options
@@ -32,15 +27,13 @@ struct MTLSizedBuffers {
     }
 
     func has(at index: Int, of size: Int) -> Bool {
-        return buffers.contains(
-            where: { (i, buffer) in
-                return i == index
-                    && buffer.length == size
-            }
-        )
+        return buffers.contains { (i, buffer) in
+            return i == index
+                && buffer.length == size
+        }
     }
 
-    private var options: MTLResourceOptions = []
+    let options: MTLResourceOptions
     private var buffers: [Int: MTLBuffer] = [:]
 }
 
@@ -96,7 +89,7 @@ protocol MTLRenderCommandEncodableAsToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
         as descriptor: MTLRenderPipelineDescriptor,
-        to buffer: MTLIndexedBuffer,
+        to buffer: Indexed<MTLBuffer>,
         at index: Int
     )
 }
@@ -106,5 +99,5 @@ protocol MTLRenderCommandEncodableToAt {
 }
 
 protocol MTLRenderCommandEncodableToIndexedAt {
-    func encode(with encoder: MTLRenderCommandEncoder, to buffer: MTLIndexedBuffer, at index: Int)
+    func encode(with encoder: MTLRenderCommandEncoder, to buffer: Indexed<MTLBuffer>, at index: Int)
 }
