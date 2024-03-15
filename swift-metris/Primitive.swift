@@ -36,6 +36,13 @@ extension IndexedPrimitive {
 }
 
 extension IndexedPrimitive {
+    mutating func append(_ other: Self) {
+        append(
+            vertices: other.vertices,
+            indices: other.indices
+        )
+    }
+
     mutating func append(vertices: [Vertex], indices: [Index]) {
         self.vertices += vertices
         self.indices += indices
@@ -75,9 +82,22 @@ protocol _IndexedPrimitive {
 }
 
 extension IndexedPrimitive {
+    typealias Projectable = _IndexedPrimitiveProjectable
     typealias Appendable = _IndexedPrimitiveAppendable
+}
+
+protocol _IndexedPrimitiveProjectable<Vertex>: _IndexedPrimitive {
+    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex>
 }
 
 protocol _IndexedPrimitiveAppendable<Vertex>: _IndexedPrimitive {
     func append(to primitive: inout IndexedPrimitive<Vertex>)
+}
+
+extension IndexedPrimitive.Appendable where Self: IndexedPrimitive.Projectable {
+    func append(to primitive: inout IndexedPrimitive<Vertex>) {
+        primitive.append(
+            project(beside: primitive)
+        )
+    }
 }
