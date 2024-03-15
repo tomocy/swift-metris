@@ -167,12 +167,6 @@ extension Metris.Field: IndexedPrimitive.Appendable {
     }
 }
 
-extension Metris.Field: MTLRenderPipelineDescriable {
-    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {
-        D3.Shader.init().describe(with: device, to: descriptor)
-    }
-}
-
 extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     mutating func encode(
         with encoder: MTLRenderCommandEncoder,
@@ -192,8 +186,6 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
                 with: encoder.device
             )
         )
-
-        encoder.setVertexBuffer(buffers.data, offset: 0, index: index)
 
         primitive.vertices.withUnsafeBytes { bytes in
             buffers.data.contents().copy(
