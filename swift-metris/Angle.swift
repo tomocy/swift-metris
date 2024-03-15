@@ -23,7 +23,7 @@ struct Angle {
     private var raw: Raw = 0
 }
 
-extension Angle: DurationProtocol {
+extension Angle: AdditiveArithmetic, Comparable {
     static var zero: Self { .init(radian: Raw.zero) }
 
     static func +(left: Self, right: Self) -> Self {
@@ -32,18 +32,6 @@ extension Angle: DurationProtocol {
 
     static func -(left: Self, right: Self) -> Self {
         return .init(radian: left.raw - right.raw)
-    }
-
-    static func /(left: Self, right: Int) -> Self {
-        return .init(radian: left.raw / .init(right))
-    }
-
-    static func *(left: Self, right: Int) -> Self {
-        return .init(radian: left.raw * .init(right))
-    }
-
-    static func /(left: Self, right: Self) -> Double {
-        return .init(left.raw) / .init(right.raw)
     }
 
     static func <(left: Self, right: Self) -> Bool {
