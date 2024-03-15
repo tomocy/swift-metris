@@ -39,13 +39,12 @@ extension D3.World: MTLRenderPipelineDescriable {
     }
 }
 
-extension D3.World: MTLFrameRenderCommandEncodableAs {
+extension D3.World: MTLFrameRenderCommandEncodable {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        as descriptor: MTLRenderPipelineDescriptor,
         in frame: MTLRenderFrame
     ) {
         camera.encode(with: encoder, at: 0, in: frame)
-        metris.encode(with: encoder, as: descriptor, at: 1, in: frame)
+        metris.encode(with: encoder, at: 1, in: frame)
     }
 }

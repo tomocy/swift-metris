@@ -173,20 +173,12 @@ extension Metris.Field: MTLRenderPipelineDescriable {
     }
 }
 
-extension Metris.Field: MTLFrameRenderCommandEncodableAsAt {
+extension Metris.Field: MTLFrameRenderCommandEncodableAt {
     mutating func encode(
         with encoder: MTLRenderCommandEncoder,
-        as descriptor: MTLRenderPipelineDescriptor,
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        do {
-            describe(with: encoder.device, to: descriptor)
-            encoder.setRenderPipelineState(
-                descriptor.describe(with: encoder.device)!
-            )
-        }
-
         let primitive = IndexedPrimitive.init(self)
         let buffers = Indexed.init(
             data: frameBuffers.data.take(

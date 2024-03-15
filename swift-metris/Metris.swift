@@ -179,13 +179,12 @@ extension Metris {
     }
 }
 
-extension Metris: MTLFrameRenderCommandEncodableAsAt {
+extension Metris: MTLFrameRenderCommandEncodableAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        as descriptor: MTLRenderPipelineDescriptor,
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        field.encode(with: encoder, as: descriptor, at: index, in: frame)
+        field.encode(with: encoder, at: index, in: frame)
     }
 }

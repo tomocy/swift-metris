@@ -19,7 +19,7 @@ class View: MTKView {
         delegate = self
 
         commandQueue = device!.makeCommandQueue()!
-        pipelineDescriptors = .init(view: self)!
+        pipelineStates = try! .init(view: self)
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
@@ -32,7 +32,7 @@ class View: MTKView {
     private var world: D3.World?
 
     private var commandQueue: MTLCommandQueue?
-    private var pipelineDescriptors: MTLPipelineDescriptors?
+    private var pipelineStates: MTLPipelineStates?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
 }
 
@@ -50,7 +50,9 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             defer { encoder.endEncoding() }
 
-            world.encode(with: encoder, as: pipelineDescriptors!.render, in: frame)
+            encoder.setRenderPipelineState(pipelineStates!.render)
+
+            world.encode(with: encoder, in: frame)
         }
 
         command.present(currentDrawable!)
@@ -112,19 +114,19 @@ extension Metris.Input.Rotate {
 }
 
 extension View {
-    fileprivate struct MTLPipelineDescriptors {
-        var render: MTLRenderPipelineDescriptor
+    fileprivate struct MTLPipelineStates {
+        var render: MTLRenderPipelineState
     }
 }
 
-extension View.MTLPipelineDescriptors {
-    init?(view: View) {
-        render = Self.make(in: view)
+extension View.MTLPipelineStates {
+    init(view: View) throws {
+        render = try Self.make(in: view)
     }
 }
 
-extension View.MTLPipelineDescriptors {
-    static func make(in view: View) -> MTLRenderPipelineDescriptor {
+extension View.MTLPipelineStates {
+    static func make(in view: View) throws -> MTLRenderPipelineState {
         let desc: MTLRenderPipelineDescriptor = .init()
 
         do {
@@ -132,6 +134,13 @@ extension View.MTLPipelineDescriptors {
             attachment.pixelFormat = view.colorPixelFormat
         }
 
-        return desc
+        do {
+            let lib = view.device!.makeDefaultLibrary()!
+
+            desc.vertexFunction = lib.makeFunction(name: "D3::vertexMain")!
+            desc.fragmentFunction = lib.makeFunction(name: "D3::fragmentMain")!
+        }
+
+        return try view.device!.makeRenderPipelineState(descriptor: desc)
     }
 }
