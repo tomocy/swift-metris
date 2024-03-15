@@ -55,11 +55,10 @@ extension D3.Camera: MTLFrameRenderCommandEncodableAt {
     }
 }
 
-extension D3.Camera: MTLRenderCommandEncodableToAt {
+extension D3.Camera: MTLRenderCommandEncodableTo {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLBuffer, by offset: Int,
-        at index: Int
+        to buffer: MTLBuffer, by offset: Int
     ) {
         var state = state
 
@@ -71,7 +70,17 @@ extension D3.Camera: MTLRenderCommandEncodableToAt {
                 from: body.baseAddress!,
                 byteCount: body.count
             )
-            encoder.setVertexBuffer(buffer, offset: offset, index: index)
         })
+    }
+}
+
+extension D3.Camera: MTLRenderCommandEncodableToAt {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: MTLBuffer, by offset: Int,
+        at index: Int
+    ) {
+        encoder.setVertexBuffer(buffer, offset: offset, index: index)
+        encode(with: encoder, to: buffer, by: offset)
     }
 }

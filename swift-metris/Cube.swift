@@ -128,13 +128,13 @@ extension Cube: MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
         to buffer: Indexed<MTLBuffer>,
-        offset: Indexed<Int>,
+        by offset: Indexed<Int>,
         at index: Int
     ) {
         project().encode(
             with: encoder,
             to: buffer,
-            offset: offset,
+            by: offset,
             at: index
         )
     }
