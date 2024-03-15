@@ -85,7 +85,7 @@ protocol MTLRenderCommandEncodableToIndexed {
 extension MTLRenderCommandEncodableToIndexed {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .init(data: 0, index: 0)
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .zero
     ) {
         encode(with: encoder, to: buffer, by: offset)
     }

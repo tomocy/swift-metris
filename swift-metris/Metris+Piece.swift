@@ -54,13 +54,13 @@ extension Metris.Piece: IndexedPrimitive.Projectable, IndexedPrimitive.Appendabl
 extension Metris.Piece {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .zero,
         beside primitive: IndexedPrimitive<Vertex>
     ) {
         body.material?.encode(with: encoder)
 
         let target = project(beside: primitive)
-        let offset = Indexed(
+        let offset = offset + Indexed(
             data: primitive.vertices.size,
             index: primitive.indices.size
         )
