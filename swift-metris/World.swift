@@ -3,10 +3,6 @@
 import CoreGraphics
 import Metal
 
-protocol World: MTLRenderPipelineDescriable, MTLFrameRenderCommandEncodableAs {
-    var metris: Metris { get }
-}
-
 extension D3 {
     class World {
         init(with device: MTLDevice, for size: CGSize) {
@@ -33,8 +29,6 @@ extension D3 {
         var metris: Metris
     }
 }
-
-extension D3.World: World {}
 
 extension D3.World: MTLRenderPipelineDescriable {
     func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {

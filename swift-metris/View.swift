@@ -29,7 +29,7 @@ class View: MTKView {
         )
     }
 
-    private var world: World?
+    private var world: D3.World?
 
     private var commandQueue: MTLCommandQueue?
     private var pipelineDescriptors: MTLPipelineDescriptors?
@@ -40,7 +40,7 @@ extension View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        guard var world = world else { return }
+        guard let world = world else { return }
 
         let frame = framePool!.acquire()
 
