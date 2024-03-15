@@ -54,7 +54,7 @@ extension Metris.Piece: IndexedPrimitive.Projectable, IndexedPrimitive.Appendabl
 extension Metris.Piece {
     struct Descriptor {
         var size: CGVolume
-        var material: Material.Source
+        var material: Material.Source?
     }
 }
 

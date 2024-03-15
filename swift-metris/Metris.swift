@@ -18,10 +18,7 @@ class Metris {
 
             descriptor = .init(
                 piece: .init(
-                    size: .init(width: unit, height: unit, depth: unit / 2),
-                    material: .init(
-                        diffuse: Texture.Sources.Color.load(.black(), with: device)!
-                    )
+                    size: .init(width: unit, height: unit, depth: unit / 2)
                 )
             )
         }
