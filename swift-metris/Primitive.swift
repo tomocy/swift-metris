@@ -15,7 +15,7 @@ struct IndexedPrimitive<V: Vertex.Vertex> {
     var indices: [Index] = []
 }
 
-extension IndexedPrimitive {
+extension IndexedPrimitive: Primitive.Primitive {
     typealias Vertex = V
     typealias Index = UInt16
 }
@@ -34,6 +34,16 @@ extension IndexedPrimitive {
         }
 
         return 0
+    }
+}
+
+extension IndexedPrimitive {
+    mutating func shift(beside other: Self) {
+        indices = indices.map { $0 + other.nextStartIndex }
+    }
+
+    func shifted(beside other: Self) -> Self {
+        return mapState(self) { $0.shift(beside: other) }
     }
 }
 
@@ -85,8 +95,7 @@ extension IndexedPrimitive {
         to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .zero,
         beside primitive: Self
     ) {
-        var target = self
-        target.indices = target.indices.map { $0 + primitive.nextStartIndex }
+        let target = shifted(beside: primitive)
 
         let offset = offset + Indexed(
             data: primitive.vertices.size,
