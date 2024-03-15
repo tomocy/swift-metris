@@ -43,6 +43,25 @@ extension IndexedPrimitive {
     }
 }
 
+extension IndexedPrimitive: MTLRenderCommandEncodableToIndexed {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
+        at index: Int
+    ) {
+        vertices.write(to: buffer.data.contents())
+        indices.write(to: buffer.index.contents())
+
+        encoder.drawIndexedPrimitives(
+            type: .triangle,
+            indexCount: indices.count,
+            indexType: .uint16,
+            indexBuffer: buffer.index,
+            indexBufferOffset: offset.index
+        )
+    }
+}
+
 extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
