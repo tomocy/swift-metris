@@ -30,15 +30,6 @@ extension D3 {
     }
 }
 
-extension D3.World: MTLRenderPipelineDescriable {
-    func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor) {
-        let lib = device.makeDefaultLibrary()!
-
-        descriptor.vertexFunction = lib.makeFunction(name: "D3::shadeVertex")!
-        descriptor.fragmentFunction = lib.makeFunction(name: "shadeFragment")!
-    }
-}
-
 extension D3.World: MTLFrameRenderCommandEncodable {
     func encode(
         with encoder: MTLRenderCommandEncoder,

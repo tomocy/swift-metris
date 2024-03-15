@@ -187,21 +187,12 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
             )
         )
 
-        primitive.vertices.withUnsafeBytes { bytes in
-            buffers.data.contents().copy(
-                from: bytes.baseAddress!,
-                count: bytes.count
-            )
-
+        do {
+            primitive.vertices.write(to: buffers.data.contents())
             encoder.setVertexBuffer(buffers.data, offset: 0, index: index)
         }
 
-        primitive.indices.withUnsafeBytes { bytes in
-            buffers.index.contents().copy(
-                from: bytes.baseAddress!,
-                count: bytes.count
-            )
-        }
+        primitive.indices.write(to: buffers.index.contents())
 
         pieces.map(IndexedPrimitive.init).enumerated().forEach { i, piece in
             encoder.setFragmentTexture(
