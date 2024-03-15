@@ -12,6 +12,10 @@ extension IO {
             destination.copy(from: bytes.baseAddress!, count: bytes.count)
         }
     }
+
+    static func write<T>(_ target: T, to destination: MTLBuffer, by offset: Int = 0) {
+        write(target, to: destination.contents().advanced(by: offset))
+    }
 }
 
 protocol _Writable {
