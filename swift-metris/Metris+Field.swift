@@ -157,12 +157,18 @@ extension Metris.Field {
     }
 }
 
-extension Metris.Field: IndexedPrimitive.Appendable {
+extension Metris.Field: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
+    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex> {
+        var result = primitive ?? .init()
+        append(to: &result)
+        return result
+    }
+
     func append(to primitive: inout IndexedPrimitive<Vertex>) {
-        pieces.forEach {
-            $0.append(to: &primitive)
+        pieces.forEach { piece in
+            piece.append(to: &primitive)
         }
     }
 }
