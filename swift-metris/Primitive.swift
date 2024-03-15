@@ -46,7 +46,7 @@ extension IndexedPrimitive {
 extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, offset: Indexed<Int>,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
         at index: Int
     ) {
         do {

@@ -59,10 +59,42 @@ protocol MTLFrameRenderCommandEncodableAt {
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame)
 }
 
+protocol MTLRenderCommandEncodableTo {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: MTLBuffer, by offset: Int
+    )
+}
+
+extension MTLRenderCommandEncodableTo {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: MTLBuffer, by offset: Int = 0
+    ) {
+        encode(with: encoder, to: buffer, by: offset)
+    }
+}
+
+protocol MTLRenderCommandEncodableToIndexed {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>
+    )
+}
+
+extension MTLRenderCommandEncodableToIndexed {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .init(data: 0, index: 0)
+    ) {
+        encode(with: encoder, to: buffer, by: offset)
+    }
+}
+
 protocol MTLRenderCommandEncodableToAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLBuffer, offset: Int,
+        to buffer: MTLBuffer, by offset: Int,
         at index: Int
     )
 }
@@ -70,7 +102,7 @@ protocol MTLRenderCommandEncodableToAt {
 protocol MTLRenderCommandEncodableToIndexedAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, offset: Indexed<Int>,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
         at index: Int
     )
 }

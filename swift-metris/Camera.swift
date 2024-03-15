@@ -49,7 +49,7 @@ extension D3.Camera: MTLFrameRenderCommandEncodableAt {
                 of: type(of: state).stride,
                 with: encoder.device
             ),
-            offset: 0,
+            by: 0,
             at: index
         )
     }
@@ -58,7 +58,7 @@ extension D3.Camera: MTLFrameRenderCommandEncodableAt {
 extension D3.Camera: MTLRenderCommandEncodableToAt {
     func encode(
         with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLBuffer, offset: Int,
+        to buffer: MTLBuffer, by offset: Int,
         at index: Int
     ) {
         var state = state
