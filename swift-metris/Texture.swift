@@ -26,6 +26,24 @@ extension Texture.Source {
     }
 }
 
+extension Texture.Source: Equatable {
+    static func ==(left: Self, right: Self) -> Bool {
+        return left.raw === right.raw
+    }
+}
+
+extension Texture.Source: Identifiable {
+    var id: ObjectIdentifier { .init(raw) }
+}
+
+extension Texture.Source: Hashable {
+    var hashValue: Int { id.hashValue }
+
+    func hash(into hasher: inout Hasher) {
+        id.hash(into: &hasher)
+    }
+}
+
 extension Texture {
     enum Sources {}
 }
