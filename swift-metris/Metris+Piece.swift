@@ -59,21 +59,10 @@ extension Metris.Piece {
     ) {
         body.material?.encode(with: encoder)
 
-        let target = project(beside: primitive)
-        let offset = offset + Indexed(
-            data: primitive.vertices.size,
-            index: primitive.indices.size
-        )
-
-        target.vertices.write(to: buffer.data, by: offset.data)
-        target.indices.write(to: buffer.index, by: offset.index)
-
-        encoder.drawIndexedPrimitives(
-            type: .triangle,
-            indexCount: target.indices.count,
-            indexType: .uint16,
-            indexBuffer: buffer.index,
-            indexBufferOffset: offset.index
+        project().encode(
+            with: encoder,
+            to: buffer, by: offset,
+            beside: primitive
         )
     }
 }
