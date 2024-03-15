@@ -6,7 +6,27 @@ import Metal
 enum Texture {}
 
 extension Texture {
-    typealias Source = MTLTexture
+    struct Source {
+        var raw: Raw
+    }
+}
+
+extension Texture.Source {
+    typealias Raw = MTLTexture
+}
+
+extension Texture.Source {
+    init(_ raw: Raw) {
+        self.raw = raw
+    }
+
+    init?(_ raw: Raw?) {
+        guard let raw = raw else { return nil }
+        self.init(raw)
+    }
+}
+
+extension Texture {
     enum Sources {}
 }
 
@@ -53,7 +73,7 @@ extension Texture.Sources.Color {
             )
         }
 
-        return texture
+        return .init(texture)
     }
 }
 
