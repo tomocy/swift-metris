@@ -90,19 +90,3 @@ extension MTLRenderCommandEncodableToIndexed {
         encode(with: encoder, to: buffer, by: offset)
     }
 }
-
-protocol MTLRenderCommandEncodableToAt {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLBuffer, by offset: Int,
-        at index: Int
-    )
-}
-
-protocol MTLRenderCommandEncodableToIndexedAt {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
-        at index: Int
-    )
-}

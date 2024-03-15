@@ -62,34 +62,6 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexed {
     }
 }
 
-extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
-        at index: Int
-    ) {
-        do {
-            vertices.write(to: buffer.data.contents())
-            encoder.setVertexBuffer(buffer.data, offset: offset.data, index: index)
-        }
-
-        indices.withUnsafeBytes { body in
-            buffer.index.contents().copy(
-                from: body.baseAddress!,
-                count: buffer.index.length
-            )
-
-            encoder.drawIndexedPrimitives(
-                type: .triangle,
-                indexCount: indices.count,
-                indexType: .uint16,
-                indexBuffer: buffer.index,
-                indexBufferOffset: offset.index
-            )
-        }
-    }
-}
-
 protocol _IndexedPrimitive {
     associatedtype Vertex: swift_metris.Vertex.Vertex
 }

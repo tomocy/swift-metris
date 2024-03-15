@@ -71,14 +71,3 @@ extension D3.Camera: MTLRenderCommandEncodableTo {
         })
     }
 }
-
-extension D3.Camera: MTLRenderCommandEncodableToAt {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: MTLBuffer, by offset: Int,
-        at index: Int
-    ) {
-        encoder.setVertexBuffer(buffer, offset: offset, index: index)
-        encode(with: encoder, to: buffer, by: offset)
-    }
-}

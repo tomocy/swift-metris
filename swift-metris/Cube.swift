@@ -123,19 +123,3 @@ extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
         )
     }
 }
-
-extension Cube: MTLRenderCommandEncodableToIndexedAt {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>,
-        by offset: Indexed<Int>,
-        at index: Int
-    ) {
-        project().encode(
-            with: encoder,
-            to: buffer,
-            by: offset,
-            at: index
-        )
-    }
-}
