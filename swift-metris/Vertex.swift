@@ -25,13 +25,7 @@ extension D3.Vertex {
 
 extension D3.Vertex: Vertex.Vertex {}
 
-extension D3.Vertex: IO.Writable {
-    func write(to destination: UnsafeMutableRawPointer) {
-        withUnsafeBytes(of: self) { bytes in
-            destination.copy(from: bytes.baseAddress!, count: bytes.count)
-        }
-    }
-}
+extension D3.Vertex: IO.Writable {}
 
 extension D3.Vertex {
     mutating func place(at position: Measure) {
