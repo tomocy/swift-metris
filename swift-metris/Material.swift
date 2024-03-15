@@ -10,6 +10,8 @@ extension Material {
     }
 }
 
+extension Material.Source: Equatable, Hashable {}
+
 extension Material.Source {
     func encode(with encoder: MTLRenderCommandEncoder) {
         encoder.setFragmentTexture(diffuse?.raw, index: 0)
