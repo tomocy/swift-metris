@@ -180,7 +180,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
         in frame: MTLRenderFrame
     ) {
         let primitive = project()
-        let buffers = Indexed.init(
+        let buffer = Indexed.init(
             data: frameBuffers.data.take(
                 at: frame.id,
                 of: primitive.vertices.size,
@@ -193,12 +193,20 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
             )
         )
 
-        do {
-            primitive.vertices.write(to: buffers.data.contents())
-            encoder.setVertexBuffer(buffers.data, offset: 0, index: index)
-        }
+        encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
+        encode(with: encoder, to: buffer, by: .init(data: 0, index: 0))
+    }
+}
 
-        primitive.indices.write(to: buffers.index.contents())
+extension Metris.Field: MTLRenderCommandEncodableToIndexed {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>
+    ) {
+        let primitive = project()
+
+        primitive.vertices.write(to: buffer.data.contents())
+        primitive.indices.write(to: buffer.index.contents())
 
         pieces.map({ $0.project() }).enumerated().forEach { i, piece in
             encoder.setFragmentTexture(
@@ -210,7 +218,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
                 type: .triangle,
                 indexCount: piece.indices.count,
                 indexType: .uint16,
-                indexBuffer: buffers.index,
+                indexBuffer: buffer.index,
                 indexBufferOffset: piece.indices.size * i
             )
         }
