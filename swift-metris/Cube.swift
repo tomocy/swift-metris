@@ -13,10 +13,10 @@ extension Cube {
     typealias Transform = D3.Transform<Float>
 }
 
-extension Cube: IndexedPrimitive.Appendable {
+extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
-    func append(to primitive: inout IndexedPrimitive<Vertex>) {
+    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex> {
         typealias Primitive = IndexedPrimitive<Vertex>
         typealias Index = Primitive.Index
         typealias Material = Primitive.Vertex.Material
@@ -94,7 +94,7 @@ extension Cube: IndexedPrimitive.Appendable {
 
         var indices: [Index] = []
         do {
-            let start = primitive.nextStartIndex
+            let start = primitive?.nextStartIndex ?? 0
             indices += [
                 // front
                 start, start + 1, start + 2,
@@ -117,7 +117,7 @@ extension Cube: IndexedPrimitive.Appendable {
             ]
         }
 
-        primitive.append(
+        return .init(
             vertices: vertices,
             indices: indices
         )
