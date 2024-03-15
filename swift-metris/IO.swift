@@ -7,16 +7,12 @@ enum IO {
 }
 
 extension IO {
-    static func write<T>(_ target: T, to destination: UnsafeMutableRawPointer) {
-        withUnsafeBytes(of: target) { bytes in
-            destination.copy(from: bytes.baseAddress!, count: bytes.count)
-        }
+    static func writable<T>(_ target: T) -> IO.Writable {
+        return IO.DefaultWritable.init(value: target)
     }
-}
 
-extension IO {
-    static func write<T>(_ target: T, to destination: MTLBuffer, by offset: Int = 0) {
-        write(target, to: destination.contents().advanced(by: offset))
+    static func writable<T: IO.Writable>(_ target: T) -> IO.Writable {
+        return target
     }
 }
 
@@ -26,7 +22,7 @@ protocol _Writable {
 
 extension IO.Writable {
     func write(to destination: UnsafeMutableRawPointer) {
-        IO.write(self, to: destination)
+        IO.writable(self).write(to: destination)
     }
 }
 
@@ -36,5 +32,16 @@ extension IO.Writable {
     }
 }
 
-extension UInt16: IO.Writable {}
-extension UInt32: IO.Writable {}
+extension IO {
+    fileprivate struct DefaultWritable<T> {
+        var value: T
+    }
+}
+
+extension IO.DefaultWritable: IO.Writable {
+    func write(to destination: UnsafeMutableRawPointer) {
+        withUnsafeBytes(of: value) { bytes in
+            destination.copy(from: bytes.baseAddress!, count: bytes.count)
+        }
+    }
+}

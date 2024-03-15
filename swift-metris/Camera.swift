@@ -63,6 +63,6 @@ extension D3.Camera: MTLRenderCommandEncodableTo {
         // Camera should move invertedly to translate itself in the same direction as others.
         state.transform = state.transform.inversed(rotate: false, scale: false)
 
-        IO.write(state, to: buffer.contents())
+        IO.writable(state).write(to: buffer)
     }
 }
