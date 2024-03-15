@@ -2,17 +2,9 @@
 
 import Metal
 
-protocol _IndexedPrimitive {
-    associatedtype Vertex: swift_metris.Vertex.Vertex
-}
-
 struct IndexedPrimitive<V: Vertex.Vertex> {
     var vertices: [Vertex] = []
     var indices: [Index] = []
-}
-
-extension IndexedPrimitive {
-    typealias Appendable = _IndexedPrimitiveAppendable
 }
 
 extension IndexedPrimitive {
@@ -41,10 +33,6 @@ extension IndexedPrimitive {
 
         return 0
     }
-}
-
-protocol _IndexedPrimitiveAppendable<Vertex>: _IndexedPrimitive {
-    func append(to primitive: inout IndexedPrimitive<Vertex>)
 }
 
 extension IndexedPrimitive {
@@ -80,4 +68,16 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexedAt {
             )
         }
     }
+}
+
+protocol _IndexedPrimitive {
+    associatedtype Vertex: swift_metris.Vertex.Vertex
+}
+
+extension IndexedPrimitive {
+    typealias Appendable = _IndexedPrimitiveAppendable
+}
+
+protocol _IndexedPrimitiveAppendable<Vertex>: _IndexedPrimitive {
+    func append(to primitive: inout IndexedPrimitive<Vertex>)
 }
