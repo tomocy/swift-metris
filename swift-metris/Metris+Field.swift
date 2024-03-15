@@ -203,26 +203,10 @@ extension Metris.Field: MTLRenderCommandEncodableToIndexed {
         with encoder: MTLRenderCommandEncoder,
         to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>
     ) {
-        let primitive = project()
-
-        primitive.vertices.write(to: buffer.data, by: offset.data)
-        primitive.indices.write(to: buffer.index, by: offset.index)
-
-        pieces.map({ $0.project() }).enumerated().forEach { i, piece in
-            if let material = pieces[i].body.material {
-                encoder.setFragmentTexture(
-                    material.diffuse,
-                    index: 0
-                )
-            }
-
-            encoder.drawIndexedPrimitives(
-                type: .triangle,
-                indexCount: piece.indices.count,
-                indexType: .uint16,
-                indexBuffer: buffer.index,
-                indexBufferOffset: piece.indices.size * i
-            )
+        var primitive = IndexedPrimitive<Vertex>.init()
+        pieces.forEach { piece in
+            piece.encode(with: encoder, to: buffer, beside: primitive)
+            piece.append(to: &primitive)
         }
     }
 }

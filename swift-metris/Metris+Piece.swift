@@ -52,6 +52,38 @@ extension Metris.Piece: IndexedPrimitive.Projectable, IndexedPrimitive.Appendabl
 }
 
 extension Metris.Piece {
+    func encode(
+        with encoder: MTLRenderCommandEncoder,
+        to buffer: Indexed<MTLBuffer>,
+        beside primitive: IndexedPrimitive<Vertex>? = nil
+    ) {
+        if let material = body.material {
+            encoder.setFragmentTexture(
+                material.diffuse,
+                index: 0
+            )
+        }
+
+        let target = project(beside: primitive)
+        let offset = Indexed(
+            data: primitive?.vertices.size ?? 0,
+            index: primitive?.indices.size ?? 0
+        )
+
+        target.vertices.write(to: buffer.data, by: offset.data)
+        target.indices.write(to: buffer.index, by: offset.index)
+
+        encoder.drawIndexedPrimitives(
+            type: .triangle,
+            indexCount: target.indices.count,
+            indexType: .uint16,
+            indexBuffer: buffer.index,
+            indexBufferOffset: offset.index
+        )
+    }
+}
+
+extension Metris.Piece {
     struct Descriptor {
         var size: CGVolume
         var material: Material.Source?
