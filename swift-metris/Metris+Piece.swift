@@ -55,14 +55,14 @@ extension Metris.Piece {
     func encode(
         with encoder: MTLRenderCommandEncoder,
         to buffer: Indexed<MTLBuffer>,
-        beside primitive: IndexedPrimitive<Vertex>? = nil
+        beside primitive: IndexedPrimitive<Vertex>
     ) {
         body.material?.encode(with: encoder)
 
         let target = project(beside: primitive)
         let offset = Indexed(
-            data: primitive?.vertices.size ?? 0,
-            index: primitive?.indices.size ?? 0
+            data: primitive.vertices.size,
+            index: primitive.indices.size
         )
 
         target.vertices.write(to: buffer.data, by: offset.data)
