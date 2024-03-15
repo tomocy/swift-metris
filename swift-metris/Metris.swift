@@ -18,7 +18,8 @@ class Metris {
 
             descriptor = .init(
                 piece: .init(
-                    size: .init(width: unit, height: unit, depth: unit / 2)
+                    size: .init(width: unit, height: unit, depth: unit / 2),
+                    material: .init()
                 )
             )
         }

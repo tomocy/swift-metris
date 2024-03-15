@@ -57,7 +57,7 @@ extension Metris.Piece {
         to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int> = .zero,
         beside primitive: IndexedPrimitive<Vertex>
     ) {
-        body.material?.encode(with: encoder)
+        body.material.encode(with: encoder)
 
         project().encode(
             with: encoder,
@@ -70,7 +70,7 @@ extension Metris.Piece {
 extension Metris.Piece {
     struct Descriptor {
         var size: CGVolume
-        var material: Material.Source?
+        var material: Material.Source
     }
 }
 
