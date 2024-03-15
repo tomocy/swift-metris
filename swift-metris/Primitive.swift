@@ -87,7 +87,13 @@ extension IndexedPrimitive {
 }
 
 protocol _IndexedPrimitiveProjectable<Vertex>: _IndexedPrimitive {
-    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex>
+    func project(beside primitive: IndexedPrimitive<Vertex>) -> IndexedPrimitive<Vertex>
+}
+
+extension IndexedPrimitive.Projectable {
+    func project(beside primitive: IndexedPrimitive<Vertex>? = nil) -> IndexedPrimitive<Vertex> {
+        return project(beside: primitive ?? .init())
+    }
 }
 
 protocol _IndexedPrimitiveAppendable<Vertex>: _IndexedPrimitive {

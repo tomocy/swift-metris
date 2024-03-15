@@ -160,10 +160,10 @@ extension Metris.Field {
 extension Metris.Field: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
-    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex> {
-        var result = primitive ?? .init()
-        append(to: &result)
-        return result
+    func project(beside primitive: IndexedPrimitive<Vertex>) -> IndexedPrimitive<Vertex> {
+        var primitive = primitive
+        append(to: &primitive)
+        return primitive
     }
 
     func append(to primitive: inout IndexedPrimitive<Vertex>) {

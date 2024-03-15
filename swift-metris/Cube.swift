@@ -16,7 +16,7 @@ extension Cube {
 extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
-    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex> {
+    func project(beside primitive: IndexedPrimitive<Vertex>) -> IndexedPrimitive<Vertex> {
         typealias Primitive = IndexedPrimitive<Vertex>
         typealias Index = Primitive.Index
         typealias Material = Primitive.Vertex.Material
@@ -94,7 +94,7 @@ extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
 
         var indices: [Index] = []
         do {
-            let start = primitive?.nextStartIndex ?? 0
+            let start = primitive.nextStartIndex
             indices += [
                 // front
                 start, start + 1, start + 2,
