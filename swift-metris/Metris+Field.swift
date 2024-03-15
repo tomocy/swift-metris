@@ -205,8 +205,8 @@ extension Metris.Field: MTLRenderCommandEncodableToIndexed {
     ) {
         let primitive = project()
 
-        primitive.vertices.write(to: buffer.data.contents())
-        primitive.indices.write(to: buffer.index.contents())
+        primitive.vertices.write(to: buffer.data, by: offset.data)
+        primitive.indices.write(to: buffer.index, by: offset.index)
 
         pieces.map({ $0.project() }).enumerated().forEach { i, piece in
             encoder.setFragmentTexture(

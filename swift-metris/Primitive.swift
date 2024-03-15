@@ -49,8 +49,8 @@ extension IndexedPrimitive: MTLRenderCommandEncodableToIndexed {
         to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>,
         at index: Int
     ) {
-        vertices.write(to: buffer.data.contents())
-        indices.write(to: buffer.index.contents())
+        vertices.write(to: buffer.data, by: offset.data)
+        indices.write(to: buffer.index, by: offset.index)
 
         encoder.drawIndexedPrimitives(
             type: .triangle,
