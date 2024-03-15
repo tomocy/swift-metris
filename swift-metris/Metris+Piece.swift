@@ -57,12 +57,7 @@ extension Metris.Piece {
         to buffer: Indexed<MTLBuffer>,
         beside primitive: IndexedPrimitive<Vertex>? = nil
     ) {
-        if let material = body.material {
-            encoder.setFragmentTexture(
-                material.diffuse,
-                index: 0
-            )
-        }
+        body.material?.encode(with: encoder)
 
         let target = project(beside: primitive)
         let offset = Indexed(

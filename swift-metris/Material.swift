@@ -1,10 +1,18 @@
 // tomocy
 
+import Metal
+
 enum Material {}
 
 extension Material {
     struct Source {
         var diffuse: Texture.Source?
+    }
+}
+
+extension Material.Source {
+    func encode(with encoder: MTLRenderCommandEncoder) {
+        encoder.setFragmentTexture(diffuse, index: 0)
     }
 }
 
