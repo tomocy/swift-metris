@@ -4,18 +4,16 @@ extension Array {
     var size: Int { MemoryLayout<Element>.stride * count }
 }
 
-extension Array {
+extension Array: IO.Writable {
     func write(to destination: UnsafeMutableRawPointer) {
-        for (i, v) in self.enumerated() {
-            IO.write(v, to: destination + MemoryLayout<Element>.stride * i)
+        withUnsafeBytes { bytes in
+            destination.copy(from: bytes.baseAddress!, count: bytes.count)
         }
     }
-}
 
-extension Array: IO.Writable where Element: IO.Writable {
-    func write(to destination: UnsafeMutableRawPointer) {
-        for (i, v) in self.enumerated() {
-            v.write(to: destination + MemoryLayout<Element>.stride * i)
+    func write(to destination: UnsafeMutableRawPointer) where Element: IO.Writable {
+        for (i, v) in enumerated() {
+            v.write(to: destination + MemoryLayout.stride(ofValue: v) * i)
         }
     }
 }
