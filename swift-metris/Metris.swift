@@ -3,7 +3,7 @@
 import Metal
 
 class Metris {
-    init(with device: MTLDevice, for size: CGSize) {
+    init(size: CGSize, device: MTLDevice) {
         self.device = device
 
         ticker = .init(interval: 0.875)
@@ -31,8 +31,9 @@ class Metris {
         stop()
     }
 
-    let device: MTLDevice
     let descriptor: Descriptor
+
+    private let device: MTLDevice
 
     private var ticker: Ticker
 

@@ -5,7 +5,7 @@ import Metal
 
 extension D3 {
     class World {
-        init(with device: MTLDevice, for size: CGSize) {
+        init(size: CGSize, device: MTLDevice) {
             do {
                 let halfSize = SIMD2<Float>.init(size) / 2
                 let halfDepth = halfSize.max()
@@ -21,7 +21,7 @@ extension D3 {
                 )
             }
 
-            metris = .init(with: device, for: size)
+            metris = .init(size: size, device: device)
             metris.start()
         }
 

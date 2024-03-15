@@ -16,7 +16,7 @@ class View: MTKView {
         clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
 
-        world = D3.World.init(with: device!, for: frame.size)
+        world = D3.World.init(size: frame.size, device: device!)
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
