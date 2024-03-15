@@ -1,5 +1,7 @@
 // tomocy
 
+import Metal
+
 enum IO {
     typealias Writable = _Writable
 }
@@ -13,6 +15,12 @@ extension IO.Writable where Self: FixedWidthInteger {
         withUnsafeBytes(of: self) { bytes in
             destination.copy(from: bytes.baseAddress!, count: bytes.count)
         }
+    }
+}
+
+extension IO.Writable {
+    func write(to destination: MTLBuffer, by offset: Int = 0) {
+        write(to: destination.contents().advanced(by: offset))
     }
 }
 
