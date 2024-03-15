@@ -32,10 +32,10 @@ extension Metris.Piece {
     }
 }
 
-extension Metris.Piece: IndexedPrimitive.Appendable {
+extension Metris.Piece: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
-    func append(to primitive: inout IndexedPrimitive<Vertex>) {
+    func project(beside primitive: IndexedPrimitive<Vertex>?) -> IndexedPrimitive<Vertex> {
         var body = self.body
 
         // Shift the origin from the center to the bottom left.
@@ -47,7 +47,7 @@ extension Metris.Piece: IndexedPrimitive.Appendable {
             )
         )
 
-        body.append(to: &primitive)
+        return body.project(beside: primitive)
     }
 }
 
