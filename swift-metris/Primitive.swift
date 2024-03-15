@@ -45,9 +45,19 @@ extension IndexedPrimitive {
         )
     }
 
+    func appent(_ other: Self) -> Self {
+        return mapState(self) { $0.append(other) }
+    }
+
     mutating func append(vertices: [Vertex], indices: [Index]) {
         self.vertices += vertices
         self.indices += indices
+    }
+
+    func appent(vertices: [Vertex], indices: [Index]) -> Self {
+        return mapState(self) {
+            $0.append(vertices: vertices, indices: indices)
+        }
     }
 }
 
