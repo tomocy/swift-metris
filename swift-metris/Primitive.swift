@@ -13,12 +13,6 @@ extension IndexedPrimitive {
 }
 
 extension IndexedPrimitive {
-    init(_ appendable: any Appendable<Vertex>) {
-        appendable.append(to: &self)
-    }
-}
-
-extension IndexedPrimitive {
     var lastEndIndex: Index? {
         let count = vertices.count
         return count >= 1

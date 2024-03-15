@@ -131,7 +131,7 @@ extension Cube: MTLRenderCommandEncodableToIndexedAt {
         offset: Indexed<Int>,
         at index: Int
     ) {
-        IndexedPrimitive.init(self).encode(
+        project().encode(
             with: encoder,
             to: buffer,
             offset: offset,

@@ -179,7 +179,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
         at index: Int,
         in frame: MTLRenderFrame
     ) {
-        let primitive = IndexedPrimitive.init(self)
+        let primitive = project()
         let buffers = Indexed.init(
             data: frameBuffers.data.take(
                 at: frame.id,
@@ -200,7 +200,7 @@ extension Metris.Field: MTLFrameRenderCommandEncodableAt {
 
         primitive.indices.write(to: buffers.index.contents())
 
-        pieces.map(IndexedPrimitive.init).enumerated().forEach { i, piece in
+        pieces.map({ $0.project() }).enumerated().forEach { i, piece in
             encoder.setFragmentTexture(
                 pieces[i].body.material.diffuse,
                 index: 0
