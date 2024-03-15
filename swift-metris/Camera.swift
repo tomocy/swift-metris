@@ -42,16 +42,14 @@ extension D3.Camera {
 
 extension D3.Camera: MTLFrameRenderCommandEncodableAt {
     mutating func encode(with encoder: MTLRenderCommandEncoder, at index: Int, in frame: MTLRenderFrame) {
-        encode(
-            with: encoder,
-            to: frameBuffers.take(
-                at: frame.id,
-                of: type(of: state).stride,
-                with: encoder.device
-            ),
-            by: 0,
-            at: index
+        let buffer = frameBuffers.take(
+            at: frame.id,
+            of: type(of: state).stride,
+            with: encoder.device
         )
+
+        encoder.setVertexBuffer(buffer, offset: 0, index: index)
+        encode(with: encoder, to: buffer)
     }
 }
 
