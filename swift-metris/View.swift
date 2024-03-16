@@ -47,6 +47,7 @@ extension View: MTKViewDelegate {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             defer { encoder.endEncoding() }
 
+            encoder.setCullMode(.back)
             shader!.encode(&world, with: encoder, at: frame)
         }
 
