@@ -21,6 +21,22 @@ extension Cube {
     func materialized(with material: Material.Source) -> Self {
         return mapState(self) { $0.materialize(with: material) }
     }
+
+    mutating func transform(with transform: Transform) {
+        self.transform.transform(by: transform)
+    }
+
+    func transformed(with transform: Transform) -> Self {
+        return mapState(self) { $0.transform(with: transform) }
+    }
+
+    mutating func transform(by transform: Transform) {
+        self.transform.transform(by: transform)
+    }
+
+    func transformed(by transform: Transform) -> Self {
+        return mapState(self) { $0.transform(by: transform) }
+    }
 }
 
 extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
