@@ -13,6 +13,16 @@ extension Cube {
     typealias Transform = D3.Transform<Float>
 }
 
+extension Cube {
+    mutating func materialize(with material: Material.Source) {
+        self.material = material
+    }
+
+    func materialized(with material: Material.Source) -> Self {
+        return mapState(self) { $0.materialize(with: material) }
+    }
+}
+
 extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
     typealias Vertex = D3.Vertex<Float>
 
