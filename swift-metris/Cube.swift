@@ -29,28 +29,28 @@ extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
                 // front
                 // 0
                 .init(
-                    position: .init(-halfSize.x, halfSize.y, -halfSize.z),
+                    position: .init(-halfSize.x, halfSize.y, 0),
                     material: .init(
                         diffuse: .init(coordinate: .init(0, 0))
                     )
                 ),
                 // 1
                 .init(
-                    position: .init(halfSize.x, halfSize.y, -halfSize.z),
+                    position: .init(halfSize.x, halfSize.y, 0),
                     material: .init(
                         diffuse: .init(coordinate: .init(1, 0))
                     )
                 ),
                 // 2
                 .init(
-                    position: .init(halfSize.x, -halfSize.y, -halfSize.z),
+                    position: .init(halfSize.x, -halfSize.y, 0),
                     material: .init(
                         diffuse: .init(coordinate: .init(1, 1))
                     )
                 ),
                 // 3
                 .init(
-                    position: .init(-halfSize.x, -halfSize.y, -halfSize.z),
+                    position: .init(-halfSize.x, -halfSize.y, 0),
                     material: .init(
                         diffuse: .init(coordinate: .init(0, 1))
                     )
@@ -59,28 +59,28 @@ extension Cube: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
                 // back
                 // 4
                 .init(
-                    position: .init(halfSize.x, halfSize.y, halfSize.z),
+                    position: .init(halfSize.x, halfSize.y, 1),
                     material: .init(
                         diffuse: .init(coordinate: .init(0, 0))
                     )
                 ),
                 // 5
                 .init(
-                    position: .init(-halfSize.x, halfSize.y, halfSize.z),
+                    position: .init(-halfSize.x, halfSize.y, 1),
                     material: .init(
                         diffuse: .init(coordinate: .init(1, 0))
                     )
                 ),
                 // 6
                 .init(
-                    position: .init(-halfSize.x, -halfSize.y, halfSize.z),
+                    position: .init(-halfSize.x, -halfSize.y, 1),
                     material: .init(
                         diffuse: .init(coordinate: .init(1, 1))
                     )
                 ),
                 // 7
                 .init(
-                    position: .init(halfSize.x, -halfSize.y, halfSize.z),
+                    position: .init(halfSize.x, -halfSize.y, 1),
                     material: .init(
                         diffuse: .init(coordinate: .init(0, 1))
                     )

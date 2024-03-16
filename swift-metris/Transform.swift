@@ -18,12 +18,12 @@ extension D3.Transform {
 extension D3.Transform {
     static func orthogonal(for size: SIMD2<Precision>) -> Self {
         let halfSize = size / 2
-        let halfDepth = halfSize.max()
+        // let halfDepth = halfSize.max()
 
         return .orthogonal(
             top: halfSize.y, bottom: -halfSize.y,
             left: -halfSize.x, right: halfSize.x,
-            near: -halfDepth, far: halfDepth
+            near: 0, far: 1
         )
     }
 
@@ -36,12 +36,14 @@ extension D3.Transform {
             translate: Measure.init(
                 (left + right) / -2,
                 (bottom + top) / -2,
-                (near + far) / -2
+                // (near + far) / -2
+                0
             ),
             scale: Measure.init(
                 2 / (right - left),
                 2 / (top - bottom),
-                2 / (near - far)
+                // 2 / (near - far)
+                1
             )
         )
     }
