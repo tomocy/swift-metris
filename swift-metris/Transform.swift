@@ -16,6 +16,17 @@ extension D3.Transform {
 }
 
 extension D3.Transform {
+    static func orthogonal(for size: SIMD2<Precision>) -> Self {
+        let halfSize = size / 2
+        let halfDepth = halfSize.max()
+
+        return .orthogonal(
+            top: halfSize.y, bottom: -halfSize.y,
+            left: -halfSize.x, right: halfSize.x,
+            near: -halfDepth, far: halfDepth
+        )
+    }
+
     static func orthogonal(
         top: Precision, bottom: Precision,
         left: Precision, right: Precision,

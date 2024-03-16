@@ -7,16 +7,12 @@ extension D3 {
     class World {
         init(size: CGSize, device: MTLDevice) {
             do {
-                let halfSize = SIMD2<Float>.init(size) / 2
-                let halfDepth = halfSize.max()
+                let size = SIMD2<Float>.init(size)
+
                 camera = .init(
-                    projection: .orthogonal(
-                        top: halfSize.y, bottom: -halfSize.y,
-                        left: -halfSize.x, right: halfSize.x,
-                        near: -halfDepth, far: halfDepth
-                    ),
+                    projection: .orthogonal(for: size),
                     transform: .init(
-                        translate: .init(halfSize, 0)
+                        translate: .init(size / 2, 0)
                     )
                 )
             }
