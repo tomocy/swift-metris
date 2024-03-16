@@ -12,7 +12,7 @@ extension D3 {
                 camera = .init(
                     projection: .orthogonal(for: size),
                     transform: .init(
-                        translate: .init(size / 2, 0)
+                        translate: .init(size / 2, -size.max() / 10)
                     )
                 )
             }

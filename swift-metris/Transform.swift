@@ -18,12 +18,11 @@ extension D3.Transform {
 extension D3.Transform {
     static func orthogonal(for size: SIMD2<Precision>) -> Self {
         let halfSize = size / 2
-        // let halfDepth = halfSize.max()
 
         return .orthogonal(
             top: halfSize.y, bottom: -halfSize.y,
             left: -halfSize.x, right: halfSize.x,
-            near: 0, far: 1
+            near: 0, far: size.max()
         )
     }
 
@@ -32,18 +31,20 @@ extension D3.Transform {
         left: Precision, right: Precision,
         near: Precision, far: Precision
     ) -> Self {
+        // In Metal, unlike x and y axes where values are mapped into -1...1,
+        // values on z-axis is into 0...1.
+        // Therefore, translate and scale for z-axis should be less accordingly.
+
         return .init(
             translate: Measure.init(
                 (left + right) / -2,
                 (bottom + top) / -2,
-                // (near + far) / -2
                 0
             ),
             scale: Measure.init(
                 2 / (right - left),
                 2 / (top - bottom),
-                // 2 / (near - far)
-                1
+                1 / (far - near)
             )
         )
     }
