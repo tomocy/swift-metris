@@ -6,7 +6,7 @@ enum Dimension {
     typealias Precision = _DimensionPrecision
 }
 
-protocol _DimensionPrecision: Encodable, Decodable, FloatingPoint, SIMDScalar {}
+protocol _DimensionPrecision: Encodable, Decodable, BinaryFloatingPoint, SIMDScalar {}
 
 extension Float: Dimension.Precision {}
 
