@@ -102,6 +102,19 @@ extension D3.XShader.PipelineStates {
             desc.fragmentFunction = lib.makeFunction(name: "D3::X::fragmentMain")!
         }
 
+        do {
+            desc.vertexDescriptor = .init()
+            let vertex = desc.vertexDescriptor!
+            var stride = 0
+
+            vertex.attributes[0].format = .float3
+            vertex.attributes[0].offset = stride
+            vertex.attributes[0].bufferIndex = 0
+            stride += MemoryLayout<SIMD3<Float>.Packed>.stride
+
+            vertex.layouts[0].stride = stride
+        }
+
         return try device.makeRenderPipelineState(descriptor: desc)
     }
 }

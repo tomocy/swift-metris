@@ -41,13 +41,17 @@ fragment float4 fragmentMain(
 
 namespace D3 {
 namespace X {
+struct RawVertex {
+public:
+    D3::Measure position [[attribute(0)]] = { 0, 0, 0 };
+};
+
 vertex D3::Coordinate vertexMain(
-    constant D3::Matrix* const matrix [[buffer(0)]],
-    constant D3::Measure* const vertices [[buffer(1)]],
-    const uint id [[vertex_id]]
+    const RawVertex v [[stage_in]],
+    constant D3::Matrix* const matrix [[buffer(1)]]
 )
 {
-    auto position = D3::Coordinate(vertices[id], 1);
+    auto position = D3::Coordinate(v.position, 1);
     position = *matrix * position;
 
     return position;

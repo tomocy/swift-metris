@@ -63,7 +63,7 @@ extension D3 {
 
 extension D3.XWorld: MTLFrameRenderCommandEncodable {
     private struct XVertex {
-        var position: D3.Storage<Float>
+        var position: D3.Storage<Float>.Packed
     }
 
     func encode(
@@ -84,7 +84,7 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
 
                 buffer.contents().copy(from: bytes.baseAddress!, count: bytes.count)
-                encoder.setVertexBuffer(buffer, offset: 0, index: 0)
+                encoder.setVertexBuffer(buffer, offset: 0, index: 1)
             }
         }
 
@@ -100,7 +100,7 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
             let buffer = encoder.device.makeBuffer(length: vertices.size, options: .storageModeShared)!
             vertices.write(to: buffer)
 
-            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+            encoder.setVertexBuffer(buffer, offset: 0, index: 0)
         }
 
         do {
