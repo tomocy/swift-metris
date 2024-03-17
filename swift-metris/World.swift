@@ -1,5 +1,6 @@
 // tomocy
 
+import simd
 import CoreGraphics
 import Metal
 
@@ -55,6 +56,8 @@ extension D3 {
 
         var camera: Camera
         var metris: Metris
+
+        private var n: Int = 0
     }
 }
 
@@ -67,16 +70,40 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         with encoder: MTLRenderCommandEncoder,
         in frame: MTLRenderFrame
     ) {
+        do {
+            let radian = Angle.init(degree: .init(n)).inDegree()
+            n = (n + 1) % 360
+
+            let s = sin(radian);
+            let c = cos(radian);
+
+            let matrix = simd_float4x4([
+                .init(c, 0, -s, 0),
+                .init(0, 1, 0, 0),
+                .init(s, 0, c, 0),
+                .init(0, 0, 0, 1),
+            ])
+
+            withUnsafeBytes(of: matrix) { bytes in
+                let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
+
+                buffer.contents().copy(from: bytes.baseAddress!, count: bytes.count)
+                encoder.setVertexBuffer(buffer, offset: 0, index: 0)
+            }
+        }
+
         let vertices: [XVertex] = [
             .init(position: .init(-0.2, -0.2, 0)),
             .init(position: .init(0, 0.2, 0)),
             .init(position: .init(0.2, -0.2, 0)),
         ]
 
+        do {
+            let buffer = encoder.device.makeBuffer(length: vertices.size, options: .storageModeShared)!
 
-        let buffer = encoder.device.makeBuffer(length: vertices.size, options: .storageModeShared)!
-        encoder.setVertexBuffer(buffer, offset: 0, index: 0)
-        vertices.write(to: buffer)
+            vertices.write(to: buffer)
+            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+        }
 
         encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
     }

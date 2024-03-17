@@ -41,13 +41,16 @@ fragment float4 fragmentMain(
 
 namespace D3 {
 namespace X {
-vertex float4 vertexMain(
-    constant float3* const vertices [[buffer(0)]],
+vertex D3::Coordinate vertexMain(
+    constant D3::Matrix* const matrix [[buffer(0)]],
+    constant D3::Measure* const vertices [[buffer(1)]],
     const uint id [[vertex_id]]
 )
 {
-    const auto position = vertices[id];
-    return float4(position, 1);
+    auto position = D3::Coordinate(vertices[id], 1);
+    position = *matrix * position;
+
+    return position;
 }
 
 fragment float4 fragmentMain() {
