@@ -62,11 +62,12 @@ extension D3 {
 }
 
 extension D3.XShader {
-    init(device: MTLDevice, pixelFormat: MTLPixelFormat) throws {
+    init(device: MTLDevice, formats: MTLPixelFormats) throws {
         commandQueue = device.makeCommandQueue()!
 
         pipelineStates = .init(
-            render: try PipelineStates.make(with: device, pixelFormat: pixelFormat)
+            render: try PipelineStates.make(with: device, formats: formats),
+            depthStencil: PipelineStates.make(with: device)
         )
     }
 }
@@ -78,6 +79,7 @@ extension D3.XShader {
         at frame: MTLRenderFrame
     ) {
         encoder.setRenderPipelineState(pipelineStates.render)
+        encoder.setDepthStencilState(pipelineStates.depthStencil)
 
         target.encode(with: encoder, in: frame)
     }
@@ -86,14 +88,24 @@ extension D3.XShader {
 extension D3.XShader {
     struct PipelineStates {
         var render: MTLRenderPipelineState
+        var depthStencil: MTLDepthStencilState
     }
 }
 
 extension D3.XShader.PipelineStates {
-    static func make(with device: MTLDevice, pixelFormat: MTLPixelFormat) throws -> MTLRenderPipelineState {
+    static func make(
+        with device: MTLDevice,
+        formats: MTLPixelFormats
+    ) throws -> MTLRenderPipelineState {
         let desc: MTLRenderPipelineDescriptor = .init()
 
-        desc.colorAttachments[0]?.pixelFormat = pixelFormat
+        do {
+            let attachment = desc.colorAttachments[0]!
+
+            attachment.pixelFormat = formats.color
+        }
+
+        desc.depthAttachmentPixelFormat = formats.depthStencil
 
         do {
             let lib = device.makeDefaultLibrary()!
@@ -142,5 +154,16 @@ extension D3.XShader.PipelineStates {
         descriptor.attributes[id].format = format
         descriptor.attributes[id].offset = offset
         descriptor.attributes[id].bufferIndex = bufferIndex
+    }
+}
+
+extension D3.XShader.PipelineStates {
+    static func make(with device: MTLDevice) -> MTLDepthStencilState {
+        let desc = MTLDepthStencilDescriptor.init()
+
+        desc.isDepthWriteEnabled = true
+        desc.depthCompareFunction = .less
+
+        return device.makeDepthStencilState(descriptor: desc)!
     }
 }

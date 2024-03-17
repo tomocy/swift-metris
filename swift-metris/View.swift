@@ -13,7 +13,6 @@ class View: MTKView {
             ("Name", device!.name),
         ])
 
-        clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
 
         world = .init(size: frame.size, device: device!)
@@ -25,7 +24,16 @@ class View: MTKView {
             fill: { index in .init(id: index) }
         )
 
-        shader = try! .init(device: device!, pixelFormat: colorPixelFormat)
+        clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+        depthStencilPixelFormat = .depth32Float
+
+        shader = try! .init(
+            device: device!,
+            formats: .init(
+                color: colorPixelFormat,
+                depthStencil: depthStencilPixelFormat
+            )
+        )
     }
 
     private var world: D3.XWorld?

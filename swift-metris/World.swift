@@ -96,13 +96,6 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
 
         do {
             let mesh = try! MTKMesh.init(
-//                mesh: .init(
-//                    boxWithExtent: .init(80, 80, 80),
-//                    segments: .init(1, 1, 1),
-//                    inwardNormals: false,
-//                    geometryType: .triangles,
-//                    allocator: MTKMeshBufferAllocator.init(device: encoder.device)
-//                ),
                 mesh: .init(
                     sphereWithExtent: .init(80, 80, 80),
                     segments: .init(16, 16),
