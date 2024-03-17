@@ -76,10 +76,12 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
     ) {
         do {
             let projection = camera.projection.resolve()
+
             let model = D3.Transform<Float>(
                 translate: .init(0, 0, 80),
                 rotate: .init(0, 0, Angle.init(degree: .init(n)).inRadian())
             ).resolve()
+
             let matrix = projection * model
 
             n = (n + 2) % 360
@@ -94,9 +96,16 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
 
         do {
             let mesh = try! MTKMesh.init(
+//                mesh: .init(
+//                    boxWithExtent: .init(80, 80, 80),
+//                    segments: .init(1, 1, 1),
+//                    inwardNormals: false,
+//                    geometryType: .triangles,
+//                    allocator: MTKMeshBufferAllocator.init(device: encoder.device)
+//                ),
                 mesh: .init(
-                    boxWithExtent: .init(80, 80, 80),
-                    segments: .init(1, 1, 1),
+                    sphereWithExtent: .init(80, 80, 80),
+                    segments: .init(16, 16),
                     inwardNormals: false,
                     geometryType: .triangles,
                     allocator: MTKMeshBufferAllocator.init(device: encoder.device)
