@@ -14,4 +14,5 @@ enum D3 {}
 
 extension D3 {
     typealias Storage = SIMD3
+    typealias Matrix = float4x4
 }
