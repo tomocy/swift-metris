@@ -71,18 +71,14 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         in frame: MTLRenderFrame
     ) {
         do {
-            let radian = Angle.init(degree: .init(n)).inDegree()
-            n = (n + 1) % 360
+            let projection = camera.projection.resolve()
+            let model = D3.Transform<Float>(
+                translate: .init(0, 0, 0),
+                rotate: .init(0, 0, Angle.init(degree: .init(n)).inRadian())
+            ).resolve()
+            let matrix = projection * model
 
-            let s = sin(radian);
-            let c = cos(radian);
-
-            let matrix = simd_float4x4([
-                .init(c, 0, -s, 0),
-                .init(0, 1, 0, 0),
-                .init(s, 0, c, 0),
-                .init(0, 0, 0, 1),
-            ])
+            n = (n + 2) % 360
 
             withUnsafeBytes(of: matrix) { bytes in
                 let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
@@ -92,19 +88,37 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
             }
         }
 
-        let vertices: [XVertex] = [
-            .init(position: .init(-0.2, -0.2, 0)),
-            .init(position: .init(0, 0.2, 0)),
-            .init(position: .init(0.2, -0.2, 0)),
-        ]
-
         do {
-            let buffer = encoder.device.makeBuffer(length: vertices.size, options: .storageModeShared)!
+            let halfSize: Float = 40
+            let vertices: [XVertex] = [
+                .init(position: .init(-halfSize, halfSize, 0)),
+                .init(position: .init(halfSize, halfSize, 0)),
+                .init(position: .init(halfSize, -halfSize, 0)),
+                .init(position: .init(-halfSize, -halfSize, 0)),
+            ]
 
+            let buffer = encoder.device.makeBuffer(length: vertices.size, options: .storageModeShared)!
             vertices.write(to: buffer)
+
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
 
-        encoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: vertices.count)
+        do {
+            let indices: [UInt16] = [
+                0, 1, 2,
+                2, 3, 0,
+            ]
+
+            let buffer = encoder.device.makeBuffer(length: indices.size, options: .storageModeShared)!
+            indices.write(to: buffer)
+
+            encoder.drawIndexedPrimitives(
+                type: .triangle,
+                indexCount: indices.count,
+                indexType: .uint16,
+                indexBuffer: buffer,
+                indexBufferOffset: 0
+            )
+        }
     }
 }
