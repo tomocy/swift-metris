@@ -44,6 +44,8 @@ namespace X {
 struct RawVertex {
 public:
     D3::Measure position [[attribute(0)]] = { 0, 0, 0 };
+    D3::Measure normal [[attribute(1)]] = { 0, 0, 0 };
+    float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
 };
 
 vertex D3::Coordinate vertexMain(

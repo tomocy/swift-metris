@@ -107,14 +107,40 @@ extension D3.XShader.PipelineStates {
             let vertex = desc.vertexDescriptor!
             var stride = 0
 
-            vertex.attributes[0].format = .float3
-            vertex.attributes[0].offset = stride
-            vertex.attributes[0].bufferIndex = 0
-            stride += MemoryLayout<SIMD3<Float>.Packed>.stride
+            do {
+                // float3 position
+                describe(0, to: vertex, format: .float3, offset: stride, bufferIndex: 0)
+                stride += MemoryLayout<SIMD3<Float>.Packed>.stride
+            }
+            do {
+                // float3 normal
+                describe(1, to: vertex, format: .float3, offset: stride, bufferIndex: 0)
+                stride += MemoryLayout<SIMD3<Float>.Packed>.stride
+            }
+            do {
+                // float2 textureCoordinate
+                describe(2, to: vertex, format: .float2, offset: stride, bufferIndex: 0)
+                stride += MemoryLayout<SIMD2<Float>>.stride
+            }
 
             vertex.layouts[0].stride = stride
+
+            Log.debug("D3.Shader: VertexDescriptor")
+            Log.debug("\(vertex)")
         }
 
         return try device.makeRenderPipelineState(descriptor: desc)
+    }
+
+    private static func describe(
+        _ id: Int,
+        to descriptor: MTLVertexDescriptor,
+        format: MTLVertexFormat,
+        offset: Int,
+        bufferIndex: Int
+    ) {
+        descriptor.attributes[id].format = format
+        descriptor.attributes[id].offset = offset
+        descriptor.attributes[id].bufferIndex = bufferIndex
     }
 }

@@ -64,6 +64,8 @@ extension D3 {
 extension D3.XWorld: MTLFrameRenderCommandEncodable {
     private struct XVertex {
         var position: D3.Storage<Float>.Packed
+        var normal: D3.Storage<Float>.Packed = .init()
+        var textureCoordinate: SIMD2<Float> = .init()
     }
 
     func encode(
