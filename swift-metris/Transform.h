@@ -36,31 +36,40 @@ protected:
 
     Matrix toRotateAround(const Axis axis) const constant
     {
-        const float s = metal::sin(rotate.z);
-        const float c = metal::cos(rotate.z);
-
         switch (axis) {
-        case Axis::X:
+        case Axis::X: {
+            const float s = metal::sin(rotate.x);
+            const float c = metal::cos(rotate.x);
+
             return {
                 { 1, 0, 0, 0 },
                 { 0, c, s, 0 },
                 { 0, -s, c, 0 },
                 { 0, 0, 0, 1 }
             };
-        case Axis::Y:
+        }
+        case Axis::Y: {
+            const float s = metal::sin(rotate.y);
+            const float c = metal::cos(rotate.y);
+
             return {
                 { c, 0, -s, 0 },
                 { 0, 1, 0, 0 },
                 { s, 0, c, 0 },
                 { 0, 0, 0, 1 }
             };
-        case Axis::Z:
+        }
+        case Axis::Z: {
+            const float s = metal::sin(rotate.z);
+            const float c = metal::cos(rotate.z);
+
             return {
                 { c, s, 0, 0 },
                 { -s, c, 0, 0 },
                 { 0, 0, 1, 0 },
                 { 0, 0, 0, 1 }
             };
+        }
         }
     }
 

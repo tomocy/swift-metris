@@ -51,6 +51,18 @@ extension D3.Transform {
 }
 
 extension D3.Transform {
+    func resolve() -> D3.Matrix {
+        // Only translate, rotate around Z, and scale are supported for now.
+        //
+        let translate = D3.Matrix.translate(translate)
+        let rotate = D3.Matrix.rotate(rotate, around: .z)
+        let scale = D3.Matrix.scale(scale)
+
+        return translate * rotate * scale
+    }
+}
+
+extension D3.Transform {
     mutating func transform(with transform: Self) {
         translate(with: transform.translate)
         rotate(with: transform.rotate)
@@ -145,5 +157,70 @@ extension D3.Transform {
         return mapState(self) {
             $0.inverse(translate: translate, rotate: rotate, scale: scale)
         }
+    }
+}
+
+extension D3.Matrix {
+    static func translate<P: Dimension.Precision>(_ translate: D3.Storage<P>) -> Self {
+        let columns: [SIMD4<Float>] = [
+            .init(1, 0, 0, 0),
+            .init(0, 1, 0, 0),
+            .init(0, 0, 1, 0),
+            .init(.init(translate.x), .init(translate.y), .init(translate.z), 1)
+        ]
+
+        return .init(columns)
+    }
+
+    static func rotate<P: Dimension.Precision>(_ rotate: D3.Storage<P>, around axis: D3.Axis) -> Self {
+        switch axis {
+        case .x:
+            let degree: Float = .init(rotate.x)
+            let (s, c) = (sin(degree), cos(degree))
+
+            let columns: [SIMD4<Float>] = [
+                .init(1, 0, 0, 0),
+                .init(0, c, s, 0),
+                .init(0, -s, c, 0),
+                .init(0, 0, 0, 1)
+            ]
+
+            return .init(columns)
+        case .y:
+            let degree: Float = .init(rotate.y)
+            let (s, c) = (sin(degree), cos(degree))
+
+            let columns: [SIMD4<Float>] = [
+                .init(c, 0, -s, 0),
+                .init(0, 1, 0, 0),
+                .init(s, 0, c, 0),
+                .init(0, 0, 0, 1)
+            ]
+
+            return .init(columns)
+        case .z:
+            let degree: Float = .init(rotate.z)
+            let (s, c) = (sin(degree), cos(degree))
+
+            let columns: [SIMD4<Float>] = [
+                .init(c, s, 0, 0),
+                .init(-s, c, 0, 0),
+                .init(0, 0, 1, 0),
+                .init(0, 0, 0, 1)
+            ]
+
+            return .init(columns)
+        }
+    }
+
+    static func scale<P: Dimension.Precision>(_ scale: D3.Storage<P>) -> Self {
+        let columns: [SIMD4<Float>] = [
+            .init(.init(scale.x), 0, 0, 0),
+            .init(0, .init(scale.y), 0, 0),
+            .init(0, 0, .init(scale.z), 0),
+            .init(0, 0, 0, 1)
+        ]
+
+        return .init(columns)
     }
 }
