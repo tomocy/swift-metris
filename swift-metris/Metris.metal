@@ -38,3 +38,20 @@ fragment float4 fragmentMain(
     return material.diffuse.sample(sampler, raster.material.diffuse.coordinate);
 }
 }
+
+namespace D3 {
+namespace X {
+vertex float4 vertexMain(
+    constant float3* const vertices [[buffer(0)]],
+    const uint id [[vertex_id]]
+)
+{
+    const auto position = vertices[id];
+    return float4(position, 1);
+}
+
+fragment float4 fragmentMain() {
+    return float4(0.2, 0.4, 0.15, 1);
+}
+}
+}

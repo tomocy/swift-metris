@@ -16,7 +16,7 @@ class View: MTKView {
         clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         delegate = self
 
-        world = D3.World.init(size: frame.size, device: device!)
+        world = .init(size: frame.size, device: device!)
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
@@ -28,9 +28,9 @@ class View: MTKView {
         shader = try! .init(device: device!, pixelFormat: colorPixelFormat)
     }
 
-    private var world: D3.World?
+    private var world: D3.XWorld?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
-    private var shader: D3.Shader?
+    private var shader: D3.XShader?
 }
 
 extension View: MTKViewDelegate {
