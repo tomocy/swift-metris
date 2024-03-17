@@ -125,7 +125,7 @@ extension D3.XShader.PipelineStates {
 
             vertex.layouts[0].stride = stride
 
-            Log.debug("D3.Shader: VertexDescriptor")
+            Log.debug("D3.Shader: VertexDescriptor ---")
             Log.debug("\(vertex)")
         }
 
