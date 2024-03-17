@@ -37,6 +37,11 @@ struct MTLSizedBuffers {
     private var buffers: [Int: MTLBuffer] = [:]
 }
 
+struct MTLPixelFormats {
+    var color: MTLPixelFormat
+    var depthStencil: MTLPixelFormat
+}
+
 protocol MTLRenderPipelineDescriable {
     func describe(with device: MTLDevice, to descriptor: MTLRenderPipelineDescriptor)
 }
