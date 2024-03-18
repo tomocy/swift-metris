@@ -75,7 +75,9 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         in frame: MTLRenderFrame
     ) {
         do {
-            let projection = camera.projection.resolve()
+            let projection = D3.Transform<Float>.orthogonal(
+                for: .init(400, 800)
+            ).resolve()
 
             let model = D3.Transform<Float>(
                 translate: .init(0, 0, 80),

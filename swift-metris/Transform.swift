@@ -22,7 +22,7 @@ extension D3.Transform {
         return .orthogonal(
             top: halfSize.y, bottom: -halfSize.y,
             left: -halfSize.x, right: halfSize.x,
-            near: 0, far: size.max()
+            near: 0, far: halfSize.max()
         )
     }
 
@@ -37,14 +37,14 @@ extension D3.Transform {
 
         return .init(
             translate: Measure.init(
-                (left + right) / -2,
-                (bottom + top) / -2,
-                0
+                (right + left) / (right - left),
+                (top + bottom) / (top - bottom),
+                near / (far - near)
             ),
             scale: Measure.init(
-                2 / (right - left),
-                2 / (top - bottom),
-                1 / (far - near)
+                (1 - -1)  / (right - left),
+                (1 - -1) / (top - bottom),
+                (1 - 0) / (far - near)
             )
         )
     }
