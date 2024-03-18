@@ -75,18 +75,35 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         in frame: MTLRenderFrame
     ) {
         do {
-            let projection = D3.Transform<Float>.orthogonal(
-                for: .init(400, 800)
-            ).resolve()
+            let near: Float = 1
+            let far: Float = 1000
 
-            let model = D3.Transform<Float>(
-                translate: .init(0, 0, 80),
-                rotate: .init(0, 0, Angle.init(degree: .init(n)).inRadian())
-            ).resolve()
+            let aspectRatio: Float = 400 / 800
+            let fovX: Float = Angle.init(degree: 120).inRadian()
+            let scaleX = 1 / tan(fovX / 2)
+            let scaleY = scaleX * aspectRatio
+
+            let projection = D3.Matrix(
+                rows: [
+                    .init(scaleX, 0, 0, 0),
+                    .init(0, scaleY, 0, 0),
+                    .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                    .init(0, 0, 1, 0)
+                ]
+            )
+
+            let model = D3.Matrix(
+                rows: [
+                    .init(1, 0, 0, 0),
+                    .init(0, 1, 0, 0),
+                    .init(0, 0, 1, 80),
+                    .init(0, 0, 0, 1)
+                ]
+            )
 
             let matrix = projection * model
 
-            n = (n + 2) % 360
+            // n = (n + 2) % 360
 
             withUnsafeBytes(of: matrix) { bytes in
                 let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
@@ -99,7 +116,7 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         do {
             let mesh = try! MTKMesh.init(
                 mesh: .init(
-                    sphereWithExtent: .init(80, 80, 80),
+                    sphereWithExtent: .init(40, 40, 40),
                     segments: .init(16, 16),
                     inwardNormals: false,
                     geometryType: .triangles,
