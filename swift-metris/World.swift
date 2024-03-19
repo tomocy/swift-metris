@@ -54,11 +54,68 @@ extension D3 {
             }
 
             metris = .init(size: size, device: device)
+
+            do {
+                let vertexDescriptor = MDLVertexDescriptor.init()
+
+                var stride = 0
+
+                let attributes = vertexDescriptor.attributes as! [MDLVertexAttribute]
+
+                attributes[0].name = MDLVertexAttributePosition
+                attributes[0].format = .float3
+                attributes[0].offset = stride
+                stride += MemoryLayout<D3.Storage<Float>.Packed>.stride
+
+                attributes[1].name = MDLVertexAttributeNormal
+                attributes[1].format = .float3
+                attributes[1].offset = stride
+                stride += MemoryLayout<D3.Storage<Float>.Packed>.stride
+
+                attributes[2].name = MDLVertexAttributeTextureCoordinate
+                attributes[2].format = .float2
+                attributes[2].offset = stride
+                stride += MemoryLayout<SIMD2<Float>>.stride
+
+                let layouts = vertexDescriptor.layouts as! [MDLVertexBufferLayout]
+                layouts[0].stride = stride
+
+                let asset = MDLAsset.init(
+                    url: Bundle.main.url(
+                        forResource: "Spot", withExtension: "obj", subdirectory: "Spot"
+                    )!,
+                    vertexDescriptor: vertexDescriptor,
+                    bufferAllocator: MTKMeshBufferAllocator.init(device: device)
+                )
+
+                asset.loadTextures()
+
+                let raws = asset.childObjects(of: MDLMesh.self) as! [MDLMesh]
+                let raw = raws.first!
+
+                mesh = try! .init(
+                    mesh: raw,
+                    device: device
+                )
+
+                let submesh = raw.submeshes!.firstObject as! MDLSubmesh
+                let loader = MTKTextureLoader.init(device: device)
+                texture = try! loader.newTexture(
+                    URL: submesh.material!.property(with: .baseColor)!.urlValue!,
+                    options: [
+                        .textureUsage: MTLTextureUsage.shaderRead.rawValue,
+                        .textureStorageMode: MTLStorageMode.private.rawValue,
+                        .origin: MTKTextureLoader.Origin.bottomLeft.rawValue
+                    ]
+                )
+            }
         }
 
         var camera: Camera
         var metris: Metris
 
+        private let mesh: MTKMesh
+        private let texture: MTLTexture
         private var n: Int = 0
     }
 }
@@ -94,9 +151,9 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
 
             let model = D3.Matrix(
                 rows: [
-                    .init(1, 0, 0, 0),
-                    .init(0, 1, 0, 0),
-                    .init(0, 0, 1, 80),
+                    .init(40, 0, 0, 0),
+                    .init(0, 40, 0, 0),
+                    .init(0, 0, 40, 60),
                     .init(0, 0, 0, 1)
                 ]
             )
@@ -114,7 +171,7 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         }
 
         do {
-            let mesh = try! MTKMesh.init(
+            /* let mesh = try! MTKMesh.init(
                 mesh: .init(
                     sphereWithExtent: .init(40, 40, 40),
                     segments: .init(16, 16),
@@ -123,7 +180,9 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                     allocator: MTKMeshBufferAllocator.init(device: encoder.device)
                 ),
                 device: encoder.device
-            )
+            ) */
+
+            encoder.setFragmentTexture(texture, index: 0)
 
             mesh.vertexBuffers.enumerated().forEach { i, buffer in
                 encoder.setVertexBuffer(buffer.buffer, offset: buffer.offset, index: i)

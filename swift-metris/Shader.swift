@@ -59,7 +59,6 @@ extension D3 {
     struct XShader {
         var commandQueue: MTLCommandQueue
         var states: States
-        var texture: MTLTexture
     }
 }
 
@@ -72,19 +71,6 @@ extension D3.XShader {
             depthStencil: States.make(with: device),
             sampler: States.make(with: device)
         )
-
-        do {
-            let loader = MTKTextureLoader.init(device: device)
-            texture = try loader.newTexture(
-                name: "UV",
-                scaleFactor: 1,
-                bundle: .main,
-                options: [
-                    .textureUsage: MTLTextureUsage.shaderRead.rawValue,
-                    .textureStorageMode: MTLStorageMode.private.rawValue
-                ]
-            )
-        }
     }
 }
 
@@ -98,7 +84,6 @@ extension D3.XShader {
         encoder.setDepthStencilState(states.depthStencil)
 
         encoder.setFragmentSamplerState(states.sampler, index: 0)
-        encoder.setFragmentTexture(texture, index: 0)
 
         target.encode(with: encoder, in: frame)
     }

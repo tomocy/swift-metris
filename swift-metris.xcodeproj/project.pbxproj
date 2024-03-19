@@ -28,6 +28,7 @@
 		F52641B62B7F551D00BB540F /* Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Ticker.swift */; };
 		F52641B72B7F551D00BB540F /* Metal.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46162B78881400B069DC /* Metal.swift */; };
 		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
+		F53705D42BA96E770032F8A2 /* Spot in Resources */ = {isa = PBXBuildFile; fileRef = F53705D32BA96E770032F8A2 /* Spot */; };
 		F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A132B99B28000E1F388 /* Dimension.swift */; };
 		F54A4A162B99B28D00E1F388 /* SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A152B99B28D00E1F388 /* SIMD.swift */; };
 		F54A4A182B99B29700E1F388 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A172B99B29700E1F388 /* State.swift */; };
@@ -49,6 +50,7 @@
 		F52641992B7F54F900BB540F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F526419E2B7F54F900BB540F /* swift_metris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_metris.entitlements; sourceTree = "<group>"; };
 		F52641CB2B7F5DB600BB540F /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F53705D32BA96E770032F8A2 /* Spot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Spot; sourceTree = "<group>"; };
 		F54A4A122B99B28000E1F388 /* Dimension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dimension.h; sourceTree = "<group>"; };
 		F54A4A132B99B28000E1F388 /* Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
 		F54A4A152B99B28D00E1F388 /* SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMD.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				F5A953422AC329AE008E4200 /* Metris+Piece.swift */,
 				F5E88F332ABB4FBC003505BE /* Primitive.swift */,
 				F5ACF0872BA1F5E2005A1E01 /* Raster.h */,
+				F53705D22BA96E620032F8A2 /* Resources */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
 				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
@@ -150,6 +153,14 @@
 				F5910ABD2B972D8300834DEF /* World.swift */,
 			);
 			path = "swift-metris";
+			sourceTree = "<group>";
+		};
+		F53705D22BA96E620032F8A2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F53705D32BA96E770032F8A2 /* Spot */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		F5A268542A966B4600520C84 = {
@@ -226,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F53705D42BA96E770032F8A2 /* Spot in Resources */,
 				F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
