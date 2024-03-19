@@ -15,15 +15,6 @@ class View: MTKView {
 
         delegate = self
 
-        world = .init(size: frame.size, device: device!)
-
-        // This is the frame pool that is used to achieve "Triple Buffering",
-        // or more precisely, "Triple Framing".
-        framePool = .init(
-            size: 3,
-            fill: { index in .init(id: index) }
-        )
-
         clearColor = .init(red: 0, green: 0, blue: 0, alpha: 1.0)
         depthStencilPixelFormat = .depth32Float
 
@@ -34,11 +25,17 @@ class View: MTKView {
                 depthStencil: depthStencilPixelFormat
             )
         )
+
+        // This is the frame pool that is used to achieve "Triple Buffering",
+        // or more precisely, "Triple Framing".
+        framePool = .init(size: 3) { index in .init(id: index) }
+
+        world = .init(device: device!)
     }
 
-    private var world: D3.XWorld?
-    private var framePool: SemaphoricPool<MTLRenderFrame>?
     private var shader: D3.XShader?
+    private var framePool: SemaphoricPool<MTLRenderFrame>?
+    private var world: D3.XWorld?
 }
 
 extension View: MTKViewDelegate {
@@ -47,7 +44,7 @@ extension View: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard var world = world else { return }
 
-        let frame = framePool!.acquire()
+        _ = framePool!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
@@ -56,7 +53,7 @@ extension View: MTKViewDelegate {
             defer { encoder.endEncoding() }
 
             encoder.setCullMode(.back)
-            shader!.encode(&world, with: encoder, at: frame)
+            shader!.encode(&world, with: encoder)
         }
 
         command.present(currentDrawable!)
@@ -69,50 +66,50 @@ extension View: MTKViewDelegate {
     }
 }
 
-extension View {
-    override func keyDown(with event: NSEvent) {
-        guard let world = world else { return }
-
-        guard let chars = event.charactersIgnoringModifiers else { return }
-        if chars.isEmpty {
-            return
-        }
-
-        let command = chars.first!.lowercased()
-
-        if let input = Metris.Input.Move.parse(command) {
-            _ = world.metris.processInput(input)
-            return
-        }
-
-        if let input = Metris.Input.Rotate.parse(command) {
-            _ = world.metris.processInput(input)
-        }
-    }
-}
-
-extension Metris.Input.Move {
-    static func parse(_ command: String) -> Self? {
-        switch command {
-        case "s":
-            return .down
-        case "a":
-            return .left
-        case "d":
-            return .right
-        default:
-            return nil
-        }
-    }
-}
-
-extension Metris.Input.Rotate {
-    static func parse(_ command: String) -> Self? {
-        switch command {
-        case "f":
-            return .being
-        default:
-            return nil
-        }
-    }
-}
+//extension View {
+//    override func keyDown(with event: NSEvent) {
+//        guard let world = world else { return }
+//
+//        guard let chars = event.charactersIgnoringModifiers else { return }
+//        if chars.isEmpty {
+//            return
+//        }
+//
+//        let command = chars.first!.lowercased()
+//
+//        if let input = Metris.Input.Move.parse(command) {
+//            _ = world.metris.processInput(input)
+//            return
+//        }
+//
+//        if let input = Metris.Input.Rotate.parse(command) {
+//            _ = world.metris.processInput(input)
+//        }
+//    }
+//}
+//
+//extension Metris.Input.Move {
+//    static func parse(_ command: String) -> Self? {
+//        switch command {
+//        case "s":
+//            return .down
+//        case "a":
+//            return .left
+//        case "d":
+//            return .right
+//        default:
+//            return nil
+//        }
+//    }
+//}
+//
+//extension Metris.Input.Rotate {
+//    static func parse(_ command: String) -> Self? {
+//        switch command {
+//        case "f":
+//            return .being
+//        default:
+//            return nil
+//        }
+//    }
+//}

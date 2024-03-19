@@ -52,10 +52,12 @@ extension D3.Transform {
 
 extension D3.Transform {
     func resolve() -> D3.Matrix {
-        // Only translate, rotate around Z, and scale are supported for now.
-        //
         let translate = D3.Matrix.translate(translate)
-        let rotate = D3.Matrix.rotate(rotate, around: .z)
+
+        let rotate = D3.Matrix.rotate(rotate, around: .x)
+                * D3.Matrix.rotate(rotate, around: .y)
+                * D3.Matrix.rotate(rotate, around: .z)
+
         let scale = D3.Matrix.scale(scale)
 
         return translate * rotate * scale

@@ -75,17 +75,16 @@ extension D3.XShader {
 }
 
 extension D3.XShader {
-    func encode<T: MTLFrameRenderCommandEncodable>(
-        _ target: inout T,
-        with encoder: MTLRenderCommandEncoder,
-        at frame: MTLRenderFrame
+    func encode(
+        _ target: inout D3.XWorld,
+        with encoder: MTLRenderCommandEncoder
     ) {
         encoder.setRenderPipelineState(states.render)
         encoder.setDepthStencilState(states.depthStencil)
 
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
-        target.encode(with: encoder, in: frame)
+        target.encode(with: encoder)
     }
 }
 
