@@ -132,35 +132,61 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         in frame: MTLRenderFrame
     ) {
         do {
-            let near: Float = 1
-            let far: Float = 1000
+            let projection = ({
+                let near: Float = 1
+                let far: Float = 1000
 
-            let aspectRatio: Float = 400 / 800
-            let fovX: Float = Angle.init(degree: 120).inRadian()
-            let scaleX = 1 / tan(fovX / 2)
-            let scaleY = scaleX * aspectRatio
+                let aspectRatio: Float = 400 / 800
+                let fovX: Float = Angle.init(degree: 120).inRadian()
+                var scale = SIMD2<Float>.init(1, 1)
+                scale.x = 1 / tan(fovX / 2)
+                scale.y = scale.x * aspectRatio
 
-            let projection = D3.Matrix(
-                rows: [
-                    .init(scaleX, 0, 0, 0),
-                    .init(0, scaleY, 0, 0),
-                    .init(0, 0, far / (far - near), -(far * near) / (far - near)),
-                    .init(0, 0, 1, 0)
-                ]
-            )
+                return D3.Matrix(
+                    rows: [
+                        .init(scale.x, 0, 0, 0),
+                        .init(0, scale.y, 0, 0),
+                        .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                        .init(0, 0, 1, 0)
+                    ]
+                )
+            }) ()
 
-            let model = D3.Matrix(
-                rows: [
-                    .init(40, 0, 0, 0),
-                    .init(0, 40, 0, 0),
-                    .init(0, 0, 40, 60),
-                    .init(0, 0, 0, 1)
-                ]
-            )
+            let model = ({
+                let translate = D3.Matrix(
+                    rows: [
+                        .init(1, 0, 0, 0),
+                        .init(0, 1, 0, 0),
+                        .init(0, 0, 1, 60),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+                
+                let radian = Angle.init(degree: .init(n)).inRadian()
+                let (s, c) = (sin(radian), cos(radian))
+                let rotate = D3.Matrix(
+                    rows: [
+                        .init(c, 0, s, 0),
+                        .init(0, 1, 0, 0),
+                        .init(-s, 0, c, 0),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+                n = (n + 1) % 360
+
+                let scale = D3.Matrix(
+                    rows: [
+                        .init(40, 0, 0, 0),
+                        .init(0, 40, 0, 0),
+                        .init(0, 0, 40, 0),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+
+                return translate * rotate * scale
+            }) ()
 
             let matrix = projection * model
-
-            // n = (n + 2) % 360
 
             withUnsafeBytes(of: matrix) { bytes in
                 let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
@@ -171,17 +197,6 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         }
 
         do {
-            /* let mesh = try! MTKMesh.init(
-                mesh: .init(
-                    sphereWithExtent: .init(40, 40, 40),
-                    segments: .init(16, 16),
-                    inwardNormals: false,
-                    geometryType: .triangles,
-                    allocator: MTKMeshBufferAllocator.init(device: encoder.device)
-                ),
-                device: encoder.device
-            ) */
-
             encoder.setFragmentTexture(texture, index: 0)
 
             mesh.vertexBuffers.enumerated().forEach { i, buffer in
