@@ -50,7 +50,14 @@ public:
 
 struct Raster {
 public:
-    D3::Coordinate position [[position]] = { 0, 0, 0 };
+    struct Positions {
+    public:
+        D3::Coordinate clip [[position]] = { 0, 0, 0, 0 };
+        D3::Measure view = { 0, 0, 0 };
+    };
+
+public:
+    Positions positions = {};
     D3::Measure normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
@@ -67,7 +74,10 @@ vertex Raster vertexMain(
     normal = *matrix * normal;
 
     return {
-        .position = position,
+        .positions = {
+            .clip = position,
+            .view = v.position,
+        },
         .normal = normal.xyz,
         .textureCoordinate = v.textureCoordinate,
     };
@@ -89,10 +99,18 @@ public:
     Directional directional = {};
 };
 
-float3 lambertReflection(float3 normal, float3 light) {
+float3 lambertReflection(float3 light, float3 normal) {
     return metal::saturate(
-        metal::dot(normal, light)
+        metal::dot(light, normal)
     );
+}
+
+float3 blinnPhongReflection(float3 light, float3 view, float3 normal, float3 exponent) {
+    const auto halfway = metal::normalize(light + view);
+    const auto reflect = metal::saturate(
+        metal::dot(halfway, normal)
+    );
+    return metal::pow(reflect, exponent);
 }
 
 fragment float4 fragmentMain(
@@ -114,14 +132,18 @@ fragment float4 fragmentMain(
         const auto light = lights->directional;
 
         const struct {
-            float3 normal;
             float3 light;
+            float3 view;
+            float3 normal;
         } dirs = {
-            .normal = metal::normalize(r.normal),
             .light = metal::normalize(-light.direction),
+            .view = metal::normalize(-r.positions.view),
+            .normal = metal::normalize(r.normal),
         };
 
-        rgb += color.rgb * lambertReflection(dirs.normal, dirs.light) * light.intensity;
+        const auto diffuse = lambertReflection(dirs.light, dirs.normal);
+        const auto specular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50);
+        rgb += color.rgb * (diffuse + specular) * light.intensity;
     }
 
     return float4(rgb, color.a);

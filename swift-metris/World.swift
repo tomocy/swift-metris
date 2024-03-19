@@ -170,8 +170,8 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 let translate = D3.Matrix(
                     rows: [
                         .init(1, 0, 0, 0),
-                        .init(0, 1, 0, 0),
-                        .init(0, 0, 1, 60),
+                        .init(0, 1, 0, -20),
+                        .init(0, 0, 1, 35),
                         .init(0, 0, 0, 1)
                     ]
                 )
@@ -220,7 +220,7 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 ambient: .init(intensity: 0.5),
                 directional: .init(
                     intensity: 1,
-                    direction: .init(1, 1, 1)
+                    direction: .init(-1, -1, 1)
                 )
             )
             IO.writable(lights).write(to: buffer)
