@@ -68,12 +68,22 @@ vertex Raster vertexMain(
     };
 }
 
+struct Light {
+public:
+    float intensity = 0;
+};
+
 fragment float4 fragmentMain(
     const Raster r [[stage_in]],
+    constant Light* const light [[buffer(0)]],
     const metal::sampler sampler [[sampler(0)]],
     const metal::texture2d<float> texture [[texture(0)]]
 ) {
-    return texture.sample(sampler, r.textureCoordinate);
+    auto color = texture.sample(sampler, r.textureCoordinate);
+
+    color *= light->intensity;
+
+    return color;
 }
 }
 }

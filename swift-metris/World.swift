@@ -127,6 +127,10 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         var textureCoordinate: SIMD2<Float> = .init()
     }
 
+    private struct XLight {
+        var intensity: Float = 0
+    }
+
     func encode(
         with encoder: MTLRenderCommandEncoder,
         in frame: MTLRenderFrame
@@ -194,6 +198,18 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 buffer.contents().copy(from: bytes.baseAddress!, count: bytes.count)
                 encoder.setVertexBuffer(buffer, offset: 0, index: 1)
             }
+        }
+
+        do {
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout<XLight>.stride,
+                options: .storageModeShared
+            )!
+
+            let light = XLight.init(intensity: 1)
+            IO.writable(light).write(to: buffer)
+
+            encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
         }
 
         do {

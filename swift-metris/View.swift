@@ -24,7 +24,7 @@ class View: MTKView {
             fill: { index in .init(id: index) }
         )
 
-        clearColor = .init(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
+        clearColor = .init(red: 0, green: 0, blue: 0, alpha: 1.0)
         depthStencilPixelFormat = .depth32Float
 
         shader = try! .init(
