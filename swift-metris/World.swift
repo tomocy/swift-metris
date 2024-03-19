@@ -127,8 +127,18 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
         var textureCoordinate: SIMD2<Float> = .init()
     }
 
-    private struct XLight {
-        var intensity: Float = 0
+    private struct XLights {
+        struct Ambient {
+            var intensity: Float = 0
+        }
+
+        struct Directional {
+            var intensity: Float = 0
+            var direction: D3.Storage<Float> = .init(0, 0, 0)
+        }
+
+        var ambient: Ambient = .init()
+        var directional: Directional = .init()
     }
 
     func encode(
@@ -202,12 +212,18 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
 
         do {
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout<XLight>.stride,
+                length: MemoryLayout<XLights>.stride,
                 options: .storageModeShared
             )!
 
-            let light = XLight.init(intensity: 1)
-            IO.writable(light).write(to: buffer)
+            let lights = XLights.init(
+                ambient: .init(intensity: 0.5),
+                directional: .init(
+                    intensity: 1,
+                    direction: .init(1, 1, 1)
+                )
+            )
+            IO.writable(lights).write(to: buffer)
 
             encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
         }

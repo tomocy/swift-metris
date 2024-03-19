@@ -51,6 +51,7 @@ public:
 struct Raster {
 public:
     D3::Coordinate position [[position]] = { 0, 0, 0 };
+    D3::Measure normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
 
@@ -62,28 +63,68 @@ vertex Raster vertexMain(
     auto position = D3::Coordinate(v.position, 1);
     position = *matrix * position;
 
+    auto normal = D3::Coordinate(v.normal, 0);
+    normal = *matrix * normal;
+
     return {
         .position = position,
+        .normal = normal.xyz,
         .textureCoordinate = v.textureCoordinate,
     };
 }
 
-struct Light {
+struct Lights {
 public:
-    float intensity = 0;
+    struct Ambient {
+        float intensity = 0;
+    };
+
+    struct Directional {
+        float intensity = 0;
+        float3 direction = { 0, 0, 0 };
+    };
+
+public:
+    Ambient ambient = {};
+    Directional directional = {};
 };
+
+float3 lambertReflection(float3 normal, float3 light) {
+    return metal::saturate(
+        metal::dot(normal, light)
+    );
+}
 
 fragment float4 fragmentMain(
     const Raster r [[stage_in]],
-    constant Light* const light [[buffer(0)]],
+    constant Lights* const lights [[buffer(0)]],
     const metal::sampler sampler [[sampler(0)]],
     const metal::texture2d<float> texture [[texture(0)]]
 ) {
-    auto color = texture.sample(sampler, r.textureCoordinate);
+    const auto color = texture.sample(sampler, r.textureCoordinate);
 
-    color *= light->intensity;
+    float3 rgb = 0;
 
-    return color;
+    {
+        const auto light = lights->ambient;
+        rgb += color.rgb * light.intensity;
+    }
+
+    {
+        const auto light = lights->directional;
+
+        const struct {
+            float3 normal;
+            float3 light;
+        } dirs = {
+            .normal = metal::normalize(r.normal),
+            .light = metal::normalize(-light.direction),
+        };
+
+        rgb += color.rgb * lambertReflection(dirs.normal, dirs.light) * light.intensity;
+    }
+
+    return float4(rgb, color.a);
 }
 }
 }
