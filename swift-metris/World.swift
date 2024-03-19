@@ -166,12 +166,45 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 )
             }) ()
 
-            let model = ({
+            let view = ({
                 let translate = D3.Matrix(
                     rows: [
                         .init(1, 0, 0, 0),
                         .init(0, 1, 0, -20),
                         .init(0, 0, 1, 35),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+
+                let radian = Angle.init(degree: 0).inRadian()
+                let (s, c) = (sin(radian), cos(radian))
+                let rotate = D3.Matrix(
+                    rows: [
+                        .init(c, 0, s, 0),
+                        .init(0, 1, 0, 0),
+                        .init(-s, 0, c, 0),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+
+                let scale = D3.Matrix(
+                    rows: [
+                        .init(1, 0, 0, 0),
+                        .init(0, 1, 0, 0),
+                        .init(0, 0, 1, 0),
+                        .init(0, 0, 0, 1)
+                    ]
+                )
+
+                return translate * rotate * scale
+            }) ()
+
+            let model = ({
+                let translate = D3.Matrix(
+                    rows: [
+                        .init(1, 0, 0, 0),
+                        .init(0, 1, 0, /* -20 */ 0),
+                        .init(0, 0, 1, /* 35 */ 0),
                         .init(0, 0, 0, 1)
                     ]
                 )
@@ -200,14 +233,14 @@ extension D3.XWorld: MTLFrameRenderCommandEncodable {
                 return translate * rotate * scale
             }) ()
 
-            let matrix = projection * model
+            let matrix = projection * view * model
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: matrix),
+                options: .storageModeShared
+            )!
+            IO.writable(matrix).write(to: buffer)
 
-            withUnsafeBytes(of: matrix) { bytes in
-                let buffer = encoder.device.makeBuffer(length: bytes.count, options: .storageModeShared)!
-
-                buffer.contents().copy(from: bytes.baseAddress!, count: bytes.count)
-                encoder.setVertexBuffer(buffer, offset: 0, index: 1)
-            }
+            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
 
         do {
