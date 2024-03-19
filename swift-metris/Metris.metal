@@ -48,7 +48,13 @@ public:
     float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
 };
 
-vertex D3::Coordinate vertexMain(
+struct Raster {
+public:
+    D3::Coordinate position [[position]] = { 0, 0, 0 };
+    float2 textureCoordinate = { 0, 0 };
+};
+
+vertex Raster vertexMain(
     const RawVertex v [[stage_in]],
     constant D3::Matrix* const matrix [[buffer(1)]]
 )
@@ -56,11 +62,18 @@ vertex D3::Coordinate vertexMain(
     auto position = D3::Coordinate(v.position, 1);
     position = *matrix * position;
 
-    return position;
+    return {
+        .position = position,
+        .textureCoordinate = v.textureCoordinate,
+    };
 }
 
-fragment float4 fragmentMain() {
-    return float4(0.2, 0.4, 0.15, 1);
+fragment float4 fragmentMain(
+    const Raster r [[stage_in]],
+    const metal::sampler sampler [[sampler(0)]],
+    const metal::texture2d<float> texture [[texture(0)]]
+) {
+    return texture.sample(sampler, r.textureCoordinate);
 }
 }
 }

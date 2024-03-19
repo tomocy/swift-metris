@@ -1,6 +1,7 @@
 // tomocy
 
 import Metal
+import MetalKit
 
 extension D3 {
     struct Shader {
@@ -57,7 +58,8 @@ extension D3.Shader.PipelineStates {
 extension D3 {
     struct XShader {
         var commandQueue: MTLCommandQueue
-        var pipelineStates: PipelineStates
+        var states: States
+        var texture: MTLTexture
     }
 }
 
@@ -65,10 +67,24 @@ extension D3.XShader {
     init(device: MTLDevice, formats: MTLPixelFormats) throws {
         commandQueue = device.makeCommandQueue()!
 
-        pipelineStates = .init(
-            render: try PipelineStates.make(with: device, formats: formats),
-            depthStencil: PipelineStates.make(with: device)
+        states = .init(
+            render: try States.make(with: device, formats: formats),
+            depthStencil: States.make(with: device),
+            sampler: States.make(with: device)
         )
+
+        do {
+            let loader = MTKTextureLoader.init(device: device)
+            texture = try loader.newTexture(
+                name: "UV",
+                scaleFactor: 1,
+                bundle: .main,
+                options: [
+                    .textureUsage: MTLTextureUsage.shaderRead.rawValue,
+                    .textureStorageMode: MTLStorageMode.private.rawValue
+                ]
+            )
+        }
     }
 }
 
@@ -78,21 +94,25 @@ extension D3.XShader {
         with encoder: MTLRenderCommandEncoder,
         at frame: MTLRenderFrame
     ) {
-        encoder.setRenderPipelineState(pipelineStates.render)
-        encoder.setDepthStencilState(pipelineStates.depthStencil)
+        encoder.setRenderPipelineState(states.render)
+        encoder.setDepthStencilState(states.depthStencil)
+
+        encoder.setFragmentSamplerState(states.sampler, index: 0)
+        encoder.setFragmentTexture(texture, index: 0)
 
         target.encode(with: encoder, in: frame)
     }
 }
 
 extension D3.XShader {
-    struct PipelineStates {
+    struct States {
         var render: MTLRenderPipelineState
         var depthStencil: MTLDepthStencilState
+        var sampler: MTLSamplerState
     }
 }
 
-extension D3.XShader.PipelineStates {
+extension D3.XShader.States {
     static func make(
         with device: MTLDevice,
         formats: MTLPixelFormats
@@ -157,7 +177,7 @@ extension D3.XShader.PipelineStates {
     }
 }
 
-extension D3.XShader.PipelineStates {
+extension D3.XShader.States {
     static func make(with device: MTLDevice) -> MTLDepthStencilState {
         let desc = MTLDepthStencilDescriptor.init()
 
@@ -165,5 +185,21 @@ extension D3.XShader.PipelineStates {
         desc.depthCompareFunction = .less
 
         return device.makeDepthStencilState(descriptor: desc)!
+    }
+}
+
+extension D3.XShader.States {
+    static func make(with device: MTLDevice) -> MTLSamplerState {
+        let desc = MTLSamplerDescriptor.init()
+
+        desc.normalizedCoordinates = true
+
+        desc.magFilter = .linear
+        desc.minFilter = .linear
+
+        desc.sAddressMode = .repeat
+        desc.tAddressMode = .repeat
+
+        return device.makeSamplerState(descriptor: desc)!
     }
 }
