@@ -142,7 +142,8 @@ extension D3.XWorld.Spot {
     fileprivate func encode(with encoder: MTLRenderCommandEncoder, matrix: D3.Matrix, n: Int) {
         do {
             let model = D3.Transform<Float>.init(
-                scale: .init(40, 40, 40)
+                rotate: .init(0, Angle.init(degree: .init(n % 360)).inRadian(), 0),
+                scale: .init(30, 30, 30)
             ).resolve()
             let matrix = matrix * model
 

@@ -15,7 +15,7 @@ class View: MTKView {
 
         delegate = self
 
-        clearColor = .init(red: 0, green: 0, blue: 0, alpha: 1.0)
+        clearColor = .init(red: 0.25, green: 0.75, blue: 0.9, alpha: 1.0)
         depthStencilPixelFormat = .depth32Float
 
         shader = try! .init(
