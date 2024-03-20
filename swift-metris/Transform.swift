@@ -52,13 +52,13 @@ extension D3.Transform {
 
 extension D3.Transform {
     func resolve() -> D3.Matrix {
-        let translate = D3.Matrix.translate(translate)
+        let translate = Self.translate(translate)
 
-        let rotate = D3.Matrix.rotate(rotate, around: .x)
-                * D3.Matrix.rotate(rotate, around: .y)
-                * D3.Matrix.rotate(rotate, around: .z)
+        let rotate = Self.rotate(rotate, around: .x)
+                * Self.rotate(rotate, around: .y)
+                * Self.rotate(rotate, around: .z)
 
-        let scale = D3.Matrix.scale(scale)
+        let scale = Self.scale(scale)
 
         return translate * rotate * scale
     }
@@ -162,16 +162,8 @@ extension D3.Transform {
     }
 }
 
-extension D3.Matrix {
-    init(columns: [SIMD4<Float>]) {
-        self.init(
-            columns: (columns[0], columns[1], columns[2], columns[3])
-        )
-    }
-}
-
-extension D3.Matrix {
-    static func translate<P: Dimension.Precision>(_ translate: D3.Storage<P>) -> Self {
+extension D3.Transform {
+    static func translate(_ translate: Measure) -> D3.Matrix {
         let columns: [SIMD4<Float>] = [
             .init(1, 0, 0, 0),
             .init(0, 1, 0, 0),
@@ -182,7 +174,7 @@ extension D3.Matrix {
         return .init(columns)
     }
 
-    static func rotate<P: Dimension.Precision>(_ rotate: D3.Storage<P>, around axis: D3.Axis) -> Self {
+    static func rotate(_ rotate: Measure, around axis: D3.Axis) -> D3.Matrix {
         switch axis {
         case .x:
             let degree: Float = .init(rotate.x)
@@ -223,7 +215,7 @@ extension D3.Matrix {
         }
     }
 
-    static func scale<P: Dimension.Precision>(_ scale: D3.Storage<P>) -> Self {
+    static func scale(_ scale: Measure) -> D3.Matrix {
         let columns: [SIMD4<Float>] = [
             .init(.init(scale.x), 0, 0, 0),
             .init(0, .init(scale.y), 0, 0),
@@ -232,5 +224,13 @@ extension D3.Matrix {
         ]
 
         return .init(columns)
+    }
+}
+
+extension D3.Matrix {
+    init(columns: [SIMD4<Float>]) {
+        self.init(
+            columns: (columns[0], columns[1], columns[2], columns[3])
+        )
     }
 }

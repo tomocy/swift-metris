@@ -46,14 +46,7 @@ extension D3 {
                 ambient: .init(intensity: 0.5),
                 directional: .init(
                     intensity: 1,
-                    projection: .init(
-                        rows: [
-                            .init(1, 0, 0, 0),
-                            .init(0, 1, 0, 0),
-                            .init(0, 0, 1, 0),
-                            .init(0, 0, 0, 1)
-                        ]
-                    ),
+                    projection: .init(1),
                     direction: .init(-1, -1, 1)
                 )
             )
