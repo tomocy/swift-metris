@@ -50,9 +50,9 @@ public:
 
 vertex D3::Coordinate shadowMain(
     const RawVertex v [[stage_in]],
-    constant D3::Matrix* const matrix [[buffer(1)]]
+    constant D3::Matrix* const aspect [[buffer(1)]]
 ) {
-    return *matrix * D3::Coordinate(v.position, 1);
+    return *aspect * D3::Coordinate(v.position, 1);
 }
 
 struct Raster {
@@ -71,14 +71,11 @@ public:
 
 vertex Raster vertexMain(
     const RawVertex v [[stage_in]],
-    constant D3::Matrix* const transform [[buffer(1)]]
+    constant D3::Matrix* const aspect [[buffer(1)]]
 )
 {
-    auto position = D3::Coordinate(v.position, 1);
-    position = *transform * position;
-
-    auto normal = D3::Coordinate(v.normal, 0);
-    normal = *transform * normal;
+    const auto position = *aspect * Coordinate(v.position, 1);
+    const auto normal = *aspect * D3::Coordinate(v.normal, 0);
 
     return {
         .positions = {
@@ -151,9 +148,10 @@ fragment float4 fragmentMain(
             .normal = metal::normalize(r.normal),
         };
 
-        const auto diffuse = lambertReflection(dirs.light, dirs.normal);
-        const auto specular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50);
-        rgb += color.rgb * (diffuse + specular) * light.intensity;
+        const auto howDiffuse = lambertReflection(dirs.light, dirs.normal);
+        const auto howSpecular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50);
+
+        rgb += color.rgb * (howDiffuse + howSpecular) * light.intensity;
     }
 
     return float4(rgb, color.a);

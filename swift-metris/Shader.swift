@@ -123,7 +123,7 @@ extension D3.XShader {
                 up: .init(0, 1, 0)
             )
 
-            target.shadow(with: encoder, from: (projection: projection, transform: transform))
+            target.shadow(with: encoder, light: (projection: projection, transform: transform))
         }
     }
 }
@@ -140,33 +140,38 @@ extension D3.XShader {
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
         do {
-            let projection = ({
-                let near: Float = 1
-                let far: Float = 1000
+            let view = ({
+                let projection = ({
+                    let near: Float = 1
+                    let far: Float = 1000
 
-                let aspectRatio: Float = 800 / 800
-                let fovX: Float = Angle.init(degree: 120).inRadian()
-                var scale = SIMD2<Float>.init(1, 1)
-                scale.x = 1 / tan(fovX / 2)
-                scale.y = scale.x * aspectRatio
+                    let aspectRatio: Float = 800 / 800
+                    let fovX: Float = Angle.init(degree: 120).inRadian()
+                    var scale = SIMD2<Float>.init(1, 1)
+                    scale.x = 1 / tan(fovX / 2)
+                    scale.y = scale.x * aspectRatio
 
-                return D3.Matrix(
-                    rows: [
-                        .init(scale.x, 0, 0, 0),
-                        .init(0, scale.y, 0, 0),
-                        .init(0, 0, far / (far - near), -(far * near) / (far - near)),
-                        .init(0, 0, 1, 0)
-                    ]
-                )
+                    return D3.Matrix(
+                        rows: [
+                            .init(scale.x, 0, 0, 0),
+                            .init(0, scale.y, 0, 0),
+                            .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                            .init(0, 0, 1, 0)
+                        ]
+                    )
+                }) ()
+
+                let transform = D3.Transform<Float>(
+                    translate: .init(0, 20, -35)
+                ).inversed(
+                    rotate: false, scale: false
+                ).resolve()
+
+                return (projection, transform)
             }) ()
-
-            let transform = D3.Transform<Float>(
-                translate: .init(0, -20, 35)
-            ).resolve()
 
             target.render(
                 with: encoder,
-                from: (projection: projection, transform: transform),
                 light: (
                     projection: .init(1),
                     transform: .init(
@@ -177,7 +182,8 @@ extension D3.XShader {
                             .init(0, 0, 0, 1)
                         ]
                     )
-                )
+                ),
+                view: view
             )
         }
     }

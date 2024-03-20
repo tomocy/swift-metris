@@ -53,8 +53,8 @@ extension D3 {
 }
 
 extension D3.XWorld {
-    func shadow(with encoder: MTLRenderCommandEncoder, from view: (projection: D3.Matrix, transform: D3.Matrix)) {
-        let aspect = view.projection * view.transform
+    func shadow(with encoder: MTLRenderCommandEncoder, light: (projection: D3.Matrix, transform: D3.Matrix)) {
+        let aspect = light.projection * light.transform.inverse
 
         spot.encode(with: encoder, from: aspect, n: n)
         ground.encode(with: encoder, from: aspect)
@@ -64,8 +64,8 @@ extension D3.XWorld {
 extension D3.XWorld {
     func render(
         with encoder: MTLRenderCommandEncoder,
-        from view: (projection: D3.Matrix, transform: D3.Matrix),
-        light: (projection: D3.Matrix, transform: D3.Matrix)
+        light: (projection: D3.Matrix, transform: D3.Matrix),
+        view: (projection: D3.Matrix, transform: D3.Matrix)
     ) {
         do {
             let lights = Lights.init(

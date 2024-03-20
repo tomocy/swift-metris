@@ -244,6 +244,6 @@ extension D3.Transform {
                 .init(forward, 0),
                 .init(wFrom, 1)
             ]
-        ).inverse
+        )
     }
 }
