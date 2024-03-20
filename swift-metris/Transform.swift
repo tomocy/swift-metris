@@ -163,6 +163,14 @@ extension D3.Transform {
 }
 
 extension D3.Matrix {
+    init(columns: [SIMD4<Float>]) {
+        self.init(
+            columns: (columns[0], columns[1], columns[2], columns[3])
+        )
+    }
+}
+
+extension D3.Matrix {
     static func translate<P: Dimension.Precision>(_ translate: D3.Storage<P>) -> Self {
         let columns: [SIMD4<Float>] = [
             .init(1, 0, 0, 0),

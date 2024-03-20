@@ -48,6 +48,13 @@ public:
     float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
 };
 
+vertex D3::Coordinate shadowMain(
+    const RawVertex v [[stage_in]],
+    constant D3::Matrix* const matrix [[buffer(1)]]
+) {
+    return *matrix * D3::Coordinate(v.position, 1);
+}
+
 struct Raster {
 public:
     struct Positions {
