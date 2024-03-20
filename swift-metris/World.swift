@@ -80,12 +80,12 @@ extension D3.XWorld {
             lights.encode(with: encoder)
         }
 
-        let aspect = view.projection * view.transform
+        let aspect = /* view.projection * view.transform */ light.projection * light.transform.inverse
 
         spot.encode(with: encoder, from: aspect, n: n)
         ground.encode(with: encoder, from: aspect)
 
-        n = (n + 1) % 1024
+        // n = (n + 1) % 1024
     }
 }
 

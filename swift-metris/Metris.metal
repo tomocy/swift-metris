@@ -51,7 +51,8 @@ public:
 vertex D3::Coordinate shadowMain(
     const RawVertex v [[stage_in]],
     constant D3::Matrix* const aspect [[buffer(1)]]
-) {
+)
+{
     return *aspect * D3::Coordinate(v.position, 1);
 }
 
@@ -106,13 +107,15 @@ public:
     Directional directional = {};
 };
 
-float3 lambertReflection(float3 light, float3 normal) {
+float3 lambertReflection(float3 light, float3 normal)
+{
     return metal::saturate(
         metal::dot(light, normal)
     );
 }
 
-float3 blinnPhongReflection(float3 light, float3 view, float3 normal, float3 exponent) {
+float3 blinnPhongReflection(float3 light, float3 view, float3 normal, float3 exponent)
+{
     const auto halfway = metal::normalize(light + view);
     const auto reflect = metal::saturate(
         metal::dot(halfway, normal)
@@ -125,7 +128,8 @@ fragment float4 fragmentMain(
     constant Lights* const lights [[buffer(0)]],
     const metal::sampler sampler [[sampler(0)]],
     const metal::texture2d<float> texture [[texture(0)]]
-) {
+)
+{
     const auto color = texture.sample(sampler, r.textureCoordinate);
 
     float3 rgb = 0;

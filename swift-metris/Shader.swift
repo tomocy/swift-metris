@@ -106,25 +106,7 @@ extension D3.XShader {
             encoder.setFragmentSamplerState(states.sampler, index: 0)
         }
 
-        do {
-            let size = SIMD2<Float>.init(800, 800)
-            let depth = size.min()
-            let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05)
-
-            let projection = D3.Transform<Float>.orthogonal(
-                top: w, bottom: -w,
-                left: -h, right: h,
-                near: 0, far: d * 4
-            ).resolve()
-
-            let transform = D3.Transform.look(
-                from: .init(w, h, -d),
-                to: .init(0, 0, 0),
-                up: .init(0, 1, 0)
-            )
-
-            target.shadow(with: encoder, light: (projection: projection, transform: transform))
-        }
+        target.shadow(with: encoder, light: makeLightAspect())
     }
 }
 
@@ -172,20 +154,32 @@ extension D3.XShader {
 
             target.render(
                 with: encoder,
-                light: (
-                    projection: .init(1),
-                    transform: .init(
-                        columns: [
-                            .init(1, 0, 0, 0),
-                            .init(0, 1, 0, 0),
-                            .init(-1, -1, 1, 0),
-                            .init(0, 0, 0, 1)
-                        ]
-                    )
-                ),
+                light: makeLightAspect(),
                 view: view
             )
         }
+    }
+}
+
+extension D3.XShader {
+    private func makeLightAspect() -> (D3.Matrix, D3.Matrix) {
+        let size = SIMD2<Float>.init(800, 800)
+        let depth = size.min()
+        let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05)
+
+        let projection = D3.Transform<Float>.orthogonal(
+            top: w, bottom: -w,
+            left: -h, right: h,
+            near: 0, far: d * 4
+        ).resolve()
+
+        let transform = D3.Transform.look(
+            from: .init(w, h, -d),
+            to: .init(0, 0, 0),
+            up: .init(0, 1, 0)
+        )
+
+        return (projection, transform)
     }
 }
 
