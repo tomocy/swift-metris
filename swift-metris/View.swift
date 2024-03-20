@@ -49,14 +49,7 @@ extension View: MTKViewDelegate {
         let command = shader!.commandQueue.makeCommandBuffer()!
 
         shader!.shadow(world, to: command)
-
-        /* do {
-            let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
-            defer { encoder.endEncoding() }
-
-            encoder.setCullMode(.back)
-            shader!.encode(&world, with: encoder)
-        } */
+        shader!.render(world, to: command, as: currentRenderPassDescriptor!)
 
         command.present(currentDrawable!)
 
