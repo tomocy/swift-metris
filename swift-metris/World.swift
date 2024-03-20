@@ -42,13 +42,48 @@ extension D3.World: MTLFrameRenderCommandEncodable {
 extension D3 {
     class XWorld {
         init(device: MTLDevice) {
+            lights = .init(
+                ambient: .init(intensity: 0.5),
+                directional: .init(
+                    intensity: 1,
+                    projection: .init(
+                        rows: [
+                            .init(1, 0, 0, 0),
+                            .init(0, 1, 0, 0),
+                            .init(0, 0, 1, 0),
+                            .init(0, 0, 0, 1)
+                        ]
+                    ),
+                    direction: .init(-1, -1, 1)
+                )
+            )
+
             spot = .init(device: device)
             ground = .init(device: device)
         }
 
+        private let lights: Lights
         private let spot: Spot
         private let ground: Ground
         private var n: Int = 0
+    }
+}
+
+extension D3.XWorld {
+    func shadow(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
+        lights.encode(with: encoder)
+        spot.encode(with: encoder, from: aspect, n: n)
+        ground.encode(with: encoder, from: aspect)
+    }
+}
+
+extension D3.XWorld {
+    func render(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
+        lights.encode(with: encoder)
+        spot.encode(with: encoder, from: aspect, n: n)
+        ground.encode(with: encoder, from: aspect)
+
+        n = (n + 1) % 1024
     }
 }
 
@@ -58,7 +93,9 @@ extension D3.XWorld {
         var normal: D3.Storage<Float>.Packed = .init()
         var textureCoordinate: SIMD2<Float> = .init()
     }
+}
 
+extension D3.XWorld {
     fileprivate struct Lights {
         struct Ambient {
             var intensity: Float = 0
@@ -66,11 +103,24 @@ extension D3.XWorld {
 
         struct Directional {
             var intensity: Float = 0
+            var projection: D3.Matrix = .init()
             var direction: D3.Storage<Float> = .init(0, 0, 0)
         }
 
         var ambient: Ambient = .init()
         var directional: Directional = .init()
+    }
+}
+
+extension D3.XWorld.Lights {
+    func encode(with encoder: MTLRenderCommandEncoder) {
+        let buffer = encoder.device.makeBuffer(
+            length: MemoryLayout<Self>.stride,
+            options: .storageModeShared
+        )!
+        IO.writable(self).write(to: buffer)
+
+        encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
     }
 }
 
@@ -139,19 +189,19 @@ extension D3.XWorld.Spot {
         }
     }
 
-    fileprivate func encode(with encoder: MTLRenderCommandEncoder, matrix: D3.Matrix, n: Int) {
+    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix, n: Int) {
         do {
             let model = D3.Transform<Float>.init(
                 rotate: .init(0, Angle.init(degree: .init(n % 360)).inRadian(), 0),
                 scale: .init(30, 30, 30)
             ).resolve()
-            let matrix = matrix * model
+            let transform = aspect * model
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: matrix),
+                length: MemoryLayout.stride(ofValue: transform),
                 options: .storageModeShared
             )!
-            IO.writable(matrix).write(to: buffer)
+            IO.writable(transform).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
@@ -202,18 +252,18 @@ extension D3.XWorld.Ground {
 }
 
 extension D3.XWorld.Ground {
-    func encode(with encoder: MTLRenderCommandEncoder, matrix: D3.Matrix) {
+    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
         do {
             let model = D3.Transform<Float>.init(
                 rotate: .init(Angle.init(degree: 90).inRadian(), Angle.init(degree: -90).inRadian(), 0)
             ).resolve()
-            let matrix = matrix * model
+            let transform = aspect * model
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: matrix),
+                length: MemoryLayout.stride(ofValue: transform),
                 options: .storageModeShared
             )!
-            IO.writable(matrix).write(to: buffer)
+            IO.writable(transform).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
@@ -234,83 +284,5 @@ extension D3.XWorld.Ground {
                 )
             }
         }
-    }
-}
-
-extension D3.XWorld {
-    func shadow(with encoder: MTLRenderCommandEncoder, matrix: D3.Matrix) {
-        do {
-            let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout<D3.XWorld.Lights>.stride,
-                options: .storageModeShared
-            )!
-
-            let lights = D3.XWorld.Lights.init(
-                ambient: .init(intensity: 0.5),
-                directional: .init(
-                    intensity: 1,
-                    direction: .init(-1, -1, 1)
-                )
-            )
-            IO.writable(lights).write(to: buffer)
-
-            encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
-        }
-
-        spot.encode(with: encoder, matrix: matrix, n: n)
-        ground.encode(with: encoder, matrix: matrix)
-    }
-}
-
-extension D3.XWorld {
-    func encode(with encoder: MTLRenderCommandEncoder) {
-        let projection = ({
-            let near: Float = 1
-            let far: Float = 1000
-
-            let aspectRatio: Float = 800 / 800
-            let fovX: Float = Angle.init(degree: 120).inRadian()
-            var scale = SIMD2<Float>.init(1, 1)
-            scale.x = 1 / tan(fovX / 2)
-            scale.y = scale.x * aspectRatio
-
-            return D3.Matrix(
-                rows: [
-                    .init(scale.x, 0, 0, 0),
-                    .init(0, scale.y, 0, 0),
-                    .init(0, 0, far / (far - near), -(far * near) / (far - near)),
-                    .init(0, 0, 1, 0)
-                ]
-            )
-        }) ()
-
-        let view = D3.Transform<Float>(
-            translate: .init(0, -20, 35)
-        ).resolve()
-
-        let matrix = projection * view
-
-        do {
-            let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout<D3.XWorld.Lights>.stride,
-                options: .storageModeShared
-            )!
-
-            let lights = D3.XWorld.Lights.init(
-                ambient: .init(intensity: 0.5),
-                directional: .init(
-                    intensity: 1,
-                    direction: .init(-1, -1, 1)
-                )
-            )
-            IO.writable(lights).write(to: buffer)
-
-            encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
-        }
-
-        spot.encode(with: encoder, matrix: matrix, n: n)
-        ground.encode(with: encoder, matrix: matrix)
-
-        n = (n + 1) % 1024
     }
 }

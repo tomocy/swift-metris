@@ -135,7 +135,7 @@ extension D3.XShader {
                 ).inverse
             }) ()
 
-            target.shadow(with: encoder, matrix: projection * view)
+            target.shadow(with: encoder, from: projection * view)
         }
     }
 }
@@ -151,7 +151,33 @@ extension D3.XShader {
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
-        target.encode(with: encoder)
+        do {
+            let projection = ({
+                let near: Float = 1
+                let far: Float = 1000
+
+                let aspectRatio: Float = 800 / 800
+                let fovX: Float = Angle.init(degree: 120).inRadian()
+                var scale = SIMD2<Float>.init(1, 1)
+                scale.x = 1 / tan(fovX / 2)
+                scale.y = scale.x * aspectRatio
+
+                return D3.Matrix(
+                    rows: [
+                        .init(scale.x, 0, 0, 0),
+                        .init(0, scale.y, 0, 0),
+                        .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                        .init(0, 0, 1, 0)
+                    ]
+                )
+            }) ()
+
+            let view = D3.Transform<Float>(
+                translate: .init(0, -20, 35)
+            ).resolve()
+
+            target.render(with: encoder, from: projection * view)
+        }
     }
 }
 

@@ -71,14 +71,14 @@ public:
 
 vertex Raster vertexMain(
     const RawVertex v [[stage_in]],
-    constant D3::Matrix* const matrix [[buffer(1)]]
+    constant D3::Matrix* const transform [[buffer(1)]]
 )
 {
     auto position = D3::Coordinate(v.position, 1);
-    position = *matrix * position;
+    position = *transform * position;
 
     auto normal = D3::Coordinate(v.normal, 0);
-    normal = *matrix * normal;
+    normal = *transform * normal;
 
     return {
         .positions = {
@@ -93,12 +93,15 @@ vertex Raster vertexMain(
 struct Lights {
 public:
     struct Ambient {
+    public:
         float intensity = 0;
     };
 
     struct Directional {
+    public:
         float intensity = 0;
-        float3 direction = { 0, 0, 0 };
+        D3::Matrix projection = {};
+        D3::Measure direction = { 0, 0, 0 };
     };
 
 public:
