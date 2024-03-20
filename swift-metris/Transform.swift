@@ -227,6 +227,27 @@ extension D3.Transform {
     }
 }
 
+extension D3.Transform {
+    static func look(from position: Measure, to target: Measure, up: Measure) -> D3.Matrix {
+        let wFrom = D3.Storage<Float>.init(position)
+        let wTo = D3.Storage<Float>.init(target)
+        let wUp = D3.Storage<Float>.init(up)
+
+        let forward = normalize(wTo - wFrom)
+        let right = normalize(cross(wUp, forward))
+        let up = normalize(cross(forward, right))
+
+        return .init(
+            columns: [
+                .init(right, 0),
+                .init(up, 0),
+                .init(forward, 0),
+                .init(wFrom, 1)
+            ]
+        ).inverse
+    }
+}
+
 extension D3.Matrix {
     init(columns: [SIMD4<Float>]) {
         self.init(

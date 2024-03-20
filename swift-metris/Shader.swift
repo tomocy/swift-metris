@@ -116,24 +116,11 @@ extension D3.XShader {
                 near: 0, far: d * 4
             ).resolve()
 
-            let view = ({
-                let wFrom = D3.Storage<Float>.init(w, h, -d)
-                let wTo = D3.Storage<Float>.init(0, 0, 0)
-                let wUp = D3.Storage<Float>.init(0, 1, 0)
-
-                let forward = normalize(wTo - wFrom)
-                let right = normalize(cross(wUp, forward))
-                let up = normalize(cross(forward, right))
-
-                return D3.Matrix(
-                    columns: [
-                        .init(right, 0),
-                        .init(up, 0),
-                        .init(forward, 0),
-                        .init(wFrom, 1)
-                    ]
-                ).inverse
-            }) ()
+            let view = D3.Transform.look(
+                from: .init(w, h, -d),
+                to: .init(0, 0, 0),
+                up: .init(0, 1, 0)
+            )
 
             target.shadow(with: encoder, from: projection * view)
         }
