@@ -247,11 +247,3 @@ extension D3.Transform {
         ).inverse
     }
 }
-
-extension D3.Matrix {
-    init(columns: [SIMD4<Float>]) {
-        self.init(
-            columns: (columns[0], columns[1], columns[2], columns[3])
-        )
-    }
-}

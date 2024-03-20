@@ -110,19 +110,20 @@ extension D3.XShader {
             let size = SIMD2<Float>.init(800, 800)
             let depth = size.min()
             let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05)
+
             let projection = D3.Transform<Float>.orthogonal(
                 top: w, bottom: -w,
                 left: -h, right: h,
                 near: 0, far: d * 4
             ).resolve()
 
-            let view = D3.Transform.look(
+            let transform = D3.Transform.look(
                 from: .init(w, h, -d),
                 to: .init(0, 0, 0),
                 up: .init(0, 1, 0)
             )
 
-            target.shadow(with: encoder, from: projection * view)
+            target.shadow(with: encoder, from: (projection: projection, transform: transform))
         }
     }
 }
@@ -159,11 +160,25 @@ extension D3.XShader {
                 )
             }) ()
 
-            let view = D3.Transform<Float>(
+            let transform = D3.Transform<Float>(
                 translate: .init(0, -20, 35)
             ).resolve()
 
-            target.render(with: encoder, from: projection * view)
+            target.render(
+                with: encoder,
+                from: (projection: projection, transform: transform),
+                light: (
+                    projection: .init(1),
+                    transform: .init(
+                        columns: [
+                            .init(1, 0, 0, 0),
+                            .init(0, 1, 0, 0),
+                            .init(-1, -1, 1, 0),
+                            .init(0, 0, 0, 1)
+                        ]
+                    )
+                )
+            )
         }
     }
 }

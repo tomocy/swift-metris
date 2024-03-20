@@ -42,20 +42,10 @@ extension D3.World: MTLFrameRenderCommandEncodable {
 extension D3 {
     class XWorld {
         init(device: MTLDevice) {
-            lights = .init(
-                ambient: .init(intensity: 0.5),
-                directional: .init(
-                    intensity: 1,
-                    projection: .init(1),
-                    direction: .init(-1, -1, 1)
-                )
-            )
-
             spot = .init(device: device)
             ground = .init(device: device)
         }
 
-        private let lights: Lights
         private let spot: Spot
         private let ground: Ground
         private var n: Int = 0
@@ -63,16 +53,35 @@ extension D3 {
 }
 
 extension D3.XWorld {
-    func shadow(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
-        lights.encode(with: encoder)
+    func shadow(with encoder: MTLRenderCommandEncoder, from view: (projection: D3.Matrix, transform: D3.Matrix)) {
+        let aspect = view.projection * view.transform
+
         spot.encode(with: encoder, from: aspect, n: n)
         ground.encode(with: encoder, from: aspect)
     }
 }
 
 extension D3.XWorld {
-    func render(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
-        lights.encode(with: encoder)
+    func render(
+        with encoder: MTLRenderCommandEncoder,
+        from view: (projection: D3.Matrix, transform: D3.Matrix),
+        light: (projection: D3.Matrix, transform: D3.Matrix)
+    ) {
+        do {
+            let lights = Lights.init(
+                ambient: .init(intensity: 0.5),
+                directional: .init(
+                    intensity: 1,
+                    projection: light.projection,
+                    direction: light.transform.columns.2.xyz
+                )
+            )
+
+            lights.encode(with: encoder)
+        }
+
+        let aspect = view.projection * view.transform
+
         spot.encode(with: encoder, from: aspect, n: n)
         ground.encode(with: encoder, from: aspect)
 
