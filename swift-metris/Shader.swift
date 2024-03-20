@@ -75,6 +75,35 @@ extension D3.XShader {
 }
 
 extension D3.XShader {
+    func shadow(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
+        let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
+        defer { encoder.endEncoding() }
+
+        do {
+            encoder.setCullMode(.back)
+
+            encoder.setRenderPipelineState(states.render)
+            encoder.setDepthStencilState(states.depthStencil)
+            encoder.setFragmentSamplerState(states.sampler, index: 0)
+        }
+
+        do {
+            let projection = D3.Transform<Float>.orthogonal(
+                top: 50, bottom: -50,
+                left: -50, right: 50,
+                near: 0, far: 50
+            ).resolve()
+
+            let view = D3.Transform<Float>(
+                translate: .init(0, -20, 35)
+            ).resolve()
+
+            target.shadow(with: encoder, matrix: projection * view)
+        }
+    }
+}
+
+extension D3.XShader {
     func encode(
         _ target: inout D3.XWorld,
         with encoder: MTLRenderCommandEncoder

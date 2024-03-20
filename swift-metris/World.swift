@@ -238,6 +238,31 @@ extension D3.XWorld.Ground {
 }
 
 extension D3.XWorld {
+    func shadow(with encoder: MTLRenderCommandEncoder, matrix: D3.Matrix) {
+        do {
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout<D3.XWorld.Lights>.stride,
+                options: .storageModeShared
+            )!
+
+            let lights = D3.XWorld.Lights.init(
+                ambient: .init(intensity: 0.5),
+                directional: .init(
+                    intensity: 1,
+                    direction: .init(-1, -1, 1)
+                )
+            )
+            IO.writable(lights).write(to: buffer)
+
+            encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
+        }
+
+        spot.encode(with: encoder, matrix: matrix, n: n)
+        ground.encode(with: encoder, matrix: matrix)
+    }
+}
+
+extension D3.XWorld {
     func encode(with encoder: MTLRenderCommandEncoder) {
         let projection = ({
             let near: Float = 1
@@ -258,7 +283,7 @@ extension D3.XWorld {
                 ]
             )
         }) ()
-        
+
         let view = D3.Transform<Float>(
             translate: .init(0, -20, 35)
         ).resolve()

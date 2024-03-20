@@ -42,19 +42,21 @@ extension View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        guard var world = world else { return }
+        guard let world = world else { return }
 
         _ = framePool!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
-        do {
+        shader!.shadow(world, to: command, as: currentRenderPassDescriptor!)
+
+        /* do {
             let encoder = command.makeRenderCommandEncoder(descriptor: currentRenderPassDescriptor!)!
             defer { encoder.endEncoding() }
 
             encoder.setCullMode(.back)
             shader!.encode(&world, with: encoder)
-        }
+        } */
 
         command.present(currentDrawable!)
 
