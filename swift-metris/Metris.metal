@@ -101,7 +101,7 @@ public:
     public:
         float intensity = 0;
         D3::Matrix projection = {};
-        D3::Measure direction = { 0, 0, 0 };
+        D3::Matrix transform = {};
     };
 
 public:
@@ -146,7 +146,7 @@ fragment float4 fragmentMain(
             float3 view;
             float3 normal;
         } dirs = {
-            .light = metal::normalize(-light.direction),
+            .light = metal::normalize(-light.transform.columns[2].xyz),
             .view = metal::normalize(-r.positions.view),
             .normal = metal::normalize(r.normal),
         };

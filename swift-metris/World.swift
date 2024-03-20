@@ -73,7 +73,7 @@ extension D3.XWorld {
                 directional: .init(
                     intensity: 1,
                     projection: light.projection,
-                    direction: light.transform.columns.2.xyz
+                    transform: light.transform
                 )
             )
 
@@ -105,8 +105,8 @@ extension D3.XWorld {
 
         struct Directional {
             var intensity: Float = 0
-            var projection: D3.Matrix = .init()
-            var direction: D3.Storage<Float> = .init(0, 0, 0)
+            var projection: D3.Matrix = .init(1)
+            var transform: D3.Matrix = .init(1)
         }
 
         var ambient: Ambient = .init()
