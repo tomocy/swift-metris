@@ -78,7 +78,8 @@ extension D3.XWorld {
                     intensity: 1,
                     aspect: .init(
                         projection: light.projection,
-                        transform: light.transform.inverse
+                        view: light.view,
+                        model: light.model.inverse
                     )
                 )
             )
@@ -200,7 +201,8 @@ extension D3.XWorld.Spot {
 
             let aspect = D3.XShader.Aspect.init(
                 projection: aspect.projection,
-                transform: aspect.transform * model
+                view: aspect.view,
+                model: model
             )
 
             let buffer = encoder.device.makeBuffer(
@@ -272,7 +274,8 @@ extension D3.XWorld.Ground {
 
             let aspect = D3.XShader.Aspect.init(
                 projection: aspect.projection,
-                transform: aspect.transform * model
+                view: aspect.view,
+                model: model
             )
 
             let buffer = encoder.device.makeBuffer(

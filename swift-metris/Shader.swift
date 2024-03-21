@@ -124,48 +124,11 @@ extension D3.XShader {
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
-        do {
-            let view = ({
-                let projection = ({
-                    let near: Float = 0.01
-                    let far: Float = 100
-
-                    let scale = ({
-                        let aspectRatio: Float = resolution.x / resolution.y
-                        let fovY: Float = .pi / 3
-
-                        var scale = SIMD2<Float>.init(1, 1)
-                        scale.y = 1 / tan(fovY / 2)
-                        scale.x = scale.y / aspectRatio // 1 / w = (1 / h) * (h / w)
-
-                        return scale
-                    }) ()
-
-                    return D3.Matrix(
-                        rows: [
-                            .init(scale.x, 0, 0, 0),
-                            .init(0, scale.y, 0, 0),
-                            .init(0, 0, far / (far - near), -(far * near) / (far - near)),
-                            .init(0, 0, 1, 0)
-                        ]
-                    )
-                }) ()
-
-                let transform = D3.Transform<Float>(
-                    translate: .init(0, 0.5, -2)
-                ).inversed(
-                    rotate: false, scale: false
-                ).resolve()
-
-                return Aspect.init(projection: projection, transform: transform)
-            }) ()
-
-            target.render(
-                with: encoder,
-                light: makeLightAspect(),
-                view: view
-            )
-        }
+        target.render(
+            with: encoder,
+            light: makeLightAspect(),
+            view: makeViewAspect()
+        )
     }
 }
 
@@ -181,20 +144,64 @@ extension D3.XShader {
             near: 0, far: 10
         ).resolve()
 
-        let transform = D3.Transform<Float>.look(
+        let view = D3.Transform<Float>.look(
             from: .init(1, 1, -1),
             to: .init(0, 0, 0),
             up: .init(0, 1, 0)
-        ).inverse
+        )
 
-        return .init(projection: projection, transform: transform)
+        return .init(
+            projection: projection,
+            view: view,
+            model: .init(1)
+        )
+    }
+
+    private func makeViewAspect() -> Aspect {
+        let projection = ({
+            let near: Float = 0.01
+            let far: Float = 100
+
+            let scale = ({
+                let aspectRatio: Float = resolution.x / resolution.y
+                let fovY: Float = .pi / 3
+
+                var scale = SIMD2<Float>.init(1, 1)
+                scale.y = 1 / tan(fovY / 2)
+                scale.x = scale.y / aspectRatio // 1 / w = (1 / h) * (h / w)
+
+                return scale
+            }) ()
+
+            return D3.Matrix(
+                rows: [
+                    .init(scale.x, 0, 0, 0),
+                    .init(0, scale.y, 0, 0),
+                    .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                    .init(0, 0, 1, 0)
+                ]
+            )
+        }) ()
+
+        let view = D3.Transform<Float>(
+            translate: .init(0, 0.5, -2)
+        ).inversed(
+            rotate: false, scale: false
+        ).resolve()
+
+        return .init(
+            projection: projection,
+            view: view,
+            model: .init(1)
+        )
     }
 }
 
 extension D3.XShader {
     struct Aspect {
         var projection: D3.Matrix
-        var transform: D3.Matrix
+        var view: D3.Matrix
+        var model: D3.Matrix
     }
 }
 

@@ -51,10 +51,29 @@ public:
     };
 };
 
+struct WVCPositions {
+public:
+    Coordinate clip [[position]] = { 0, 0, 0, 0 };
+    Coordinate view = { 0, 0, 0, 0 };
+    Coordinate world = { 0, 0, 0, 0 };
+};
+
 struct Aspect {
 public:
+    WVCPositions applyTo(const Coordinate position) const constant {
+        auto positions = WVCPositions();
+
+        positions.world = model * position;
+        positions.view = view * positions.world;
+        positions.clip = projection * positions.view;
+
+        return positions;
+    }
+
+public:
     Matrix projection = {};
-    Matrix transform = {};
+    Matrix view = {};
+    Matrix model = {};
 };
 
 vertex Coordinate shadowMain(
@@ -62,20 +81,13 @@ vertex Coordinate shadowMain(
     constant Aspect* const aspect [[buffer(1)]]
 )
 {
-    const auto position = aspect->transform * Coordinate(v.position, 1);
-    return aspect->projection * position;
+    const auto positions = aspect->applyTo(Coordinate(v.position, 1));
+    return positions.clip;
 }
 
 struct Raster {
 public:
-    struct Positions {
-    public:
-        Coordinate clip [[position]] = { 0, 0, 0, 0 };
-        Measure view = { 0, 0, 0 };
-    };
-
-public:
-    Positions positions = {};
+    WVCPositions positions = {};
     Measure normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
@@ -85,14 +97,11 @@ vertex Raster vertexMain(
     constant Aspect* const aspect [[buffer(1)]]
 )
 {
-    const auto position = aspect->transform * Coordinate(v.position, 1);
-    const auto normal = aspect->transform * Coordinate(v.normal, 0);
+    const auto positions = aspect->applyTo(Coordinate(v.position, 1));
+    const auto normal = aspect->model * Coordinate(v.normal, 0);
 
     return {
-        .positions = {
-            .clip = aspect->projection * position,
-            .view = position.xyz,
-        },
+        .positions = positions,
         .normal = normal.xyz,
         .textureCoordinate = v.textureCoordinate,
     };
@@ -108,8 +117,7 @@ public:
     struct Directional {
     public:
         float intensity = 0;
-        Matrix projection = {};
-        Matrix transform = {};
+        Aspect aspect = {};
     };
 
 public:
@@ -157,8 +165,8 @@ fragment float4 fragmentMain(
             float3 view;
             float3 normal;
         } dirs = {
-            .light = metal::normalize(-light.transform.columns[2].xyz),
-            .view = metal::normalize(-r.positions.view),
+            .light = metal::normalize(-light.aspect.view.columns[2].xyz),
+            .view = metal::normalize(-r.positions.view.xyz),
             .normal = metal::normalize(r.normal),
         };
 
