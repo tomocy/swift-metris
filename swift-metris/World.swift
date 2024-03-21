@@ -122,6 +122,8 @@ extension D3.XWorld.Lights {
             length: MemoryLayout<Self>.stride,
             options: .storageModeShared
         )!
+        buffer.label = "Lights"
+
         IO.writable(self).write(to: buffer)
 
         encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
@@ -209,6 +211,8 @@ extension D3.XWorld.Spot {
                 length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
+            buffer.label = "Aspect: Spot"
+
             IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
@@ -218,9 +222,13 @@ extension D3.XWorld.Spot {
 
         do {
             mesh.vertexBuffers.enumerated().forEach { i, buffer in
+                buffer.buffer.label = "Spot: Vertex: \(i)"
                 encoder.setVertexBuffer(buffer.buffer, offset: buffer.offset, index: i)
             }
+
             mesh.submeshes.enumerated().forEach { i, mesh in
+                mesh.indexBuffer.buffer.label = "Spot: Index: \(i)"
+
                 encoder.drawIndexedPrimitives(
                     type: mesh.primitiveType,
                     indexCount: mesh.indexCount,
@@ -282,6 +290,8 @@ extension D3.XWorld.Ground {
                 length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
+            buffer.label = "Aspect: Ground"
+
             IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
