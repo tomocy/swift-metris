@@ -61,6 +61,11 @@ public:
 struct Aspect {
 public:
     WVCPositions applyTo(const Coordinate position) const constant {
+        const auto v = *this;
+        return v.applyTo(position);
+    }
+
+    WVCPositions applyTo(const Coordinate position) const {
         auto positions = WVCPositions();
 
         positions.world = model * position;
