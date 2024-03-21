@@ -72,6 +72,28 @@ extension D3.XWorld {
         view: D3.XShader.Aspect
     ) {
         do {
+            let point = ({
+                let color = SIMD3<Float>.init(
+                    0.95 * max(cos(time), 0),
+                    0.95 * max(sin(time), 0),
+                    0.95 * max(cos(time), 0)
+                )
+
+                return Lights.Light.init(
+                    color: color,
+                    intensity: 0.8,
+                    aspect: .init(
+                        projection: .identity,
+                        view: D3.Transform<Float>.look(
+                            from: .init(-0.5, 1, -0.5),
+                            to: .init(0, 0, 0),
+                            up: .init(0, 1, 0)
+                        ),
+                        model: .identity
+                    )
+                )
+            }) ()
+
             let lights = Lights.init(
                 ambient: .init(
                     intensity: 0.1,
@@ -84,7 +106,8 @@ extension D3.XWorld {
                 directional: .init(
                     intensity: 1,
                     aspect: light
-                )
+                ),
+                point: point
             )
 
             lights.encode(with: encoder)
@@ -113,6 +136,7 @@ extension D3.XWorld {
 
         var ambient: Light
         var directional: Light
+        var point: Light
     }
 }
 

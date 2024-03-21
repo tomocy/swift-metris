@@ -126,6 +126,7 @@ public:
 public:
     Light ambient = {};
     Light directional = {};
+    Light point = {};
 };
 
 float measureShaded(const metal::depth2d<float> map, const Aspect light, const Coordinate position)
@@ -199,8 +200,9 @@ fragment float4 fragmentMain(
     {
         const auto light = lights->directional;
 
-        // We know that the light's direction, or the forward vector in view space
-        // is stored in view.rows[2].xyz.
+        // TODO(tomocy): Fix
+        // We know that for now
+        // the light's direction, or the forward vector in view space is stored in view.rows[2].xyz.
         const auto lightDir = float3(
             light.aspect.view.columns[0][2],
             light.aspect.view.columns[1][2],
@@ -221,6 +223,34 @@ fragment float4 fragmentMain(
 
         const auto howDiffuse = measureDiffuse(dirs.toLight, dirs.normal) * howUnshaded;
         const auto howSpecular = measureSpecular(dirs.toLight, dirs.toView, dirs.normal) * howUnshaded;
+
+        rgb += color.rgb * (howDiffuse + howSpecular) * light.color * light.intensity;
+    }
+
+    {
+        const auto light = lights->point;
+
+        // TODO(tomocy): Fix
+        // We know that for now
+        // the light's position in world is stored in view.columns[3].xyz.
+        const auto lightPos = light.aspect.view.columns[3].xyz;
+
+        const auto toLight = lightPos - r.positions.world.xyz;
+        const auto distance = metal::dot(toLight, toLight);
+        const auto attenuation = 1 / metal::max(distance, 1e-4);
+
+        const struct {
+            float3 toLight;
+            float3 toView;
+            float3 normal;
+        } dirs = {
+            .toLight = metal::normalize(toLight),
+            .toView = metal::normalize(-r.positions.view.xyz),
+            .normal = metal::normalize(r.normal),
+        };
+
+        const auto howDiffuse = measureDiffuse(dirs.toLight, dirs.normal) * attenuation;
+        const auto howSpecular = measureSpecular(dirs.toLight, dirs.toView, dirs.normal) * attenuation;
 
         rgb += color.rgb * (howDiffuse + howSpecular) * light.color * light.intensity;
     }
