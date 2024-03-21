@@ -60,12 +60,14 @@ public:
 
 struct Aspect {
 public:
-    WVCPositions applyTo(const Coordinate position) const constant {
+    WVCPositions applyTo(const Coordinate position) const constant
+    {
         const auto v = *this;
         return v.applyTo(position);
     }
 
-    WVCPositions applyTo(const Coordinate position) const {
+    WVCPositions applyTo(const Coordinate position) const
+    {
         auto positions = WVCPositions();
 
         positions.world = model * position;
@@ -130,6 +132,30 @@ public:
     Directional directional = {};
 };
 
+float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate position)
+{
+    constexpr auto sampler = metal::sampler(
+        metal::coord::normalized,
+        metal::address::clamp_to_edge,
+        metal::filter::linear,
+        metal::compare_func::greater_equal
+    );
+
+    const auto inClip = light.projection * light.view * position;
+
+    const auto inNDC = inClip.xyz / inClip.w;
+
+    auto coordinate = inNDC.xy * 0.5 + 0.5;
+    coordinate.y = 1 - coordinate.y;
+
+    const auto s = map.sample(sampler, coordinate);
+
+    const auto bias = 5e-3f;
+    const auto z = inNDC.z - bias;
+
+    return z > s ? 1 : 0;
+}
+
 float3 lambertReflection(float3 light, float3 normal)
 {
     return metal::saturate(
@@ -149,11 +175,12 @@ float3 blinnPhongReflection(float3 light, float3 view, float3 normal, float3 exp
 fragment float4 fragmentMain(
     const Raster r [[stage_in]],
     constant Lights* const lights [[buffer(0)]],
-    const metal::sampler sampler [[sampler(0)]],
-    const metal::texture2d<float> texture [[texture(0)]]
+    const metal::depth2d<float> shadowMap [[texture(0)]],
+    const metal::texture2d<float> colorTexture [[texture(1)]],
+    const metal::sampler sampler [[sampler(0)]]
 )
 {
-    const auto color = texture.sample(sampler, r.textureCoordinate);
+    const auto color = colorTexture.sample(sampler, r.textureCoordinate);
 
     float3 rgb = 0;
 
@@ -170,13 +197,21 @@ fragment float4 fragmentMain(
             float3 view;
             float3 normal;
         } dirs = {
-            .light = metal::normalize(-light.aspect.view.columns[2].xyz),
+            .light = metal::normalize(
+                -float3(
+                    light.aspect.view.columns[0][2],
+                    light.aspect.view.columns[1][2],
+                    light.aspect.view.columns[2][2]
+                )
+            ),
             .view = metal::normalize(-r.positions.view.xyz),
             .normal = metal::normalize(r.normal),
         };
 
-        const auto howDiffuse = lambertReflection(dirs.light, dirs.normal);
-        const auto howSpecular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50);
+        const auto howUnshaded = 1 - howShaded(shadowMap, light.aspect, r.positions.world);
+
+        const auto howDiffuse = lambertReflection(dirs.light, dirs.normal) * howUnshaded;
+        const auto howSpecular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50) * howUnshaded;
 
         rgb += color.rgb * (howDiffuse + howSpecular) * light.intensity;
     }

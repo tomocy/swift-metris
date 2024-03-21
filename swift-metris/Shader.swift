@@ -124,6 +124,8 @@ extension D3.XShader {
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
+        encoder.setFragmentTexture(textures.shadow, index: 0)
+
         target.render(
             with: encoder,
             light: makeLightAspect(),
@@ -220,7 +222,7 @@ extension D3.XShader.Textures {
         )
 
         desc.storageMode = .private
-        desc.usage = [.renderTarget]
+        desc.usage = [.renderTarget, .shaderRead]
 
         return device.makeTexture(descriptor: desc)
     }
