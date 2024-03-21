@@ -65,7 +65,7 @@ extension D3 {
 }
 
 extension D3.XShader {
-    init(device: MTLDevice, resolution: SIMD2<Float>, formats: MTLPixelFormats) throws {
+    init(device: MTLDevice, resolution: SIMD2<Float>, sampleCount: Int, formats: MTLPixelFormats) throws {
         commandQueue = device.makeCommandQueue()!
 
         self.resolution = resolution
@@ -76,7 +76,7 @@ extension D3.XShader {
 
         states = .init(
             shadow: try States.makeShadow(with: device),
-            render: try States.makeRender(with: device, formats: formats),
+            render: try States.makeRender(with: device, sampleCount: sampleCount, formats: formats),
             depthStencil: States.makeDepthStencil(with: device)!,
             sampler: States.makeSampler(with: device)!
         )
@@ -257,9 +257,12 @@ extension D3.XShader.States {
 extension D3.XShader.States {
     static func makeRender(
         with device: MTLDevice,
+        sampleCount: Int,
         formats: MTLPixelFormats
     ) throws -> MTLRenderPipelineState {
         let desc: MTLRenderPipelineDescriptor = .init()
+
+        desc.rasterSampleCount = sampleCount
 
         do {
             let attachment = desc.colorAttachments[0]!

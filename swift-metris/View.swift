@@ -18,12 +18,14 @@ class View: MTKView {
         delegate = self
 
         clearColor = .init(red: 0.0, green: 0.5, blue: 0.95, alpha: 1.0)
+        sampleCount = 4
         colorPixelFormat = .bgra8Unorm_srgb
         depthStencilPixelFormat = .depth32Float
 
         shader = try! .init(
             device: device!,
             resolution: .init(drawableSize),
+            sampleCount: sampleCount,
             formats: .init(
                 color: colorPixelFormat,
                 depthStencil: depthStencilPixelFormat
