@@ -150,7 +150,7 @@ extension D3.XShader {
             from: .init(1, 1, -1),
             to: .init(0, 0, 0),
             up: .init(0, 1, 0)
-        )
+        ).inverse
 
         return .init(
             projection: projection,

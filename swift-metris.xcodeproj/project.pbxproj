@@ -33,7 +33,7 @@
 		F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A132B99B28000E1F388 /* Dimension.swift */; };
 		F54A4A162B99B28D00E1F388 /* SIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A152B99B28D00E1F388 /* SIMD.swift */; };
 		F54A4A182B99B29700E1F388 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A172B99B29700E1F388 /* State.swift */; };
-		F58B27BC2B9EF02700242F32 /* Metris.metal in Sources */ = {isa = PBXBuildFile; fileRef = F58B27BB2B9EF02700242F32 /* Metris.metal */; };
+		F58B27BC2B9EF02700242F32 /* Shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = F58B27BB2B9EF02700242F32 /* Shader.metal */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
@@ -63,7 +63,7 @@
 		F56DCA642ABB53A7000D29D5 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform.h; sourceTree = "<group>"; };
 		F56DCA662ABB5574000D29D5 /* Camera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		F56DCA6A2ABB6518000D29D5 /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
-		F58B27BB2B9EF02700242F32 /* Metris.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Metris.metal; sourceTree = "<group>"; };
+		F58B27BB2B9EF02700242F32 /* Shader.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = Shader.metal; sourceTree = "<group>"; };
 		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5910ABD2B972D8300834DEF /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		F5910ABF2B975EF000834DEF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -128,7 +128,6 @@
 				F5A9534F2AC3F9C3008E4200 /* Math.swift */,
 				F5E88F2B2ABB4CF4003505BE /* Memory.swift */,
 				F56D46162B78881400B069DC /* Metal.swift */,
-				F58B27BB2B9EF02700242F32 /* Metris.metal */,
 				F5E88F392ABB5053003505BE /* Metris.swift */,
 				F5A9533E2ABE04B8008E4200 /* Metris+Field.swift */,
 				F5A953402AC1FA0A008E4200 /* Metris+Mino.swift */,
@@ -137,6 +136,7 @@
 				F5ACF0872BA1F5E2005A1E01 /* Raster.h */,
 				F53705D22BA96E620032F8A2 /* Resources */,
 				F56D46122B7801C300B069DC /* SemaphoricPool.swift */,
+				F58B27BB2B9EF02700242F32 /* Shader.metal */,
 				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,
@@ -254,7 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F52641A92B7F551D00BB540F /* View.swift in Sources */,
-				F58B27BC2B9EF02700242F32 /* Metris.metal in Sources */,
+				F58B27BC2B9EF02700242F32 /* Shader.metal in Sources */,
 				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
 				F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */,

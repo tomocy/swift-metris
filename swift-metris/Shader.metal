@@ -145,15 +145,13 @@ float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate 
 
     const auto inNDC = inClip.xyz / inClip.w;
 
-    auto coordinate = inNDC.xy * 0.5 + 0.5;
-    coordinate.y = 1 - coordinate.y;
-
-    const auto s = map.sample(sampler, coordinate);
+    const auto coordinate = float2(
+        inNDC.x * 0.5 + 0.5,
+        -inNDC.y * 0.5 + 0.5
+    );
 
     const auto bias = 5e-3f;
-    const auto z = inNDC.z - bias;
-
-    return z > s ? 1 : 0;
+    return map.sample_compare(sampler, coordinate, inNDC.z - bias);
 }
 
 float3 lambertReflection(float3 light, float3 normal)

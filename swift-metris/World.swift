@@ -60,12 +60,6 @@ extension D3.XWorld {
 
 extension D3.XWorld {
     func shadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
-        let light = D3.XShader.Aspect.init(
-            projection: light.projection,
-            view: light.view.inverse,
-            model: light.model
-        )
-
         spot.encode(with: encoder, from: light, time: time)
         ground.encode(with: encoder, from: light)
     }
@@ -78,12 +72,6 @@ extension D3.XWorld {
         view: D3.XShader.Aspect
     ) {
         do {
-            let light = D3.XShader.Aspect.init(
-                projection: light.projection,
-                view: light.view.inverse,
-                model: light.model
-            )
-
             let lights = Lights.init(
                 ambient: .init(intensity: 0.1),
                 directional: .init(
