@@ -128,7 +128,7 @@ public:
     Light directional = {};
 };
 
-float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate position)
+float measureShaded(const metal::depth2d<float> map, const Aspect light, const Coordinate position)
 {
     constexpr auto sampler = metal::sampler(
         metal::coord::normalized,
@@ -140,6 +140,7 @@ float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate 
     const auto positions = light.applyTo(position);
     const auto inNDC = positions.clip.xyz / positions.clip.w;
 
+    // Shift the origin from center (in NDC) to top-left (in texture).
     const auto coordinate = float2(
         inNDC.x * 0.5 + 0.5,
         -inNDC.y * 0.5 + 0.5
@@ -149,20 +150,33 @@ float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate 
     return map.sample_compare(sampler, coordinate, inNDC.z - bias);
 }
 
-float3 lambertReflection(float3 light, float3 normal)
+Measure lambertReflection(const Measure toLight, const Measure normal)
 {
     return metal::saturate(
-        metal::dot(light, normal)
+        metal::dot(toLight, normal)
     );
 }
 
-float3 blinnPhongReflection(float3 light, float3 view, float3 normal, float3 exponent)
+Measure measureDiffuse(const Measure toLight, const Measure normal)
 {
-    const auto halfway = metal::normalize(light + view);
+    return lambertReflection(toLight, normal);
+}
+
+Measure blinnPhongReflection(
+    const Measure toLight, const Measure toView, const Measure normal,
+    const Measure exponent
+)
+{
+    const auto halfway = metal::normalize(toLight + toView);
     const auto reflect = metal::saturate(
         metal::dot(halfway, normal)
     );
     return metal::pow(reflect, exponent);
+}
+
+Measure measureSpecular(const Measure toLight, const Measure toView, const Measure normal)
+{
+    return blinnPhongReflection(toLight, toView, normal, 50);
 }
 
 fragment float4 fragmentMain(
@@ -185,26 +199,28 @@ fragment float4 fragmentMain(
     {
         const auto light = lights->directional;
 
+        // We know that the light's direction, or the forward vector in view space
+        // is stored in view.rows[2].xyz.
+        const auto lightDir = float3(
+            light.aspect.view.columns[0][2],
+            light.aspect.view.columns[1][2],
+            light.aspect.view.columns[2][2]
+        );
+
         const struct {
-            float3 light;
-            float3 view;
+            float3 toLight;
+            float3 toView;
             float3 normal;
         } dirs = {
-            .light = metal::normalize(
-                -float3(
-                    light.aspect.view.columns[0][2],
-                    light.aspect.view.columns[1][2],
-                    light.aspect.view.columns[2][2]
-                )
-            ),
-            .view = metal::normalize(-r.positions.view.xyz),
+            .toLight = metal::normalize(-lightDir),
+            .toView = metal::normalize(-r.positions.view.xyz),
             .normal = metal::normalize(r.normal),
         };
 
-        const auto howUnshaded = 1 - howShaded(shadowMap, light.aspect, r.positions.world);
+        const auto howUnshaded = 1 - measureShaded(shadowMap, light.aspect, r.positions.world);
 
-        const auto howDiffuse = lambertReflection(dirs.light, dirs.normal) * howUnshaded;
-        const auto howSpecular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50) * howUnshaded;
+        const auto howDiffuse = measureDiffuse(dirs.toLight, dirs.normal) * howUnshaded;
+        const auto howSpecular = measureSpecular(dirs.toLight, dirs.toView, dirs.normal) * howUnshaded;
 
         rgb += color.rgb * (howDiffuse + howSpecular) * light.color * light.intensity;
     }
