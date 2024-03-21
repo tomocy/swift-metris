@@ -118,11 +118,13 @@ struct Lights {
 public:
     struct Ambient {
     public:
+        float3 color = { 1, 1, 1 };
         float intensity = 0;
     };
 
     struct Directional {
     public:
+        float3 color = { 1, 1, 1 };
         float intensity = 0;
         Aspect aspect = {};
     };
@@ -141,9 +143,8 @@ float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate 
         metal::compare_func::greater_equal
     );
 
-    const auto inClip = light.projection * light.view * position;
-
-    const auto inNDC = inClip.xyz / inClip.w;
+    const auto positions = light.applyTo(position);
+    const auto inNDC = positions.clip.xyz / positions.clip.w;
 
     const auto coordinate = float2(
         inNDC.x * 0.5 + 0.5,
@@ -184,7 +185,7 @@ fragment float4 fragmentMain(
 
     {
         const auto light = lights->ambient;
-        rgb += color.rgb * light.intensity;
+        rgb += color.rgb * light.color * light.intensity;
     }
 
     {
@@ -211,7 +212,7 @@ fragment float4 fragmentMain(
         const auto howDiffuse = lambertReflection(dirs.light, dirs.normal) * howUnshaded;
         const auto howSpecular = blinnPhongReflection(dirs.light, dirs.view, dirs.normal, 50) * howUnshaded;
 
-        rgb += color.rgb * (howDiffuse + howSpecular) * light.intensity;
+        rgb += color.rgb * (howDiffuse + howSpecular) * light.color * light.intensity;
     }
 
     return float4(rgb, color.a);
