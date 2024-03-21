@@ -46,6 +46,10 @@ extension SIMD4 {
 }
 
 extension float4x4 {
+    static var identity: Self { .init(1) }
+}
+
+extension float4x4 {
     init(columns: [SIMD4<Float>]) {
         self.init(
             columns: (columns[0], columns[1], columns[2], columns[3])
