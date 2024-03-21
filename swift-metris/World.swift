@@ -46,9 +46,15 @@ extension D3 {
             ground = .init(device: device)
         }
 
+        private var time: Float = 0
         private let spot: Spot
         private let ground: Ground
-        private var n: Int = 0
+    }
+}
+
+extension D3.XWorld {
+    func tick(delta: Float) {
+        time += delta
     }
 }
 
@@ -56,7 +62,7 @@ extension D3.XWorld {
     func shadow(with encoder: MTLRenderCommandEncoder, light: (projection: D3.Matrix, transform: D3.Matrix)) {
         let aspect = light.projection * light.transform.inverse
 
-        spot.encode(with: encoder, from: aspect, n: n)
+        spot.encode(with: encoder, from: aspect, time: time)
         ground.encode(with: encoder, from: aspect)
     }
 }
@@ -69,7 +75,7 @@ extension D3.XWorld {
     ) {
         do {
             let lights = Lights.init(
-                ambient: .init(intensity: 0.5),
+                ambient: .init(intensity: 0.1),
                 directional: .init(
                     intensity: 1,
                     projection: light.projection,
@@ -80,12 +86,10 @@ extension D3.XWorld {
             lights.encode(with: encoder)
         }
 
-        let aspect = /* view.projection * view.transform */ light.projection * light.transform.inverse
+        let aspect = view.projection * view.transform /* light.projection * light.transform.inverse */
 
-        spot.encode(with: encoder, from: aspect, n: n)
+        spot.encode(with: encoder, from: aspect, time: time)
         ground.encode(with: encoder, from: aspect)
-
-        // n = (n + 1) % 1024
     }
 }
 
@@ -191,11 +195,10 @@ extension D3.XWorld.Spot {
         }
     }
 
-    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix, n: Int) {
+    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix, time: Float) {
         do {
             let model = D3.Transform<Float>.init(
-                rotate: .init(0, Angle.init(degree: .init(n % 360)).inRadian(), 0),
-                scale: .init(30, 30, 30)
+                rotate: .init(0, time, 0)
             ).resolve()
             let transform = aspect * model
 
@@ -238,7 +241,7 @@ extension D3.XWorld.Ground {
     init(device: MTLDevice) {
         mesh = try! MTKMesh.init(
             mesh: .init(
-                planeWithExtent: .init(100, 100, 100),
+                planeWithExtent: .init(4, 0, 4),
                 segments: .init(1, 1),
                 geometryType: .triangles,
                 allocator: MTKMeshBufferAllocator.init(device: device)
@@ -246,10 +249,18 @@ extension D3.XWorld.Ground {
             device: device
         )
 
-        texture = Texture.Sources.Color.load(
-            .init(red: 0.1, green: 0.5, blue: 0.2, alpha: 1),
-            with: device
-        )!.raw
+        do {
+            let loader = MTKTextureLoader.init(device: device)
+
+            texture = try! loader.newTexture(
+                URL: Bundle.main.url(forResource: "Ground", withExtension: "png", subdirectory: "Ground")!,
+                options: [
+                    .textureUsage: MTLTextureUsage.shaderRead.rawValue,
+                    .textureStorageMode: MTLStorageMode.private.rawValue,
+                    .origin: MTKTextureLoader.Origin.bottomLeft.rawValue
+                ]
+            )
+        }
     }
 }
 
@@ -257,7 +268,7 @@ extension D3.XWorld.Ground {
     func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
         do {
             let model = D3.Transform<Float>.init(
-                rotate: .init(Angle.init(degree: 90).inRadian(), Angle.init(degree: -90).inRadian(), 0)
+                rotate: .init(0, 0, 0)
             ).resolve()
             let transform = aspect * model
 

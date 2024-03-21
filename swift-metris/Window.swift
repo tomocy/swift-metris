@@ -6,7 +6,7 @@ class Window : NSWindow {
     init(contentRect: NSRect) {
         super.init(
             contentRect: contentRect,
-            styleMask: [.titled, .miniaturizable, .closable],
+            styleMask: [.titled, .miniaturizable, .closable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )

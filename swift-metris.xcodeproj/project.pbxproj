@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F50300DE2BAC013400ADBC21 /* Ground in Resources */ = {isa = PBXBuildFile; fileRef = F50300DD2BAC013400ADBC21 /* Ground */; };
 		F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F52641992B7F54F900BB540F /* Assets.xcassets */; };
 		F52641A22B7F551D00BB540F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* App.swift */; };
 		F52641A32B7F551D00BB540F /* CG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534D2AC3F9B7008E4200 /* CG.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F50300DD2BAC013400ADBC21 /* Ground */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Ground; sourceTree = "<group>"; };
 		F52641932B7F54F600BB540F /* swift-metris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swift-metris.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F52641992B7F54F900BB540F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F526419E2B7F54F900BB540F /* swift_metris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_metris.entitlements; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 		F53705D22BA96E620032F8A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F50300DD2BAC013400ADBC21 /* Ground */,
 				F53705D32BA96E770032F8A2 /* Spot */,
 			);
 			path = Resources;
@@ -237,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F50300DE2BAC013400ADBC21 /* Ground in Resources */,
 				F53705D42BA96E770032F8A2 /* Spot in Resources */,
 				F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */,
 			);

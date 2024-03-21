@@ -9,7 +9,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
         window = Window.init(
             contentRect: .init(
                 x: 0, y: 0,
-                width: 800, height: 800
+                width: 800, height: 600
             )
         )
 

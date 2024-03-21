@@ -58,14 +58,17 @@ extension D3.Shader.PipelineStates {
 extension D3 {
     struct XShader {
         var commandQueue: MTLCommandQueue
+        var resolution: SIMD2<Float>
         var textures: Textures
         var states: States
     }
 }
 
 extension D3.XShader {
-    init(device: MTLDevice, formats: MTLPixelFormats) throws {
+    init(device: MTLDevice, resolution: SIMD2<Float>, formats: MTLPixelFormats) throws {
         commandQueue = device.makeCommandQueue()!
+
+        self.resolution = resolution
 
         textures = .init(
             shadow: Textures.makeShadow(with: device)!
@@ -124,14 +127,19 @@ extension D3.XShader {
         do {
             let view = ({
                 let projection = ({
-                    let near: Float = 1
-                    let far: Float = 1000
+                    let near: Float = 0.01
+                    let far: Float = 100
 
-                    let aspectRatio: Float = 800 / 800
-                    let fovX: Float = Angle.init(degree: 120).inRadian()
-                    var scale = SIMD2<Float>.init(1, 1)
-                    scale.x = 1 / tan(fovX / 2)
-                    scale.y = scale.x * aspectRatio
+                    let scale = ({
+                        let aspectRatio: Float = resolution.x / resolution.y
+                        let fovY: Float = .pi / 3
+
+                        var scale = SIMD2<Float>.init(1, 1)
+                        scale.y = 1 / tan(fovY / 2)
+                        scale.x = scale.y / aspectRatio // 1 / w = (1 / h) * (h / w)
+
+                        return scale
+                    }) ()
 
                     return D3.Matrix(
                         rows: [
@@ -144,7 +152,7 @@ extension D3.XShader {
                 }) ()
 
                 let transform = D3.Transform<Float>(
-                    translate: .init(0, 20, -35)
+                    translate: .init(0, 0.5, -2)
                 ).inversed(
                     rotate: false, scale: false
                 ).resolve()
@@ -163,18 +171,18 @@ extension D3.XShader {
 
 extension D3.XShader {
     private func makeLightAspect() -> (D3.Matrix, D3.Matrix) {
-        let size = SIMD2<Float>.init(800, 800)
+        /* let size = SIMD2<Float>.init(800, 800)
         let depth = size.min()
-        let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05)
+        let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05) */
 
         let projection = D3.Transform<Float>.orthogonal(
-            top: w, bottom: -w,
-            left: -h, right: h,
-            near: 0, far: d * 4
+            top: 1.5, bottom: -1.5,
+            left: -1.5, right: 1.5,
+            near: 0, far: 10
         ).resolve()
 
-        let transform = D3.Transform.look(
-            from: .init(w, h, -d),
+        let transform = D3.Transform<Float>.look(
+            from: .init(1, 1, -1),
             to: .init(0, 0, 0),
             up: .init(0, 1, 0)
         )

@@ -8,18 +8,22 @@ class View: MTKView {
 
     init(frame: NSRect) {
         super.init(frame: frame, device: MTLCreateSystemDefaultDevice())
-        Log.debug("View: Initialized")
+        Log.debug("View: Initialized", with: [
+            ("Frame", frame.size.debugDescription),
+        ])
         Log.debug("View: GPU", with: [
             ("Name", device!.name),
         ])
 
         delegate = self
 
-        clearColor = .init(red: 0.25, green: 0.75, blue: 0.9, alpha: 1.0)
+        clearColor = .init(red: 0.0, green: 0.5, blue: 0.95, alpha: 1.0)
+        colorPixelFormat = .bgra8Unorm_srgb
         depthStencilPixelFormat = .depth32Float
 
         shader = try! .init(
             device: device!,
+            resolution: .init(drawableSize),
             formats: .init(
                 color: colorPixelFormat,
                 depthStencil: depthStencilPixelFormat
@@ -47,6 +51,8 @@ extension View: MTKViewDelegate {
         _ = framePool!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
+
+        world.tick(delta: 1 / .init(preferredFramesPerSecond))
 
         shader!.shadow(world, to: command)
         shader!.render(world, to: command, as: currentRenderPassDescriptor!)
