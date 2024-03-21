@@ -41,42 +41,45 @@ fragment float4 fragmentMain(
 
 namespace D3 {
 namespace X {
-struct RawVertex {
+struct Vertex {
 public:
-    D3::Measure position [[attribute(0)]] = { 0, 0, 0 };
-    D3::Measure normal [[attribute(1)]] = { 0, 0, 0 };
-    float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
+    struct Raw {
+    public:
+        Measure position [[attribute(0)]] = { 0, 0, 0 };
+        Measure normal [[attribute(1)]] = { 0, 0, 0 };
+        float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
+    };
 };
 
-vertex D3::Coordinate shadowMain(
-    const RawVertex v [[stage_in]],
-    constant D3::Matrix* const aspect [[buffer(1)]]
+vertex Coordinate shadowMain(
+    const Vertex::Raw v [[stage_in]],
+    constant Matrix* const aspect [[buffer(1)]]
 )
 {
-    return *aspect * D3::Coordinate(v.position, 1);
+    return *aspect * Coordinate(v.position, 1);
 }
 
 struct Raster {
 public:
     struct Positions {
     public:
-        D3::Coordinate clip [[position]] = { 0, 0, 0, 0 };
-        D3::Measure view = { 0, 0, 0 };
+        Coordinate clip [[position]] = { 0, 0, 0, 0 };
+        Measure view = { 0, 0, 0 };
     };
 
 public:
     Positions positions = {};
-    D3::Measure normal = { 0, 0, 0 };
+    Measure normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
 
 vertex Raster vertexMain(
-    const RawVertex v [[stage_in]],
-    constant D3::Matrix* const aspect [[buffer(1)]]
+    const Vertex::Raw v [[stage_in]],
+    constant Matrix* const aspect [[buffer(1)]]
 )
 {
     const auto position = *aspect * Coordinate(v.position, 1);
-    const auto normal = *aspect * D3::Coordinate(v.normal, 0);
+    const auto normal = *aspect * Coordinate(v.normal, 0);
 
     return {
         .positions = {
@@ -98,8 +101,8 @@ public:
     struct Directional {
     public:
         float intensity = 0;
-        D3::Matrix projection = {};
-        D3::Matrix transform = {};
+        Matrix projection = {};
+        Matrix transform = {};
     };
 
 public:
