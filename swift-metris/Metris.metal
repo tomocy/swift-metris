@@ -51,12 +51,19 @@ public:
     };
 };
 
+struct Aspect {
+public:
+    Matrix projection = {};
+    Matrix transform = {};
+};
+
 vertex Coordinate shadowMain(
     const Vertex::Raw v [[stage_in]],
-    constant Matrix* const aspect [[buffer(1)]]
+    constant Aspect* const aspect [[buffer(1)]]
 )
 {
-    return *aspect * Coordinate(v.position, 1);
+    const auto position = aspect->transform * Coordinate(v.position, 1);
+    return aspect->projection * position;
 }
 
 struct Raster {
@@ -75,16 +82,16 @@ public:
 
 vertex Raster vertexMain(
     const Vertex::Raw v [[stage_in]],
-    constant Matrix* const aspect [[buffer(1)]]
+    constant Aspect* const aspect [[buffer(1)]]
 )
 {
-    const auto position = *aspect * Coordinate(v.position, 1);
-    const auto normal = *aspect * Coordinate(v.normal, 0);
+    const auto position = aspect->transform * Coordinate(v.position, 1);
+    const auto normal = aspect->transform * Coordinate(v.normal, 0);
 
     return {
         .positions = {
-            .clip = position,
-            .view = v.position,
+            .clip = aspect->projection * position,
+            .view = position.xyz,
         },
         .normal = normal.xyz,
         .textureCoordinate = v.textureCoordinate,

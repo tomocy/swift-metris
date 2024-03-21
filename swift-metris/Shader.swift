@@ -157,7 +157,7 @@ extension D3.XShader {
                     rotate: false, scale: false
                 ).resolve()
 
-                return (projection, transform)
+                return Aspect.init(projection: projection, transform: transform)
             }) ()
 
             target.render(
@@ -170,7 +170,7 @@ extension D3.XShader {
 }
 
 extension D3.XShader {
-    private func makeLightAspect() -> (D3.Matrix, D3.Matrix) {
+    private func makeLightAspect() -> Aspect {
         /* let size = SIMD2<Float>.init(800, 800)
         let depth = size.min()
         let (w, h, d) = (size.x * 0.05, size.y * 0.05, depth * 0.05) */
@@ -185,9 +185,16 @@ extension D3.XShader {
             from: .init(1, 1, -1),
             to: .init(0, 0, 0),
             up: .init(0, 1, 0)
-        )
+        ).inverse
 
-        return (projection, transform)
+        return .init(projection: projection, transform: transform)
+    }
+}
+
+extension D3.XShader {
+    struct Aspect {
+        var projection: D3.Matrix
+        var transform: D3.Matrix
     }
 }
 

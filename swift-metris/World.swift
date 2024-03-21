@@ -59,37 +59,35 @@ extension D3.XWorld {
 }
 
 extension D3.XWorld {
-    func shadow(with encoder: MTLRenderCommandEncoder, light: (projection: D3.Matrix, transform: D3.Matrix)) {
-        let aspect = light.projection * light.transform.inverse
-
-        spot.encode(with: encoder, from: aspect, time: time)
-        ground.encode(with: encoder, from: aspect)
+    func shadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
+        spot.encode(with: encoder, from: light, time: time)
+        ground.encode(with: encoder, from: light)
     }
 }
 
 extension D3.XWorld {
     func render(
         with encoder: MTLRenderCommandEncoder,
-        light: (projection: D3.Matrix, transform: D3.Matrix),
-        view: (projection: D3.Matrix, transform: D3.Matrix)
+        light: D3.XShader.Aspect,
+        view: D3.XShader.Aspect
     ) {
         do {
             let lights = Lights.init(
                 ambient: .init(intensity: 0.1),
                 directional: .init(
                     intensity: 1,
-                    projection: light.projection,
-                    transform: light.transform
+                    aspect: .init(
+                        projection: light.projection,
+                        transform: light.transform.inverse
+                    )
                 )
             )
 
             lights.encode(with: encoder)
         }
 
-        let aspect = view.projection * view.transform /* light.projection * light.transform.inverse */
-
-        spot.encode(with: encoder, from: aspect, time: time)
-        ground.encode(with: encoder, from: aspect)
+        spot.encode(with: encoder, from: view, time: time)
+        ground.encode(with: encoder, from: view)
     }
 }
 
@@ -104,17 +102,16 @@ extension D3.XWorld {
 extension D3.XWorld {
     fileprivate struct Lights {
         struct Ambient {
-            var intensity: Float = 0
+            var intensity: Float
         }
 
         struct Directional {
-            var intensity: Float = 0
-            var projection: D3.Matrix = .init(1)
-            var transform: D3.Matrix = .init(1)
+            var intensity: Float
+            var aspect: D3.XShader.Aspect
         }
 
-        var ambient: Ambient = .init()
-        var directional: Directional = .init()
+        var ambient: Ambient
+        var directional: Directional
     }
 }
 
@@ -195,18 +192,22 @@ extension D3.XWorld.Spot {
         }
     }
 
-    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix, time: Float) {
+    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect, time: Float) {
         do {
             let model = D3.Transform<Float>.init(
                 rotate: .init(0, time, 0)
             ).resolve()
-            let transform = aspect * model
+
+            let aspect = D3.XShader.Aspect.init(
+                projection: aspect.projection,
+                transform: aspect.transform * model
+            )
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: transform),
+                length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
-            IO.writable(transform).write(to: buffer)
+            IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
@@ -265,18 +266,20 @@ extension D3.XWorld.Ground {
 }
 
 extension D3.XWorld.Ground {
-    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.Matrix) {
+    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect) {
         do {
-            let model = D3.Transform<Float>.init(
-                rotate: .init(0, 0, 0)
-            ).resolve()
-            let transform = aspect * model
+            let model = D3.Transform<Float>.init().resolve()
+
+            let aspect = D3.XShader.Aspect.init(
+                projection: aspect.projection,
+                transform: aspect.transform * model
+            )
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: transform),
+                length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
-            IO.writable(transform).write(to: buffer)
+            IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
@@ -287,6 +290,7 @@ extension D3.XWorld.Ground {
             mesh.vertexBuffers.enumerated().forEach { i, buffer in
                 encoder.setVertexBuffer(buffer.buffer, offset: buffer.offset, index: i)
             }
+
             mesh.submeshes.enumerated().forEach { i, mesh in
                 encoder.drawIndexedPrimitives(
                     type: mesh.primitiveType,
