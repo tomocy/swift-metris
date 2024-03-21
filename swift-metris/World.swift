@@ -73,7 +73,14 @@ extension D3.XWorld {
     ) {
         do {
             let lights = Lights.init(
-                ambient: .init(intensity: 0.1),
+                ambient: .init(
+                    intensity: 0.1,
+                    aspect: .init(
+                        projection: .init(1),
+                        view: .init(1),
+                        model: .init(1)
+                    )
+                ),
                 directional: .init(
                     intensity: 1,
                     aspect: light
@@ -98,19 +105,14 @@ extension D3.XWorld {
 
 extension D3.XWorld {
     fileprivate struct Lights {
-        struct Ambient {
-            var color: SIMD3<Float> = .init(1, 1, 1)
-            var intensity: Float
-        }
-
-        struct Directional {
+        struct Light {
             var color: SIMD3<Float> = .init(1, 1, 1)
             var intensity: Float
             var aspect: D3.XShader.Aspect
         }
 
-        var ambient: Ambient
-        var directional: Directional
+        var ambient: Light
+        var directional: Light
     }
 }
 

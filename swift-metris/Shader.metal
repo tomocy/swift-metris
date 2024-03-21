@@ -116,13 +116,7 @@ vertex Raster vertexMain(
 
 struct Lights {
 public:
-    struct Ambient {
-    public:
-        float3 color = { 1, 1, 1 };
-        float intensity = 0;
-    };
-
-    struct Directional {
+    struct Light {
     public:
         float3 color = { 1, 1, 1 };
         float intensity = 0;
@@ -130,8 +124,8 @@ public:
     };
 
 public:
-    Ambient ambient = {};
-    Directional directional = {};
+    Light ambient = {};
+    Light directional = {};
 };
 
 float howShaded(const metal::depth2d<float> map, const Aspect light, Coordinate position)
