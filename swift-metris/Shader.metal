@@ -90,48 +90,12 @@ public:
     Matrix transform = {};
 };
 
-vertex Coordinate shadowMain(
-    const Vertex::Raw v [[stage_in]],
-    constant Aspect* const aspect [[buffer(1)]],
-    constant Model* const models [[buffer(2)]],
-    const uint id [[instance_id]]
-)
-{
-    constant auto* const model = &models[id];
-
-    const auto inWorld = model->transform * Coordinate(v.position, 1);
-    const auto positions = aspect->applyTo(inWorld);
-
-    return positions.inClip;
-}
-
 struct Raster {
 public:
     WVCPositions positions = {};
     Measure normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
-
-vertex Raster vertexMain(
-    const Vertex::Raw v [[stage_in]],
-    constant Aspect* const aspect [[buffer(1)]],
-    constant Model* const models [[buffer(2)]],
-    const uint id [[instance_id]]
-)
-{
-    constant auto* const model = &models[id];
-
-    const auto inWorld = model->transform * Coordinate(v.position, 1);
-    const auto positions = aspect->applyTo(inWorld);
-
-    const auto normal = model->transform * Coordinate(v.normal, 0);
-
-    return {
-        .positions = positions,
-        .normal = normal.xyz,
-        .textureCoordinate = v.textureCoordinate,
-    };
-}
 
 struct Lights {
 public:
@@ -147,7 +111,11 @@ public:
     Light directional = {};
     Light point = {};
 };
+}
+}
 
+namespace D3 {
+namespace X {
 float measureShaded(const metal::depth2d<float> map, const Aspect light, const Coordinate position)
 {
     constexpr auto sampler = metal::sampler(
@@ -198,8 +166,52 @@ Measure measureSpecular(const Measure toLight, const Measure toView, const Measu
 {
     return blinnPhongReflection(toLight, toView, normal, 50);
 }
+}
+}
 
-fragment float4 fragmentMain(
+namespace D3 {
+namespace X {
+vertex Coordinate shadowVertex(
+    const Vertex::Raw v [[stage_in]],
+    constant Aspect* const aspect [[buffer(1)]],
+    constant Model* const models [[buffer(2)]],
+    const uint id [[instance_id]]
+)
+{
+    constant auto* const model = &models[id];
+
+    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto positions = aspect->applyTo(inWorld);
+
+    return positions.inClip;
+}
+}
+}
+
+namespace D3 {
+namespace X {
+vertex Raster meshVertex(
+    const Vertex::Raw v [[stage_in]],
+    constant Aspect* const aspect [[buffer(1)]],
+    constant Model* const models [[buffer(2)]],
+    const uint id [[instance_id]]
+)
+{
+    constant auto* const model = &models[id];
+
+    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto positions = aspect->applyTo(inWorld);
+
+    const auto normal = model->transform * Coordinate(v.normal, 0);
+
+    return {
+        .positions = positions,
+        .normal = normal.xyz,
+        .textureCoordinate = v.textureCoordinate,
+    };
+}
+
+fragment float4 meshFragment(
     const Raster r [[stage_in]],
     constant Lights* const lights [[buffer(0)]],
     const metal::depth2d<float> shadowMap [[texture(0)]],

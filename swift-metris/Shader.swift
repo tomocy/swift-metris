@@ -76,7 +76,7 @@ extension D3.XShader {
 
         states = .init(
             shadow: try States.makeShadow(with: device),
-            render: try States.makeRender(with: device, sampleCount: sampleCount, formats: formats),
+            mesh: try States.makeMesh(with: device, sampleCount: sampleCount, formats: formats),
             depthStencil: States.makeDepthStencil(with: device)!,
             sampler: States.makeSampler(with: device)!
         )
@@ -84,7 +84,7 @@ extension D3.XShader {
 }
 
 extension D3.XShader {
-    func shadow(_ target: D3.XWorld, to buffer: MTLCommandBuffer) {
+    func renderShadow(_ target: D3.XWorld, to buffer: MTLCommandBuffer) {
         let desc = MTLRenderPassDescriptor.init()
 
         do {
@@ -109,24 +109,24 @@ extension D3.XShader {
             encoder.setFragmentSamplerState(states.sampler, index: 0)
         }
 
-        target.shadow(with: encoder, light: makeLightAspect())
+        target.renderShadow(with: encoder, light: makeLightAspect())
     }
 }
 
 extension D3.XShader {
-    func render(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
+    func renderMesh(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
         let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
         defer { encoder.endEncoding() }
 
         encoder.setCullMode(.back)
 
-        encoder.setRenderPipelineState(states.render)
+        encoder.setRenderPipelineState(states.mesh)
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
         encoder.setFragmentTexture(textures.shadow, index: 0)
 
-        target.render(
+        target.renderMesh(
             with: encoder,
             light: makeLightAspect(),
             view: makeViewAspect()
@@ -234,7 +234,7 @@ extension D3.XShader.Textures {
 extension D3.XShader {
     struct States {
         var shadow: MTLRenderPipelineState
-        var render: MTLRenderPipelineState
+        var mesh: MTLRenderPipelineState
         var depthStencil: MTLDepthStencilState
         var sampler: MTLSamplerState
     }
@@ -248,7 +248,7 @@ extension D3.XShader.States {
 
         do {
             let lib = device.makeDefaultLibrary()!
-            desc.vertexFunction = lib.makeFunction(name: "D3::X::shadowMain")!
+            desc.vertexFunction = lib.makeFunction(name: "D3::X::shadowVertex")!
         }
 
         desc.vertexDescriptor = describeVertexAttributes()
@@ -258,7 +258,7 @@ extension D3.XShader.States {
 }
 
 extension D3.XShader.States {
-    static func makeRender(
+    static func makeMesh(
         with device: MTLDevice,
         sampleCount: Int,
         formats: MTLPixelFormats
@@ -290,8 +290,8 @@ extension D3.XShader.States {
         do {
             let lib = device.makeDefaultLibrary()!
 
-            desc.vertexFunction = lib.makeFunction(name: "D3::X::vertexMain")!
-            desc.fragmentFunction = lib.makeFunction(name: "D3::X::fragmentMain")!
+            desc.vertexFunction = lib.makeFunction(name: "D3::X::meshVertex")!
+            desc.fragmentFunction = lib.makeFunction(name: "D3::X::meshFragment")!
         }
 
         do {

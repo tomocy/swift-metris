@@ -61,7 +61,7 @@ extension D3.XWorld {
 }
 
 extension D3.XWorld {
-    func shadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
+    func renderShadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
         spots.encode(with: encoder, from: light, time: time)
         ground.encode(with: encoder, from: light)
 
@@ -70,7 +70,7 @@ extension D3.XWorld {
 }
 
 extension D3.XWorld {
-    func render(
+    func renderMesh(
         with encoder: MTLRenderCommandEncoder,
         light: D3.XShader.Aspect,
         view: D3.XShader.Aspect
