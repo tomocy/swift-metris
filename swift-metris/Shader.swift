@@ -154,8 +154,7 @@ extension D3.XShader {
 
         return .init(
             projection: projection,
-            view: view,
-            model: .init(1)
+            view: view
         )
     }
 
@@ -193,8 +192,7 @@ extension D3.XShader {
 
         return .init(
             projection: projection,
-            view: view,
-            model: .init(1)
+            view: view
         )
     }
 }
@@ -203,7 +201,12 @@ extension D3.XShader {
     struct Aspect {
         var projection: D3.Matrix
         var view: D3.Matrix
-        var model: D3.Matrix
+    }
+}
+
+extension D3.XShader {
+    struct Model {
+        var transform: D3.Matrix
     }
 }
 

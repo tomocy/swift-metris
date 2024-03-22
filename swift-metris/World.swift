@@ -88,8 +88,7 @@ extension D3.XWorld {
                             from: .init(-0.5, 1, -0.5),
                             to: .init(0, 0, 0),
                             up: .init(0, 1, 0)
-                        ),
-                        model: .identity
+                        )
                     )
                 )
             }) ()
@@ -99,8 +98,7 @@ extension D3.XWorld {
                     intensity: 0.1,
                     aspect: .init(
                         projection: .init(1),
-                        view: .init(1),
-                        model: .init(1)
+                        view: .init(1)
                     )
                 ),
                 directional: .init(
@@ -221,25 +219,33 @@ extension D3.XWorld.Spot {
 
     fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect, time: Float) {
         do {
-            let model = D3.Transform<Float>.init(
-                rotate: .init(0, time, 0)
-            ).resolve()
-
-            let aspect = D3.XShader.Aspect.init(
-                projection: aspect.projection,
-                view: aspect.view,
-                model: model
-            )
-
             let buffer = encoder.device.makeBuffer(
                 length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
-            buffer.label = "Aspect: Spot"
+            buffer.label = "Spot: Aspect"
 
             IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+        }
+
+        do {
+            let model = D3.XShader.Model.init(
+                transform: D3.Transform<Float>.init(
+                    rotate: .init(0, time, 0)
+                ).resolve()
+            )
+
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: model),
+                options: .storageModeShared
+            )!
+            buffer.label = "Spot: Model"
+
+            IO.writable(model).write(to: buffer)
+
+            encoder.setVertexBuffer(buffer, offset: 0, index: 2)
         }
 
         encoder.setFragmentTexture(texture, index: 1)
@@ -302,23 +308,31 @@ extension D3.XWorld.Ground {
 extension D3.XWorld.Ground {
     func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect) {
         do {
-            let model = D3.Transform<Float>.init().resolve()
-
-            let aspect = D3.XShader.Aspect.init(
-                projection: aspect.projection,
-                view: aspect.view,
-                model: model
-            )
-
             let buffer = encoder.device.makeBuffer(
                 length: MemoryLayout.stride(ofValue: aspect),
                 options: .storageModeShared
             )!
-            buffer.label = "Aspect: Ground"
+            buffer.label = "Ground: Aspect"
 
             IO.writable(aspect).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+        }
+
+        do {
+            let model = D3.XShader.Model.init(
+                transform: D3.Transform<Float>.init().resolve()
+            )
+
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: model),
+                options: .storageModeShared
+            )!
+            buffer.label = "Ground: Model"
+
+            IO.writable(model).write(to: buffer)
+
+            encoder.setVertexBuffer(buffer, offset: 0, index: 2)
         }
 
         encoder.setFragmentTexture(texture, index: 1)

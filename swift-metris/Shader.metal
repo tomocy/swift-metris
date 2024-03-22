@@ -70,7 +70,7 @@ public:
     {
         auto positions = WVCPositions();
 
-        positions.world = model * position;
+        positions.world = position;
         positions.view = view * positions.world;
         positions.clip = projection * positions.view;
 
@@ -80,15 +80,22 @@ public:
 public:
     Matrix projection = {};
     Matrix view = {};
-    Matrix model = {};
+};
+
+struct Model {
+public:
+    Matrix transform = {};
 };
 
 vertex Coordinate shadowMain(
     const Vertex::Raw v [[stage_in]],
-    constant Aspect* const aspect [[buffer(1)]]
+    constant Aspect* const aspect [[buffer(1)]],
+    constant Model* const model [[buffer(2)]]
 )
 {
-    const auto positions = aspect->applyTo(Coordinate(v.position, 1));
+    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto positions = aspect->applyTo(inWorld);
+
     return positions.clip;
 }
 
@@ -101,11 +108,14 @@ public:
 
 vertex Raster vertexMain(
     const Vertex::Raw v [[stage_in]],
-    constant Aspect* const aspect [[buffer(1)]]
+    constant Aspect* const aspect [[buffer(1)]],
+    constant Model* const model [[buffer(2)]]
 )
 {
-    const auto positions = aspect->applyTo(Coordinate(v.position, 1));
-    const auto normal = aspect->model * Coordinate(v.normal, 0);
+    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto positions = aspect->applyTo(inWorld);
+
+    const auto normal = model->transform * Coordinate(v.normal, 0);
 
     return {
         .positions = positions,
