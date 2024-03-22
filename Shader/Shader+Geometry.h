@@ -19,7 +19,7 @@ using Matrix = metal::float4x4;
 }
 
 namespace D3 {
-namespace Positions {
+namespace Measures {
 
 struct InNDC {
 public:
@@ -41,14 +41,20 @@ public:
     Coordinate value;
 };
 
+}
+}
+
+namespace D3 {
+namespace Positions {
+
 struct WVC {
 public:
-    InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
+    Measures::InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
 
 public:
-    InWorld inWorld;
-    InView inView;
-    InClip inClip;
+    Measures::InWorld inWorld;
+    Measures::InView inView;
+    Measures::InClip inClip;
 };
 
 }
@@ -58,7 +64,7 @@ namespace D3 {
 
 struct Aspect {
 public:
-    Positions::WVC applyTo(const constant Positions::InWorld& position) const constant
+    Positions::WVC applyTo(const constant Measures::InWorld& position) const constant
     {
         auto positions = Positions::WVC();
 
