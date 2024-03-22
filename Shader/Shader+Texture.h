@@ -1,6 +1,6 @@
 // tomocy
 
-#include once
+#pragma once
 
 namespace Texture {
 

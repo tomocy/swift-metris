@@ -78,6 +78,7 @@
 		F5AC33C42BAD9F2400A159FB /* Shader+Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shader+Texture.h"; sourceTree = "<group>"; };
 		F5AC33C92BADA10A00A159FB /* Shader+Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Dimension.swift"; sourceTree = "<group>"; };
 		F5AC33CB2BADA1A300A159FB /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
+		F5AC33CF2BADA2A100A159FB /* Shader+Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shader+Vertex.h"; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Texture.swift"; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 				F5AC33C92BADA10A00A159FB /* Shader+Dimension.swift */,
 				F5AC33C42BAD9F2400A159FB /* Shader+Texture.h */,
 				F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */,
+				F5AC33CF2BADA2A100A159FB /* Shader+Vertex.h */,
 			);
 			path = Shader;
 			sourceTree = "<group>";
