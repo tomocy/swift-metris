@@ -11,7 +11,7 @@ class Window : NSWindow {
             defer: false
         )
 
-        title = "swift metris"
+        title = "Metris"
         contentView = View.init(frame: contentRect)
         makeFirstResponder(contentView)
 

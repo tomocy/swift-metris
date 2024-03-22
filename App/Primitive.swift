@@ -7,7 +7,7 @@ enum Primitive {
 }
 
 protocol _Primitive {
-    associatedtype Vertex: swift_metris.Vertex.Vertex
+    associatedtype Vertex: App.Vertex.Vertex
 }
 
 struct IndexedPrimitive<V: Vertex.Vertex> {

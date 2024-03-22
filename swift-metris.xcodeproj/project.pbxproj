@@ -48,9 +48,9 @@
 
 /* Begin PBXFileReference section */
 		F50300DD2BAC013400ADBC21 /* Ground */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Ground; sourceTree = "<group>"; };
-		F52641932B7F54F600BB540F /* swift-metris.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "swift-metris.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F52641932B7F54F600BB540F /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F52641992B7F54F900BB540F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F526419E2B7F54F900BB540F /* swift_metris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = swift_metris.entitlements; sourceTree = "<group>"; };
+		F526419E2B7F54F900BB540F /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		F52641CB2B7F5DB600BB540F /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F53705D32BA96E770032F8A2 /* Spot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Spot; sourceTree = "<group>"; };
 		F54A4A122B99B28000E1F388 /* Dimension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dimension.h; sourceTree = "<group>"; };
@@ -74,6 +74,7 @@
 		F5A9534D2AC3F9B7008E4200 /* CG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CG.swift; sourceTree = "<group>"; };
 		F5A9534F2AC3F9C3008E4200 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		F5A953512AC8617B008E4200 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		F5AC33BA2BAD951500A159FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0852BA1F0AF005A1E01 /* Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertex.h; sourceTree = "<group>"; };
 		F5ACF0862BA1F51C005A1E01 /* Material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
@@ -106,10 +107,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F52641942B7F54F600BB540F /* swift-metris */ = {
+		F52641942B7F54F600BB540F /* App */ = {
 			isa = PBXGroup;
 			children = (
 				F56DCA6A2ABB6518000D29D5 /* Angle.swift */,
+				F526419E2B7F54F900BB540F /* App.entitlements */,
 				F5E88F3F2ABB50C5003505BE /* App.swift */,
 				F5910ABF2B975EF000834DEF /* Array.swift */,
 				F52641992B7F54F900BB540F /* Assets.xcassets */,
@@ -120,6 +122,7 @@
 				F5ACF0982BA2C9E3005A1E01 /* Data.swift */,
 				F54A4A122B99B28000E1F388 /* Dimension.h */,
 				F54A4A132B99B28000E1F388 /* Dimension.swift */,
+				F5AC33BA2BAD951500A159FB /* Info.plist */,
 				F5ACF0812BA03DC7005A1E01 /* IO.swift */,
 				F5910ABB2B92242D00834DEF /* Log.swift */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
@@ -140,7 +143,6 @@
 				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,
-				F526419E2B7F54F900BB540F /* swift_metris.entitlements */,
 				F5ACF0882BA2AA35005A1E01 /* Swift.swift */,
 				F5ACF0952BA2B964005A1E01 /* Texture.h */,
 				F5ACF0912BA2B5FA005A1E01 /* Texture.swift */,
@@ -154,7 +156,7 @@
 				F5E88F3D2ABB5097003505BE /* Window.swift */,
 				F5910ABD2B972D8300834DEF /* World.swift */,
 			);
-			path = "swift-metris";
+			path = App;
 			sourceTree = "<group>";
 		};
 		F53705D22BA96E620032F8A2 /* Resources */ = {
@@ -169,7 +171,7 @@
 		F5A268542A966B4600520C84 = {
 			isa = PBXGroup;
 			children = (
-				F52641942B7F54F600BB540F /* swift-metris */,
+				F52641942B7F54F600BB540F /* App */,
 				F5A2685E2A966B4600520C84 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -177,7 +179,7 @@
 		F5A2685E2A966B4600520C84 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F52641932B7F54F600BB540F /* swift-metris.app */,
+				F52641932B7F54F600BB540F /* App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,9 +187,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F52641922B7F54F600BB540F /* swift-metris */ = {
+		F52641922B7F54F600BB540F /* App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "swift-metris" */;
+			buildConfigurationList = F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
 				F526418F2B7F54F600BB540F /* Sources */,
 				F52641902B7F54F600BB540F /* Frameworks */,
@@ -197,9 +199,9 @@
 			);
 			dependencies = (
 			);
-			name = "swift-metris";
+			name = App;
 			productName = "swift-metris";
-			productReference = F52641932B7F54F600BB540F /* swift-metris.app */;
+			productReference = F52641932B7F54F600BB540F /* App.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -230,7 +232,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F52641922B7F54F600BB540F /* swift-metris */,
+				F52641922B7F54F600BB540F /* App */,
 			);
 		};
 /* End PBXProject section */
@@ -299,7 +301,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "swift-metris/swift_metris.entitlements";
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -307,7 +309,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "swift-metris";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Metris;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = tomocy;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -318,7 +321,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tomocy.swift-metris";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomocy.metris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -332,7 +335,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "swift-metris/swift_metris.entitlements";
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -340,7 +343,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "swift-metris";
+				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Metris;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = tomocy;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -351,7 +355,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 14.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tomocy.swift-metris";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tomocy.metris;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -480,7 +484,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "swift-metris" */ = {
+		F526419F2B7F54F900BB540F /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F52641A02B7F54F900BB540F /* Debug */,

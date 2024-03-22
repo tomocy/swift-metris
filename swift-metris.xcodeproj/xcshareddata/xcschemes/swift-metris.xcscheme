@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F52641922B7F54F600BB540F"
-               BuildableName = "swift-metris.app"
-               BlueprintName = "swift-metris"
+               BuildableName = "App.app"
+               BlueprintName = "App"
                ReferencedContainer = "container:swift-metris.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F52641922B7F54F600BB540F"
-            BuildableName = "swift-metris.app"
-            BlueprintName = "swift-metris"
+            BuildableName = "App.app"
+            BlueprintName = "App"
             ReferencedContainer = "container:swift-metris.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
