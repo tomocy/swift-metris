@@ -64,7 +64,7 @@ namespace D3 {
 
 struct Aspect {
 public:
-    Positions::WVC applyTo(const constant Measures::InWorld& position) const constant
+    Positions::WVC applyTo(const Measures::InWorld position) const constant
     {
         auto positions = Positions::WVC();
 
