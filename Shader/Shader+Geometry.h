@@ -5,6 +5,7 @@
 #include <metal_stdlib>
 
 namespace D3 {
+
 enum class Axis {
     X,
     Y,
@@ -14,4 +15,15 @@ enum class Axis {
 using Measure = float3;
 using Coordinate = float4;
 using Matrix = metal::float4x4;
+
+}
+
+namespace D3 {
+
+struct Aspect {
+public:
+    Matrix projection;
+    Matrix view;
+};
+
 }
