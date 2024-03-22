@@ -28,7 +28,7 @@ public:
 
 struct InClip {
 public:
-    Coordinate value;
+    Coordinate value [[position]];
 };
 
 struct InView {
@@ -39,6 +39,16 @@ public:
 struct InWorld {
 public:
     Coordinate value;
+};
+
+struct WVC {
+public:
+    InNDC inNDC() const { return { .value = inClip.value.xyz / inClip.value.w }; }
+
+public:
+    InWorld inWorld;
+    InView inView;
+    InClip inClip;
 };
 
 }

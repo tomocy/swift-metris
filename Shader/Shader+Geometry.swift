@@ -27,6 +27,12 @@ extension Shader.D3 {
         struct InWorld {
             var value: Coordinate
         }
+
+        struct WVC {
+            var inWorld: InWorld
+            var inView: InView
+            var inClip: InClip
+        }
     }
 }
 
