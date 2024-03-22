@@ -43,7 +43,7 @@ public:
 
 struct WVC {
 public:
-    InNDC inNDC() const { return { .value = inClip.value.xyz / inClip.value.w }; }
+    InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
 
 public:
     InWorld inWorld;
@@ -57,6 +57,18 @@ public:
 namespace D3 {
 
 struct Aspect {
+public:
+    Positions::WVC applyTo(const constant Positions::InWorld& position) const constant
+    {
+        auto positions = Positions::WVC();
+
+        positions.inWorld = position;
+        positions.inView = { .value = view * positions.inWorld.value };
+        positions.inClip = { .value = projection * positions.inView.value };
+
+        return positions;
+    }
+
 public:
     Matrix projection;
     Matrix view;
