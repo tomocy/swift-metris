@@ -114,16 +114,20 @@ extension D3.XShader {
 }
 
 extension D3.XShader {
-    func renderMesh(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
+    func renderMain(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
         let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
         defer { encoder.endEncoding() }
 
         encoder.setCullMode(.back)
 
-        encoder.setRenderPipelineState(states.mesh)
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
+        renderMesh(target, with: encoder)
+    }
+
+    private func renderMesh(_ target: D3.XWorld, with encoder: MTLRenderCommandEncoder) {
+        encoder.setRenderPipelineState(states.mesh)
         encoder.setFragmentTexture(textures.shadow, index: 0)
 
         target.renderMesh(

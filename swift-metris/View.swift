@@ -57,7 +57,7 @@ extension View: MTKViewDelegate {
         world.tick(delta: 1 / .init(preferredFramesPerSecond))
 
         shader!.renderShadow(world, to: command)
-        shader!.renderMesh(world, to: command, as: currentRenderPassDescriptor!)
+        shader!.renderMain(world, to: command, as: currentRenderPassDescriptor!)
 
         command.present(currentDrawable!)
 
