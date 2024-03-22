@@ -73,6 +73,7 @@
 		F5A9534F2AC3F9C3008E4200 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		F5A953512AC8617B008E4200 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		F5AC33BA2BAD951500A159FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F5AC33C42BAD9F2400A159FB /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		F5ACF0912BA2B5FA005A1E01 /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
@@ -132,7 +133,6 @@
 				F54A4A152B99B28D00E1F388 /* SIMD.swift */,
 				F54A4A172B99B29700E1F388 /* State.swift */,
 				F5ACF0882BA2AA35005A1E01 /* Swift.swift */,
-				F5ACF0912BA2B5FA005A1E01 /* Texture.swift */,
 				F54E82D42ACDC71D00D2143B /* Ticker.swift */,
 				F5E88F2F2ABB4EB2003505BE /* Transform.swift */,
 				F5A953512AC8617B008E4200 /* Vector.swift */,
@@ -156,9 +156,9 @@
 		F5A268542A966B4600520C84 = {
 			isa = PBXGroup;
 			children = (
-				F5AC33C02BAD986600A159FB /* Shader */,
 				F52641942B7F54F600BB540F /* App */,
 				F5A2685E2A966B4600520C84 /* Products */,
+				F5AC33C02BAD986600A159FB /* Shader */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +176,8 @@
 				F54A4A122B99B28000E1F388 /* Dimension.h */,
 				F58B27BB2B9EF02700242F32 /* Shader.metal */,
 				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
+				F5AC33C42BAD9F2400A159FB /* Texture.h */,
+				F5ACF0912BA2B5FA005A1E01 /* Texture.swift */,
 			);
 			path = Shader;
 			sourceTree = "<group>";

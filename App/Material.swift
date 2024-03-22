@@ -20,6 +20,6 @@ extension Material.Source {
 
 extension Material {
     struct Reference {
-        var diffuse: Texture.Reference<Float>? = .init()
+        var diffuse: Shader.Texture.Reference?
     }
 }

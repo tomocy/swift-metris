@@ -3,6 +3,16 @@
 import CoreGraphics
 import Metal
 
+extension Shader {
+    enum Texture {}
+}
+
+extension Shader.Texture {
+    struct Reference {
+        var coordinate: SIMD2<Float>
+    }
+}
+
 enum Texture {}
 
 extension Texture {
@@ -93,14 +103,4 @@ extension Texture.Sources.Color {
 
         return .init(texture)
     }
-}
-
-extension Texture {
-    struct Reference<P: Dimension.Precision> {
-        var coordinate: SIMD2<Precision> = .init(0, 0)
-    }
-}
-
-extension Texture.Reference {
-    typealias Precision = P
 }

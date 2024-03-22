@@ -3,6 +3,8 @@
 import Metal
 import MetalKit
 
+enum Shader {}
+
 extension D3 {
     struct Shader {
         var commandQueue: MTLCommandQueue
