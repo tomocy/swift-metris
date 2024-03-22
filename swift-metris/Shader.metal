@@ -274,7 +274,8 @@ fragment float4 fragmentMain(
         rgb += color.rgb * (howDiffuse + howSpecular) * light.color * light.intensity;
     }
 
-    return float4(rgb, color.a);
+    // Return alpha-premultiplied color.
+    return float4(rgb * color.a, color.a);
 }
 }
 }

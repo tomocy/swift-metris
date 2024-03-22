@@ -271,6 +271,18 @@ extension D3.XShader.States {
             let attachment = desc.colorAttachments[0]!
 
             attachment.pixelFormat = formats.color
+
+            attachment.isBlendingEnabled = true
+            do {
+                attachment.sourceRGBBlendFactor = .one
+                attachment.destinationRGBBlendFactor = .oneMinusSourceAlpha
+                attachment.rgbBlendOperation = .add
+            }
+            do {
+                attachment.sourceAlphaBlendFactor = .one
+                attachment.destinationAlphaBlendFactor = .oneMinusSourceAlpha
+                attachment.rgbBlendOperation = .add
+            }
         }
 
         desc.depthAttachmentPixelFormat = formats.depthStencil

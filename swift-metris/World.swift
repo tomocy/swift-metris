@@ -43,11 +43,13 @@ extension D3 {
     class XWorld {
         init(device: MTLDevice) {
             spots = .init(device: device)
+            monolith = .init(device: device)
             ground = .init(device: device)
         }
 
         private var time: Float = 0
         private let spots: Spots
+        private let monolith: Monolith
         private let ground: Ground
     }
 }
@@ -62,6 +64,8 @@ extension D3.XWorld {
     func shadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
         spots.encode(with: encoder, from: light, time: time)
         ground.encode(with: encoder, from: light)
+
+        monolith.encode(with: encoder, from: light)
     }
 }
 
@@ -113,6 +117,8 @@ extension D3.XWorld {
 
         spots.encode(with: encoder, from: view, time: time)
         ground.encode(with: encoder, from: view)
+
+        monolith.encode(with: encoder, from: view)
     }
 }
 
@@ -300,6 +306,86 @@ extension D3.XWorld.Spots {
                     indexBuffer: mesh.indexBuffer.buffer,
                     indexBufferOffset: mesh.indexBuffer.offset,
                     instanceCount: models.count
+                )
+            }
+        }
+    }
+}
+
+extension D3.XWorld {
+    fileprivate struct Monolith {
+        private let mesh: MTKMesh
+        private let texture: MTLTexture
+    }
+}
+
+extension D3.XWorld.Monolith {
+    init(device: MTLDevice) {
+        mesh = try! MTKMesh.init(
+            mesh: .init(
+                boxWithExtent: .init(0.5, 1.2, 0.2),
+                segments: .init(1, 1, 1),
+                inwardNormals: false,
+                geometryType: .triangles,
+                allocator: MTKMeshBufferAllocator.init(device: device)
+            ),
+            device: device
+        )
+
+        texture = Texture.Sources.Color.load(
+            .init(red: 0.075, green: 0.075, blue: 0.075, alpha: 0.75),
+            with: device
+        )!.raw
+    }
+}
+
+extension D3.XWorld.Monolith {
+    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect) {
+        do {
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: aspect),
+                options: .storageModeShared
+            )!
+            buffer.label = "Monolith: Aspect"
+
+            IO.writable(aspect).write(to: buffer)
+
+            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+        }
+
+        do {
+            let model = D3.XShader.Model.init(
+                transform: D3.Transform<Float>.init(
+                    translate: .init(0, 0.6, 0.4),
+                    rotate: .init(0, .pi / 2 / 6, 0)
+                ).resolve()
+            )
+
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: model),
+                options: .storageModeShared
+            )!
+            buffer.label = "Monolith: Model"
+
+            IO.writable(model).write(to: buffer)
+
+            encoder.setVertexBuffer(buffer, offset: 0, index: 2)
+        }
+
+        encoder.setFragmentTexture(texture, index: 1)
+
+        do {
+            mesh.vertexBuffers.enumerated().forEach { i, buffer in
+                encoder.setVertexBuffer(buffer.buffer, offset: buffer.offset, index: i)
+            }
+
+            mesh.submeshes.enumerated().forEach { i, mesh in
+                encoder.drawIndexedPrimitives(
+                    type: mesh.primitiveType,
+                    indexCount: mesh.indexCount,
+                    indexType: mesh.indexType,
+                    indexBuffer: mesh.indexBuffer.buffer,
+                    indexBufferOffset: mesh.indexBuffer.offset
                 )
             }
         }
