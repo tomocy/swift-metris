@@ -1,6 +1,6 @@
 // tomocy
 
-#include "Shader+Dimension.h"
+#include "Shader+Geometry.h"
 #include "Shader+Vertex.h"
 
 namespace D3 {

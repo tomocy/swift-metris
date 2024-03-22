@@ -38,7 +38,7 @@
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
 		F5910AC22B983AD300834DEF /* Cube.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910AC12B983AD300834DEF /* Cube.swift */; };
-		F5AC33CA2BADA10A00A159FB /* Shader+Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33C92BADA10A00A159FB /* Shader+Dimension.swift */; };
+		F5AC33CA2BADA10A00A159FB /* Shader+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33C92BADA10A00A159FB /* Shader+Geometry.swift */; };
 		F5AC33CC2BADA1A300A159FB /* Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33CB2BADA1A300A159FB /* Texture.swift */; };
 		F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0812BA03DC7005A1E01 /* IO.swift */; };
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
@@ -55,7 +55,7 @@
 		F526419E2B7F54F900BB540F /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		F52641CB2B7F5DB600BB540F /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F53705D32BA96E770032F8A2 /* Spot */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Spot; sourceTree = "<group>"; };
-		F54A4A122B99B28000E1F388 /* Shader+Dimension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Shader+Dimension.h"; sourceTree = "<group>"; };
+		F54A4A122B99B28000E1F388 /* Shader+Geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Shader+Geometry.h"; sourceTree = "<group>"; };
 		F54A4A132B99B28000E1F388 /* Dimension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dimension.swift; sourceTree = "<group>"; };
 		F54A4A152B99B28D00E1F388 /* SIMD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SIMD.swift; sourceTree = "<group>"; };
 		F54A4A172B99B29700E1F388 /* State.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		F5A953512AC8617B008E4200 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		F5AC33BA2BAD951500A159FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F5AC33C42BAD9F2400A159FB /* Shader+Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shader+Texture.h"; sourceTree = "<group>"; };
-		F5AC33C92BADA10A00A159FB /* Shader+Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Dimension.swift"; sourceTree = "<group>"; };
+		F5AC33C92BADA10A00A159FB /* Shader+Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Geometry.swift"; sourceTree = "<group>"; };
 		F5AC33CB2BADA1A300A159FB /* Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture.swift; sourceTree = "<group>"; };
 		F5AC33CF2BADA2A100A159FB /* Shader+Vertex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Shader+Vertex.h"; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 			children = (
 				F58B27BB2B9EF02700242F32 /* Shader.metal */,
 				F5ACF0962BA2BC5E005A1E01 /* Shader.swift */,
-				F54A4A122B99B28000E1F388 /* Shader+Dimension.h */,
-				F5AC33C92BADA10A00A159FB /* Shader+Dimension.swift */,
+				F54A4A122B99B28000E1F388 /* Shader+Geometry.h */,
+				F5AC33C92BADA10A00A159FB /* Shader+Geometry.swift */,
 				F5AC33C42BAD9F2400A159FB /* Shader+Texture.h */,
 				F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */,
 				F5AC33CF2BADA2A100A159FB /* Shader+Vertex.h */,
@@ -269,7 +269,7 @@
 				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,
 				F52641A22B7F551D00BB540F /* App.swift in Sources */,
 				F5910ABE2B972D8300834DEF /* World.swift in Sources */,
-				F5AC33CA2BADA10A00A159FB /* Shader+Dimension.swift in Sources */,
+				F5AC33CA2BADA10A00A159FB /* Shader+Geometry.swift in Sources */,
 				F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */,
 				F52641B12B7F551D00BB540F /* Vertex.swift in Sources */,
 				F52641B22B7F551D00BB540F /* Angle.swift in Sources */,
