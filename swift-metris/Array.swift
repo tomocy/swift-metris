@@ -12,7 +12,7 @@ extension Array: IO.Writable {
     }
 
     func write(to destination: UnsafeMutableRawPointer) where Element: IO.Writable {
-        for (i, v) in enumerated() {
+        enumerated().forEach { i, v in
             v.write(to: destination + MemoryLayout.stride(ofValue: v) * i)
         }
     }

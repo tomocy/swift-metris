@@ -42,12 +42,12 @@ extension D3.World: MTLFrameRenderCommandEncodable {
 extension D3 {
     class XWorld {
         init(device: MTLDevice) {
-            spot = .init(device: device)
+            spots = .init(device: device)
             ground = .init(device: device)
         }
 
         private var time: Float = 0
-        private let spot: Spot
+        private let spots: Spots
         private let ground: Ground
     }
 }
@@ -60,7 +60,7 @@ extension D3.XWorld {
 
 extension D3.XWorld {
     func shadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
-        spot.encode(with: encoder, from: light, time: time)
+        spots.encode(with: encoder, from: light, time: time)
         ground.encode(with: encoder, from: light)
     }
 }
@@ -111,7 +111,7 @@ extension D3.XWorld {
             lights.encode(with: encoder)
         }
 
-        spot.encode(with: encoder, from: view, time: time)
+        spots.encode(with: encoder, from: view, time: time)
         ground.encode(with: encoder, from: view)
     }
 }
@@ -153,13 +153,13 @@ extension D3.XWorld.Lights {
 }
 
 extension D3.XWorld {
-    fileprivate struct Spot {
+    fileprivate struct Spots {
         private let mesh: MTKMesh
         private let texture: MTLTexture
     }
 }
 
-extension D3.XWorld.Spot {
+extension D3.XWorld.Spots {
     init(device: MTLDevice) {
         do {
             let vertexDescriptor = MDLVertexDescriptor.init()
@@ -230,20 +230,54 @@ extension D3.XWorld.Spot {
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
 
+        var models: [D3.XShader.Model] = []
+
         do {
-            let model = D3.XShader.Model.init(
-                transform: D3.Transform<Float>.init(
-                    rotate: .init(0, time, 0)
-                ).resolve()
+            let radius: Float = 0.8
+
+            models.append(
+                .init(
+                    transform: D3.Transform<Float>.init(
+                        translate: .init(radius, 0, 0),
+                        rotate: .init(0, time + .pi / 2 * 0, 0)
+                    ).resolve()
+                )
+            )
+
+            models.append(
+                .init(
+                    transform: D3.Transform<Float>.init(
+                        translate: .init(radius, 0, radius),
+                        rotate: .init(0, time + .pi / 2 * 1, 0)
+                    ).resolve()
+                )
+            )
+
+            models.append(
+                .init(
+                    transform: D3.Transform<Float>.init(
+                        translate: .init(-radius, 0, radius),
+                        rotate: .init(0, time + .pi / 2 * 2, 0)
+                    ).resolve()
+                )
+            )
+
+            models.append(
+                .init(
+                    transform: D3.Transform<Float>.init(
+                        translate: .init(-radius, 0, 0),
+                        rotate: .init(0, time + .pi / 2 * 3, 0)
+                    ).resolve()
+                )
             )
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: model),
+                length: MemoryLayout<D3.XShader.Model>.stride * models.count,
                 options: .storageModeShared
             )!
-            buffer.label = "Spot: Model"
+            buffer.label = "Spot: Models"
 
-            IO.writable(model).write(to: buffer)
+            IO.writable(models).write(to: buffer)
 
             encoder.setVertexBuffer(buffer, offset: 0, index: 2)
         }
@@ -264,7 +298,8 @@ extension D3.XWorld.Spot {
                     indexCount: mesh.indexCount,
                     indexType: mesh.indexType,
                     indexBuffer: mesh.indexBuffer.buffer,
-                    indexBufferOffset: mesh.indexBuffer.offset
+                    indexBufferOffset: mesh.indexBuffer.offset,
+                    instanceCount: models.count
                 )
             }
         }
@@ -328,7 +363,7 @@ extension D3.XWorld.Ground {
                 length: MemoryLayout.stride(ofValue: model),
                 options: .storageModeShared
             )!
-            buffer.label = "Ground: Model"
+            buffer.label = "Ground: Models"
 
             IO.writable(model).write(to: buffer)
 

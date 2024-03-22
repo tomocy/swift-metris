@@ -93,9 +93,12 @@ public:
 vertex Coordinate shadowMain(
     const Vertex::Raw v [[stage_in]],
     constant Aspect* const aspect [[buffer(1)]],
-    constant Model* const model [[buffer(2)]]
+    constant Model* const models [[buffer(2)]],
+    const uint id [[instance_id]]
 )
 {
+    constant auto* const model = &models[id];
+
     const auto inWorld = model->transform * Coordinate(v.position, 1);
     const auto positions = aspect->applyTo(inWorld);
 
@@ -112,9 +115,12 @@ public:
 vertex Raster vertexMain(
     const Vertex::Raw v [[stage_in]],
     constant Aspect* const aspect [[buffer(1)]],
-    constant Model* const model [[buffer(2)]]
+    constant Model* const models [[buffer(2)]],
+    const uint id [[instance_id]]
 )
 {
+    constant auto* const model = &models[id];
+
     const auto inWorld = model->transform * Coordinate(v.position, 1);
     const auto positions = aspect->applyTo(inWorld);
 
