@@ -53,9 +53,12 @@ public:
 
 struct WVCPositions {
 public:
-    Coordinate clip [[position]] = { 0, 0, 0, 0 };
-    Coordinate view = { 0, 0, 0, 0 };
-    Coordinate world = { 0, 0, 0, 0 };
+    Measure inNDC() const { return inClip.xyz / inClip.w; }
+
+public:
+    Coordinate inClip [[position]] = { 0, 0, 0, 0 };
+    Coordinate inView = { 0, 0, 0, 0 };
+    Coordinate inWorld = { 0, 0, 0, 0 };
 };
 
 struct Aspect {
@@ -70,9 +73,9 @@ public:
     {
         auto positions = WVCPositions();
 
-        positions.world = position;
-        positions.view = view * positions.world;
-        positions.clip = projection * positions.view;
+        positions.inWorld = position;
+        positions.inView = view * positions.inWorld;
+        positions.inClip = projection * positions.inView;
 
         return positions;
     }
@@ -96,7 +99,7 @@ vertex Coordinate shadowMain(
     const auto inWorld = model->transform * Coordinate(v.position, 1);
     const auto positions = aspect->applyTo(inWorld);
 
-    return positions.clip;
+    return positions.inClip;
 }
 
 struct Raster {
@@ -149,7 +152,7 @@ float measureShaded(const metal::depth2d<float> map, const Aspect light, const C
     );
 
     const auto positions = light.applyTo(position);
-    const auto inNDC = positions.clip.xyz / positions.clip.w;
+    const auto inNDC = positions.inNDC();
 
     // Shift the origin from center (in NDC) to top-left (in texture).
     const auto coordinate = float2(
@@ -225,11 +228,11 @@ fragment float4 fragmentMain(
             float3 normal;
         } dirs = {
             .toLight = metal::normalize(-lightDir),
-            .toView = metal::normalize(-r.positions.view.xyz),
+            .toView = metal::normalize(-r.positions.inView.xyz),
             .normal = metal::normalize(r.normal),
         };
 
-        const auto howUnshaded = 1 - measureShaded(shadowMap, light.aspect, r.positions.world);
+        const auto howUnshaded = 1 - measureShaded(shadowMap, light.aspect, r.positions.inWorld);
 
         const auto howDiffuse = measureDiffuse(dirs.toLight, dirs.normal) * howUnshaded;
         const auto howSpecular = measureSpecular(dirs.toLight, dirs.toView, dirs.normal) * howUnshaded;
@@ -245,7 +248,7 @@ fragment float4 fragmentMain(
         // the light's position in world is stored in view.columns[3].xyz.
         const auto lightPos = light.aspect.view.columns[3].xyz;
 
-        const auto toLight = lightPos - r.positions.world.xyz;
+        const auto toLight = lightPos - r.positions.inWorld.xyz;
         const auto distance = metal::dot(toLight, toLight);
         const auto attenuation = 1 / metal::max(distance, 1e-4);
 
@@ -255,7 +258,7 @@ fragment float4 fragmentMain(
             float3 normal;
         } dirs = {
             .toLight = metal::normalize(toLight),
-            .toView = metal::normalize(-r.positions.view.xyz),
+            .toView = metal::normalize(-r.positions.inView.xyz),
             .normal = metal::normalize(r.normal),
         };
 
