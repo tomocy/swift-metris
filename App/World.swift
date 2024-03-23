@@ -60,22 +60,89 @@ extension D3.XWorld {
     }
 }
 
-extension D3.XWorld {
-    func renderShadow(with encoder: MTLRenderCommandEncoder, light: D3.XShader.Aspect) {
+extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
+    func allocate(_ buffers: inout Shader.D3.Shadow.Buffers?, with device: any MTLDevice) {
+        // TODO(tomocy): Fix
+        buffers = .init(
+            vertices: device.makeBuffer(length: 1)!,
+            indices: device.makeBuffer(length: 1)!,
+            aspect: device.makeBuffer(length: 1)!,
+            models: device.makeBuffer(length: 1)!
+        )
+    }
+
+    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Shadow.Buffers) {
+        let light = ({
+            let projection = D3.Transform<Float>.orthogonal(
+                top: 1.5, bottom: -1.5,
+                left: -1.5, right: 1.5,
+                near: 0, far: 10
+            ).resolve()
+
+            let view = D3.Transform<Float>.look(
+                from: .init(1, 1, -1),
+                to: .init(0, 0, 0),
+                up: .init(0, 1, 0)
+            ).inverse
+
+            return Shader.D3.Aspect.init(
+                projection: projection,
+                view: view
+            )
+        }) ()
+
         spots.encode(with: encoder, from: light, time: time)
         ground.encode(with: encoder, from: light)
-
         monolith.encode(with: encoder, from: light)
     }
 }
 
-extension D3.XWorld {
-    func renderMesh(
-        with encoder: MTLRenderCommandEncoder,
-        light: D3.XShader.Aspect,
-        view: D3.XShader.Aspect
-    ) {
+extension D3.XWorld: App.Shader.D3.Mesh.Encodable {
+    func allocate(_ buffers: inout Shader.D3.Mesh.Buffers?, with device: any MTLDevice) {
+        // TODO(tomocy): Fix
+        buffers = .init(
+            vertices: device.makeBuffer(length: 1)!,
+            indices: device.makeBuffer(length: 1)!,
+            aspect: device.makeBuffer(length: 1)!,
+            models: device.makeBuffer(length: 1)!,
+            lights: device.makeBuffer(length: 1)!
+        )
+    }
+
+    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Mesh.Buffers) {
         do {
+            let ambient = Shader.D3.Light.init(
+                color: .init(1, 1, 1),
+                intensity: 0.1,
+                aspect: .init(
+                    projection: .init(1),
+                    view: .init(1)
+                )
+            )
+
+            let directional = ({
+                let projection = D3.Transform<Float>.orthogonal(
+                    top: 1.5, bottom: -1.5,
+                    left: -1.5, right: 1.5,
+                    near: 0, far: 10
+                ).resolve()
+
+                let view = D3.Transform<Float>.look(
+                    from: .init(1, 1, -1),
+                    to: .init(0, 0, 0),
+                    up: .init(0, 1, 0)
+                ).inverse
+
+                return Shader.D3.Light.init(
+                    color: .init(1, 1, 1),
+                    intensity: 1,
+                    aspect: .init(
+                        projection: projection,
+                        view: view
+                    )
+                )
+            }) ()
+
             let point = ({
                 let color = SIMD3<Float>.init(
                     0.95 * max(cos(time), 0),
@@ -83,7 +150,7 @@ extension D3.XWorld {
                     0.95 * max(cos(time), 0)
                 )
 
-                return Lights.Light.init(
+                return Shader.D3.Light.init(
                     color: color,
                     intensity: 0.8,
                     aspect: .init(
@@ -97,54 +164,61 @@ extension D3.XWorld {
                 )
             }) ()
 
-            let lights = Lights.init(
-                ambient: .init(
-                    intensity: 0.1,
-                    aspect: .init(
-                        projection: .init(1),
-                        view: .init(1)
-                    )
-                ),
-                directional: .init(
-                    intensity: 1,
-                    aspect: light
-                ),
+            let lights = Shader.D3.Lights.init(
+                ambient: ambient,
+                directional: directional,
                 point: point
             )
 
             lights.encode(with: encoder)
         }
 
+
+        let view = ({
+            let projection = ({
+                let near: Float = 0.01
+                let far: Float = 100
+
+                let scale = ({
+                    let aspectRatio: Float = 1800 / 1200
+                    let fovY: Float = .pi / 3
+
+                    var scale = SIMD2<Float>.init(1, 1)
+                    scale.y = 1 / tan(fovY / 2)
+                    scale.x = scale.y / aspectRatio // 1 / w = (1 / h) * (h / w)
+
+                    return scale
+                }) ()
+
+                return D3.Matrix(
+                    rows: [
+                        .init(scale.x, 0, 0, 0),
+                        .init(0, scale.y, 0, 0),
+                        .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                        .init(0, 0, 1, 0)
+                    ]
+                )
+            }) ()
+
+            let view = D3.Transform<Float>(
+                translate: .init(0, 0.5, -2)
+            ).inversed(
+                rotate: false, scale: false
+            ).resolve()
+
+            return Shader.D3.Aspect.init(
+                projection: projection,
+                view: view
+            )
+        }) ()
+
         spots.encode(with: encoder, from: view, time: time)
         ground.encode(with: encoder, from: view)
-
         monolith.encode(with: encoder, from: view)
     }
 }
 
-extension D3.XWorld {
-    fileprivate struct Vertex {
-        var position: D3.Storage<Float>.Packed
-        var normal: D3.Storage<Float>.Packed = .init()
-        var textureCoordinate: SIMD2<Float> = .init()
-    }
-}
-
-extension D3.XWorld {
-    fileprivate struct Lights {
-        struct Light {
-            var color: SIMD3<Float> = .init(1, 1, 1)
-            var intensity: Float
-            var aspect: D3.XShader.Aspect
-        }
-
-        var ambient: Light
-        var directional: Light
-        var point: Light
-    }
-}
-
-extension D3.XWorld.Lights {
+extension Shader.D3.Lights {
     func encode(with encoder: MTLRenderCommandEncoder) {
         let buffer = encoder.device.makeBuffer(
             length: MemoryLayout<Self>.stride,
@@ -223,7 +297,7 @@ extension D3.XWorld.Spots {
         }
     }
 
-    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect, time: Float) {
+    fileprivate func encode(with encoder: MTLRenderCommandEncoder, from aspect: Shader.D3.Aspect, time: Float) {
         do {
             let buffer = encoder.device.makeBuffer(
                 length: MemoryLayout.stride(ofValue: aspect),
@@ -236,7 +310,7 @@ extension D3.XWorld.Spots {
             encoder.setVertexBuffer(buffer, offset: 0, index: 1)
         }
 
-        var models: [D3.XShader.Model] = []
+        var models: [Shader.D3.Model] = []
 
         do {
             let radius: Float = 0.8
@@ -278,7 +352,7 @@ extension D3.XWorld.Spots {
             )
 
             let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout<D3.XShader.Model>.stride * models.count,
+                length: MemoryLayout<Shader.D3.Model>.stride * models.count,
                 options: .storageModeShared
             )!
             buffer.label = "Spot: Models"
@@ -340,7 +414,7 @@ extension D3.XWorld.Monolith {
 }
 
 extension D3.XWorld.Monolith {
-    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect) {
+    func encode(with encoder: MTLRenderCommandEncoder, from aspect: Shader.D3.Aspect) {
         do {
             let buffer = encoder.device.makeBuffer(
                 length: MemoryLayout.stride(ofValue: aspect),
@@ -354,7 +428,7 @@ extension D3.XWorld.Monolith {
         }
 
         do {
-            let model = D3.XShader.Model.init(
+            let model = Shader.D3.Model.init(
                 transform: D3.Transform<Float>.init(
                     translate: .init(0, 0.6, 0.4),
                     rotate: .init(0, .pi / 2 / 6, 0)
@@ -427,7 +501,7 @@ extension D3.XWorld.Ground {
 }
 
 extension D3.XWorld.Ground {
-    func encode(with encoder: MTLRenderCommandEncoder, from aspect: D3.XShader.Aspect) {
+    func encode(with encoder: MTLRenderCommandEncoder, from aspect: Shader.D3.Aspect) {
         do {
             let buffer = encoder.device.makeBuffer(
                 length: MemoryLayout.stride(ofValue: aspect),
@@ -441,7 +515,7 @@ extension D3.XWorld.Ground {
         }
 
         do {
-            let model = D3.XShader.Model.init(
+            let model = Shader.D3.Model.init(
                 transform: D3.Transform<Float>.init().resolve()
             )
 

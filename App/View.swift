@@ -22,15 +22,7 @@ class View: MTKView {
         colorPixelFormat = .bgra8Unorm_srgb
         depthStencilPixelFormat = .depth32Float
 
-        shader = try! .init(
-            device: device!,
-            resolution: .init(drawableSize),
-            sampleCount: sampleCount,
-            formats: .init(
-                color: colorPixelFormat,
-                depthStencil: depthStencilPixelFormat
-            )
-        )
+        shader = .init(device: device!)
 
         // This is the frame pool that is used to achieve "Triple Buffering",
         // or more precisely, "Triple Framing".
@@ -39,7 +31,7 @@ class View: MTKView {
         world = .init(device: device!)
     }
 
-    private var shader: D3.XShader?
+    private var shader: Shader.D3.Shader?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
     private var world: D3.XWorld?
 }
@@ -56,8 +48,12 @@ extension View: MTKViewDelegate {
 
         world.tick(delta: 1 / .init(preferredFramesPerSecond))
 
-        shader!.renderShadow(world, to: command)
-        shader!.renderMain(world, to: command, as: currentRenderPassDescriptor!)
+        shader!.shadow.encode(world, to: command)
+        shader!.mesh.encode(
+            world,
+            to: command, as: currentRenderPassDescriptor!,
+            shadow: shader!.shadow.target
+        )
 
         command.present(currentDrawable!)
 
