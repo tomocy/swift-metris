@@ -34,10 +34,7 @@ extension Shader.D3.Mesh {
 
         encoder.setFragmentTexture(shadow, index: 0)
 
-        var buffers: Buffers? = nil
-        target.allocate(&buffers, with: encoder.device)
-
-        target.encode(with: encoder, to: buffers!)
+        target.encode(with: .init(raw: encoder))
     }
 }
 
@@ -139,12 +136,8 @@ extension Shader.D3.Mesh.PipelineStates {
 }
 
 extension Shader.D3.Mesh {
-    struct Buffers {
-        var vertices: any MTLBuffer
-        var indices: any MTLBuffer
-        var aspect: any MTLBuffer
-        var models: any MTLBuffer
-        var lights: any MTLBuffer
+    struct Encoder {
+        var raw: any MTLRenderCommandEncoder
     }
 }
 
@@ -153,6 +146,5 @@ extension Shader.D3.Mesh {
 }
 
 protocol _ShaderD3MeshEncodable {
-    func allocate(_ buffers: inout Shader.D3.Mesh.Buffers?, with device: any MTLDevice)
-    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Mesh.Buffers)
+    func encode(with encoder: Shader.D3.Mesh.Encoder)
 }

@@ -61,17 +61,7 @@ extension D3.XWorld {
 }
 
 extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
-    func allocate(_ buffers: inout Shader.D3.Shadow.Buffers?, with device: any MTLDevice) {
-        // TODO(tomocy): Fix
-        buffers = .init(
-            vertices: device.makeBuffer(length: 1)!,
-            indices: device.makeBuffer(length: 1)!,
-            aspect: device.makeBuffer(length: 1)!,
-            models: device.makeBuffer(length: 1)!
-        )
-    }
-
-    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Shadow.Buffers) {
+    func encode(with encoder: Shader.D3.Shadow.Encoder) {
         let light = ({
             let projection = D3.Transform<Float>.orthogonal(
                 top: 1.5, bottom: -1.5,
@@ -91,25 +81,14 @@ extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
             )
         }) ()
 
-        spots.encode(with: encoder, from: light, time: time)
-        ground.encode(with: encoder, from: light)
-        monolith.encode(with: encoder, from: light)
+        spots.encode(with: encoder.raw, from: light, time: time)
+        ground.encode(with: encoder.raw, from: light)
+        monolith.encode(with: encoder.raw, from: light)
     }
 }
 
 extension D3.XWorld: App.Shader.D3.Mesh.Encodable {
-    func allocate(_ buffers: inout Shader.D3.Mesh.Buffers?, with device: any MTLDevice) {
-        // TODO(tomocy): Fix
-        buffers = .init(
-            vertices: device.makeBuffer(length: 1)!,
-            indices: device.makeBuffer(length: 1)!,
-            aspect: device.makeBuffer(length: 1)!,
-            models: device.makeBuffer(length: 1)!,
-            lights: device.makeBuffer(length: 1)!
-        )
-    }
-
-    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Mesh.Buffers) {
+    func encode(with encoder: Shader.D3.Mesh.Encoder) {
         do {
             let ambient = Shader.D3.Light.init(
                 color: .init(1, 1, 1),
@@ -170,7 +149,7 @@ extension D3.XWorld: App.Shader.D3.Mesh.Encodable {
                 point: point
             )
 
-            lights.encode(with: encoder)
+            lights.encode(with: encoder.raw)
         }
 
 
@@ -212,9 +191,9 @@ extension D3.XWorld: App.Shader.D3.Mesh.Encodable {
             )
         }) ()
 
-        spots.encode(with: encoder, from: view, time: time)
-        ground.encode(with: encoder, from: view)
-        monolith.encode(with: encoder, from: view)
+        spots.encode(with: encoder.raw, from: view, time: time)
+        ground.encode(with: encoder.raw, from: view)
+        monolith.encode(with: encoder.raw, from: view)
     }
 }
 
