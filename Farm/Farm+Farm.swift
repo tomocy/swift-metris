@@ -26,3 +26,17 @@ extension Farm.World: Shader.D3.Shadow.Encodable {
         }
     }
 }
+
+extension Farm.World: Shader.D3.Mesh.Encodable {
+    func encode(with encoder: Shader.D3.Mesh.Encoder) {
+        camera.encode(with: encoder.raw)
+
+        do {
+            spots.encode(with: encoder.raw)
+            ground.encode(with: encoder.raw)
+        }
+        do {
+            ground.encode(with: encoder.raw)
+        }
+    }
+}
