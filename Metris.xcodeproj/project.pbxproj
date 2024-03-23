@@ -49,6 +49,7 @@
 		F5AC33E52BAEDE3700A159FB /* Farm+Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33E42BAEDE3700A159FB /* Farm+Material.swift */; };
 		F5AC33E72BAEDEDB00A159FB /* Farm+Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33E62BAEDEDB00A159FB /* Farm+Mesh.swift */; };
 		F5AC33ED2BAF07FD00A159FB /* Farm+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */; };
+		F5AC33EF2BAF094800A159FB /* Farm+Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33EE2BAF094800A159FB /* Farm+Light.swift */; };
 		F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0812BA03DC7005A1E01 /* IO.swift */; };
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
 		F5ACF0922BA2B5FA005A1E01 /* Shader+Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */; };
@@ -100,6 +101,7 @@
 		F5AC33E42BAEDE3700A159FB /* Farm+Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Material.swift"; sourceTree = "<group>"; };
 		F5AC33E62BAEDEDB00A159FB /* Farm+Mesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Mesh.swift"; sourceTree = "<group>"; };
 		F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Camera.swift"; sourceTree = "<group>"; };
+		F5AC33EE2BAF094800A159FB /* Farm+Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Light.swift"; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Texture.swift"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 			children = (
 				F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */,
 				F5AC33E22BAEDB5500A159FB /* Farm+Farm.swift */,
+				F5AC33EE2BAF094800A159FB /* Farm+Light.swift */,
 				F5AC33E42BAEDE3700A159FB /* Farm+Material.swift */,
 				F5AC33E62BAEDEDB00A159FB /* Farm+Mesh.swift */,
 			);
@@ -346,6 +349,7 @@
 				F5910AC02B975EF000834DEF /* Array.swift in Sources */,
 				F52641A82B7F551D00BB540F /* Metris+Piece.swift in Sources */,
 				F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */,
+				F5AC33EF2BAF094800A159FB /* Farm+Light.swift in Sources */,
 				F52641B42B7F551D00BB540F /* Window.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
