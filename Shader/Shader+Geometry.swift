@@ -3,29 +3,25 @@
 import simd
 
 extension Shader {
-    enum D3 {
-        typealias Measure = SIMD3<Float>
-        typealias Coordinate = SIMD4<Float>
-        typealias Matrix = float4x4
-    }
+    enum D3 {}
 }
 
 extension Shader.D3 {
-    enum Positions {
+    enum Coordinates {
         struct InNDC {
-            var value: Measure
+            var value: SIMD3<Float>
         }
 
         struct InClip {
-            var value: Coordinate
+            var value: SIMD4<Float>
         }
 
         struct InView {
-            var value: Coordinate
+            var value: SIMD4<Float>
         }
 
         struct InWorld {
-            var value: Coordinate
+            var value: SIMD4<Float>
         }
 
         struct WVC {
@@ -38,7 +34,7 @@ extension Shader.D3 {
 
 extension Shader.D3 {
     struct Aspect {
-        var projection: Matrix
-        var view: Matrix
+        var projection: float4x4
+        var view: float4x4
     }
 }

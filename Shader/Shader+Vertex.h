@@ -9,8 +9,8 @@ struct Vertex {
 public:
     struct Attributed {
     public:
-        Measure position [[attribute(0)]];
-        Measure normal [[attribute(1)]];
+        float3 position [[attribute(0)]];
+        float3 normal [[attribute(1)]];
         float2 textureCoordinate [[attribute(2)]];
     };
 
@@ -27,8 +27,8 @@ public:
     }
 
 public:
-    Measure position;
-    Measure normal;
+    float3 position;
+    float3 normal;
     Texture::Reference texture;
 };
 

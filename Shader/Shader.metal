@@ -9,31 +9,31 @@ struct Vertex {
 public:
     struct Raw {
     public:
-        Measure position [[attribute(0)]] = { 0, 0, 0 };
-        Measure normal [[attribute(1)]] = { 0, 0, 0 };
+        float3 position [[attribute(0)]] = { 0, 0, 0 };
+        float3 normal [[attribute(1)]] = { 0, 0, 0 };
         float2 textureCoordinate [[attribute(2)]] = { 0, 0 };
     };
 };
 
 struct WVCPositions {
 public:
-    Measure inNDC() const { return inClip.xyz / inClip.w; }
+    float3 inNDC() const { return inClip.xyz / inClip.w; }
 
 public:
-    Coordinate inClip [[position]] = { 0, 0, 0, 0 };
-    Coordinate inView = { 0, 0, 0, 0 };
-    Coordinate inWorld = { 0, 0, 0, 0 };
+    float4 inClip [[position]] = { 0, 0, 0, 0 };
+    float4 inView = { 0, 0, 0, 0 };
+    float4 inWorld = { 0, 0, 0, 0 };
 };
 
 struct Aspect {
 public:
-    WVCPositions applyTo(const Coordinate position) const constant
+    WVCPositions applyTo(const float4 position) const constant
     {
         const auto v = *this;
         return v.applyTo(position);
     }
 
-    WVCPositions applyTo(const Coordinate position) const
+    WVCPositions applyTo(const float4 position) const
     {
         auto positions = WVCPositions();
 
@@ -45,19 +45,19 @@ public:
     }
 
 public:
-    Matrix projection = {};
-    Matrix view = {};
+    float4x4 projection = {};
+    float4x4 view = {};
 };
 
 struct Model {
 public:
-    Matrix transform = {};
+    float4x4 transform = {};
 };
 
 struct Raster {
 public:
     WVCPositions positions = {};
-    Measure normal = { 0, 0, 0 };
+    float3 normal = { 0, 0, 0 };
     float2 textureCoordinate = { 0, 0 };
 };
 
@@ -80,7 +80,7 @@ public:
 
 namespace D3 {
 namespace X {
-float measureShaded(const metal::depth2d<float> map, const Aspect light, const Coordinate position)
+float measureShaded(const metal::depth2d<float> map, const Aspect light, const float4 position)
 {
     constexpr auto sampler = metal::sampler(
         metal::coord::normalized,
@@ -102,21 +102,21 @@ float measureShaded(const metal::depth2d<float> map, const Aspect light, const C
     return map.sample_compare(sampler, coordinate, inNDC.z - bias);
 }
 
-Measure lambertReflection(const Measure toLight, const Measure normal)
+float3 lambertReflection(const float3 toLight, const float3 normal)
 {
     return metal::saturate(
         metal::dot(toLight, normal)
     );
 }
 
-Measure measureDiffuse(const Measure toLight, const Measure normal)
+float3 measureDiffuse(const float3 toLight, const float3 normal)
 {
     return lambertReflection(toLight, normal);
 }
 
-Measure blinnPhongReflection(
-    const Measure toLight, const Measure toView, const Measure normal,
-    const Measure exponent
+float3 blinnPhongReflection(
+    const float3 toLight, const float3 toView, const float3 normal,
+    const float3 exponent
 )
 {
     const auto halfway = metal::normalize(toLight + toView);
@@ -126,7 +126,7 @@ Measure blinnPhongReflection(
     return metal::pow(reflect, exponent);
 }
 
-Measure measureSpecular(const Measure toLight, const Measure toView, const Measure normal)
+float3 measureSpecular(const float3 toLight, const float3 toView, const float3 normal)
 {
     return blinnPhongReflection(toLight, toView, normal, 50);
 }
@@ -135,7 +135,7 @@ Measure measureSpecular(const Measure toLight, const Measure toView, const Measu
 
 namespace D3 {
 namespace X {
-vertex Coordinate shadowVertex(
+vertex float4 shadowVertex(
     const Vertex::Raw v [[stage_in]],
     constant Aspect* const aspect [[buffer(1)]],
     constant Model* const models [[buffer(2)]],
@@ -144,7 +144,7 @@ vertex Coordinate shadowVertex(
 {
     constant auto* const model = &models[id];
 
-    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto inWorld = model->transform * float4(v.position, 1);
     const auto positions = aspect->applyTo(inWorld);
 
     return positions.inClip;
@@ -163,10 +163,10 @@ vertex Raster meshVertex(
 {
     constant auto* const model = &models[id];
 
-    const auto inWorld = model->transform * Coordinate(v.position, 1);
+    const auto inWorld = model->transform * float4(v.position, 1);
     const auto positions = aspect->applyTo(inWorld);
 
-    const auto normal = model->transform * Coordinate(v.normal, 0);
+    const auto normal = model->transform * float4(v.normal, 0);
 
     return {
         .positions = positions,

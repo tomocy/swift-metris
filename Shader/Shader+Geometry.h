@@ -12,33 +12,31 @@ enum class Axis {
     Z,
 };
 
-using Measure = float3;
-using Coordinate = float4;
-using Matrix = metal::float4x4;
+using float4x4 = metal::float4x4;
 
 }
 
 namespace D3 {
-namespace Measures {
+namespace Coordinates {
 
 struct InNDC {
 public:
-    Measure value;
+    float3 value;
 };
 
 struct InClip {
 public:
-    Coordinate value [[position]];
+    float4 value [[position]];
 };
 
 struct InView {
 public:
-    Coordinate value;
+    float4 value;
 };
 
 struct InWorld {
 public:
-    Coordinate value;
+    float4 value;
 };
 
 }
@@ -49,12 +47,12 @@ namespace Positions {
 
 struct WVC {
 public:
-    Measures::InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
+    Coordinates::InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
 
 public:
-    Measures::InWorld inWorld;
-    Measures::InView inView;
-    Measures::InClip inClip;
+    Coordinates::InWorld inWorld;
+    Coordinates::InView inView;
+    Coordinates::InClip inClip;
 };
 
 }
@@ -64,7 +62,7 @@ namespace D3 {
 
 struct Aspect {
 public:
-    Positions::WVC applyTo(const Measures::InWorld position) const constant
+    Positions::WVC applyTo(const Coordinates::InWorld position) const constant
     {
         auto positions = Positions::WVC();
 
@@ -76,8 +74,8 @@ public:
     }
 
 public:
-    Matrix projection;
-    Matrix view;
+    float4x4 projection;
+    float4x4 view;
 };
 
 }

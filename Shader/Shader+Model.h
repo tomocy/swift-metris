@@ -8,13 +8,13 @@ namespace D3 {
 
 struct Model {
 public:
-    Measures::InWorld applyTo(const Coordinate position) const constant
+    Coordinates::InWorld applyTo(const float4 position) const constant
     {
         return { .value = transform * position };
     }
 
 public:
-    Matrix transform;
+    float4x4 transform;
 };
 
 }

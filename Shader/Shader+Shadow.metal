@@ -16,7 +16,7 @@ vertex float4 vertexMain(
 {
     constant auto& model = models[id];
 
-    const auto inWorld = model.applyTo(Coordinate(v.position, 1));
+    const auto inWorld = model.applyTo(float4(v.position, 1));
     const auto positions = aspect.applyTo(inWorld);
 
     return positions.inClip.value;

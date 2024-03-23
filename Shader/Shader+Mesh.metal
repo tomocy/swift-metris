@@ -9,7 +9,7 @@ namespace Mesh {
 struct Raster {
 public:
     Positions::WVC positions;
-    Measures::InWorld normal;
+    Coordinates::InWorld normal;
     Texture::Reference texture;
 };
 
