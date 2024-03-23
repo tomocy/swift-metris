@@ -61,8 +61,9 @@ extension D3 {
     struct XShader {
         var commandQueue: MTLCommandQueue
         var resolution: SIMD2<Float>
-        var textures: Textures
         var states: States
+
+        var shadow: App.Shader.D3.Shadow
     }
 }
 
@@ -72,22 +73,19 @@ extension D3.XShader {
 
         self.resolution = resolution
 
-        textures = .init(
-            shadow: Textures.makeShadow(with: device)!
-        )
-
         states = .init(
-            shadow: try States.makeShadow(with: device),
             mesh: try States.makeMesh(with: device, sampleCount: sampleCount, formats: formats),
             depthStencil: States.makeDepthStencil(with: device)!,
             sampler: States.makeSampler(with: device)!
         )
+
+        shadow = .init(device: device)
     }
 }
 
 extension D3.XShader {
     func renderShadow(_ target: D3.XWorld, to buffer: MTLCommandBuffer) {
-        let desc = MTLRenderPassDescriptor.init()
+        /* let desc = MTLRenderPassDescriptor.init()
 
         do {
             let attachment = desc.depthAttachment!
@@ -111,7 +109,34 @@ extension D3.XShader {
             encoder.setFragmentSamplerState(states.sampler, index: 0)
         }
 
-        target.renderShadow(with: encoder, light: makeLightAspect())
+        target.renderShadow(with: encoder, light: makeLightAspect()) */
+
+        shadow.encode(target, to: buffer)
+    }
+}
+
+extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
+    func encode(with encoder: any MTLRenderCommandEncoder/*, to buffers: Shader.D3.Shadow.Buffers */) {
+        let light = ({
+            let projection = D3.Transform<Float>.orthogonal(
+                top: 1.5, bottom: -1.5,
+                left: -1.5, right: 1.5,
+                near: 0, far: 10
+            ).resolve()
+
+            let view = D3.Transform<Float>.look(
+                from: .init(1, 1, -1),
+                to: .init(0, 0, 0),
+                up: .init(0, 1, 0)
+            ).inverse
+
+            return App.D3.XShader.Aspect.init(
+                projection: projection,
+                view: view
+            )
+        }) ()
+
+        renderShadow(with: encoder, light: light)
     }
 }
 
@@ -130,7 +155,9 @@ extension D3.XShader {
 
     private func renderMesh(_ target: D3.XWorld, with encoder: MTLRenderCommandEncoder) {
         encoder.setRenderPipelineState(states.mesh)
-        encoder.setFragmentTexture(textures.shadow, index: 0)
+
+        // encoder.setFragmentTexture(textures.shadow, index: 0)
+        encoder.setFragmentTexture(shadow.target, index: 0)
 
         target.renderMesh(
             with: encoder,
@@ -239,27 +266,9 @@ extension D3.XShader.Textures {
 
 extension D3.XShader {
     struct States {
-        var shadow: MTLRenderPipelineState
         var mesh: MTLRenderPipelineState
         var depthStencil: MTLDepthStencilState
         var sampler: MTLSamplerState
-    }
-}
-
-extension D3.XShader.States {
-    static func makeShadow(with device: MTLDevice) throws -> MTLRenderPipelineState {
-        let desc: MTLRenderPipelineDescriptor = .init()
-
-        desc.depthAttachmentPixelFormat = .depth32Float
-
-        do {
-            let lib = device.makeDefaultLibrary()!
-            desc.vertexFunction = lib.makeFunction(name: "D3::X::shadowVertex")!
-        }
-
-        desc.vertexDescriptor = describeVertexAttributes()
-
-        return try device.makeRenderPipelineState(descriptor: desc)
     }
 }
 
