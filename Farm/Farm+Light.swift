@@ -83,7 +83,7 @@ extension Farm.Lights.Directional {
                     from: -direction,
                     to: .init(0, 0, 0),
                     up: .init(0, 1, 0)
-                )
+                ).inverse
             )
         )
     }

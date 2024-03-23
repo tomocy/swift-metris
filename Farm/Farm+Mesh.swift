@@ -32,7 +32,7 @@ extension Farm.Mesh {
                 length: MemoryLayout<Shader.D3.Model>.stride * models.count,
                 options: .storageModeShared
             )!
-            buffer.label = "\(name): Models: {Count: \(models.count)"
+            buffer.label = "\(name): Models: {Count: \(models.count)}"
 
             IO.writable(models).write(to: buffer)
             encoder.setVertexBuffer(buffer, offset: 0, index: 2)
