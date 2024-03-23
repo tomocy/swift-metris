@@ -64,6 +64,7 @@ extension D3 {
         var states: States
 
         var shadow: App.Shader.D3.Shadow
+        var mesh: App.Shader.D3.Mesh
     }
 }
 
@@ -80,6 +81,7 @@ extension D3.XShader {
         )
 
         shadow = .init(device: device)
+        mesh = .init(device: device)
     }
 }
 
@@ -116,7 +118,17 @@ extension D3.XShader {
 }
 
 extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
-    func encode(with encoder: any MTLRenderCommandEncoder/*, to buffers: Shader.D3.Shadow.Buffers */) {
+    func allocate(_ buffers: inout Shader.D3.Shadow.Buffers?, with device: any MTLDevice) {
+        // TODO(tomocy): Fix
+        buffers = .init(
+            vertices: device.makeBuffer(length: 1)!,
+            indices: device.makeBuffer(length: 1)!,
+            aspect: device.makeBuffer(length: 1)!,
+            models: device.makeBuffer(length: 1)!
+        )
+    }
+
+    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Shadow.Buffers) {
         let light = ({
             let projection = D3.Transform<Float>.orthogonal(
                 top: 1.5, bottom: -1.5,
@@ -142,7 +154,7 @@ extension D3.XWorld: App.Shader.D3.Shadow.Encodable {
 
 extension D3.XShader {
     func renderMain(_ target: D3.XWorld, to buffer: MTLCommandBuffer, as descriptor: MTLRenderPassDescriptor) {
-        let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
+        /* let encoder = buffer.makeRenderCommandEncoder(descriptor: descriptor)!
         defer { encoder.endEncoding() }
 
         encoder.setCullMode(.back)
@@ -150,19 +162,86 @@ extension D3.XShader {
         encoder.setDepthStencilState(states.depthStencil)
         encoder.setFragmentSamplerState(states.sampler, index: 0)
 
-        renderMesh(target, with: encoder)
+        renderMesh(target, with: encoder) */
+
+        mesh.encode(target, to: buffer, as: descriptor, shadow: shadow.target)
+    }
+}
+
+extension D3.XWorld: App.Shader.D3.Mesh.Encodable {
+    func allocate(_ buffers: inout Shader.D3.Mesh.Buffers?, with device: any MTLDevice) {
+        // TODO(tomocy): Fix
+        buffers = .init(
+            vertices: device.makeBuffer(length: 1)!,
+            indices: device.makeBuffer(length: 1)!,
+            aspect: device.makeBuffer(length: 1)!,
+            models: device.makeBuffer(length: 1)!,
+            lights: device.makeBuffer(length: 1)!
+        )
     }
 
-    private func renderMesh(_ target: D3.XWorld, with encoder: MTLRenderCommandEncoder) {
-        encoder.setRenderPipelineState(states.mesh)
+    func encode(with encoder: any MTLRenderCommandEncoder, to buffers: Shader.D3.Mesh.Buffers) {
+        let light = ({
+            let projection = D3.Transform<Float>.orthogonal(
+                top: 1.5, bottom: -1.5,
+                left: -1.5, right: 1.5,
+                near: 0, far: 10
+            ).resolve()
 
-        // encoder.setFragmentTexture(textures.shadow, index: 0)
-        encoder.setFragmentTexture(shadow.target, index: 0)
+            let view = D3.Transform<Float>.look(
+                from: .init(1, 1, -1),
+                to: .init(0, 0, 0),
+                up: .init(0, 1, 0)
+            ).inverse
 
-        target.renderMesh(
+            return App.D3.XShader.Aspect.init(
+                projection: projection,
+                view: view
+            )
+        }) ()
+
+        let view = ({
+            let projection = ({
+                let near: Float = 0.01
+                let far: Float = 100
+
+                let scale = ({
+                    let aspectRatio: Float = 1800 / 1200
+                    let fovY: Float = .pi / 3
+
+                    var scale = SIMD2<Float>.init(1, 1)
+                    scale.y = 1 / tan(fovY / 2)
+                    scale.x = scale.y / aspectRatio // 1 / w = (1 / h) * (h / w)
+
+                    return scale
+                }) ()
+
+                return D3.Matrix(
+                    rows: [
+                        .init(scale.x, 0, 0, 0),
+                        .init(0, scale.y, 0, 0),
+                        .init(0, 0, far / (far - near), -(far * near) / (far - near)),
+                        .init(0, 0, 1, 0)
+                    ]
+                )
+            }) ()
+
+            let view = D3.Transform<Float>(
+                translate: .init(0, 0.5, -2)
+            ).inversed(
+                rotate: false, scale: false
+            ).resolve()
+
+            return App.D3.XShader.Aspect.init(
+                projection: projection,
+                view: view
+            )
+        }) ()
+
+        renderMesh(
             with: encoder,
-            light: makeLightAspect(),
-            view: makeViewAspect()
+            light: light,
+            view: view
         )
     }
 }
