@@ -318,7 +318,7 @@ extension D3.XWorld.Spots {
             models.append(
                 .init(
                     transform: D3.Transform<Float>.init(
-                        translate: .init(radius, 0, 0),
+                        translate: .init(radius, 0, -radius),
                         rotate: .init(0, time + .pi / 2 * 0, 0)
                     ).resolve()
                 )
@@ -345,7 +345,7 @@ extension D3.XWorld.Spots {
             models.append(
                 .init(
                     transform: D3.Transform<Float>.init(
-                        translate: .init(-radius, 0, 0),
+                        translate: .init(-radius, 0, -radius),
                         rotate: .init(0, time + .pi / 2 * 3, 0)
                     ).resolve()
                 )
@@ -430,7 +430,7 @@ extension D3.XWorld.Monolith {
         do {
             let model = Shader.D3.Model.init(
                 transform: D3.Transform<Float>.init(
-                    translate: .init(0, 0.6, 0.4),
+                    translate: .init(0, 0.6, 0),
                     rotate: .init(0, .pi / 2 / 6, 0)
                 ).resolve()
             )
