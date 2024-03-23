@@ -51,6 +51,24 @@ extension Farm.Lights {
 }
 
 extension Farm.Lights.Directional {
+    func encode(with encoder: any MTLRenderCommandEncoder) {
+        let raw = asLight()
+
+        do {
+            let buffer = encoder.device.makeBuffer(
+                length: MemoryLayout.stride(ofValue: raw.aspect),
+                options: .storageModeShared
+            )!
+            buffer.label = "Light: Directional: Aspect"
+
+            IO.writable(raw.aspect).write(to: buffer)
+
+            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
+        }
+    }
+}
+
+extension Farm.Lights.Directional {
     func asLight() -> Shader.D3.Light {
         return .init(
             color: color,
