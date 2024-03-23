@@ -18,3 +18,11 @@ extension Farm.Lights {
         var direction: SIMD3<Float>
     }
 }
+
+extension Farm.Lights {
+    struct Point {
+        var color: SIMD3<Float>
+        var intensity: Float
+        var transform: D3.Transform<Float>
+    }
+}
