@@ -4,10 +4,21 @@ import MetalKit
 
 extension Farm {
     struct Mesh {
-        var name: String
         var raw: MTKMesh
+        var name: String
         var material: Material
         var transform: D3.Transform<Float>
+    }
+}
+
+extension Farm.Mesh {
+    init(_ raw: MTKMesh, name: String, material: Farm.Material, transform: D3.Transform<Float> = .init()) {
+        self.init(
+            raw: raw,
+            name: name,
+            material: material,
+            transform: transform
+        )
     }
 }
 
