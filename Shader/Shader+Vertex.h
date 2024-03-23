@@ -1,6 +1,7 @@
 // tomocy
 
 #include "Shader+Geometry.h"
+#include "Shader+Model.h"
 #include "Shader+Texture.h"
 
 namespace D3 {
@@ -15,11 +16,13 @@ public:
     };
 
 public:
-    static Vertex from(const constant Attributed& attributed)
+    static Vertex from(const Attributed attributed, const Aspect aspect, const Model model)
     {
         return {
-            .position = attributed.position,
-            .normal = attributed.normal,
+            .positions = aspect.applyTo(
+                model.applyTo(float4(attributed.position, 1))
+            ),
+            .normal = model.applyTo(float4(attributed.normal, 0)),
             .texture = {
                 .coordinate = attributed.textureCoordinate,
             },
@@ -27,8 +30,8 @@ public:
     }
 
 public:
-    float3 position;
-    float3 normal;
+    Positions::WVC positions;
+    Coordinates::InWorld normal;
     Texture::Reference texture;
 };
 

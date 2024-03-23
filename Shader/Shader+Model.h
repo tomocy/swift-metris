@@ -8,7 +8,7 @@ namespace D3 {
 
 struct Model {
 public:
-    Coordinates::InWorld applyTo(const float4 position) const constant
+    Coordinates::InWorld applyTo(const float4 position) const
     {
         return { .value = transform * position };
     }

@@ -47,7 +47,7 @@ namespace Positions {
 
 struct WVC {
 public:
-    Coordinates::InNDC inNDC() const constant { return { .value = inClip.value.xyz / inClip.value.w }; }
+    Coordinates::InNDC inNDC() const { return { .value = inClip.value.xyz / inClip.value.w }; }
 
 public:
     Coordinates::InWorld inWorld;
@@ -62,7 +62,7 @@ namespace D3 {
 
 struct Aspect {
 public:
-    Positions::WVC applyTo(const Coordinates::InWorld position) const constant
+    Positions::WVC applyTo(const Coordinates::InWorld position) const
     {
         auto positions = Positions::WVC();
 
