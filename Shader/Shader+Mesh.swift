@@ -89,21 +89,29 @@ extension Shader.D3.Mesh.PipelineStates {
 
         var stride = 0
 
-        do {
-            // float3 position
-            desc.attributes[0] = describe(format: .float3, offset: stride, bufferIndex: 0)
-            stride += MemoryLayout<SIMD3<Float>.Packed>.stride
-        }
-        do {
-            // float3 normal
-            desc.attributes[1] = describe(format: .float3, offset: stride, bufferIndex: 0)
-            stride += MemoryLayout<SIMD3<Float>.Packed>.stride
-        }
-        do {
-            // float2 textureCoordinate
-            desc.attributes[2] = describe(format: .float2, offset: stride, bufferIndex: 0)
-            stride += MemoryLayout<SIMD2<Float>>.stride
-        }
+        // float3 position
+        stride += describe(
+            to: desc.attributes[0],
+            format: .float3,
+            offset: stride,
+            bufferIndex: 0
+        )
+
+        // float3 normal
+        stride += describe(
+            to: desc.attributes[1],
+            format: .float3,
+            offset: stride,
+            bufferIndex: 0
+        )
+
+        // float2 texture.coordinate
+        stride += describe(
+            to: desc.attributes[2],
+            format: .float2,
+            offset: stride,
+            bufferIndex: 0
+        )
 
         desc.layouts[0].stride = stride
 
@@ -111,17 +119,84 @@ extension Shader.D3.Mesh.PipelineStates {
     }
 
     static func describe(
+        to descriptor: MTLVertexAttributeDescriptor,
         format: MTLVertexFormat,
         offset: Int,
         bufferIndex: Int
-    ) -> MTLVertexAttributeDescriptor {
-        let desc = MTLVertexAttributeDescriptor.init()
+    ) -> Int {
+        descriptor.format = format
+        descriptor.offset = offset
+        descriptor.bufferIndex = bufferIndex
 
-        desc.format = format
-        desc.offset = offset
-        desc.bufferIndex = bufferIndex
+        switch format {
+        case .float2:
+            return MemoryLayout<SIMD2<Float>>.stride
+        case .float3:
+            return MemoryLayout<SIMD3<Float>.Packed>.stride
+        default:
+            return 0
+        }
+    }
+}
+
+extension Shader.D3.Mesh.PipelineStates {
+    static func describe() -> MDLVertexDescriptor {
+        let desc = MDLVertexDescriptor.init()
+
+        var stride = 0
+
+        let attrs = desc.attributes as! [MDLVertexAttribute]
+
+        stride += describe(
+            to: attrs[0],
+            name: MDLVertexAttributePosition,
+            format: .float3,
+            offset: stride,
+            bufferIndex: 0
+        )
+
+        stride += describe(
+            to: attrs[1],
+            name: MDLVertexAttributeNormal,
+            format: .float3,
+            offset: stride,
+            bufferIndex: 0
+        )
+
+        stride += describe(
+            to: attrs[2],
+            name: MDLVertexAttributeTextureCoordinate,
+            format: .float2,
+            offset: stride,
+            bufferIndex: 0
+        )
+
+        let layouts = desc.layouts as! [MDLVertexBufferLayout]
+        layouts[0].stride = stride
 
         return desc
+    }
+
+    static func describe(
+        to attribute: MDLVertexAttribute,
+        name: String,
+        format: MDLVertexFormat,
+        offset: Int,
+        bufferIndex: Int
+    ) -> Int {
+        attribute.name = name
+        attribute.format = format
+        attribute.offset = offset
+        attribute.bufferIndex = bufferIndex
+
+        switch format {
+        case .float2:
+            return MemoryLayout<SIMD2<Float>>.stride
+        case .float3:
+            return MemoryLayout<SIMD3<Float>.Packed>.stride
+        default:
+            return 0
+        }
     }
 }
 

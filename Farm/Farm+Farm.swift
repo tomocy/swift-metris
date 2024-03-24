@@ -41,35 +41,11 @@ extension Farm {
 
             do {
                 do {
-                    let desc = MDLVertexDescriptor.init()
-
-                    var stride = 0
-
-                    let attrs = desc.attributes as! [MDLVertexAttribute]
-
-                    attrs[0].name = MDLVertexAttributePosition
-                    attrs[0].format = .float3
-                    attrs[0].offset = stride
-                    stride += MemoryLayout<D3.Storage<Float>.Packed>.stride
-
-                    attrs[1].name = MDLVertexAttributeNormal
-                    attrs[1].format = .float3
-                    attrs[1].offset = stride
-                    stride += MemoryLayout<D3.Storage<Float>.Packed>.stride
-
-                    attrs[2].name = MDLVertexAttributeTextureCoordinate
-                    attrs[2].format = .float2
-                    attrs[2].offset = stride
-                    stride += MemoryLayout<SIMD2<Float>>.stride
-
-                    let layouts = desc.layouts as! [MDLVertexBufferLayout]
-                    layouts[0].stride = stride
-
                     let asset = MDLAsset.init(
                         url: Bundle.main.url(
                             forResource: "Spot", withExtension: "obj", subdirectory: "Spot"
                         )!,
-                        vertexDescriptor: desc,
+                        vertexDescriptor: Shader.D3.Mesh.PipelineStates.describe(),
                         bufferAllocator: MTKMeshBufferAllocator.init(device: device)
                     )
 
