@@ -33,7 +33,7 @@ class Metris {
 
     private let device: MTLDevice
 
-    private var ticker: Ticker
+    private var ticker: MetrisX.Ticker
 
     private var field: Field
     private var currentMino: Mino?

@@ -62,8 +62,8 @@ extension MetrisX.Piece {
     func encode(with encoder: any MTLRenderCommandEncoder) {
         let body = Engine.Functional.init(body).state({
             $0.instances[0].transform.translate = .init(
-                Float(body.size.width) * .init(position.x),
-                Float(body.size.height) * .init(position.y),
+                Float(size.width) * .init(position.x),
+                Float(size.height) * .init(position.y),
                 0
             )
         }).generate()
