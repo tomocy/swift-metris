@@ -4,14 +4,14 @@ import CoreGraphics
 import ModelIO
 import Metal
 
-extension MetrisX {
+extension Metris {
     struct Mino {
         var pieces: [Piece]
         var position: SIMD2<Int>
     }
 }
 
-extension MetrisX.Mino {
+extension Metris.Mino {
     /// Complexity: O(pieces)
     var size: SIMD2<UInt> {
         let boundary = boundary
@@ -43,8 +43,8 @@ extension MetrisX.Mino {
     }
 }
 
-extension MetrisX.Mino {
-    func position(of piece: MetrisX.Piece) -> SIMD2<Int> { position &+ piece.position }
+extension Metris.Mino {
+    func position(of piece: Metris.Piece) -> SIMD2<Int> { position &+ piece.position }
 
     mutating func place(at position: SIMD2<Int>) {
         self.position = position
@@ -55,7 +55,7 @@ extension MetrisX.Mino {
     }
 }
 
-extension MetrisX.Mino {
+extension Metris.Mino {
     mutating func rotate() {
         let (sin, cos) = (/* sin(degree: -90) */ -1, /* cos(degree: -90) */ 0)
 
@@ -69,7 +69,7 @@ extension MetrisX.Mino {
     }
 }
 
-extension MetrisX.Mino {
+extension Metris.Mino {
     enum Shape : CaseIterable {
         case i, j, l, o, s, t, z
 
@@ -84,7 +84,7 @@ extension MetrisX.Mino {
     }
 }
 
-extension MetrisX.Mino {
+extension Metris.Mino {
     static func generate(
         in shape: Shape,
         device: any MTLDevice,

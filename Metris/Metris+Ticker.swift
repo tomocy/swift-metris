@@ -2,20 +2,20 @@
 
 import Foundation
 
-extension MetrisX {
+extension Metris {
     struct Ticker {
         let interval: TimeInterval
         private var raw: Timer?
     }
 }
 
-extension MetrisX.Ticker {
+extension Metris.Ticker {
     init(interval: TimeInterval) {
         self.interval = interval
     }
 }
 
-extension MetrisX.Ticker {
+extension Metris.Ticker {
     mutating func start(_ fn: @escaping () -> Void) {
         assert(raw == nil)
         raw = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in

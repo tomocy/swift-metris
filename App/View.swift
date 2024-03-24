@@ -33,7 +33,7 @@ class View: MTKView {
 
     private var shader: Shader.D3.Shader?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
-    private var world: /* Farm.World? */ MetrisX.World?
+    private var world: /* Farm.World? */ Metris.World?
 }
 
 extension View: MTKViewDelegate {

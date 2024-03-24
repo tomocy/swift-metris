@@ -5,8 +5,9 @@ import MetalKit
 
 extension Metris {
     struct Field {
-        init(for size: SIMD2<UInt>) {
+        init(size: SIMD2<UInt>) {
             self.size = size
+
             seats = .init(
                 repeating: nil,
                 count: .init(size.x * size.y)
@@ -15,11 +16,6 @@ extension Metris {
 
         let size: SIMD2<UInt>
         private var seats: [Piece?] = []
-
-        private var frameBuffers: Indexed<MTLSizedBuffers> = .init(
-            data: .init(options: .storageModeShared),
-            index: .init(options: .storageModeShared)
-        )
     }
 }
 
@@ -54,17 +50,17 @@ extension Metris.Field {
         return .init(x: x, y: y)
     }
 
-    func contains(_ position: Metris.Position) -> Bool {
+    func contains(_ position: SIMD2<Int>) -> Bool {
         return positionRange.x.contains(position.x)
             && positionRange.y.contains(position.y)
     }
 
-    func collides(at position: Metris.Position) -> Bool {
+    func collides(at position: SIMD2<Int>) -> Bool {
         return !contains(position)
             || at(position) != nil
     }
 
-    func index(at position: Metris.Position) -> Int? {
+    func index(at position: SIMD2<Int>) -> Int? {
         return contains(position)
                 ? Int(position.y * Int(size.x) + position.x)
                 : nil
@@ -74,7 +70,7 @@ extension Metris.Field {
         return index(at: .init(x, y))
     }
 
-    func at(_ position: Metris.Position) -> Metris.Piece? {
+    func at(_ position: SIMD2<Int>) -> Metris.Piece? {
         guard let i = index(at: position) else { return nil }
         return seats[i]
     }
@@ -87,9 +83,11 @@ extension Metris.Field {
 extension Metris.Field {
     var pieces: [Metris.Piece] { seats.compactMap { $0 } }
 
-    mutating func placePiece(_ piece: Metris.Piece?, at position: Metris.Position) {
+    mutating func placePiece(_ piece: Metris.Piece?, at position: SIMD2<Int>) {
         guard let i = index(at: position) else { return }
-        seats[i] = piece?.placed(at: position)
+        seats[i] = Engine.Functional.init(piece).state({ piece in
+            piece?.place(at: position)
+        }).generate()
     }
 }
 
@@ -157,52 +155,8 @@ extension Metris.Field {
     }
 }
 
-extension Metris.Field: IndexedPrimitive.Projectable, IndexedPrimitive.Appendable {
-    typealias Vertex = D3.Vertex<Float>
-
-    func project(beside primitive: IndexedPrimitive<Vertex>) -> IndexedPrimitive<Vertex> {
-        return pieces.project(beside: primitive)
-    }
-
-    func append(to primitive: inout IndexedPrimitive<Vertex>) {
-        pieces.append(to: &primitive)
-    }
-}
-
-extension Metris.Field: MTLFrameRenderCommandEncodableAt {
-    mutating func encode(
-        with encoder: MTLRenderCommandEncoder,
-        at index: Int,
-        in frame: MTLRenderFrame
-    ) {
-        let primitive = project()
-        let buffer = Indexed.init(
-            data: frameBuffers.data.take(
-                at: frame.id,
-                of: primitive.vertices.size,
-                with: encoder.device
-            ),
-            index: frameBuffers.index.take(
-                at: frame.id,
-                of: primitive.indices.size,
-                with: encoder.device
-            )
-        )
-
-        encoder.setVertexBuffer(buffer.data, offset: 0, index: index)
-        encode(with: encoder, to: buffer, by: .init(data: 0, index: 0))
-    }
-}
-
-extension Metris.Field: MTLRenderCommandEncodableToIndexed {
-    func encode(
-        with encoder: MTLRenderCommandEncoder,
-        to buffer: Indexed<MTLBuffer>, by offset: Indexed<Int>
-    ) {
-        var primitive = IndexedPrimitive<Vertex>.init()
-        pieces.forEach { piece in
-            piece.encode(with: encoder, to: buffer, beside: primitive)
-            piece.append(to: &primitive)
-        }
+extension Metris.Field {
+    func encode(with encoder: any MTLRenderCommandEncoder) {
+        pieces.forEach { $0.encode(with: encoder) }
     }
 }
