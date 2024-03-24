@@ -72,24 +72,18 @@ extension MetrisX.Engine {
 
 extension MetrisX.Engine {
     private func spawnMino() -> Bool {
-        let sizeXY = SIMD2<Float>.init(
-            .init(size.width) / .init(field.size.x),
-            .init(size.height) / .init(field.size.y)
-        )
+        let size: CGFloat = size.min() / .init(field.size.min())
 
         var mino = MetrisX.Mino.generate(
             in: .random(),
             device: device,
             allocator: allocator,
-            size: .init(
-                width: .init(sizeXY.x),
-                height: .init(sizeXY.y),
-                depth: .init(sizeXY.min())
-            ),
+            size: .init(width: size, height: size, depth: size),
             color: .random(
-                red: .random(in: 0...0.8),
-                green: .random(in: 0...0.8),
-                blue: .random(in: 0...0.8)
+                red: .random(in: 0.4...0.8),
+                green: .random(in: 0.4...0.8),
+                blue: .random(in: 0.4...0.8),
+                alpha: 0.8
             )
         )
 

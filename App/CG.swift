@@ -2,6 +2,10 @@
 
 import CoreGraphics
 
+extension CGSize {
+    func min() -> CGFloat { Swift.min(width, height) }
+}
+
 struct CGVolume {
     var width: CGFloat = 0
     var height: CGFloat = 0

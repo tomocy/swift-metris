@@ -159,7 +159,7 @@ extension MetrisX.Mino {
                 pieces: [
                     .init(device: device, allocator: allocator, size: size, color: color, position: .init(-1, 1)),
                     .init(device: device, allocator: allocator, size: size, color: color, position: .init(0, 1)),
-                    .init(device: device, allocator: allocator, size: size, color: color, position: .init(1, 0)),
+                    .init(device: device, allocator: allocator, size: size, color: color, position: .init(0, 0)),
                     .init(device: device, allocator: allocator, size: size, color: color, position: .init(1, 0)),
                 ],
                 position: position

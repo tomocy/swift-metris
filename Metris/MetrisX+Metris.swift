@@ -14,7 +14,7 @@ enum MetrisX {
                     aspectRatio: resolution.x / resolution.y, fovY: .pi / 3
                 ),
                 transform: .init(
-                    translate: .init(0, 0, -2)
+                    translate: .init(0.25, 0.5, -1)
                 )
             )
 
@@ -40,7 +40,7 @@ enum MetrisX {
             engine = .init(
                 device: device,
                 allocator: MTKMeshBufferAllocator.init(device: device),
-                size: .init(width: 1, height: 2)
+                size: .init(width: 0.5, height: 1)
             )
             engine.start()
         }
