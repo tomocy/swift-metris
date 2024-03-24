@@ -44,7 +44,7 @@ extension Farm {
 
                 spots = .init(
                     url: Bundle.main.url(
-                        forResource: "Spot", withExtension: "obj", subdirectory: "Spot"
+                        forResource: "Spot", withExtension: "obj", subdirectory: "Farm/Spot"
                     )!,
                     device: device,
                     allocator: allocator,
@@ -118,7 +118,7 @@ extension Farm {
                     name: "Ground",
                     material: .init(
                         color: try! MTKTextureLoader.init(device: device).newTexture(
-                            URL: Bundle.main.url(forResource: "Ground", withExtension: "png", subdirectory: "Ground")!,
+                            URL: Bundle.main.url(forResource: "Ground", withExtension: "png", subdirectory: "Farm/Ground")!,
                             options: [
                                 .textureUsage: MTLTextureUsage.shaderRead.rawValue,
                                 .textureStorageMode: MTLStorageMode.private.rawValue,
