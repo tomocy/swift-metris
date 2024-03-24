@@ -5,13 +5,11 @@ import MetalKit
 
 enum MetrisX {
     class World {
-        init(device: any MTLDevice, resolution: SIMD2<Float>) {
-            assert(resolution.x != 0 && resolution.y != 0)
-
+        init(device: any MTLDevice, resolution: CGSize) {
             camera = .init(
                 projection: App.Engine.D3.Transform.perspective(
                     near: 0.01, far: 100,
-                    aspectRatio: resolution.x / resolution.y, fovY: .pi / 3
+                    aspectRatio: .init(resolution.width / resolution.height), fovY: .pi / 3
                 ),
                 transform: .init(
                     translate: .init(0.25, 0.5, -1)
@@ -66,5 +64,11 @@ extension MetrisX.World: Shader.D3.Mesh.Encodable {
         lights.encode(with: encoder.raw)
 
         engine.encode(with: encoder.raw)
+    }
+}
+
+extension MetrisX.World {
+    func keyDown(with event: NSEvent) {
+        engine.keyDown(with: event)
     }
 }

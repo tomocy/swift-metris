@@ -28,7 +28,7 @@ class View: MTKView {
         // or more precisely, "Triple Framing".
         framePool = .init(size: 3) { index in .init(id: index) }
 
-        world = .init(device: device!, resolution: .init(drawableSize))
+        world = .init(device: device!, resolution: drawableSize)
     }
 
     private var shader: Shader.D3.Shader?
@@ -68,6 +68,6 @@ extension View: MTKViewDelegate {
 extension View {
     override func keyDown(with event: NSEvent) {
         guard let world = world else { return }
-        world.engine.keyDown(with: event)
+        world.keyDown(with: event)
     }
 }

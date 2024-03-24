@@ -7,13 +7,13 @@ enum Farm {}
 
 extension Farm {
     class World {
-        init(device: any MTLDevice) {
+        init(device: any MTLDevice, resolution: CGSize) {
             time = 0
 
             camera = .init(
                 projection: Engine.D3.Transform.perspective(
                     near: 0.01, far: 100,
-                    aspectRatio: 1800 / 1200, fovY: .pi / 3
+                    aspectRatio: .init(resolution.width / resolution.height), fovY: .pi / 3
                 ),
                 transform: .init(
                     translate: .init(0, 0.5, -2)
@@ -198,4 +198,8 @@ extension Farm.World: Shader.D3.Mesh.Encodable {
             monolith.encode(with: encoder.raw)
         }
     }
+}
+
+extension Farm.World {
+    func keyDown(with event: NSEvent) {}
 }
