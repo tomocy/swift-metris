@@ -48,7 +48,7 @@
 		F5AC33E32BAEDB5500A159FB /* Farm+Farm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33E22BAEDB5500A159FB /* Farm+Farm.swift */; };
 		F5AC33E52BAEDE3700A159FB /* Engine+Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33E42BAEDE3700A159FB /* Engine+Material.swift */; };
 		F5AC33E72BAEDEDB00A159FB /* Engine+Mesh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33E62BAEDEDB00A159FB /* Engine+Mesh.swift */; };
-		F5AC33ED2BAF07FD00A159FB /* Farm+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */; };
+		F5AC33ED2BAF07FD00A159FB /* Engine+Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33EC2BAF07FD00A159FB /* Engine+Camera.swift */; };
 		F5AC33EF2BAF094800A159FB /* Farm+Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33EE2BAF094800A159FB /* Farm+Light.swift */; };
 		F5AC33F42BAFF56C00A159FB /* Engine+Engine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33F32BAFF56C00A159FB /* Engine+Engine.swift */; };
 		F5AC33F62BAFF68000A159FB /* Engine+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33F52BAFF68000A159FB /* Engine+Transform.swift */; };
@@ -105,7 +105,7 @@
 		F5AC33E22BAEDB5500A159FB /* Farm+Farm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Farm.swift"; sourceTree = "<group>"; };
 		F5AC33E42BAEDE3700A159FB /* Engine+Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Material.swift"; sourceTree = "<group>"; };
 		F5AC33E62BAEDEDB00A159FB /* Engine+Mesh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Mesh.swift"; sourceTree = "<group>"; };
-		F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Camera.swift"; sourceTree = "<group>"; };
+		F5AC33EC2BAF07FD00A159FB /* Engine+Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Camera.swift"; sourceTree = "<group>"; };
 		F5AC33EE2BAF094800A159FB /* Farm+Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Farm+Light.swift"; sourceTree = "<group>"; };
 		F5AC33F32BAFF56C00A159FB /* Engine+Engine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Engine.swift"; sourceTree = "<group>"; };
 		F5AC33F52BAFF68000A159FB /* Engine+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Transform.swift"; sourceTree = "<group>"; };
@@ -235,7 +235,6 @@
 		F5AC33E12BAEDA6500A159FB /* Farm */ = {
 			isa = PBXGroup;
 			children = (
-				F5AC33EC2BAF07FD00A159FB /* Farm+Camera.swift */,
 				F5AC33E22BAEDB5500A159FB /* Farm+Farm.swift */,
 				F5AC33EE2BAF094800A159FB /* Farm+Light.swift */,
 			);
@@ -246,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				F56DCA6A2ABB6518000D29D5 /* Engine+Angle.swift */,
+				F5AC33EC2BAF07FD00A159FB /* Engine+Camera.swift */,
 				F5AC33F92BAFF92500A159FB /* Engine+Dimension.swift */,
 				F5AC33F32BAFF56C00A159FB /* Engine+Engine.swift */,
 				F5AC33FD2BB001E200A159FB /* Engine+Functional.swift */,
@@ -343,7 +343,7 @@
 				F5AC33FC2BAFF96B00A159FB /* Engine+Geometry.swift in Sources */,
 				F5AC33F42BAFF56C00A159FB /* Engine+Engine.swift in Sources */,
 				F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */,
-				F5AC33ED2BAF07FD00A159FB /* Farm+Camera.swift in Sources */,
+				F5AC33ED2BAF07FD00A159FB /* Engine+Camera.swift in Sources */,
 				F52641B12B7F551D00BB540F /* Vertex.swift in Sources */,
 				F52641B22B7F551D00BB540F /* Engine+Angle.swift in Sources */,
 				F5AC33D22BADA69000A159FB /* Shader+Model.swift in Sources */,

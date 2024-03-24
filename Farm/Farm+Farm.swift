@@ -10,9 +10,11 @@ extension Farm {
         init(device: any MTLDevice) {
             time = 0
 
-            camera = Farm.Camera.perspective(
-                near: 0.01, far: 100,
-                aspectRatio: 1800 / 1200, fovY: .pi / 3,
+            camera = .init(
+                projection: Engine.D3.Transform.perspective(
+                    near: 0.01, far: 100,
+                    aspectRatio: 1800 / 1200, fovY: .pi / 3
+                ),
                 transform: .init(
                     translate: .init(0, 0.5, -2)
                 )
@@ -178,7 +180,7 @@ extension Farm {
 
         var time: Float
 
-        var camera: Camera
+        var camera: Engine.D3.Camera
         var lights: Lights
 
         var spots: Engine.D3.Mesh

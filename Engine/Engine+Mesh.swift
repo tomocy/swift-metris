@@ -24,7 +24,7 @@ extension Engine.D3.Mesh {
 
         do {
             let models: [Shader.D3.Model] = instances.map {
-                .init(transform: $0.transform.resolved())
+                .init(transform: $0.transform.resolve())
             }
 
             let buffer = encoder.device.makeBuffer(

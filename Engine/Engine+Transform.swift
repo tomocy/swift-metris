@@ -56,7 +56,7 @@ extension Engine.D3.Transform {
 }
 
 extension Engine.D3.Transform {
-    func resolved() -> float4x4 {
+    func resolve() -> float4x4 {
         return Self.translate(translate)
             * Self.rotate(rotate)
             * Self.scale(scale)
@@ -125,5 +125,21 @@ extension Engine.D3.Transform {
                 .init(0, 0, 0, 1)
             ]
         )
+    }
+}
+
+extension Engine.D3.Transform {
+    mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
+        if (translate) {
+            self.translate *= -1
+        }
+
+        if (rotate) {
+            self.rotate *= -1
+        }
+
+        if (scale) {
+            self.scale *= -1
+        }
     }
 }
