@@ -54,6 +54,7 @@
 		F5AC33F62BAFF68000A159FB /* Engine+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33F52BAFF68000A159FB /* Engine+Transform.swift */; };
 		F5AC33FA2BAFF92500A159FB /* Engine+Dimension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33F92BAFF92500A159FB /* Engine+Dimension.swift */; };
 		F5AC33FC2BAFF96B00A159FB /* Engine+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33FB2BAFF96B00A159FB /* Engine+Geometry.swift */; };
+		F5AC33FE2BB001E200A159FB /* Engine+Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33FD2BB001E200A159FB /* Engine+Functional.swift */; };
 		F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0812BA03DC7005A1E01 /* IO.swift */; };
 		F5ACF0892BA2AA35005A1E01 /* Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0882BA2AA35005A1E01 /* Swift.swift */; };
 		F5ACF0922BA2B5FA005A1E01 /* Shader+Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */; };
@@ -110,6 +111,7 @@
 		F5AC33F52BAFF68000A159FB /* Engine+Transform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Transform.swift"; sourceTree = "<group>"; };
 		F5AC33F92BAFF92500A159FB /* Engine+Dimension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Dimension.swift"; sourceTree = "<group>"; };
 		F5AC33FB2BAFF96B00A159FB /* Engine+Geometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Geometry.swift"; sourceTree = "<group>"; };
+		F5AC33FD2BB001E200A159FB /* Engine+Functional.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Functional.swift"; sourceTree = "<group>"; };
 		F5ACF0812BA03DC7005A1E01 /* IO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IO.swift; sourceTree = "<group>"; };
 		F5ACF0882BA2AA35005A1E01 /* Swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swift.swift; sourceTree = "<group>"; };
 		F5ACF0912BA2B5FA005A1E01 /* Shader+Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Texture.swift"; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				F56DCA6A2ABB6518000D29D5 /* Engine+Angle.swift */,
 				F5AC33F92BAFF92500A159FB /* Engine+Dimension.swift */,
 				F5AC33F32BAFF56C00A159FB /* Engine+Engine.swift */,
+				F5AC33FD2BB001E200A159FB /* Engine+Functional.swift */,
 				F5AC33FB2BAFF96B00A159FB /* Engine+Geometry.swift */,
 				F5AC33E42BAEDE3700A159FB /* Engine+Material.swift */,
 				F5AC33E62BAEDEDB00A159FB /* Engine+Mesh.swift */,
@@ -326,6 +329,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F52641A92B7F551D00BB540F /* View.swift in Sources */,
+				F5AC33FE2BB001E200A159FB /* Engine+Functional.swift in Sources */,
 				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
 				F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */,
