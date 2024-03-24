@@ -45,6 +45,14 @@ extension MetrisX.Mino {
 
 extension MetrisX.Mino {
     func position(of piece: MetrisX.Piece) -> SIMD2<Int> { position &+ piece.position }
+
+    mutating func place(at position: SIMD2<Int>) {
+        self.position = position
+    }
+
+    mutating func place(by delta: SIMD2<Int>) {
+        position &+= delta
+    }
 }
 
 extension MetrisX.Mino {

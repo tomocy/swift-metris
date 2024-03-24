@@ -37,40 +37,18 @@ enum MetrisX {
                 )
             )
 
-            do {
-                let allocator = MTKMeshBufferAllocator.init(device: device)
-
-                piece = .init(
-                    raw: try! .init(
-                        mesh: .init(
-                            boxWithExtent: .init(0.75, 0.75, 0.75),
-                            segments: .init(1, 1, 1),
-                            inwardNormals: false,
-                            geometryType: .triangles,
-                            allocator: allocator
-                        ),
-                        device: device
-                    ),
-                    name: "Piece",
-                    material: .init(
-                        color: App.Engine.Texture.generate(
-                            .init(red: 0.1, green: 0.94, blue: 0.3, alpha: 1),
-                            with: device
-                        )!
-                    ),
-                    instances: [
-                        .init(
-                            transform: .init(translate: .init(0, 0, 0))
-                        )
-                    ]
-                )
-            }
+            engine = .init(
+                device: device,
+                allocator: MTKMeshBufferAllocator.init(device: device),
+                size: .init(width: 1, height: 2)
+            )
+            engine.start()
         }
 
         var camera: App.Engine.D3.Camera
         var lights: App.Engine.D3.Lights
 
-        var piece: App.Engine.D3.Mesh
+        var engine: Engine
     }
 }
 
@@ -78,9 +56,7 @@ extension MetrisX.World: Shader.D3.Shadow.Encodable {
     func encode(with encoder: Shader.D3.Shadow.Encoder) {
         lights.directional.encode(with: encoder.raw)
 
-        do {
-            piece.encode(with: encoder.raw)
-        }
+        engine.encode(with: encoder.raw)
     }
 }
 
@@ -89,9 +65,7 @@ extension MetrisX.World: Shader.D3.Mesh.Encodable {
         camera.encode(with: encoder.raw)
         lights.encode(with: encoder.raw)
 
-        do {
-            piece.encode(with: encoder.raw)
-        }
+        engine.encode(with: encoder.raw)
     }
 }
 

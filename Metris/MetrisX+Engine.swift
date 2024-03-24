@@ -1,5 +1,183 @@
 // tomocy
 
+import ModelIO
+import Metal
+
 extension MetrisX {
-    struct Engine {}
+    class Engine {
+        init(
+            device: any MTLDevice,
+            allocator: any MDLMeshBufferAllocator,
+            size: CGSize
+        ) {
+            self.device = device
+            self.allocator = allocator
+
+            self.size = size
+
+            ticker = .init(interval: 0.875)
+            field = .init(size: .init(10, 20))
+        }
+
+        deinit {
+            stop()
+        }
+
+        let device: any MTLDevice
+        let allocator: any MDLMeshBufferAllocator
+
+        let size: CGSize
+
+        private var ticker: Ticker
+        private var field: Field
+        private var mino: Mino?
+    }
+}
+
+extension MetrisX.Engine {
+    func start() {
+        ticker.start { [weak self] in
+            guard let self = self else { return }
+            self.commit()
+        }
+
+        commit()
+    }
+
+    func stop() {
+        ticker.stop()
+    }
+
+    private func commit() {
+        do {
+            let placed = processInput(Input.Move.down)
+            if placed {
+                return
+            }
+        }
+
+        field.clearLines()
+
+        do {
+            let placed = spawnMino()
+            if placed {
+                return
+            }
+        }
+
+        Log.debug("Metris: Game over")
+        stop()
+    }
+}
+
+extension MetrisX.Engine {
+    private func spawnMino() -> Bool {
+        let sizeXY = SIMD2<Float>.init(
+            .init(size.width) / .init(field.size.x),
+            .init(size.height) / .init(field.size.y)
+        )
+
+        var mino = MetrisX.Mino.generate(
+            in: .random(),
+            device: device,
+            allocator: allocator,
+            size: .init(
+                width: .init(sizeXY.x),
+                height: .init(sizeXY.y),
+                depth: .init(sizeXY.min())
+            ),
+            color: .random(
+                red: .random(in: 0...0.8),
+                green: .random(in: 0...0.8),
+                blue: .random(in: 0...0.8)
+            )
+        )
+
+        do {
+            let range = field.positionRange(for: mino.boundary)
+            mino.position = .init(
+                .random(in: range.x),
+                range.y.upperBound
+            )
+        }
+
+        self.mino = nil
+        return placeMino(mino)
+    }
+
+    private func placeMino(_ mino: MetrisX.Mino) -> Bool {
+        var nextField = field
+
+        if let mino = self.mino {
+            nextField.clearMino(mino)
+        }
+
+        let placed = nextField.placeMino(mino)
+        if !placed {
+            return false
+        }
+
+        field = nextField
+        self.mino = mino
+
+        return true
+    }
+}
+
+extension MetrisX.Engine {
+    func encode(with encoder: any MTLRenderCommandEncoder) {
+        field.encode(with: encoder)
+    }
+}
+
+extension MetrisX.Engine {
+    struct Input {}
+}
+
+extension MetrisX.Engine.Input {
+    struct Move : Equatable {
+        static var down: Self { .init(delta: .init(0, -1)) }
+        static var left: Self { .init(delta: .init(-1, 0)) }
+        static var right: Self { .init(delta: .init(1, 0)) }
+
+        static func ==(left: Self, right: Self) -> Bool {
+            return left.delta == right.delta
+        }
+
+        private init(delta: Metris.Position) {
+            self.delta = delta
+        }
+
+        let delta: Metris.Position
+    }
+}
+
+extension MetrisX.Engine {
+    func processInput(_ input: Input.Move) -> Bool {
+        guard let mino = mino else { return false }
+
+        return placeMino(
+            Engine.Functional.init(mino).state({
+                $0.place(by: input.delta)
+            }).generate()
+        )
+    }
+}
+
+extension MetrisX.Engine.Input {
+    struct Rotate {
+        static var being: Self { .init() }
+    }
+}
+
+extension MetrisX.Engine {
+    func processInput(_ input: Input.Rotate) -> Bool {
+        guard let mino = mino else { return false }
+
+        return placeMino(
+            Engine.Functional.init(mino).state({
+                $0.rotate()
+            }).generate()
+        )
+    }
 }
