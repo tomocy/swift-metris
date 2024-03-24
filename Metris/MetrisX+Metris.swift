@@ -9,7 +9,7 @@ enum MetrisX {
             assert(resolution.x != 0 && resolution.y != 0)
 
             camera = .init(
-                projection: Engine.D3.Transform.perspective(
+                projection: App.Engine.D3.Transform.perspective(
                     near: 0.01, far: 100,
                     aspectRatio: resolution.x / resolution.y, fovY: .pi / 3
                 ),
@@ -53,7 +53,7 @@ enum MetrisX {
                     ),
                     name: "Piece",
                     material: .init(
-                        color: Engine.Texture.generate(
+                        color: App.Engine.Texture.generate(
                             .init(red: 0.1, green: 0.94, blue: 0.3, alpha: 1),
                             with: device
                         )!
@@ -67,10 +67,10 @@ enum MetrisX {
             }
         }
 
-        var camera: Engine.D3.Camera
-        var lights: Engine.D3.Lights
+        var camera: App.Engine.D3.Camera
+        var lights: App.Engine.D3.Lights
 
-        var piece: Engine.D3.Mesh
+        var piece: App.Engine.D3.Mesh
     }
 }
 

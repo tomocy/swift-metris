@@ -34,7 +34,7 @@ extension MetrisX {
                 ),
                 name: "Piece",
                 material: .init(
-                    color: Engine.Texture.generate(color, with: device)!
+                    color: App.Engine.Texture.generate(color, with: device)!
                 ),
                 instances: [
                     .init(
@@ -48,7 +48,7 @@ extension MetrisX {
 
         let size: CGVolume
         var position: SIMD2<Int> = .init(0, 0)
-        var body: Engine.D3.Mesh
+        var body: App.Engine.D3.Mesh
     }
 }
 
