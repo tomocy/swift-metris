@@ -36,6 +36,7 @@
 		F57CC09D2BB01DF7009A3704 /* MetrisX+Metris.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */; };
 		F57CC09F2BB01F93009A3704 /* Engine+Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC09E2BB01F93009A3704 /* Engine+Texture.swift */; };
 		F57CC0A12BB02776009A3704 /* MetrisX+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */; };
+		F57CC0A52BB02F48009A3704 /* MetrisX+Mino.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC0A42BB02F48009A3704 /* MetrisX+Mino.swift */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
@@ -84,6 +85,7 @@
 		F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetrisX+Metris.swift"; sourceTree = "<group>"; };
 		F57CC09E2BB01F93009A3704 /* Engine+Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Texture.swift"; sourceTree = "<group>"; };
 		F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetrisX+Piece.swift"; sourceTree = "<group>"; };
+		F57CC0A42BB02F48009A3704 /* MetrisX+Mino.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetrisX+Mino.swift"; sourceTree = "<group>"; };
 		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5910ABD2B972D8300834DEF /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		F5910ABF2B975EF000834DEF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -200,8 +202,9 @@
 		F57CC09B2BB01D54009A3704 /* Metris */ = {
 			isa = PBXGroup;
 			children = (
-				F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */,
 				F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */,
+				F57CC0A42BB02F48009A3704 /* MetrisX+Mino.swift */,
+				F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */,
 			);
 			path = Metris;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				F5910ABC2B92242D00834DEF /* Log.swift in Sources */,
 				F52641A72B7F551D00BB540F /* Memory.swift in Sources */,
 				F54A4A142B99B28000E1F388 /* Dimension.swift in Sources */,
+				F57CC0A52BB02F48009A3704 /* MetrisX+Mino.swift in Sources */,
 				F52641AC2B7F551D00BB540F /* Math.swift in Sources */,
 				F52641A22B7F551D00BB540F /* App.swift in Sources */,
 				F5910ABE2B972D8300834DEF /* World.swift in Sources */,
