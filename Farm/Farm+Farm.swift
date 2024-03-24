@@ -40,61 +40,42 @@ extension Farm {
             )
 
             do {
-                do {
-                    let asset = MDLAsset.init(
-                        url: Bundle.main.url(
-                            forResource: "Spot", withExtension: "obj", subdirectory: "Spot"
-                        )!,
-                        vertexDescriptor: Shader.D3.Mesh.PipelineStates.describe(),
-                        bufferAllocator: MTKMeshBufferAllocator.init(device: device)
-                    )
+                let allocator = MTKMeshBufferAllocator.init(device: device)
 
-                    asset.loadTextures()
-
-                    let raws = asset.childObjects(of: MDLMesh.self) as! [MDLMesh]
-                    let raw = raws.first!
-                    let rawSubmesh = raw.submeshes!.firstObject as! MDLSubmesh
-
-                    spots = .init(
-                        raw: try! .init(
-                            mesh: raw,
-                            device: device
-                        ),
-                        name: "Spots",
-                        material: .init(
-                            color: try! MTKTextureLoader.init(device: device).newTexture(
-                                URL: rawSubmesh.material!.property(with: .baseColor)!.urlValue!,
-                                options: [
-                                    .textureUsage: MTLTextureUsage.shaderRead.rawValue,
-                                    .textureStorageMode: MTLStorageMode.private.rawValue,
-                                    .origin: MTKTextureLoader.Origin.bottomLeft.rawValue
-                                ]
+                spots = .init(
+                    url: Bundle.main.url(
+                        forResource: "Spot", withExtension: "obj", subdirectory: "Spot"
+                    )!,
+                    device: device,
+                    allocator: allocator,
+                    colorTextureOptions: [
+                        .textureUsage: MTLTextureUsage.shaderRead.rawValue,
+                        .textureStorageMode: MTLStorageMode.private.rawValue,
+                        .origin: MTKTextureLoader.Origin.bottomLeft.rawValue
+                    ],
+                    instances: [
+                        .init(
+                            transform: .init(
+                                translate: .init(-0.8, 0, -0.8)
                             )
                         ),
-                        instances: [
-                            .init(
-                                transform: .init(
-                                    translate: .init(-0.8, 0, -0.8)
-                                )
-                            ),
-                            .init(
-                                transform: .init(
-                                    translate: .init(-0.8, 0, 0.8)
-                                )
-                            ),
-                            .init(
-                                transform: .init(
-                                    translate: .init(0.8, 0, 0.8)
-                                )
-                            ),
-                            .init(
-                                transform: .init(
-                                    translate: .init(0.8, 0, -0.8)
-                                )
+                        .init(
+                            transform: .init(
+                                translate: .init(-0.8, 0, 0.8)
                             )
-                        ]
-                    )
-                }
+                        ),
+                        .init(
+                            transform: .init(
+                                translate: .init(0.8, 0, 0.8)
+                            )
+                        ),
+                        .init(
+                            transform: .init(
+                                translate: .init(0.8, 0, -0.8)
+                            )
+                        )
+                    ]
+                )
 
                 monolith = .init(
                     raw: try! .init(
@@ -103,7 +84,7 @@ extension Farm {
                             segments: .init(1, 1, 1),
                             inwardNormals: false,
                             geometryType: .triangles,
-                            allocator: MTKMeshBufferAllocator.init(device: device)
+                            allocator: allocator
                         ),
                         device: device
                     ),
@@ -130,7 +111,7 @@ extension Farm {
                             planeWithExtent: .init(4, 0, 4),
                             segments: .init(1, 1),
                             geometryType: .triangles,
-                            allocator: MTKMeshBufferAllocator.init(device: device)
+                            allocator: allocator
                         ),
                         device: device
                     ),

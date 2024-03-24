@@ -1,5 +1,6 @@
 // tomocy
 
+import Foundation
 import MetalKit
 
 extension Engine.D3 {
@@ -15,6 +16,43 @@ extension Engine.D3 {
 extension Engine.D3.Mesh {
     struct Instance {
         var transform: Engine.D3.Transform
+    }
+}
+
+extension Engine.D3.Mesh {
+    init(
+        url: URL,
+        device: any MTLDevice,
+        allocator: any MDLMeshBufferAllocator,
+        colorTextureOptions: [MTKTextureLoader.Option : Any]? = nil,
+        instances: [Instance]
+    ) {
+        let asset = MDLAsset.init(
+            url: url,
+            vertexDescriptor: Shader.D3.Mesh.PipelineStates.describe(),
+            bufferAllocator: allocator
+        )
+
+        asset.loadTextures()
+
+        let raws = asset.childObjects(of: MDLMesh.self) as! [MDLMesh]
+        let raw = raws.first!
+        let rawSubmesh = raw.submeshes!.firstObject as! MDLSubmesh
+
+        self.init(
+            raw: try! .init(
+                mesh: raw,
+                device: device
+            ),
+            name: "Spots",
+            material: .init(
+                color: try! MTKTextureLoader.init(device: device).newTexture(
+                    URL: rawSubmesh.material!.property(with: .baseColor)!.urlValue!,
+                    options: colorTextureOptions
+                )
+            ),
+            instances: instances
+        )
     }
 }
 
