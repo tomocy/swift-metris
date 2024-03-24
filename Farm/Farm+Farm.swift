@@ -90,10 +90,10 @@ extension Farm {
                     ),
                     name: "Monolith",
                     material: .init(
-                        color: Texture.Sources.Color.load(
+                        color: Engine.Texture.generate(
                             .init(red: 0.05, green: 0.05, blue: 0.05, alpha: 0.95),
                             with: device
-                        )!.raw
+                        )!
                     ),
                     instances: [
                         .init(
