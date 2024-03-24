@@ -4,9 +4,9 @@ import simd
 
 extension Engine.D3 {
     struct Transform {
-        var translate: SIMD3<Float>
-        var rotate: SIMD3<Float>
-        var scale: SIMD3<Float>
+        var translate: SIMD3<Float> = .init()
+        var rotate: SIMD3<Float> = .init()
+        var scale: SIMD3<Float> = .init(repeating: 1)
     }
 }
 

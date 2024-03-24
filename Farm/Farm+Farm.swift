@@ -181,9 +181,9 @@ extension Farm {
         var camera: Camera
         var lights: Lights
 
-        var spots: Mesh
-        var monolith: Mesh
-        var ground: Mesh
+        var spots: Engine.D3.Mesh
+        var monolith: Engine.D3.Mesh
+        var ground: Engine.D3.Mesh
     }
 }
 

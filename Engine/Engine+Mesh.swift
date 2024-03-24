@@ -1,9 +1,8 @@
 // tomocy
 
-import Foundation
 import MetalKit
 
-extension Farm {
+extension Engine.D3 {
     struct Mesh {
         var raw: MTKMesh
         var name: String
@@ -13,19 +12,19 @@ extension Farm {
     }
 }
 
-extension Farm.Mesh {
+extension Engine.D3.Mesh {
     struct Instance {
-        var transform: D3.Transform<Float>
+        var transform: Engine.D3.Transform
     }
 }
 
-extension Farm.Mesh {
+extension Engine.D3.Mesh {
     func encode(with encoder: any MTLRenderCommandEncoder) {
         encoder.setFragmentTexture(material.color, index: 1)
 
         do {
             let models: [Shader.D3.Model] = instances.map {
-                .init(transform: $0.transform.resolve())
+                .init(transform: $0.transform.resolved())
             }
 
             let buffer = encoder.device.makeBuffer(
