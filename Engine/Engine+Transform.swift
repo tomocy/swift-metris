@@ -129,6 +129,28 @@ extension Engine.D3.Transform {
 }
 
 extension Engine.D3.Transform {
+    static func look(
+        from position: SIMD3<Float>,
+        to target: SIMD3<Float>,
+        up: SIMD3<Float> = .init(0, 1, 0)
+    ) -> float4x4 {
+        let forward = normalize(target - position)
+        let right = normalize(cross(up, forward))
+        let up = normalize(cross(forward, right))
+
+        return .init(
+            rows: [
+                .init(right.x, up.x, forward.x, position.x),
+                .init(right.y, up.y, forward.y, position.y),
+                .init(right.z, up.z, forward.z, position.z),
+                .init(0, 0, 0, 1),
+            ]
+        )
+    }
+}
+
+
+extension Engine.D3.Transform {
     mutating func inverse(translate: Bool = true, rotate: Bool = true, scale: Bool = true) {
         if (translate) {
             self.translate *= -1

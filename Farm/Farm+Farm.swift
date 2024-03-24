@@ -181,7 +181,7 @@ extension Farm {
         var time: Float
 
         var camera: Engine.D3.Camera
-        var lights: Lights
+        var lights: Engine.D3.Lights
 
         var spots: Engine.D3.Mesh
         var monolith: Engine.D3.Mesh
