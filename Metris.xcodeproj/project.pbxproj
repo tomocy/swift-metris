@@ -35,6 +35,7 @@
 		F54A4A182B99B29700E1F388 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54A4A172B99B29700E1F388 /* State.swift */; };
 		F57CC09D2BB01DF7009A3704 /* MetrisX+Metris.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */; };
 		F57CC09F2BB01F93009A3704 /* Engine+Texture.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC09E2BB01F93009A3704 /* Engine+Texture.swift */; };
+		F57CC0A12BB02776009A3704 /* MetrisX+Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910ABE2B972D8300834DEF /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABD2B972D8300834DEF /* World.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
@@ -82,6 +83,7 @@
 		F56DCA6A2ABB6518000D29D5 /* Engine+Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Angle.swift"; sourceTree = "<group>"; };
 		F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetrisX+Metris.swift"; sourceTree = "<group>"; };
 		F57CC09E2BB01F93009A3704 /* Engine+Texture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Texture.swift"; sourceTree = "<group>"; };
+		F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MetrisX+Piece.swift"; sourceTree = "<group>"; };
 		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5910ABD2B972D8300834DEF /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		F5910ABF2B975EF000834DEF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 		F57CC09B2BB01D54009A3704 /* Metris */ = {
 			isa = PBXGroup;
 			children = (
+				F57CC0A02BB02776009A3704 /* MetrisX+Piece.swift */,
 				F57CC09C2BB01DF7009A3704 /* MetrisX+Metris.swift */,
 			);
 			path = Metris;
@@ -381,6 +384,7 @@
 				F52641AE2B7F551D00BB540F /* Camera.swift in Sources */,
 				F52641B62B7F551D00BB540F /* Ticker.swift in Sources */,
 				F5AC33D92BADD19F00A159FB /* Shader+Shadow.metal in Sources */,
+				F57CC0A12BB02776009A3704 /* MetrisX+Piece.swift in Sources */,
 				F5AC33CC2BADA1A300A159FB /* Texture.swift in Sources */,
 				F54A4A182B99B29700E1F388 /* State.swift in Sources */,
 				F52641A52B7F551D00BB540F /* Primitive.swift in Sources */,
