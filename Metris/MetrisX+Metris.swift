@@ -68,4 +68,3 @@ extension MetrisX.World: Shader.D3.Mesh.Encodable {
         engine.encode(with: encoder.raw)
     }
 }
-

@@ -1,5 +1,6 @@
 // tomocy
 
+import AppKit
 import ModelIO
 import Metal
 
@@ -125,6 +126,48 @@ extension MetrisX.Engine {
 }
 
 extension MetrisX.Engine {
+    func keyDown(with event: NSEvent) {
+        guard let chars = event.charactersIgnoringModifiers else { return }
+        guard !chars.isEmpty else { return }
+
+        let command = chars.first!.lowercased()
+
+        if let input = MetrisX.Engine.Input.Move.parse(command) {
+            _ = processInput(input)
+            return
+        }
+
+        if let input = MetrisX.Engine.Input.Rotate.parse(command) {
+            _ = processInput(input)
+        }
+    }
+}
+
+extension MetrisX.Engine {
+    func processInput(_ input: Input.Move) -> Bool {
+        guard let mino = mino else { return false }
+
+        return placeMino(
+            Engine.Functional.init(mino).state({
+                $0.place(by: input.delta)
+            }).generate()
+        )
+    }
+}
+
+extension MetrisX.Engine {
+    func processInput(_ input: Input.Rotate) -> Bool {
+        guard let mino = mino else { return false }
+
+        return placeMino(
+            Engine.Functional.init(mino).state({
+                $0.rotate()
+            }).generate()
+        )
+    }
+}
+
+extension MetrisX.Engine {
     struct Input {}
 }
 
@@ -146,15 +189,18 @@ extension MetrisX.Engine.Input {
     }
 }
 
-extension MetrisX.Engine {
-    func processInput(_ input: Input.Move) -> Bool {
-        guard let mino = mino else { return false }
-
-        return placeMino(
-            Engine.Functional.init(mino).state({
-                $0.place(by: input.delta)
-            }).generate()
-        )
+extension MetrisX.Engine.Input.Move {
+    static func parse(_ command: String) -> Self? {
+        switch command {
+        case "s":
+            return .down
+        case "a":
+            return .left
+        case "d":
+            return .right
+        default:
+            return nil
+        }
     }
 }
 
@@ -164,14 +210,13 @@ extension MetrisX.Engine.Input {
     }
 }
 
-extension MetrisX.Engine {
-    func processInput(_ input: Input.Rotate) -> Bool {
-        guard let mino = mino else { return false }
-
-        return placeMino(
-            Engine.Functional.init(mino).state({
-                $0.rotate()
-            }).generate()
-        )
+extension MetrisX.Engine.Input.Rotate {
+    static func parse(_ command: String) -> Self? {
+        switch command {
+        case "f":
+            return .being
+        default:
+            return nil
+        }
     }
 }

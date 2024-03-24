@@ -65,50 +65,9 @@ extension View: MTKViewDelegate {
     }
 }
 
-//extension View {
-//    override func keyDown(with event: NSEvent) {
-//        guard let world = world else { return }
-//
-//        guard let chars = event.charactersIgnoringModifiers else { return }
-//        if chars.isEmpty {
-//            return
-//        }
-//
-//        let command = chars.first!.lowercased()
-//
-//        if let input = Metris.Input.Move.parse(command) {
-//            _ = world.metris.processInput(input)
-//            return
-//        }
-//
-//        if let input = Metris.Input.Rotate.parse(command) {
-//            _ = world.metris.processInput(input)
-//        }
-//    }
-//}
-//
-//extension Metris.Input.Move {
-//    static func parse(_ command: String) -> Self? {
-//        switch command {
-//        case "s":
-//            return .down
-//        case "a":
-//            return .left
-//        case "d":
-//            return .right
-//        default:
-//            return nil
-//        }
-//    }
-//}
-//
-//extension Metris.Input.Rotate {
-//    static func parse(_ command: String) -> Self? {
-//        switch command {
-//        case "f":
-//            return .being
-//        default:
-//            return nil
-//        }
-//    }
-//}
+extension View {
+    override func keyDown(with event: NSEvent) {
+        guard let world = world else { return }
+        world.engine.keyDown(with: event)
+    }
+}
