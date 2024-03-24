@@ -28,29 +28,29 @@ class View: MTKView {
         // or more precisely, "Triple Framing".
         framePool = .init(size: 3) { index in .init(id: index) }
 
-        farm = .init(device: device!)
+        world = .init(device: device!, resolution: .init(drawableSize))
     }
 
     private var shader: Shader.D3.Shader?
     private var framePool: SemaphoricPool<MTLRenderFrame>?
-    private var farm: Farm.World?
+    private var world: /* Farm.World? */ MetrisX.World?
 }
 
 extension View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        guard let farm = farm else { return }
+        guard let world = world else { return }
 
         _ = framePool!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
-        farm.tick(delta: 1 / .init(preferredFramesPerSecond))
+        // world.tick(delta: 1 / .init(preferredFramesPerSecond))
 
-        shader!.shadow.encode(farm, to: command)
+        shader!.shadow.encode(world, to: command)
         shader!.mesh.encode(
-            farm,
+            world,
             to: command, as: currentRenderPassDescriptor!,
             shadow: shader!.shadow.target
         )
