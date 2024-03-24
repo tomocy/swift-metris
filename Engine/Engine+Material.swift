@@ -2,7 +2,7 @@
 
 import Metal
 
-extension Farm {
+extension Engine {
     struct Material {
         var color: MTLTexture
     }

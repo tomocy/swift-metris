@@ -7,7 +7,7 @@ extension Farm {
     struct Mesh {
         var raw: MTKMesh
         var name: String
-        var material: Material
+        var material: Engine.Material
 
         var instances: [Instance]
     }
