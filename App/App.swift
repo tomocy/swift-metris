@@ -6,7 +6,7 @@ class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         Engine.Log.log("App: Launched")
 
-        window = Window.init(
+        window = Engine.Window.init(
             contentRect: .init(
                 x: 0, y: 0,
                 width: 800, height: 600

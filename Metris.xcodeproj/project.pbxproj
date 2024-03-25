@@ -15,7 +15,7 @@
 		F52641AB2B7F551D00BB540F /* Shader+SemaphoricPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56D46122B7801C300B069DC /* Shader+SemaphoricPool.swift */; };
 		F52641AC2B7F551D00BB540F /* Shader+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534F2AC3F9C3008E4200 /* Shader+Math.swift */; };
 		F52641B22B7F551D00BB540F /* Engine+Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56DCA6A2ABB6518000D29D5 /* Engine+Angle.swift */; };
-		F52641B42B7F551D00BB540F /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3D2ABB5097003505BE /* Window.swift */; };
+		F52641B42B7F551D00BB540F /* Engine+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3D2ABB5097003505BE /* Engine+Window.swift */; };
 		F52641B52B7F551D00BB540F /* Shader+Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A953512AC8617B008E4200 /* Shader+Vector.swift */; };
 		F52641B62B7F551D00BB540F /* Metris+Ticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F54E82D42ACDC71D00D2143B /* Metris+Ticker.swift */; };
 		F52641CC2B7F5DB600BB540F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52641CB2B7F5DB600BB540F /* main.swift */; };
@@ -103,7 +103,7 @@
 		F5ACF0962BA2BC5E005A1E01 /* Shader+Shader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Shader.swift"; sourceTree = "<group>"; };
 		F5E88F2B2ABB4CF4003505BE /* Shader+Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Memory.swift"; sourceTree = "<group>"; };
 		F5E88F3B2ABB5075003505BE /* Engine+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+View.swift"; sourceTree = "<group>"; };
-		F5E88F3D2ABB5097003505BE /* Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		F5E88F3D2ABB5097003505BE /* Engine+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Window.swift"; sourceTree = "<group>"; };
 		F5E88F3F2ABB50C5003505BE /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +126,6 @@
 				F52641992B7F54F900BB540F /* Assets.xcassets */,
 				F5AC33BA2BAD951500A159FB /* Info.plist */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
-				F5E88F3D2ABB5097003505BE /* Window.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -228,6 +227,7 @@
 				F57CC09E2BB01F93009A3704 /* Engine+Texture.swift */,
 				F5AC33F52BAFF68000A159FB /* Engine+Transform.swift */,
 				F5E88F3B2ABB5075003505BE /* Engine+View.swift */,
+				F5E88F3D2ABB5097003505BE /* Engine+Window.swift */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -342,7 +342,7 @@
 				F5AC33EF2BAF094800A159FB /* Engine+Light.swift in Sources */,
 				F57CC09D2BB01DF7009A3704 /* Metris+Metris.swift in Sources */,
 				F5AC33F62BAFF68000A159FB /* Engine+Transform.swift in Sources */,
-				F52641B42B7F551D00BB540F /* Window.swift in Sources */,
+				F52641B42B7F551D00BB540F /* Engine+Window.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
