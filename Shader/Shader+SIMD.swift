@@ -4,12 +4,6 @@ import simd
 import Metal
 
 extension SIMD3 {
-    init(filled value: Scalar) {
-        self.init(value, value, value)
-    }
-}
-
-extension SIMD3 {
     init(_ other: SIMD4<Scalar>) {
         self.init(other.x, other.y, other.z)
     }
