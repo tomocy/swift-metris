@@ -6,10 +6,10 @@ let app = NSApplication.shared
 
 app.setActivationPolicy(.regular)
 
-let delegate = AppDelegate.init()
+let delegate = Engine.App.Delegate.init()
 app.delegate = delegate
 
-let menu = AppMenu.init()
+let menu = Engine.App.Menu.init()
 app.menu = menu
 
 _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

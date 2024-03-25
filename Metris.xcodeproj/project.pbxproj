@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F526419A2B7F54F900BB540F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F52641992B7F54F900BB540F /* Assets.xcassets */; };
-		F52641A22B7F551D00BB540F /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* App.swift */; };
+		F52641A22B7F551D00BB540F /* Engine+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3F2ABB50C5003505BE /* Engine+App.swift */; };
 		F52641A32B7F551D00BB540F /* Shader+CG.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A9534D2AC3F9B7008E4200 /* Shader+CG.swift */; };
 		F52641A72B7F551D00BB540F /* Shader+Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F2B2ABB4CF4003505BE /* Shader+Memory.swift */; };
 		F52641A92B7F551D00BB540F /* Engine+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E88F3B2ABB5075003505BE /* Engine+View.swift */; };
@@ -104,7 +104,7 @@
 		F5E88F2B2ABB4CF4003505BE /* Shader+Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Memory.swift"; sourceTree = "<group>"; };
 		F5E88F3B2ABB5075003505BE /* Engine+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+View.swift"; sourceTree = "<group>"; };
 		F5E88F3D2ABB5097003505BE /* Engine+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+Window.swift"; sourceTree = "<group>"; };
-		F5E88F3F2ABB50C5003505BE /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		F5E88F3F2ABB50C5003505BE /* Engine+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Engine+App.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				F526419E2B7F54F900BB540F /* App.entitlements */,
-				F5E88F3F2ABB50C5003505BE /* App.swift */,
 				F52641992B7F54F900BB540F /* Assets.xcassets */,
 				F5AC33BA2BAD951500A159FB /* Info.plist */,
 				F52641CB2B7F5DB600BB540F /* main.swift */,
@@ -215,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				F56DCA6A2ABB6518000D29D5 /* Engine+Angle.swift */,
+				F5E88F3F2ABB50C5003505BE /* Engine+App.swift */,
 				F5AC33EC2BAF07FD00A159FB /* Engine+Camera.swift */,
 				F5AC33F92BAFF92500A159FB /* Engine+Dimension.swift */,
 				F5AC33F32BAFF56C00A159FB /* Engine+Engine.swift */,
@@ -308,7 +308,7 @@
 				F52641A72B7F551D00BB540F /* Shader+Memory.swift in Sources */,
 				F57CC0A52BB02F48009A3704 /* Metris+Mino.swift in Sources */,
 				F52641AC2B7F551D00BB540F /* Shader+Math.swift in Sources */,
-				F52641A22B7F551D00BB540F /* App.swift in Sources */,
+				F52641A22B7F551D00BB540F /* Engine+App.swift in Sources */,
 				F57CC0A72BB03147009A3704 /* Metris+Field.swift in Sources */,
 				F5AC33CA2BADA10A00A159FB /* Shader+Geometry.swift in Sources */,
 				F5AC33E72BAEDEDB00A159FB /* Engine+Mesh.swift in Sources */,
