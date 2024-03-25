@@ -7,8 +7,15 @@ extension Engine {
     class View: MTKView {
         required init(coder: NSCoder) { super.init(coder: coder) }
 
-        init(frame: NSRect) {
-            super.init(frame: frame, device: MTLCreateSystemDefaultDevice())
+        init(size: CGSize) {
+            super.init(
+                frame: .init(
+                    origin: .init(x: 0, y: 0),
+                    size: size
+                ),
+                device: MTLCreateSystemDefaultDevice()
+            )
+
             Engine.Log.log("View: Initialized", with: [
                 ("Frame", frame.size.debugDescription),
             ])

@@ -8,7 +8,11 @@ extension Engine {
 
 extension Engine.App {
     class Delegate: NSObject {
-        private var window: NSWindow?
+        init(window: NSWindow) {
+            self.window = window
+        }
+
+        private var window: NSWindow
     }
 }
 
@@ -16,15 +20,8 @@ extension Engine.App.Delegate: NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         Engine.Log.log("App: Launched")
 
-        window = Engine.Window.init(
-            contentRect: .init(
-                x: 0, y: 0,
-                width: 800, height: 600
-            )
-        )
-
-        window!.makeKeyAndOrderFront(notification)
-        window!.center()
+        window.makeKeyAndOrderFront(notification)
+        window.center()
 
         NSApplication.shared.activate(ignoringOtherApps: true)
     }

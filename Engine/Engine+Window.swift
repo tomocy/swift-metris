@@ -3,17 +3,20 @@
 import Cocoa
 
 extension Engine {
-    class Window : NSWindow {
-        init(contentRect: NSRect) {
+    class Window: NSWindow {
+        init(title: String, size: CGSize, view: NSView) {
             super.init(
-                contentRect: contentRect,
+                contentRect: .init(
+                    origin: .init(x: 0, y: 0),
+                    size: size
+                ),
                 styleMask: [.titled, .miniaturizable, .closable, .fullSizeContentView],
                 backing: .buffered,
                 defer: false
             )
 
-            title = "Metris"
-            contentView = Engine.View.init(frame: contentRect)
+            self.title = title
+            contentView = view
             makeFirstResponder(contentView)
 
             Engine.Log.log("Window: Initialized")
