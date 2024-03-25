@@ -25,7 +25,7 @@ extension Metris.Mino {
     }
 
     /// Complexity: O(pieces)
-    var boundary: Vector2D<ClosedRange<Int>> {
+    var boundary: Shader.Vector2<ClosedRange<Int>> {
         let (min, max) = pieces.reduce((
             min: SIMD2.init(0, 0),
             max: SIMD2.init(0, 0)

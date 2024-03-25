@@ -20,7 +20,7 @@ extension Metris {
 }
 
 extension Metris.Field {
-    var positionRange: Vector2D<ClosedRange<Int>> {
+    var positionRange: Shader.Vector2<ClosedRange<Int>> {
         return positionRange(
             for: .init(
                 x: 0...0,
@@ -29,7 +29,7 @@ extension Metris.Field {
         )
     }
 
-    func positionRange(for boundary: Vector2D<ClosedRange<Int>>) -> Vector2D<ClosedRange<Int>> {
+    func positionRange(for boundary: Shader.Vector2<ClosedRange<Int>>) -> Shader.Vector2<ClosedRange<Int>> {
         assert(boundary.x.lowerBound <= 0 && boundary.x.upperBound >= 0)
         assert(boundary.y.lowerBound <= 0 && boundary.y.upperBound >= 0)
 
