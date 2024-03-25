@@ -26,34 +26,3 @@ extension SIMD2 where Scalar: Comparable {
         )
     }
 }
-
-extension SIMD2<UInt> {
-    init(_ other: SIMD2<Int>) {
-        self.init(
-            x: .init(other.x),
-            y: .init(other.y)
-        )
-    }
-}
-
-extension SIMD2<Float> {
-    init(_ size: CGSize) {
-        self.init()
-
-        x = .init(size.width)
-        y = .init(size.height)
-    }
-}
-
-
-extension SIMD4<Float> {
-    init(_ color: CGColor) {
-        self.init()
-
-        guard let c = color.components else { return }
-        x = .init(c[0])
-        y = .init(c[1])
-        z = .init(c[2])
-        w = .init(c[3])
-    }
-}

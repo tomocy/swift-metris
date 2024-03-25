@@ -6,6 +6,15 @@ extension CGSize {
     func min() -> CGFloat { Swift.min(width, height) }
 }
 
+extension SIMD2<Float> {
+    init(_ size: CGSize) {
+        self.init()
+
+        x = .init(size.width)
+        y = .init(size.height)
+    }
+}
+
 struct CGVolume {
     var width: CGFloat = 0
     var height: CGFloat = 0
@@ -35,4 +44,16 @@ extension CGColor {
     var green: CGFloat { components?[1] ?? 0 }
     var blue: CGFloat { components?[2] ?? 0 }
     var alpha: CGFloat { components?[3] ?? 0 }
+}
+
+extension SIMD4<Float> {
+    init(_ color: CGColor) {
+        self.init()
+
+        guard let c = color.components else { return }
+        x = .init(c[0])
+        y = .init(c[1])
+        z = .init(c[2])
+        w = .init(c[3])
+    }
 }

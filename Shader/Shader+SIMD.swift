@@ -3,6 +3,15 @@
 import simd
 import Metal
 
+extension SIMD2<UInt> {
+    init(_ other: SIMD2<Int>) {
+        self.init(
+            x: .init(other.x),
+            y: .init(other.y)
+        )
+    }
+}
+
 extension SIMD3 {
     init(_ other: SIMD4<Scalar>) {
         self.init(other.x, other.y, other.z)
