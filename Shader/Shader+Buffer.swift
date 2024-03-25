@@ -32,3 +32,19 @@ extension Shader.Buffers {
     }
 }
 
+extension Shader.Buffers {
+    struct Framed {
+        let frame: Int
+        let buffers: Shader.Buffers
+    }
+}
+
+extension Shader.Buffers.Framed {
+    func take(at key: String, of size: Int, options: MTLResourceOptions) -> (any MTLBuffer)? {
+        return buffers.take(
+            at: "\(key)/\(frame)",
+            of: size,
+            options: options
+        )
+    }
+}
