@@ -16,6 +16,7 @@ protocol _ShaderRenderContext {
 extension Shader.D3 {
     struct Shader {
         var commandQueue: MTLCommandQueue
+        var framePool: App.Shader.SemaphoricPool<App.Shader.Frame>
         var buffers: App.Shader.Buffers
 
         var shadow: Shadow
@@ -26,6 +27,11 @@ extension Shader.D3 {
 extension Shader.D3.Shader {
     init(device: any MTLDevice) {
         commandQueue = device.makeCommandQueue()!
+
+        // This is the frame pool that achieves "Triple Buffering",
+        // or more precisely, "Triple Framing".
+        framePool = .init(size: 3) { .init(id: $0) }
+
         buffers = .init(device: device)
 
         shadow = .init(
@@ -36,5 +42,15 @@ extension Shader.D3.Shader {
             device: device,
             buffers: .init(frame: 0, buffers: buffers)
         )
+    }
+}
+
+extension Shader.D3.Shader {
+    mutating func acquire() {
+        _ = framePool.acquire()
+    }
+
+    mutating func release() {
+        framePool.release()
     }
 }

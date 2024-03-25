@@ -23,16 +23,10 @@ class View: MTKView {
         depthStencilPixelFormat = .depth32Float
 
         shader = .init(device: device!)
-
-        // This is the frame pool that is used to achieve "Triple Buffering",
-        // or more precisely, "Triple Framing".
-        framePool = .init(size: 3) { index in .init(id: index) }
-
         world = .init(device: device!, resolution: drawableSize)
     }
 
     private var shader: Shader.D3.Shader?
-    private var framePool: Shader.SemaphoricPool<MTLRenderFrame>?
     private var world: /* Farm.World? */ Metris.World?
 }
 
@@ -42,7 +36,7 @@ extension View: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let world = world else { return }
 
-        _ = framePool!.acquire()
+        shader!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
@@ -59,7 +53,7 @@ extension View: MTKViewDelegate {
 
         command.addCompletedHandler { [weak self] _ in
             guard let self = self else { return }
-            self.framePool?.release()
+            self.shader!.release()
         }
         command.commit()
     }
