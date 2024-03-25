@@ -65,14 +65,7 @@ extension Engine.D3.Mesh {
                 .init(transform: $0.transform.resolve())
             }
 
-            let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout<Shader.D3.Model>.stride * models.count,
-                options: .storageModeShared
-            )!
-            buffer.label = "\(name): Models: {Count: \(models.count)}"
-
-            IO.writable(models).write(to: buffer)
-            encoder.setVertexBuffer(buffer, offset: 0, index: 2)
+            models.encode(with: encoder)
         }
 
         do {
