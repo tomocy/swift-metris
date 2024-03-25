@@ -146,7 +146,7 @@ extension Farm {
     }
 }
 
-extension Farm.World {
+extension Farm.World: Engine.View.Target {
     func tick(delta: Float) {
         time += delta
 

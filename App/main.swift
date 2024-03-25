@@ -1,19 +1,12 @@
 // tomocy
 
 import Cocoa
+import Metal
 
 let app = NSApplication.shared
-
 app.setActivationPolicy(.regular)
 
-let size = CGSize.init(width: 800, height: 600)
-let delegate = Engine.App.Delegate.init(
-    window: Engine.Window.init(
-        title: "Metris",
-        size: size,
-        view: Engine.View.init(size: size)
-    )
-)
+let delegate = Farm.App.init()
 app.delegate = delegate
 
 let menu = Engine.App.Menu.init()
