@@ -2,20 +2,24 @@
 
 import Foundation
 
-struct Log {
+extension Engine {
+    struct Log {}
+}
+
+extension Engine.Log {
     typealias Details = [(String, String)]
 
-    static func debug(_ message: String, with details: Details? = nil) {
+    static func log(_ message: String, with details: Details? = nil) {
         var output = message
 
         if let details = details {
-            output += ": \(serializeDetails(details))"
+            output += ": \(serialize(details))"
         }
 
         NSLog(output)
     }
 
-    private static func serializeDetails(_ details: Details) -> String {
+    private static func serialize(_ details: Details) -> String {
         var output = "{"
         for i in 0..<details.count {
             if i != 0 {

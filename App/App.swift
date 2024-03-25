@@ -4,7 +4,7 @@ import Cocoa
 
 class AppDelegate : NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        Log.debug("App: Launched")
+        Engine.Log.log("App: Launched")
 
         window = Window.init(
             contentRect: .init(

@@ -8,10 +8,10 @@ class View: MTKView {
 
     init(frame: NSRect) {
         super.init(frame: frame, device: MTLCreateSystemDefaultDevice())
-        Log.debug("View: Initialized", with: [
+        Engine.Log.log("View: Initialized", with: [
             ("Frame", frame.size.debugDescription),
         ])
-        Log.debug("View: GPU", with: [
+        Engine.Log.log("View: GPU", with: [
             ("Name", device!.name),
         ])
 

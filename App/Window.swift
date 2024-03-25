@@ -15,8 +15,8 @@ class Window : NSWindow {
         contentView = View.init(frame: contentRect)
         makeFirstResponder(contentView)
 
-        Log.debug("Window: Initialized")
-        Log.debug("Window: Frame", with: [
+        Engine.Log.log("Window: Initialized")
+        Engine.Log.log("Window: Frame", with: [
             ("Range", "\(frame)"),
         ])
     }

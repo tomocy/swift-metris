@@ -66,7 +66,7 @@ extension Metris.Engine {
             }
         }
 
-        Log.debug("Metris: Game over")
+        Engine.Log.log("Metris: Game over")
         stop()
     }
 }
