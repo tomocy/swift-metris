@@ -38,8 +38,8 @@ extension Engine {
             self.target = target
         }
 
+        private(set) var target: Target?
         private var shader: Shader.D3.Shader?
-        private var target: Target?
     }
 }
 
@@ -71,13 +71,6 @@ extension Engine.View: MTKViewDelegate {
         command.commit()
     }
 }
-
-//extension Engine.View {
-//    override func keyDown(with event: NSEvent) {
-//        guard let world = world else { return }
-//        world.keyDown(with: event)
-//    }
-//}
 
 extension Engine.View {
     typealias Target = _EngineViewTarget

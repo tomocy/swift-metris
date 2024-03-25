@@ -50,6 +50,10 @@ enum Metris {
     }
 }
 
+extension Metris.World: Engine.View.Target {
+    func tick(delta: Float) {}
+}
+
 extension Metris.World: Shader.D3.Shadow.Encodable {
     func encode(in context: Shader.D3.Shadow.Context) {
         lights.directional.encode(in: context)

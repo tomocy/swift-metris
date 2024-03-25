@@ -6,10 +6,13 @@ import Metal
 let app = NSApplication.shared
 app.setActivationPolicy(.regular)
 
-let delegate = Farm.App.init()
-app.delegate = delegate
+let (delegate, menu) = (
+    // Farm.App.init(),
+    Metris.AppX.init(),
+    Engine.App.Menu.init()
+)
 
-let menu = Engine.App.Menu.init()
+app.delegate = delegate
 app.menu = menu
 
 _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)
