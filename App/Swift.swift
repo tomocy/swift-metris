@@ -1,5 +1,0 @@
-// tomocy
-
-protocol DefaultInitializable {
-    init()
-}
