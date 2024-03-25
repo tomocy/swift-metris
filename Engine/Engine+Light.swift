@@ -11,14 +11,14 @@ extension Engine.D3 {
 }
 
 extension Engine.D3.Lights {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
+    func encode(in context: some Shader.RenderContext) {
         let raw = Shader.D3.Lights.init(
             ambient: ambient.asLight(),
             directional: directional.asLight(),
             point: point.asLight()
         )
 
-        raw.encode(with: encoder)
+        raw.encode(in: context)
     }
 }
 

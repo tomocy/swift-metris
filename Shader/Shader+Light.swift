@@ -19,15 +19,18 @@ extension Shader.D3 {
 }
 
 extension Shader.D3.Lights {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
-        let buffer = encoder.device.makeBuffer(
-            length: MemoryLayout<Self>.stride,
+    func encode(in context: some Shader.RenderContext) {
+        let buffer = context.buffers.take(
+            at: "Lights",
+            of: MemoryLayout<Self>.stride,
             options: .storageModeShared
         )!
-        buffer.label = "Lights"
 
+        encode(with: context.encoder, to: buffer)
+    }
+
+    func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
         IO.writable(self).write(to: buffer)
-
         encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
     }
 }

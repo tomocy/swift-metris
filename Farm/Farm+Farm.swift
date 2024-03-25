@@ -188,7 +188,7 @@ extension Farm.World: Shader.D3.Shadow.Encodable {
 extension Farm.World: Shader.D3.Mesh.Encodable {
     func encode(in context: Shader.D3.Mesh.Context) {
         camera.encode(in: context)
-        lights.encode(with: context.encoder)
+        lights.encode(in: context)
 
         do {
             spots.encode(with: context.encoder)
