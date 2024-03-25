@@ -35,7 +35,7 @@ extension Shader.D3.Mesh {
 
         encoder.setFragmentTexture(shadow, index: 0)
 
-        target.encode(with: .init(raw: encoder))
+        target.encode(in: .init(encoder: encoder))
     }
 }
 
@@ -212,8 +212,8 @@ extension Shader.D3.Mesh.PipelineStates {
 }
 
 extension Shader.D3.Mesh {
-    struct Encoder {
-        var raw: any MTLRenderCommandEncoder
+    struct Context {
+        var encoder: any MTLRenderCommandEncoder
     }
 }
 
@@ -222,5 +222,5 @@ extension Shader.D3.Mesh {
 }
 
 protocol _ShaderD3MeshEncodable {
-    func encode(with encoder: Shader.D3.Mesh.Encoder)
+    func encode(in context: Shader.D3.Mesh.Context)
 }

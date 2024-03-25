@@ -172,30 +172,30 @@ extension Farm.World {
 }
 
 extension Farm.World: Shader.D3.Shadow.Encodable {
-    func encode(with encoder: Shader.D3.Shadow.Encoder) {
-        lights.directional.encode(with: encoder.raw)
+    func encode(in context: Shader.D3.Shadow.Context) {
+        lights.directional.encode(with: context.encoder)
 
         do {
-            spots.encode(with: encoder.raw)
-            ground.encode(with: encoder.raw)
+            spots.encode(with: context.encoder)
+            ground.encode(with: context.encoder)
         }
         do {
-            monolith.encode(with: encoder.raw)
+            monolith.encode(with: context.encoder)
         }
     }
 }
 
 extension Farm.World: Shader.D3.Mesh.Encodable {
-    func encode(with encoder: Shader.D3.Mesh.Encoder) {
-        camera.encode(with: encoder.raw)
-        lights.encode(with: encoder.raw)
+    func encode(in context: Shader.D3.Mesh.Context) {
+        camera.encode(with: context.encoder)
+        lights.encode(with: context.encoder)
 
         do {
-            spots.encode(with: encoder.raw)
-            ground.encode(with: encoder.raw)
+            spots.encode(with: context.encoder)
+            ground.encode(with: context.encoder)
         }
         do {
-            monolith.encode(with: encoder.raw)
+            monolith.encode(with: context.encoder)
         }
     }
 }

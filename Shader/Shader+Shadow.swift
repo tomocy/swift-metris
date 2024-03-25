@@ -47,7 +47,7 @@ extension Shader.D3.Shadow {
         encoder.setRenderPipelineState(pipelineStates.render)
         encoder.setDepthStencilState(pipelineStates.depthStencil)
 
-        target.encode(with: .init(raw: encoder))
+        target.encode(in: .init(encoder: encoder))
     }
 
     private func describe() -> MTLRenderPassDescriptor {
@@ -102,8 +102,8 @@ extension Shader.D3.Shadow.PipelineStates {
 }
 
 extension Shader.D3.Shadow {
-    struct Encoder {
-        var raw: any MTLRenderCommandEncoder
+    struct Context {
+        var encoder: any MTLRenderCommandEncoder
     }
 }
 
@@ -112,5 +112,5 @@ extension Shader.D3.Shadow {
 }
 
 protocol _ShaderD3ShadowEncodable {
-    func encode(with encoder: Shader.D3.Shadow.Encoder)
+    func encode(in context: Shader.D3.Shadow.Context)
 }
