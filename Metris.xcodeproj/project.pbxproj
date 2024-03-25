@@ -32,6 +32,7 @@
 		F57CC0AB2BB04F85009A3704 /* Farm in Resources */ = {isa = PBXBuildFile; fileRef = F57CC0AA2BB04F85009A3704 /* Farm */; };
 		F5910ABC2B92242D00834DEF /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABB2B92242D00834DEF /* Log.swift */; };
 		F5910AC02B975EF000834DEF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5910ABF2B975EF000834DEF /* Array.swift */; };
+		F5A7825A2BB151C700415220 /* Shader+Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A782592BB151C700415220 /* Shader+Buffer.swift */; };
 		F5AC33CA2BADA10A00A159FB /* Shader+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33C92BADA10A00A159FB /* Shader+Geometry.swift */; };
 		F5AC33D22BADA69000A159FB /* Shader+Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33D12BADA69000A159FB /* Shader+Model.swift */; };
 		F5AC33D42BADABA700A159FB /* Shader+Mesh.metal in Sources */ = {isa = PBXBuildFile; fileRef = F5AC33D32BADABA700A159FB /* Shader+Mesh.metal */; };
@@ -78,6 +79,7 @@
 		F57CC0AA2BB04F85009A3704 /* Farm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Farm; sourceTree = "<group>"; };
 		F5910ABB2B92242D00834DEF /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		F5910ABF2B975EF000834DEF /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		F5A782592BB151C700415220 /* Shader+Buffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Shader+Buffer.swift"; sourceTree = "<group>"; };
 		F5A9534D2AC3F9B7008E4200 /* CG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CG.swift; sourceTree = "<group>"; };
 		F5A9534F2AC3F9C3008E4200 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		F5A953512AC8617B008E4200 /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		F5AC33C02BAD986600A159FB /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				F5A782592BB151C700415220 /* Shader+Buffer.swift */,
 				F54A4A122B99B28000E1F388 /* Shader+Geometry.h */,
 				F5AC33C92BADA10A00A159FB /* Shader+Geometry.swift */,
 				F5AC33D52BADAE9400A159FB /* Shader+Light.h */,
@@ -330,6 +333,7 @@
 				F5AC33FC2BAFF96B00A159FB /* Engine+Geometry.swift in Sources */,
 				F5AC33F42BAFF56C00A159FB /* Engine+Engine.swift in Sources */,
 				F5ACF0822BA03DC7005A1E01 /* IO.swift in Sources */,
+				F5A7825A2BB151C700415220 /* Shader+Buffer.swift in Sources */,
 				F5AC33ED2BAF07FD00A159FB /* Engine+Camera.swift in Sources */,
 				F52641B22B7F551D00BB540F /* Engine+Angle.swift in Sources */,
 				F5AC33D22BADA69000A159FB /* Shader+Model.swift in Sources */,
