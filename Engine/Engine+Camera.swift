@@ -29,7 +29,7 @@ extension Engine.D3.Camera {
             }).generate().resolve()
         )
 
-        IO.writable(aspect).write(to: buffer)
+        Shader.IO.writable(aspect).write(to: buffer)
 
         encoder.setVertexBuffer(buffer, offset: 0, index: 1)
     }

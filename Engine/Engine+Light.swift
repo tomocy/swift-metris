@@ -64,7 +64,7 @@ extension Engine.D3.Lights.Directional {
     func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
         let raw = asLight()
 
-        IO.writable(raw.aspect).write(to: buffer)
+        Shader.IO.writable(raw.aspect).write(to: buffer)
         encoder.setVertexBuffer(buffer, offset: 0, index: 1)
     }
 }

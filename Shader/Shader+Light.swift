@@ -30,7 +30,7 @@ extension Shader.D3.Lights {
     }
 
     func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
-        IO.writable(self).write(to: buffer)
+        Shader.IO.writable(self).write(to: buffer)
         encoder.setFragmentBuffer(buffer, offset: 0, index: 0)
     }
 }

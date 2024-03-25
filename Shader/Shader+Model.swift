@@ -21,7 +21,7 @@ extension Array where Element == Shader.D3.Model {
     }
 
     func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
-        IO.writable(self).write(to: buffer)
+        Shader.IO.writable(self).write(to: buffer)
         encoder.setVertexBuffer(buffer, offset: 0, index: 2)
     }
 }
