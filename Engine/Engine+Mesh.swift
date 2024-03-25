@@ -57,26 +57,32 @@ extension Engine.D3.Mesh {
 }
 
 extension Engine.D3.Mesh {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
-        encoder.setFragmentTexture(material.color, index: 1)
+    func encode(in context: some Shader.RenderContext) {
+        context.encoder.setFragmentTexture(material.color, index: 1)
 
         do {
             let models: [Shader.D3.Model] = instances.map {
                 .init(transform: $0.transform.resolve())
             }
 
-            models.encode(with: encoder)
+            models.encode(in: context, key: "\(name)/Models?Count=\(models.count)")
         }
 
         do {
             raw.vertexBuffers.forEach { buffer in
-                buffer.buffer.label = "\(name): Vertex: {Offset: \(buffer.offset)}"
-                encoder.setVertexBuffer(buffer.buffer, offset: buffer.offset, index: 0)
+                buffer.buffer.label = "\(name)/Vertex?Offset=\(buffer.offset)"
+
+                context.encoder.setVertexBuffer(
+                    buffer.buffer,
+                    offset: buffer.offset,
+                    index: 0
+                )
             }
 
             raw.submeshes.forEach { mesh in
-                mesh.indexBuffer.buffer.label = "\(name): Index: {Offset: \(mesh.indexBuffer.offset)}"
-                encoder.drawIndexedPrimitives(
+                mesh.indexBuffer.buffer.label = "\(name)/Index?Offset=\(mesh.indexBuffer.offset)"
+
+                context.encoder.drawIndexedPrimitives(
                     type: mesh.primitiveType,
                     indexCount: mesh.indexCount,
                     indexType: mesh.indexType,

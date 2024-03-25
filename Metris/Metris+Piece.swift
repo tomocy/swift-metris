@@ -59,8 +59,10 @@ extension Metris.Piece {
 }
 
 extension Metris.Piece {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
+    func encode(in context: some Shader.RenderContext) {
         let body = Engine.Functional.init(body).state({
+            $0.name = "Piece?Position=(\(position.x),\(position.y))"
+
             $0.instances[0].transform.translate = .init(
                 Float(size.width) * .init(position.x),
                 Float(size.height) * .init(position.y),
@@ -68,6 +70,6 @@ extension Metris.Piece {
             )
         }).generate()
 
-        body.encode(with: encoder)
+        body.encode(in: context)
     }
 }

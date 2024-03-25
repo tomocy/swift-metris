@@ -120,8 +120,8 @@ extension Metris.Engine {
 }
 
 extension Metris.Engine {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
-        field.encode(with: encoder)
+    func encode(in context: some Shader.RenderContext) {
+        field.encode(in: context)
     }
 }
 

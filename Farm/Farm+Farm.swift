@@ -176,11 +176,11 @@ extension Farm.World: Shader.D3.Shadow.Encodable {
         lights.directional.encode(in: context)
 
         do {
-            spots.encode(with: context.encoder)
-            ground.encode(with: context.encoder)
+            spots.encode(in: context)
+            ground.encode(in: context)
         }
         do {
-            monolith.encode(with: context.encoder)
+            monolith.encode(in: context)
         }
     }
 }
@@ -191,11 +191,11 @@ extension Farm.World: Shader.D3.Mesh.Encodable {
         lights.encode(in: context)
 
         do {
-            spots.encode(with: context.encoder)
-            ground.encode(with: context.encoder)
+            spots.encode(in: context)
+            ground.encode(in: context)
         }
         do {
-            monolith.encode(with: context.encoder)
+            monolith.encode(in: context)
         }
     }
 }

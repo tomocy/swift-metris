@@ -156,7 +156,7 @@ extension Metris.Field {
 }
 
 extension Metris.Field {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
-        pieces.forEach { $0.encode(with: encoder) }
+    func encode(in context: some Shader.RenderContext) {
+        pieces.forEach { $0.encode(in: context) }
     }
 }
