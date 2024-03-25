@@ -12,7 +12,7 @@ class Window : NSWindow {
         )
 
         title = "Metris"
-        contentView = View.init(frame: contentRect)
+        contentView = Engine.View.init(frame: contentRect)
         makeFirstResponder(contentView)
 
         Engine.Log.log("Window: Initialized")
