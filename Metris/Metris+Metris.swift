@@ -52,7 +52,7 @@ enum Metris {
 
 extension Metris.World: Shader.D3.Shadow.Encodable {
     func encode(in context: Shader.D3.Shadow.Context) {
-        lights.directional.encode(with: context.encoder)
+        lights.directional.encode(in: context)
 
         engine.encode(with: context.encoder)
     }

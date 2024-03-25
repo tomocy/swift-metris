@@ -173,7 +173,7 @@ extension Farm.World {
 
 extension Farm.World: Shader.D3.Shadow.Encodable {
     func encode(in context: Shader.D3.Shadow.Context) {
-        lights.directional.encode(with: context.encoder)
+        lights.directional.encode(in: context)
 
         do {
             spots.encode(with: context.encoder)

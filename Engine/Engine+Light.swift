@@ -51,20 +51,21 @@ extension Engine.D3.Lights {
 }
 
 extension Engine.D3.Lights.Directional {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
+    func encode(in context: some Shader.RenderContext) {
+        let buffer = context.buffers.take(
+            at: "Lights/Directional/Aspect",
+            of: MemoryLayout<Shader.D3.Aspect>.stride,
+            options: .storageModeShared
+        )!
+
+        encode(with: context.encoder, to: buffer)
+    }
+
+    func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
         let raw = asLight()
 
-        do {
-            let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: raw.aspect),
-                options: .storageModeShared
-            )!
-            buffer.label = "Light: Directional: Aspect"
-
-            IO.writable(raw.aspect).write(to: buffer)
-
-            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
-        }
+        IO.writable(raw.aspect).write(to: buffer)
+        encoder.setVertexBuffer(buffer, offset: 0, index: 1)
     }
 }
 
