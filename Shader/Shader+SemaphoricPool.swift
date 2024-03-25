@@ -2,7 +2,20 @@
 
 import Dispatch
 
-struct SemaphoricPool<Element> {
+extension Shader {
+    struct SemaphoricPool<E> {
+        private var elements: [Element] = []
+        private var semaphore: DispatchSemaphore
+        private var userCount: Int = 0
+        private var acquireIndex: Int = 0
+    }
+}
+
+extension Shader.SemaphoricPool {
+    typealias Element = E
+}
+
+extension Shader.SemaphoricPool {
     init(size: Int, fill: (Int) -> Element) {
         elements.reserveCapacity(size)
         for i in 0..<size {
@@ -15,7 +28,13 @@ struct SemaphoricPool<Element> {
         userCount = 0
         acquireIndex = 0
     }
+}
 
+extension Shader.SemaphoricPool {
+    var size: Int { elements.count }
+}
+
+extension Shader.SemaphoricPool {
     mutating func acquire() -> Element {
         semaphore.wait()
         assert(userCount < size)
@@ -35,11 +54,4 @@ struct SemaphoricPool<Element> {
         semaphore.signal()
         userCount -= 1
     }
-
-    var size: Int { elements.count }
-
-    private var elements: [Element] = []
-    private var semaphore: DispatchSemaphore
-    private var userCount: Int = 0
-    private var acquireIndex: Int = 0
 }
