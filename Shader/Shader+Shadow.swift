@@ -6,17 +6,20 @@ extension Shader.D3 {
     struct Shadow {
         var target: any MTLTexture
         var pipelineStates: PipelineStates
+        var buffers: App.Shader.Buffers.Framed
     }
 }
 
 extension Shader.D3.Shadow {
-    init(device: any MTLDevice) {
+    init(device: any MTLDevice, buffers: Shader.Buffers.Framed) {
         target = Self.makeTarget(with: device)!
 
         pipelineStates = .init(
             render: try! PipelineStates.make(with: device),
             depthStencil: PipelineStates.make(with: device)!
         )
+
+        self.buffers = buffers
     }
 }
 
@@ -47,7 +50,9 @@ extension Shader.D3.Shadow {
         encoder.setRenderPipelineState(pipelineStates.render)
         encoder.setDepthStencilState(pipelineStates.depthStencil)
 
-        target.encode(in: .init(encoder: encoder))
+        target.encode(
+            in: .init(encoder: encoder, buffers: buffers)
+        )
     }
 
     private func describe() -> MTLRenderPassDescriptor {
@@ -102,8 +107,9 @@ extension Shader.D3.Shadow.PipelineStates {
 }
 
 extension Shader.D3.Shadow {
-    struct Context {
+    struct Context: Shader.RenderContext {
         var encoder: any MTLRenderCommandEncoder
+        var buffers: Shader.Buffers.Framed
     }
 }
 

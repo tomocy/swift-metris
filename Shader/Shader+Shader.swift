@@ -16,6 +16,8 @@ protocol _ShaderRenderContext {
 extension Shader.D3 {
     struct Shader {
         var commandQueue: MTLCommandQueue
+        var buffers: App.Shader.Buffers
+
         var shadow: Shadow
         var mesh: Mesh
     }
@@ -24,7 +26,12 @@ extension Shader.D3 {
 extension Shader.D3.Shader {
     init(device: any MTLDevice) {
         commandQueue = device.makeCommandQueue()!
-        shadow = .init(device: device)
+        buffers = .init(device: device)
+
+        shadow = .init(
+            device: device,
+            buffers: .init(frame: 0, buffers: buffers)
+        )
         mesh = .init(device: device)
     }
 }
