@@ -7,20 +7,24 @@ extension Engine {
     class View: MTKView {
         required init(coder: NSCoder) { super.init(coder: coder) }
 
-        init(size: CGSize) {
+        init(
+            device: some MTLDevice,
+            size: CGSize,
+            target: some Target
+        ) {
             super.init(
                 frame: .init(
                     origin: .init(x: 0, y: 0),
                     size: size
                 ),
-                device: MTLCreateSystemDefaultDevice()
+                device: device
             )
 
             Engine.Log.log("View: Initialized", with: [
                 ("Frame", frame.size.debugDescription),
             ])
             Engine.Log.log("View: GPU", with: [
-                ("Name", device!.name),
+                ("Name", device.name),
             ])
 
             delegate = self
@@ -30,12 +34,12 @@ extension Engine {
             colorPixelFormat = .bgra8Unorm_srgb
             depthStencilPixelFormat = .depth32Float
 
-            shader = .init(device: device!)
-            world = .init(device: device!, resolution: drawableSize)
+            shader = .init(device: device)
+            self.target = target
         }
 
         private var shader: Shader.D3.Shader?
-        private var world: /* Farm.World? */ Metris.World?
+        private var target: Target?
     }
 }
 
@@ -43,17 +47,17 @@ extension Engine.View: MTKViewDelegate {
     func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
 
     func draw(in view: MTKView) {
-        guard let world = world else { return }
+        guard let target = target else { return }
 
         let frame = shader!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
-        // world.tick(delta: 1 / .init(preferredFramesPerSecond))
+        target.tick(delta: 1 / .init(preferredFramesPerSecond))
 
-        frame.shadow.encode(world, to: command)
+        frame.shadow.encode(target, to: command)
         frame.mesh.encode(
-            world,
+            target,
             to: command, as: currentRenderPassDescriptor!,
             shadow: frame.shadow.target
         )
@@ -68,9 +72,17 @@ extension Engine.View: MTKViewDelegate {
     }
 }
 
+//extension Engine.View {
+//    override func keyDown(with event: NSEvent) {
+//        guard let world = world else { return }
+//        world.keyDown(with: event)
+//    }
+//}
+
 extension Engine.View {
-    override func keyDown(with event: NSEvent) {
-        guard let world = world else { return }
-        world.keyDown(with: event)
-    }
+    typealias Target = _EngineViewTarget
+}
+
+protocol _EngineViewTarget: Shader.D3.Shadow.Encodable, Shader.D3.Mesh.Encodable {
+    func tick(delta: Float)
 }
