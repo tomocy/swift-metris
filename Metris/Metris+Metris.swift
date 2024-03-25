@@ -60,7 +60,7 @@ extension Metris.World: Shader.D3.Shadow.Encodable {
 
 extension Metris.World: Shader.D3.Mesh.Encodable {
     func encode(in context: Shader.D3.Mesh.Context) {
-        camera.encode(with: context.encoder)
+        camera.encode(in: context)
         lights.encode(with: context.encoder)
 
         engine.encode(with: context.encoder)

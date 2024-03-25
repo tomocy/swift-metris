@@ -11,7 +11,17 @@ extension Engine.D3 {
 }
 
 extension Engine.D3.Camera {
-    func encode(with encoder: any MTLRenderCommandEncoder) {
+    func encode(in context: some Shader.RenderContext) {
+        let buffer = context.buffers.take(
+            at: "Camera/Aspect",
+            of: MemoryLayout<Shader.D3.Aspect>.stride,
+            options: .storageModeShared
+        )!
+
+        encode(with: context.encoder, to: buffer)
+    }
+
+    func encode(with encoder: some MTLRenderCommandEncoder, to buffer: some MTLBuffer) {
         let aspect = Shader.D3.Aspect.init(
             projection: projection,
             view: Engine.Functional(transform).state({
@@ -19,16 +29,8 @@ extension Engine.D3.Camera {
             }).generate().resolve()
         )
 
-        do {
-            let buffer = encoder.device.makeBuffer(
-                length: MemoryLayout.stride(ofValue: aspect),
-                options: .storageModeShared
-            )!
-            buffer.label = "Camera: Aspect"
+        IO.writable(aspect).write(to: buffer)
 
-            IO.writable(aspect).write(to: buffer)
-
-            encoder.setVertexBuffer(buffer, offset: 0, index: 1)
-        }
+        encoder.setVertexBuffer(buffer, offset: 0, index: 1)
     }
 }
