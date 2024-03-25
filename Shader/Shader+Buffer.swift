@@ -34,7 +34,7 @@ extension Shader.Buffers {
 
 extension Shader.Buffers {
     struct Framed {
-        let frame: Int
+        let frame: Shader.Frame
         let buffers: Shader.Buffers
     }
 }
@@ -42,7 +42,7 @@ extension Shader.Buffers {
 extension Shader.Buffers.Framed {
     func take(at key: String, of size: Int, options: MTLResourceOptions) -> (any MTLBuffer)? {
         return buffers.take(
-            at: "\(key)/\(frame)",
+            at: "\(key)/\(frame.id)",
             of: size,
             options: options
         )

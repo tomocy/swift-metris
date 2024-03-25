@@ -36,17 +36,17 @@ extension View: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let world = world else { return }
 
-        shader!.acquire()
+        let frame = shader!.acquire()
 
         let command = shader!.commandQueue.makeCommandBuffer()!
 
         // world.tick(delta: 1 / .init(preferredFramesPerSecond))
 
-        shader!.shadow.encode(world, to: command)
-        shader!.mesh.encode(
+        frame.shadow.encode(world, to: command)
+        frame.mesh.encode(
             world,
             to: command, as: currentRenderPassDescriptor!,
-            shadow: shader!.shadow.target
+            shadow: frame.shadow.target
         )
 
         command.present(currentDrawable!)
