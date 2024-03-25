@@ -6,15 +6,18 @@ import Metal
 extension Shader.D3 {
     struct Mesh {
         var pipelineStates: PipelineStates
+        var buffers: App.Shader.Buffers.Framed
     }
 }
 
 extension Shader.D3.Mesh {
-    init(device: any MTLDevice) {
+    init(device: any MTLDevice, buffers: Shader.Buffers.Framed) {
         pipelineStates = .init(
             render: try! PipelineStates.make(with: device),
             depthStencil: PipelineStates.make(with: device)!
         )
+
+        self.buffers = buffers
     }
 }
 
@@ -35,7 +38,9 @@ extension Shader.D3.Mesh {
 
         encoder.setFragmentTexture(shadow, index: 0)
 
-        target.encode(in: .init(encoder: encoder))
+        target.encode(
+            in: .init(encoder: encoder, buffers: buffers)
+        )
     }
 }
 
@@ -212,8 +217,9 @@ extension Shader.D3.Mesh.PipelineStates {
 }
 
 extension Shader.D3.Mesh {
-    struct Context {
+    struct Context: Shader.RenderContext {
         var encoder: any MTLRenderCommandEncoder
+        var buffers: Shader.Buffers.Framed
     }
 }
 

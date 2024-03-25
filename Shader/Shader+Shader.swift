@@ -32,6 +32,9 @@ extension Shader.D3.Shader {
             device: device,
             buffers: .init(frame: 0, buffers: buffers)
         )
-        mesh = .init(device: device)
+        mesh = .init(
+            device: device,
+            buffers: .init(frame: 0, buffers: buffers)
+        )
     }
 }
